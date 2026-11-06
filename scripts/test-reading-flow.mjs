@@ -99,4 +99,21 @@ for(const file of ['index.html','parts/part-01.html','parts/part-02.html']){
 }
 assert.ok(readFileSync(p('robots.txt'),'utf8').includes('Sitemap: https://prolv202020-maker.github.io/zero-sequence-public/sitemap.xml'));
 console.log('[PUBLICATION SEO] PASS: 224 index URLs, canonical social previews, sitemap and robots.');
+const homepage=readFileSync(p('index.html'),'utf8');
+for(const id of ['id="start-here"','id="zs-hero-resume"','id="zs-path-resume-link"','id="updates"','id="zs-home-resume"'])
+ assert.ok(homepage.includes(id),'Missing landing page feature: '+id);
+assert.ok(homepage.includes('href="chapters/volume-01/prologue.html"'),'First-time readers should start at prologue');
+assert.ok(homepage.includes('第三篇正在创作准备中'),'Spoiler-safe update notice missing');
+const readerSource=readFileSync(p('assets/js/reader-experience.js'),'utf8');
+assert.match(readerSource,/heroResume\.href=last\.url/,'Homepage hero must use saved reading URL');
+assert.match(readerSource,/pathResume\.href=last\.url/,'Returning reader entry must use saved URL');
+assert.match(readerSource,/zs:reader:last:v1/,'Keep original bookmark storage key');
+assert.match(readerSource,/zs:reader:options:v1/,'Keep original reader settings key');
+const visitorAnalytics=readFileSync(p('assets/js/visitor-analytics.js'),'utf8');
+assert.match(visitorAnalytics,/const CLOUDFLARE_SITE_TOKEN='';/,'Visitor analytics must be opt-in with no default token');
+assert.match(visitorAnalytics,/navigator\.globalPrivacyControl===true/,'Respect privacy opt-out');
+assert.ok(!/localStorage|sessionStorage|document\.cookie/.test(visitorAnalytics),'Analytics adapter must not read reader data or browser IDs');
+assert.match(readFileSync(p('assets/js/audio-player.js'),'utf8'),/visitor-analytics\.js/,'All reading pages should initialize optional analytics');
+assert.ok(homepage.includes('visitor-analytics.js'),'Homepage must load optional analytics');
+console.log('[PROMOTION LANDING] PASS: new reader, resume URL, spoiler-safe announcements, opt-in statistics; original reader keys intact.');
 console.log('[READING FLOW] PASS: 201 text files, 20 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
