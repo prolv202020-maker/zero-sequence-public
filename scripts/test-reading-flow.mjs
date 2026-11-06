@@ -116,4 +116,27 @@ assert.ok(!/localStorage|sessionStorage|document\.cookie/.test(visitorAnalytics)
 assert.match(readFileSync(p('assets/js/audio-player.js'),'utf8'),/visitor-analytics\.js/,'All reading pages should initialize optional analytics');
 assert.ok(homepage.includes('visitor-analytics.js'),'Homepage must load optional analytics');
 console.log('[PROMOTION LANDING] PASS: new reader, resume URL, spoiler-safe announcements, opt-in statistics; original reader keys intact.');
+const gallery2=readFileSync(p('parts/illustrations-02.html'),'utf8');
+const gallery1=readFileSync(p('parts/illustrations-01.html'),'utf8');
+assert.match(gallery2,/p02\?\.max/,'Second gallery must read independently tracked part 02 progress');
+assert.match(gallery1,/p01\?\.max/,'First gallery must retain part 01 progress');
+assert.match(gallery2,/if\(unlocked\)\{const img=/,'Scene art must not load before unlocking');
+assert.match(gallery2,/if\(ok\)\{const img=/,'Volume artwork must not load before unlocking');
+assert.match(gallery2,/const need=\(vol-11\)\*10\+1/,'Volume artwork must track relevant part two chapters');
+assert.equal((gallery2.match(/tag:'SCENE \d\d'/g)||[]).length,6,'Second arc needs six original scene illustrations');
+for(const name of [
+ 'scene-02-shadow-road.svg','scene-02-forge-ledger.svg','scene-02-white-candle.svg',
+ 'scene-02-mirror-path.svg','scene-02-north-wall.svg','scene-02-hundred-lights.svg'
+]){
+ const file='assets/images/illustrations/'+name;
+ assert.ok(existsSync(p(file)),'Missing original second arc art: '+file);
+ const svg=readFileSync(p(file),'utf8');
+ assert.match(svg,/<svg /,'Invalid scene illustration: '+file);
+}
+for(let vol=11;vol<=20;vol++)
+ assert.ok(existsSync(p('assets/images/covers/volume-'+String(vol).padStart(2,'0')+'.webp')),'Missing gallery volume cover '+vol);
+assert.ok(readFileSync(p('parts/part-02.html'),'utf8').includes('href="illustrations-02.html"'),'Second arc directory must link to its gallery');
+assert.ok(homepage.includes('href="parts/illustrations-02.html"'),'Homepage must link to second gallery');
+assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['第二篇 · 百城星火画廊','parts/illustrations-02.html']"),'Global navigation must link to second gallery');
+console.log('[SECOND ARC GALLERY] PASS: 6 scenes, 10 covers, independent unlocks and connected navigation.');
 console.log('[READING FLOW] PASS: 201 text files, 20 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
