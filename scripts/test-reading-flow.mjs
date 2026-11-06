@@ -182,7 +182,7 @@ const homepage=readFileSync(p('index.html'),'utf8');
 for(const id of ['id="start-here"','id="zs-hero-resume"','id="zs-path-resume-link"','id="updates"','id="zs-home-resume"'])
  assert.ok(homepage.includes(id),'Missing landing page feature: '+id);
 assert.ok(homepage.includes('href="chapters/volume-01/prologue.html"'),'First-time readers should start at prologue');
-assert.ok(homepage.includes('《临界回声》第21—22卷正式开放'),'Spoiler-safe update notice missing');
+assert.ok(homepage.includes('《临界回声》第22卷正式开放'),'Spoiler-safe update notice missing');
 const readerSource=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readerSource,/heroResume\.href=last\.url/,'Homepage hero must use saved reading URL');
 assert.match(readerSource,/pathResume\.href=last\.url/,'Returning reader entry must use saved URL');
