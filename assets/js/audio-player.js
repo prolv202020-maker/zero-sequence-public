@@ -64,18 +64,31 @@
   }
   async function start(){
     if(playing)return;
+    ++fadeId; if(current){current.pause();current.src='';current=null;}
     const audio=makeAudio();current=audio;
     try{await audio.play();playing=true;localStorage.setItem(KEY_ENABLED,'1');fade(audio,0,volume,reduceMotion?350:1300);}
     catch(e){playing=false;current=null;const sub=document.querySelector('.zs-audio .zs-sub');if(sub)sub.textContent='音乐加载失败，请检查网络后重试';}
   }
   function stop(){if(!current)return;const audio=current;playing=false;localStorage.setItem(KEY_ENABLED,'0');fade(audio,audio.volume,0,reduceMotion?150:450,()=>{audio.pause();if(current===audio)current=null;});}
   async function switchTrack(){
-    const old=current;const serial=++changeSerial;
-    if(old){old.pause();old.src='';} // 避免手机端多曲叠加引起突然大声。
+    const old=current,serial=++changeSerial;
     ++fadeId;
     const next=makeAudio();current=next;
-    try{await next.play();if(serial!==changeSerial){next.pause();return;}playing=true;fade(next,0,volume,reduceMotion?350:1000);}
-    catch(e){playing=false;current=null;}
+    try{
+      await next.play();
+      if(serial!==changeSerial){next.pause();return;}
+      playing=true;
+      const started=performance.now(),from=old?.volume||0,duration=reduceMotion?300:1100;
+      const tick=()=>{
+        if(serial!==changeSerial){old?.pause();return;}
+        const p=Math.min(1,(performance.now()-started)/duration),smooth=p*p*(3-2*p);
+        next.volume=clamp(volume*smooth);
+        if(old)old.volume=clamp(from*(1-smooth));
+        if(p<1)requestAnimationFrame(tick);
+        else if(old){old.pause();old.src='';}
+      };
+      requestAnimationFrame(tick);
+    }catch(e){next.pause();current=old;playing=!!old;if(old){old.volume=volume;try{await old.play();}catch(_){playing=false;}}}
   }
   function init(){
     build();
