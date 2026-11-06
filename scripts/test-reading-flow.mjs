@@ -155,23 +155,26 @@ assert.match(characterGallery,/id="zs-character-art-grid"/,'Missing dedicated ch
 assert.match(characterGallery,/character-art\.js/,'Character gallery must load its renderer');
 assert.match(characterJs,/zs:part-progress:v1/,'Character gallery must read the original saved progress');
 assert.match(characterJs,/if\(shown\)\{/,'Unrevealed characters must not load portraits');
-assert.match(characterJs,/pic\.src=c\.slug==='gu-yanche'\?ROOT/,'Only unlocked characters may load the approved portrait or existing official portraits');
+assert.match(characterJs,/pic\.src=ROOT\+'assets\/images\/characters\/'\+c\.slug\+'-approved\.webp'/,'Only unlocked characters may load approved portraits');
 assert.equal((characterJs.match(/slug:'(?:gu-changyuan|su-zili|lin-lie|luo-jin|ling-tianyao|dai-xuanyue|gu-yanche)'/g)||[]).length,7,'All seven established character portraits should be included');
 assert.match(characterJs,/need:21/,'Later first-part character must remain locked until the appropriate chapter');
 assert.ok(readFileSync(p('archive/characters.html'),'utf8').includes('href="character-art.html"'),'Atlas must link to illustration gallery');
 assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['人物专属插画馆','archive/character-art.html']"),'Global navigation should link to character art');
 assert.ok(readFileSync(p('assets/js/profile-v2.js'),'utf8').includes("ROOT+'archive/character-art.html'"),'Character profiles must link back to character artwork');
-const guApproved='assets/images/characters/gu-yanche-approved.webp';
-assert.ok(existsSync(p(guApproved)),'Missing author-approved Gu Yanche portrait');
-const guImage=readFileSync(p(guApproved));
-assert.equal(guImage.toString('ascii',0,4),'RIFF','Approved portrait must be real WebP');
-assert.equal(guImage.toString('ascii',8,12),'WEBP','Approved portrait format incorrect');
-assert.ok(guImage.length<500000,'Approved portrait should remain optimized');
-for(const f of ['assets/js/character-art.js','assets/js/profile-v2.js','assets/js/atlas-v2.js']){
- assert.ok(readFileSync(p(f),'utf8').includes(guApproved),'Gu Yanche should use user-approved image in '+f);
+const approvedSlugs=['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'];
+for(const slug of approvedSlugs){
+ const asset='assets/images/characters/'+slug+'-approved.webp';
+ assert.ok(existsSync(p(asset)),'Missing approved portrait: '+asset);
+ const img=readFileSync(p(asset));
+ assert.equal(img.toString('ascii',0,4),'RIFF','Invalid portrait header: '+asset);
+ assert.equal(img.toString('ascii',8,12),'WEBP','Invalid portrait format: '+asset);
+ assert.ok(img.length<500000,'Portrait file should be web-optimized: '+asset);
 }
 const profileArt=readFileSync(p('assets/js/profile-v2.js'),'utf8');
-assert.match(profileArt,/if\(read\)\{art\.src=/,'Character profile art must not load before reading unlock');
+const atlasArt=readFileSync(p('assets/js/atlas-v2.js'),'utf8');
+assert.match(profileArt,/if\(read\)\{art\.src=ROOT/,'Character profile portrait should only load after unlock');
+assert.match(atlasArt,/if\(art\)\{const pic=/,'Character atlas should only load pictures for revealed entries');
+assert.match(atlasArt,/approvedSlug/,'Character atlas should resolve approved portrait slug');
 assert.doesNotMatch(profileArt,/const art=node\('img','zs-profile-profile-art'\);art\.src=/,'Do not eagerly load hidden character portraits');
-console.log('[CHARACTER ART] PASS: 7 existing portraits, independent visual themes, no advance image loading, progress gates and site links.');
+console.log('[CHARACTER ART] PASS: 7 user-approved portraits, independent visual themes, no advance image loading, progress gates and site links.');
 console.log('[READING FLOW] PASS: 201 text files, 20 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
