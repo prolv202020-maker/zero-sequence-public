@@ -65,3 +65,17 @@
 @media(max-width:650px){.home-page .zs-home-section{padding:33px 0}.zs-part-grid{grid-template-columns:1fr}.zs-part-card{grid-template-columns:34% 1fr;min-height:208px}.zs-part-art{height:100%;min-height:100%}.zs-part-copy h3{font-size:21px}.zs-home-reading{grid-template-columns:1fr;padding:18px}.zs-home-reading a{text-align:center}.zs-art-feature{grid-template-columns:1fr}.zs-archive-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zs-home-hero .zs-tagline{margin-top:18px}.zs-hero-aside{min-height:305px}.zs-official-portrait{height:315px}.zs-hero-aside .zs-hero-seal{right:4%;bottom:4%;font-size:8px}.zs-hero-actions{display:grid;grid-template-columns:1fr 1fr}.zs-home-hero .hero-copy{padding:25px 16px}.home-page{background:linear-gradient(#191d38e8,#161b34f5),url('/zero-sequence-public/assets/images/covers/zero-sequence-cover.webp') center top 70px/100% auto no-repeat,#161b34}}
 @media(max-width:385px){.zs-part-card{grid-template-columns:1fr}.zs-part-art{height:220px}.zs-archive-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.zs-official-portrait,.zs-hero-actions a,.zs-part-card,.zs-archive-link,.zs-reading-progress i{transition:none!important}.zs-official-portrait:hover,.zs-hero-actions a:hover,.zs-part-card:hover,.zs-archive-link:hover{transform:none!important}}
+
+/* Lightweight mobile first paint; desktop retains official full-resolution portrait. */
+.zs-hero-picture{display:contents}
+@media(max-width:650px){
+ .home-page{background:#161b34!important}
+ .home-page .hero.zs-home-hero{padding:18px 0 28px;min-height:0}
+ .zs-hero-aside{min-height:260px}
+ .zs-official-portrait{height:260px;width:min(80%,300px);object-fit:cover;object-position:center;filter:none!important;transition:none!important;border-radius:13px}
+ .zs-hero-aside:before{display:none}
+ .zs-hero-aside .zs-hero-seal{bottom:2%;right:3%}
+ .zs-part-card,.zs-archive-link,.zs-hero-actions a{transition:none!important;box-shadow:none!important}
+ .zs-part-card:hover,.zs-archive-link:hover,.zs-hero-actions a:hover{transform:none!important}
+ .zs-home-hero .hero-copy{box-shadow:none!important}
+}
