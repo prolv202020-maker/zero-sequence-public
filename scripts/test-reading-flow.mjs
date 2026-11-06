@@ -58,15 +58,15 @@ for(let volume=1;volume<=20;volume++){
   const f='chapters/volume-'+String(volume).padStart(2,'0')+'/chapter-'+String(chapter).padStart(3,'0')+'.html';
   assert.ok(existsSync(p(f)),'Missing chapter: '+f);
   const html=readFileSync(p(f),'utf8');
-  assert.match(html,/<main\\b/i,'Missing main content: '+f);
+  assert.match(html,/<main\b/i,'Missing main content: '+f);
   assert.match(html,/class=["'][^"']*article/i,'Missing article container: '+f);
-  assert.match(html,/audio-player\\.js/i,'Direct reading bootstrap missing: '+f);
+  assert.match(html,/audio-player\.js/i,'Direct reading bootstrap missing: '+f);
  }
 }
 assert.ok(existsSync(p('chapters/volume-01/prologue.html')));
 const audio=readFileSync(p('assets/js/audio-player.js'),'utf8');
-assert.match(audio,/reader-experience\\.js/,'Reader should initialize on direct chapter visits');
-assert.match(audio,/progressive-archive\\.js/,'Unlock engine should initialize on direct chapter visits');
+assert.match(audio,/reader-experience\.js/,'Reader should initialize on direct chapter visits');
+assert.match(audio,/progressive-archive\.js/,'Unlock engine should initialize on direct chapter visits');
 const reader=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(reader,/zs:reader:last:v1/,'Resume key must remain stable');
 assert.match(reader,/zs:reader:options:v1/,'Preferences key must remain stable');
