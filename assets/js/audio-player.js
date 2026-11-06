@@ -35,12 +35,16 @@
       .zs-audio .zs-vol{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:#d4d0dc}
       .zs-audio input[type=range]{width:68px;accent-color:#e4c68c;cursor:pointer}
       .zs-audio.is-playing{border-color:var(--zs-accent)}
-      @media(max-width:560px){.zs-audio{bottom:8px;right:8px;width:calc(100vw - 16px);padding:9px 11px;gap:8px}.zs-audio .zs-vol input{width:53px}}
+      .zs-audio-expand{display:none;border:1px solid #d9c09480;border-radius:10px;background:#343a58;color:#f5e4bd;min-width:44px;min-height:44px;font-size:19px;cursor:pointer}
+      .zs-audio-expand:focus-visible{outline:2px solid #f1d3a1;outline-offset:2px}
+      @media(max-width:650px){.zs-audio{right:max(10px,env(safe-area-inset-right));bottom:calc(10px + env(safe-area-inset-bottom));width:auto;max-width:calc(100vw - 20px);padding:7px;gap:7px;border-radius:14px;backdrop-filter:none;-webkit-backdrop-filter:none}.zs-audio .zs-play{width:44px;height:44px;min-width:44px}.zs-audio .zs-copy,.zs-audio .zs-vol{display:none}.zs-audio-expand{display:inline-flex;align-items:center;justify-content:center}.zs-audio.zs-audio-expanded{width:min(350px,calc(100vw - 20px));padding:10px}.zs-audio.zs-audio-expanded .zs-copy{display:block}.zs-audio.zs-audio-expanded .zs-vol{display:flex}.zs-audio.zs-audio-expanded .zs-audio-expand{min-width:32px;min-height:44px}.zs-audio.zs-audio-expanded .zs-vol input{width:48px}}
+      @media(min-width:651px){.zs-audio-expand{display:none}}
     `;
     document.head.append(style);
     const box=document.createElement('aside');box.className='zs-audio';box.id='zs-audio';box.setAttribute('aria-label','原创背景音乐播放器');
     const play=document.createElement('button');play.className='zs-play';play.type='button';play.textContent='▶';play.setAttribute('aria-label','播放背景音乐');
     const copy=document.createElement('div');copy.className='zs-copy';
+    const expand=document.createElement('button');expand.type='button';expand.className='zs-audio-expand';expand.setAttribute('aria-label','展开音乐设置');expand.setAttribute('aria-expanded','false');expand.textContent='♫';
     const title=document.createElement('div');title.className='zs-title';
     const sub=document.createElement('div');sub.className='zs-sub';sub.textContent='手动播放 · 不自动开启';
     const select=document.createElement('select');select.className='zs-mood';select.setAttribute('aria-label','选择背景音乐情绪');
@@ -48,7 +52,10 @@
     select.value=mood;copy.append(title,sub,select);
     const vol=document.createElement('label');vol.className='zs-vol';vol.textContent='音量';
     const slider=document.createElement('input');slider.className='zs-slider';slider.type='range';slider.min='0';slider.max='0.45';slider.step='.01';slider.value=String(volume);slider.setAttribute('aria-label','背景音乐音量');
-    vol.append(slider);box.append(play,copy,vol);document.body.append(box);
+    vol.append(slider);box.append(play,copy,vol,expand);document.body.append(box);
+    const setExpanded=(yes)=>{box.classList.toggle('zs-audio-expanded',yes);expand.setAttribute('aria-expanded',String(yes));expand.setAttribute('aria-label',yes?'收起音乐设置':'展开音乐设置');};
+    expand.addEventListener('click',()=>setExpanded(!box.classList.contains('zs-audio-expanded')));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&box.classList.contains('zs-audio-expanded')){setExpanded(false);expand.focus();}});
     function update(){title.textContent=TRACKS[mood].name;box.style.setProperty('--zs-accent',TRACKS[mood].color);play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'暂停背景音乐':'播放背景音乐');sub.textContent=(playing?'正在播放 · ':'点击播放 · ')+TRACKS[mood].sub;box.classList.toggle('is-playing',playing);}
     update();
     play.addEventListener('click',async()=>{if(playing)stop();else await start();update();});
