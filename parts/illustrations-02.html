@@ -32,13 +32,13 @@
 <main class="page">
 <div class="crumb"><a href="../index.html">首页</a> / <a href="part-02.html">第二篇</a> / 概念插画画廊</div>
 <section class="gallery-hero">
-<img src="../assets/images/illustrations/scene-02-shadow-road.svg" width="520" height="650" loading="eager" alt="第二篇百城星火的概念视觉封面">
+<img src="../assets/images/illustrations/scene-02-shadow-road.webp" width="520" height="650" loading="eager" alt="第二篇百城星火的概念视觉封面">
 <div><p class="eyebrow">PART 02 · VISUAL ARCHIVE</p><h1>百城星火<br><span style="color:#ead09a">插画画廊</span></h1>
 <p>从无影商路到万家灯火，以画面记录第二篇一路铺开的城市、探索与普通人的生活。画廊会跟随你的阅读进度解锁，尚未读到的场景不会提前展示。</p>
 <p class="note">图片属于第二批视觉概念稿，暂不代表最终角色造型或场景定稿。将来会根据正式人物档案和小说设定继续校正。</p>
 <a class="button" href="part-02.html">返回第二篇目录</a></div></section>
 <div class="gallery-info"><strong id="art-count">正在读取此设备的解锁进度……</strong>
-<div class="note">解锁进度记录在当前浏览器；阅读对应章节后，返回此页即可查看。场景插画使用轻量 SVG，卷封面使用 WebP；未解锁的画面不会预先加载，也不会显示场景标题。</div></div>
+<div class="note">解锁进度记录在当前浏览器；阅读对应章节后，返回此页即可查看。场景插画与卷封面均采用精细压缩的 WebP 图片；未解锁的画面不会预先加载，也不会显示场景标题。</div></div>
 <div class="art-grid" id="art-list"></div>
 <div class="gallery-info"><strong>十卷封面画集</strong><div class="note">每张封面根据第二篇的阅读章节逐步解锁，未解锁时只显示锁定卡片。封面为既有正式卷面，不额外泄露章节内容。</div></div>
 <div class="art-grid zs-volume-art-grid" id="cover-list"></div>
@@ -52,12 +52,12 @@ const BASE='../assets/images/illustrations/';
 const coverBase='../assets/images/covers/';
 const volumeBase='../volumes/';
 const art=[
-{need:1,name:'契约之外 · 商路初行',tag:'SCENE 01',file:'scene-02-shadow-road.svg',description:'商旅、行路者和城邦规则交织的旅程起点。',link:'../volumes/volume-11.html'},
-{need:21,name:'锻火账本 · 熔炉之光',tag:'SCENE 02',file:'scene-02-forge-ledger.svg',description:'工匠的熔炉、材料与城市运转的重量。',link:'../volumes/volume-13.html'},
-{need:31,name:'白烛与月 · 夜间医馆',tag:'SCENE 03',file:'scene-02-white-candle.svg',description:'烛光下的医疗工作与深夜仍未熄灭的灯火。',link:'../volumes/volume-14.html'},
-{need:41,name:'镜路歧途 · 旧境幻影',tag:'SCENE 04',file:'scene-02-mirror-path.svg',description:'通往未知的旧路与镜面般的奇异遗迹。',link:'../volumes/volume-15.html'},
-{need:51,name:'北境长墙 · 雪线守望',tag:'SCENE 05',file:'scene-02-north-wall.svg',description:'北境远山与风雪中仍坚守的长墙。',link:'../volumes/volume-16.html'},
-{need:91,name:'星火未熄 · 百城灯火',tag:'SCENE 06',file:'scene-02-hundred-lights.svg',description:'夜幕下的城镇彼此相望，星火来自无数人的努力。',link:'../volumes/volume-20.html'}
+{need:1,name:'契约之外 · 商路初行',tag:'SCENE 01',file:'scene-02-shadow-road.webp',description:'商旅、行路者和城邦规则交织的旅程起点。',link:'../volumes/volume-11.html'},
+{need:21,name:'锻火账本 · 熔炉之光',tag:'SCENE 02',file:'scene-02-forge-ledger.webp',description:'工匠的熔炉、材料与城市运转的重量。',link:'../volumes/volume-13.html'},
+{need:31,name:'白烛与月 · 夜间医馆',tag:'SCENE 03',file:'scene-02-white-candle.webp',description:'烛光下的医疗工作与深夜仍未熄灭的灯火。',link:'../volumes/volume-14.html'},
+{need:41,name:'镜路歧途 · 旧境幻影',tag:'SCENE 04',file:'scene-02-mirror-path.webp',description:'通往未知的旧路与镜面般的奇异遗迹。',link:'../volumes/volume-15.html'},
+{need:51,name:'北境长墙 · 雪线守望',tag:'SCENE 05',file:'scene-02-north-wall.webp',description:'北境远山与风雪中仍坚守的长墙。',link:'../volumes/volume-16.html'},
+{need:91,name:'星火未熄 · 百城灯火',tag:'SCENE 06',file:'scene-02-hundred-lights.webp',description:'夜幕下的城镇彼此相望，星火来自无数人的努力。',link:'../volumes/volume-20.html'}
 ];
 let p=0;try{p=Math.max(0,Math.min(100,Number(JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}').p02?.max)||0));}catch(e){}
 const host=document.getElementById('art-list');
