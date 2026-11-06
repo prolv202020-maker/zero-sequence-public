@@ -29,3 +29,12 @@ body.zs-profile-page .zs-profile-summary{position:relative;margin:25px auto 32px
 .zs-profile-full-content{margin:32px 0 10px;border-left:3px solid #e7cf99;background:#292c4b;padding:16px 18px;color:#ded8e5;line-height:1.85;font-size:13px}
 @media(max-width:650px){.zs-profile-profile-art{float:none;margin:0 auto 20px;max-width:175px;max-height:240px}.zs-profile-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.zs-profile-tabs button{padding:9px}.zs-profile-links a{flex:1 1 46%}}
 @media(prefers-reduced-motion:reduce){.zs-profile-progress .zs-profile-meter i{transition:none}}
+
+
+/* Mobile profiles: preserve visible portrait and spoiler gates, reduce GPU effects. */
+@media(max-width:650px){
+ body.zs-profile-page .zs-profile-summary{box-shadow:none!important;border-radius:15px;padding:17px!important}
+ .zs-profile-profile-art{filter:none!important;box-shadow:none!important;transition:none!important}
+ .zs-profile-tabs,.zs-profile-links{scroll-behavior:auto}
+ .zs-profile-progress .zs-profile-meter i{transition:none!important}
+}
