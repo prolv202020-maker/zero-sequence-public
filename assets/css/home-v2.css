@@ -103,3 +103,15 @@
  .zs-reader-path-action{width:100%}
  .zs-reader-path h2{font-size:22px}
 }
+
+
+/* 2026-11: short-path mobile landing with comfortable tap actions. */
+@media(max-width:650px){
+ .zs-hero-actions a,.zs-reader-path-action{min-height:48px;line-height:1.5;}
+ .zs-home-hero .zs-hero-actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+ .zs-home-hero .zs-hero-actions a{display:flex;align-items:center;justify-content:center;padding:12px 9px;text-align:center;white-space:normal;}
+ .zs-home-statline{flex-wrap:wrap;gap:8px;}
+ .zs-part-card{min-width:0;}
+ .zs-part-copy{min-width:0;}
+}
+@media(max-width:370px){.zs-home-hero .zs-hero-actions{grid-template-columns:1fr;}}
