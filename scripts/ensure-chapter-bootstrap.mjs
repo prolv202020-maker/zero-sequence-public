@@ -7,7 +7,7 @@ const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const chapters=join(root,'chapters');
 const checkOnly=process.argv.includes('--check');
 let scanned=0,patched=0;
-const bootstrap='<script src="/zero-sequence-public/assets/js/audio-player.js?v=7" defer></script>';
+const bootstrap='<script src="/zero-sequence-public/assets/js/audio-player.js?v=9" defer></script>';
 for(const dir of readdirSync(chapters,{withFileTypes:true})){
  if(!dir.isDirectory()||!/^volume-\d{2}$/.test(dir.name))continue;
  for(const name of readdirSync(join(chapters,dir.name))){
@@ -18,6 +18,6 @@ for(const dir of readdirSync(chapters,{withFileTypes:true})){
   if(!checkOnly)writeFileSync(path,html.replace(/<\/body>/i,bootstrap+'</body>'));patched++;
  }
 }
-if(scanned!==201)throw new Error('Expected 201 published chapter files, found '+scanned+'; refusing partial migration');
+if(scanned!==211)throw new Error('Expected 211 published reading pages (prologue and 210 chapters), found '+scanned+'; refusing partial migration');
 console.log('[CHAPTER BOOTSTRAP] audited '+scanned+' chapters; '+(checkOnly?'missing '+patched:'patched '+patched)+' script tags.');
 if(checkOnly&&patched)process.exitCode=1;
