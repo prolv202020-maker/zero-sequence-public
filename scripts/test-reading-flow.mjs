@@ -149,14 +149,14 @@ assert.ok(p3Index.includes('volume-21.html')&&p3Index.includes('volume-22.html')
 assert.ok(readFileSync(p('index.html'),'utf8').includes('href="parts/part-03.html"'),'Homepage should link Part III');
 assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['第三篇 · 临界回声','parts/part-03.html']"),'Global navigation should include Part III');
 assert.ok(readFileSync(p('assets/js/reader-experience.js'),'utf8').includes("vol===20?'第三篇"),'Chapter 200 should continue to Part III');
-assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes("p===3?60:100"),'Third part must use a fifty-chapter release meter');
+assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes("p===3?60:100"),'Third part must use a sixty-chapter release meter');
 console.log('[PART III] PASS: 60 complete full-length chapters, third-arc reading and unlock progress, official links.');
 assert.ok(existsSync(p('chapters/volume-01/prologue.html')));
 const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
 assert.match(volPage,/if\(read===10\)\{resume\.href=startHref/,'Completed volume should restart from its opening chapter');
 const readingScript=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readingScript,/else if\(num===1&&vol>1\)/,'First chapter should link back across volume boundary');
-assert.match(readingScript,/else if\(vol<25\)/,'Last chapter should link forward across volume boundary');
+assert.match(readingScript,/else if\(vol<26\)/,'Last chapter should link forward across volume boundary');
 assert.match(readingScript,/if\(num===0\)/,'Prologue should link into chapter one');
 assert.match(readingScript,/oldProgress\.index>0/,'Resume reader must offer saved paragraph position');
 
@@ -209,11 +209,11 @@ assert.match(reader,/zs:reader:options:v1/,'Preferences key must remain stable')
 const navCode=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(navCode,/footerPager\.replaceChildren\(\.\.\.bottom\)/,'All chapters should normalize the footer navigation');
 assert.match(navCode,/if\(num===0\)bottom\.push/,'Prologue bottom navigation must go to chapter one');
-assert.match(navCode,/else if\(vol<25\)bottom\.push/,'Volume and part boundaries must link forward');
+assert.match(navCode,/else if\(vol<26\)bottom\.push/,'Volume and part boundaries must link forward');
 assert.match(navCode,/vol===10\?'下一篇/,'First part should lead directly to second part');
 const sitemap=readFileSync(p('sitemap.xml'),'utf8');
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-assert.equal(urls.length,280,'Sitemap should cover 251 reading pages, 25 volumes, 3 parts and home');
+assert.equal(urls.length,291,'Sitemap should cover 261 reading pages, 26 volumes, 3 parts and home');
 assert.equal(new Set(urls).size,urls.length,'Sitemap should have no duplicate URLs');
 for(const url of urls){
  const prefix='https://prolv202020-maker.github.io/zero-sequence-public/';
@@ -231,7 +231,7 @@ const homepage=readFileSync(p('index.html'),'utf8');
 for(const id of ['id="start-here"','id="zs-hero-resume"','id="zs-path-resume-link"','id="updates"','id="zs-home-resume"'])
  assert.ok(homepage.includes(id),'Missing landing page feature: '+id);
 assert.ok(homepage.includes('href="chapters/volume-01/prologue.html"'),'First-time readers should start at prologue');
-assert.ok(homepage.includes('《临界回声》第25卷正式开放'),'Spoiler-safe update notice missing');
+assert.ok(homepage.includes('《临界回声》第26卷正式开放'),'Spoiler-safe update notice missing');
 const readerSource=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readerSource,/heroResume\.href=last\.url/,'Homepage hero must use saved reading URL');
 assert.match(readerSource,/pathResume\.href=last\.url/,'Returning reader entry must use saved URL');
