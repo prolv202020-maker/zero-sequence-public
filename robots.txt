@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /zero-sequence-public/
+# Author-only drafts are never published here.
+Sitemap: https://prolv202020-maker.github.io/zero-sequence-public/sitemap.xml
