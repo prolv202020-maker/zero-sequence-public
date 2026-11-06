@@ -121,10 +121,10 @@ const volume25Titles=["第二张路网","灰鲸号","断潮追猎","失序灯塔
 for(let i=1;i<=10;i++){
  const f='chapters/volume-25/chapter-'+String(i).padStart(3,'0')+'.html';
  const html=readFileSync(p(f),'utf8');
- const m=html.match(/<div class="article">([\\s\\S]*?)<div class="pager">/);
+ const m=html.match(/<div class="article">([\s\S]*?)<div class="pager">/);
  assert.ok(m,'Chapter body missing '+f);
- const content=[...m[1].matchAll(/<p>([\\s\\S]*?)<\\/p>/g)].map(v=>v[1]).join('');
- const han=(content.match(/\\p{Script=Han}/gu)||[]).length;
+ const content=[...m[1].matchAll(/<p>([\s\S]*?)<\/p>/g)].map(v=>v[1]).join('');
+ const han=(content.match(/\p{Script=Han}/gu)||[]).length;
  assert.ok(han>=3000&&han<=3500,'Chapter '+(240+i)+' outside 3000–3500 Han chars: '+han);
  assert.ok(html.includes(volume25Titles[i-1]),'Wrong Chapter '+(240+i)+' title');
  assert.ok(html.includes('audio-player.js'),'Missing bootstrap '+f);
