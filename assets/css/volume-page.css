@@ -49,3 +49,12 @@ body:not(.zs-volume-page) .zs-volume-cover-figure figcaption{font-size:11px;colo
 .zs-volume-page .zs-volume-hero .zs-volume-actions a{transition:background .2s,border-color .2s}
 @media(max-width:600px){.zs-volume-page .zs-volume-chapter-head{align-items:flex-start}.zs-volume-page .zs-volume-chapters .zs-chapter-name{overflow-wrap:anywhere}}
 @media(prefers-reduced-motion:reduce){.zs-volume-page .zs-volume-hero .zs-volume-actions a{transition:none!important}}
+
+
+/* Mobile volume directory: quick paint and stable chapter list. */
+@media(max-width:650px){
+ .zs-volume-page .zs-volume-hero{box-shadow:none!important;background:#232a48!important}
+ .zs-volume-page .zs-volume-hero .zs-volume-actions a{transition:none!important}
+ .zs-volume-page .zs-volume-chapters .zs-chapter-row{transition:none!important}
+ .zs-volume-page .zs-volume-hero figure img{box-shadow:none!important}
+}
