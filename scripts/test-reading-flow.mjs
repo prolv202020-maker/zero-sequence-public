@@ -149,4 +149,17 @@ for(const name of ['shadow-road','forge-ledger','white-candle','mirror-path','no
  assert.ok(img.length<500000,'WebP artwork should be web-optimized: '+asset);
 }
 console.log('[SECOND ARC GALLERY] PASS: 6 refined WebP scenes, 10 covers, independent unlocks and connected navigation.');
+const characterGallery=readFileSync(p('archive/character-art.html'),'utf8');
+const characterJs=readFileSync(p('assets/js/character-art.js'),'utf8');
+assert.match(characterGallery,/id="zs-character-art-grid"/,'Missing dedicated character illustration gallery');
+assert.match(characterGallery,/character-art\.js/,'Character gallery must load its renderer');
+assert.match(characterJs,/zs:part-progress:v1/,'Character gallery must read the original saved progress');
+assert.match(characterJs,/if\(shown\)\{/,'Unrevealed characters must not load portraits');
+assert.match(characterJs,/pic\.src=ROOT/,'Only unlocked characters may load portrait URLs');
+assert.equal((characterJs.match(/slug:'(?:gu-changyuan|su-zili|lin-lie|luo-jin|ling-tianyao|dai-xuanyue|gu-yanche)'/g)||[]).length,7,'All seven established character portraits should be included');
+assert.match(characterJs,/need:21/,'Later first-part character must remain locked until the appropriate chapter');
+assert.ok(readFileSync(p('archive/characters.html'),'utf8').includes('href="character-art.html"'),'Atlas must link to illustration gallery');
+assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['人物专属插画馆','archive/character-art.html']"),'Global navigation should link to character art');
+assert.ok(readFileSync(p('assets/js/profile-v2.js'),'utf8').includes("ROOT+'archive/character-art.html'"),'Character profiles must link back to character artwork');
+console.log('[CHARACTER ART] PASS: 7 existing portraits, independent visual themes, no advance image loading, progress gates and site links.');
 console.log('[READING FLOW] PASS: 201 text files, 20 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
