@@ -66,16 +66,17 @@
     tools.append(search,menu);
     old.replaceWith(nav);header.appendChild(tools);
     function closeMenu(){
-      nav.classList.remove('zs-open');menu.setAttribute('aria-expanded','false');
+      nav.classList.remove('zs-open');document.body.classList.remove('zs-mobile-menu-open');menu.setAttribute('aria-expanded','false');
       menu.setAttribute('aria-label','展开导航菜单');menu.textContent='☰';
       nav.querySelectorAll('details').forEach(d=>d.open=false);
     }
     menu.addEventListener('click',()=>{
       const open=!nav.classList.contains('zs-open');
-      if(open){nav.classList.add('zs-open');menu.setAttribute('aria-expanded','true');menu.setAttribute('aria-label','关闭导航菜单');menu.textContent='✕';}
+      if(open){nav.classList.add('zs-open');document.body.classList.add('zs-mobile-menu-open');menu.setAttribute('aria-expanded','true');menu.setAttribute('aria-label','关闭导航菜单');menu.textContent='✕';}
       else closeMenu();
     });
     nav.addEventListener('click',e=>{if(e.target.closest('a'))closeMenu();});
+    window.addEventListener('resize',()=>{if(window.innerWidth>880&&nav.classList.contains('zs-open'))closeMenu();},{passive:true});
     document.addEventListener('click',e=>{
       if(!header.contains(e.target)){
         nav.querySelectorAll('details').forEach(d=>d.open=false);
