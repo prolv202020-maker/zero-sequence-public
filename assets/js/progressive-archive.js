@@ -56,6 +56,12 @@ const entries=[
  {p:3,n:37,k:'势力',t:'旧门社区协商',d:'居民、巡路队与研究者共同商定纪念区和通行安全规则。'},
  {p:3,n:38,k:'事件',t:'雨线救援',d:'剑士与伙伴协助伤者安全撤离，后续修桥和物资责任需要持续处理。'},
  {p:3,n:40,k:'地图',t:'远域接续路线索引',d:'只确认存在有待合法核验的历史路线目录，不提前公开未证实的去向。'},
+ {p:3,n:41,k:'地图',t:'远域第二张路网',d:'远域接续路线的公开护运委托引出灰鲸号航程，旧攻略不再可当作确定导航。'},
+ {p:3,n:43,k:'怪物',t:'裂鳍兽群',d:'断潮水域出现裂鳍兽与可疑诱引光球，船只必须依靠团队防守。'},
+ {p:3,n:45,k:'人物',t:'梁策的选择',d:'神锋边海分队与顾长渊合作守住伤员转运路线，双方仍保留竞争关系。'},
+ {p:3,n:46,k:'地点',t:'七号中继站',d:'旧塔非法副线被发现，失联检修员获救，部分测量差异仍有待核验。'},
+ {p:3,n:48,k:'事件',t:'前世航图失准',d:'未经独立核验的旧玩家攻略可能过时或误导，顾长渊放下独断并完善复核规则。'},
+ {p:3,n:50,k:'地图',t:'远域外环接续方案',d:'灰鲸号救援告一段落，仅确认存在下一阶段可依法查询的旧线路目录。'},
  {p:2,n:99,k:'势力',t:'深渊方舟第一阶段',d:'初步现实应急据点运转'}
 ];
 function storeRead(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return x&&typeof x==='object'?x:{};}catch(e){return {};}}
@@ -71,8 +77,8 @@ function css(){if(document.getElementById('zs-unlock-style'))return;
 const s=document.createElement('style');s.id='zs-unlock-style';s.textContent=
 '.zs-unlock-panel{margin:25px 0;padding:24px;border:1px solid #dac38e75;border-radius:20px;background:linear-gradient(135deg,#32375cbf,#1b213eec);box-shadow:0 14px 42px #0a0d202c}.zs-unlock-panel h2,.zs-unlock-panel h3{margin:4px 0 14px;font-size:22px;letter-spacing:.04em}.zs-unlock-panel p,.zs-unlock-panel small{color:#d5d6e1;line-height:1.8}.zs-progress-meter{height:11px;background:#14182b;border-radius:20px;overflow:hidden;margin:12px 0}.zs-progress-meter>i{display:block;height:100%;background:linear-gradient(90deg,#9776e3,#f0d496);border-radius:20px}.zs-unlock-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.zs-unlock-actions a,.zs-unlock-actions button,.zs-unlock-button{display:inline-block;border:1px solid #e4c78799;padding:9px 14px;border-radius:10px;background:#2d3156;color:#fae7b6;font:inherit;font-size:13px;cursor:pointer}.zs-unlock-actions a:hover,.zs-unlock-actions button:hover,.zs-unlock-button:hover{background:#42476e}.zs-unlock-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0 35px}.zs-unlock-card{padding:18px;border-radius:15px;border:1px solid #e2d2a047;background:#313658aa;min-height:160px}.zs-unlock-card h3{font-size:18px;margin:10px 0}.zs-unlock-card small{font-size:11px;color:#f2d69b}.zs-unlock-card p{font-size:13px;line-height:1.8;color:#d6d5e1}.zs-unlock-card.locked{opacity:.7;border-style:dashed}.zs-chapter-complete{margin:26px 0 8px;padding:18px;border:1px solid #dac38e55;border-radius:14px;background:#30365b}.zs-chapter-complete p{font-size:13px;margin:7px 0;color:#d6d8e6}.zs-part-card{margin:16px 0}.zs-part-card .zs-progress-meter{max-width:500px}.zs-gated-main>:not(.crumb):not(.zs-spoiler-wall):not(.eyebrow):not(h1){display:none!important}.zs-spoiler-wall{display:block;margin:25px 0;padding:25px;border:1px solid #d4c18e88;border-radius:18px;background:#252a4b}.zs-spoiler-wall h2{font-size:25px;margin:2px 0 13px}.zs-spoiler-wall p{line-height:1.9}.zs-spoiler-wall a{color:#f2d7a0;text-decoration:underline}.zs-preview-note{color:#f0cb89;font-size:12px;margin:8px 0}.zs-next-lock{font-size:12px;color:#c9c3d6}.zs-part-locked{color:#c6c5d7}.zs-locked-summary{opacity:.7}.zs-locked-summary summary{cursor:not-allowed}.zs-footer-notice{font-size:12px;color:#ceccdc;margin-top:20px}@media(max-width:650px){.zs-unlock-panel{padding:18px}.zs-unlock-grid{grid-template-columns:1fr}}';
 document.head.append(s);}
-function summary(p){const state=get(p);const cap=p===3?40:100;return (state.prologue?'序章已读 · ':'')+'已解锁 '+Math.min(state.max,cap)+'/'+cap+' 章';}
-function meter(p){const outer=el('div','zs-progress-meter');outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuenow',String(get(p).max));outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',p===3?'40':'100');outer.setAttribute('aria-label','第'+p+'篇已解锁章节');const fill=el('i');fill.style.width=(p===3?Math.min(100,get(p).max*100/40):get(p).max)+'%';outer.append(fill);return outer;}
+function summary(p){const state=get(p);const cap=p===3?50:100;return (state.prologue?'序章已读 · ':'')+'已解锁 '+Math.min(state.max,cap)+'/'+cap+' 章';}
+function meter(p){const outer=el('div','zs-progress-meter');outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuenow',String(get(p).max));outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',p===3?'50':'100');outer.setAttribute('aria-label','第'+p+'篇已解锁章节');const fill=el('i');fill.style.width=(p===3?Math.min(100,get(p).max*100/50):get(p).max)+'%';outer.append(fill);return outer;}
 function articleUnlock(){const m=location.pathname.match(/\/chapters\/volume-(\d{2})\/(chapter-(\d{3})|prologue)\.html$/);if(!m)return;
 const vol=Number(m[1]),local=Number(m[3]||0),p=partOf(vol),n=((vol-1)%10)*10+local,pro=!!(m[2]==='prologue');
 const article=document.querySelector('.article');if(!article)return;
@@ -96,7 +102,7 @@ const container=document.getElementById('volumes');if(!container)return;
 const sec=el('section','');sec.id='zs-progress-home';sec.append(el('p','eyebrow','UNLOCK PROGRESS · 独立进度'),el('h2','','篇章解锁进度'));
 sec.append(el('p','lead','第一篇与后续每一篇独立记录进度；总档案只汇总已经读到的剧情。'));
 const grid=el('div','zs-unlock-grid');
-[1,2,3].forEach(p=>{const card=el('div','zs-unlock-card');card.append(el('small','',p===1?'PART 01 · 已发布':p===2?'PART 02 · 全100章正式完成':'PART 03 · 第21—24卷已发布'),el('h3','','第'+p+'篇 · '+nameOf(p)),el('p','',summary(p)));card.append(meter(p));card.append(aLink(BASE+'parts/part-0'+p+'.html','阅读本篇 →'),aLink(BASE+'archive/unlocks.html?part='+p,'查看解锁状态 →'));grid.append(card);});
+[1,2,3].forEach(p=>{const card=el('div','zs-unlock-card');card.append(el('small','',p===1?'PART 01 · 已发布':p===2?'PART 02 · 全100章正式完成':'PART 03 · 第21—25卷已发布'),el('h3','','第'+p+'篇 · '+nameOf(p)),el('p','',summary(p)));card.append(meter(p));card.append(aLink(BASE+'parts/part-0'+p+'.html','阅读本篇 →'),aLink(BASE+'archive/unlocks.html?part='+p,'查看解锁状态 →'));grid.append(card);});
 const total=el('div','zs-unlock-card');total.append(el('small','','ALL PARTS'),el('h3','','最终篇 · 全部总结'),el('p','','只整合目前已经解锁的信息；未公开的真相仍然封存。'),aLink(BASE+'parts/final-archive.html','打开总档案 →'));grid.append(total);sec.append(grid);container.insertAdjacentElement('afterend',sec);
 }
 function partPage(){if(!/\/parts\/part-0\d\.html$/.test(location.pathname))return;const p=Number((location.pathname.match(/part-(\d+)\.html/)||[])[1]||1);const hero=document.querySelector('.part-hero, .part2-hero');if(hero)hero.insertAdjacentElement('afterend',partCard(p));
