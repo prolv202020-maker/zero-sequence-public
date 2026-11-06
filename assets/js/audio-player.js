@@ -55,6 +55,8 @@
     vol.append(slider);box.append(play,copy,vol,expand);document.body.append(box);
     const setExpanded=(yes)=>{box.classList.toggle('zs-audio-expanded',yes);expand.setAttribute('aria-expanded',String(yes));expand.setAttribute('aria-label',yes?'收起音乐设置':'展开音乐设置');};
     expand.addEventListener('click',()=>setExpanded(!box.classList.contains('zs-audio-expanded')));
+    document.addEventListener('zs:reader-panel-open',()=>setExpanded(false));
+    document.addEventListener('click',e=>{if(box.classList.contains('zs-audio-expanded')&&!box.contains(e.target))setExpanded(false);});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&box.classList.contains('zs-audio-expanded')){setExpanded(false);expand.focus();}});
     function update(){title.textContent=TRACKS[mood].name;box.style.setProperty('--zs-accent',TRACKS[mood].color);play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'暂停背景音乐':'播放背景音乐');sub.textContent=(playing?'正在播放 · ':'点击播放 · ')+TRACKS[mood].sub;box.classList.toggle('is-playing',playing);}
     update();
