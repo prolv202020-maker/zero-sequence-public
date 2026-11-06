@@ -1,0 +1,49 @@
+/* 第零序列 · 两篇统一十卷目录 V2。章节链接始终允许访问。 */
+.part-hero{margin:40px 0 25px;padding:clamp(24px,4vw,42px);border:1px solid #ead09a77;border-radius:22px;background:radial-gradient(circle at 87% 16%,#9888de32,transparent 44%),linear-gradient(125deg,#282e59,#1c2040)}
+.part-hero h1{font-size:clamp(36px,5.5vw,62px);margin:10px 0 20px;letter-spacing:.09em}
+.part-hero .lead{max-width:840px;line-height:1.9}
+.part-meta{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.part-meta span{font-size:12px;border:1px solid #d4b77c66;border-radius:40px;padding:7px 12px;color:#e9d49f}
+.part-heading{margin:34px 0 12px;font-size:clamp(24px,3vw,30px)}
+.part-guide{border-left:2px solid #ead09a8b;padding:10px 20px;margin:26px 0 42px;color:#d8d5e8;line-height:1.85;font-size:13px}
+.part-links{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+.part-links a{border:1px solid #ead09a7d;padding:11px 15px;border-radius:10px;font:13px var(--zs-font-ui,sans-serif);transition:background .2s,border-color .2s}
+.part-links a:hover{background:#ffffff12;border-color:#efd8a2}
+.zs-directory-intro{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:0 0 7px}
+.zs-directory-intro .lead{margin:0;font-size:14px;flex:1 1 500px}
+.zs-directory-counter{font:12px var(--zs-font-ui,sans-serif);color:#eed6a7;border:1px solid #ddc89870;background:#2b3152;border-radius:999px;padding:8px 13px}
+.zs-cover-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:17px;margin:23px 0 28px}
+.zs-cover-grid>.zs-cover-card{min-width:0;min-height:0;display:flex;flex-direction:column;position:relative;padding:0;overflow:hidden;border:1px solid #e0ca9566;border-radius:15px;background:#242a49;box-shadow:0 15px 35px #0a0d223d;transition:transform .25s,border-color .25s,box-shadow .25s}
+.zs-cover-grid>.zs-cover-card:before,.zs-cover-grid>.zs-cover-card:after{display:none!important}
+.zs-cover-grid>.zs-cover-card .zs-cover-media{position:relative;display:block;width:100%;aspect-ratio:750/1080;background:radial-gradient(circle,#3a3d68,#161b32);overflow:hidden}
+.zs-cover-grid>.zs-cover-card .zs-cover-thumb{display:block;width:100%;height:100%;object-fit:cover;object-position:center;filter:blur(15px) brightness(.42);transform:scale(1.055);transition:filter .3s,transform .35s}
+.zs-cover-grid>.zs-cover-card.zs-cover-unlocked .zs-cover-thumb{filter:none;transform:none}
+.zs-cover-grid>.zs-cover-card .zs-volume-cover{position:relative;display:block;width:100%;aspect-ratio:750/1080;overflow:hidden}
+.zs-cover-grid>.zs-cover-card .zs-volume-cover .zs-cover-thumb{width:100%;height:100%}
+.zs-cover-grid>.zs-cover-card .zs-volume-cover:before,.zs-cover-grid>.zs-cover-card .zs-volume-cover:after{display:none}
+.zs-cover-grid>.zs-cover-card .zs-cover-brand,.zs-cover-grid>.zs-cover-card .zs-cover-name{display:none!important}
+.zs-cover-media:after{content:"";position:absolute;inset:9px;border:1px solid #ecd7a45c;pointer-events:none;border-radius:4px}
+.zs-cover-grid>.zs-cover-card .zs-cover-number{position:absolute;left:11px;top:11px;color:#f5e1b7;background:#171d36dc;padding:6px 9px;border:1px solid #e5c99455;border-radius:6px;z-index:2;font:11px Georgia,serif;letter-spacing:.12em}
+.zs-cover-grid>.zs-cover-card .zs-volume-state{position:absolute;right:10px;bottom:11px;z-index:2;color:#fff1ce;background:#15192dd9;border:1px solid #e4cf9a8a;border-radius:999px;padding:6px 10px;font:12px var(--zs-font-ui,sans-serif);box-shadow:0 6px 20px #03061560}
+.zs-cover-grid>.zs-cover-card .zs-cover-copy{padding:15px 15px 18px;display:flex;flex-direction:column;gap:7px;flex:1;min-height:116px}
+.zs-cover-grid>.zs-cover-card .zs-cover-copy small{margin:0;color:#d8bf91;font:10px Georgia,serif;letter-spacing:.08em}
+.zs-cover-grid>.zs-cover-card .zs-cover-copy h3{font-size:17px;font-weight:500;line-height:1.45;margin:0;color:#f4e4c4;min-height:49px}
+.zs-cover-grid>.zs-cover-card .zs-cover-copy p{font-size:12px;line-height:1.7;color:#cfd2e1;margin:0;flex:1}
+.zs-cover-grid>.zs-cover-card .zs-card-link{color:#e8cb92;font:12px var(--zs-font-ui,sans-serif);margin-top:6px}
+.zs-cover-grid>.zs-cover-card.zs-volume-current{border-color:#f6d993;box-shadow:0 0 0 1px #f2d69c7d,0 18px 45px #0b0c245c}
+.zs-cover-grid>.zs-cover-card.zs-volume-complete .zs-volume-state{background:#263d40eb;border-color:#91c8b9a9;color:#d6f7e7}
+.zs-cover-grid>.zs-cover-card:not(.zs-cover-unlocked) .zs-cover-media:before{content:"🔒";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;font-size:32px;text-shadow:0 3px 17px #090a20;pointer-events:none}
+.zs-cover-grid>.zs-cover-card .zs-cover-copy p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.zs-cover-grid>.zs-cover-card a:focus-visible,.zs-cover-grid>.zs-cover-card:focus-visible{outline:3px solid #f2d391;outline-offset:3px}
+@media(hover:hover){.zs-cover-grid>.zs-cover-card:hover{transform:translateY(-4px);border-color:#f4d69a;box-shadow:0 22px 42px #090c2455}.zs-cover-grid>.zs-cover-card.zs-cover-unlocked:hover .zs-cover-thumb{transform:scale(1.025)}}
+@media(max-width:1050px){.zs-cover-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:800px){.zs-cover-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.part-hero{margin-top:28px}}
+@media(max-width:600px){.zs-cover-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.zs-cover-grid>.zs-cover-card .zs-cover-copy{padding:11px;min-height:85px;gap:6px}.zs-cover-grid>.zs-cover-card .zs-cover-copy h3{font-size:15px;min-height:0}.zs-cover-grid>.zs-cover-card .zs-cover-copy p{display:none}.zs-cover-grid>.zs-cover-card .zs-cover-copy small{font-size:9px}.zs-cover-grid>.zs-cover-card .zs-card-link{font-size:11px}.part-hero{padding:24px 20px}.part-links a{font-size:12px}.zs-cover-grid>.zs-cover-card .zs-volume-state{font-size:10px;padding:5px 7px}.zs-cover-grid>.zs-cover-card .zs-cover-number{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.zs-cover-grid>.zs-cover-card,.zs-cover-grid>.zs-cover-card .zs-cover-thumb,.part-links a{transition:none!important}.zs-cover-grid>.zs-cover-card:hover,.zs-cover-grid>.zs-cover-card:hover .zs-cover-thumb{transform:none!important}}
+
+
+/* 未解锁卷卡默认隐藏真实卷名和简介；已读进度确认后再展示。 */
+.zs-cover-grid>.zs-cover-card:not(.zs-cover-unlocked) .zs-cover-copy h3,
+.zs-cover-grid>.zs-cover-card:not(.zs-cover-unlocked) .zs-cover-copy p{visibility:hidden!important}
+.zs-cover-grid>.zs-cover-card:not(.zs-cover-unlocked) .zs-cover-copy:after{content:"🔒 本卷资料尚未解锁";display:block;font:12px var(--zs-font-ui,sans-serif);color:#ead3a2}
+.zs-cover-grid>.zs-cover-card.zs-cover-unlocked .zs-cover-copy:after{content:none}
