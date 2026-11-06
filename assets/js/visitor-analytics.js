@@ -5,7 +5,7 @@
   window.__zsAnalyticsLoaded=true;
   // Site token is intentionally blank: no third-party requests occur before setup.
   // See docs/VISITOR_ANALYTICS.md. Never place private API keys here.
-  const CLOUDFLARE_SITE_TOKEN='';
+  const CLOUDFLARE_SITE_TOKEN='ed41ab1e0a79421b8f03c2b0d0936725';
   if(!/^[a-f0-9]{32}$/i.test(CLOUDFLARE_SITE_TOKEN))return;
   // Respect user opt-out and do not track preview/local/offline views.
   if(navigator.doNotTrack==='1'||window.doNotTrack==='1'||navigator.globalPrivacyControl===true)return;
