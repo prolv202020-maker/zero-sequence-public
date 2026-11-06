@@ -32,7 +32,13 @@
   function addContinue(){
     if(!document.body.classList.contains('home-page'))return;
     const last=get(LAST), box=$('#zs-home-resume');
-    const valid=last&&typeof last.url==='string'&&last.url.startsWith(ROOT+'chapters/');
+    const valid=last&&typeof last.url==='string'&&/^\\/zero-sequence-public\\/chapters\\/volume-\\d{2}\\/(?:chapter-\\d{3}|prologue)\\.html$/.test(last.url);
+    const heroResume=$('#zs-hero-resume'),pathResume=$('#zs-path-resume-link'),pathDescription=$('#zs-path-resume-description');
+    if(valid){
+      if(heroResume){heroResume.href=last.url;heroResume.textContent='接着上次阅读 →';}
+      if(pathResume){pathResume.href=last.url;pathResume.textContent='继续上次章节 →';}
+      if(pathDescription)pathDescription.textContent='上次阅读：'+(last.title||'已保存的章节')+'。点击后可返回上次阅读位置。';
+    }
     if(box){
       const title=$('#zs-resume-title'),detail=$('#zs-resume-description');
       const link=$('#zs-resume-link'),bar=$('#zs-resume-bar');
