@@ -130,6 +130,21 @@
     if(num===0)tools.append(navLink(chapLink(vol,1),'下一章 →'));
     else if(num<10)tools.append(navLink(chapLink(vol,num+1),'下一章 →'));
     else if(vol<20)tools.append(navLink(chapLink(vol+1,1),'下一章 →'));
+    // Make the *bottom* chapter navigation consistent across the prologue and all 200 chapters.
+    // The original HTML text stays untouched; the existing progress/localStorage keys remain stable.
+    const footerPager=article.querySelector(':scope > .pager');
+    if(footerPager){
+      const bottom=[];
+      if(num>1)bottom.push(navLink(chapLink(vol,num-1),'← 上一章'));
+      else if(num===1&&vol===1)bottom.push(navLink(ROOT+'chapters/volume-01/prologue.html','← 上一章'));
+      else if(num===1&&vol>1)bottom.push(navLink(chapLink(vol-1,10),'← 上一章'));
+      bottom.push(navLink(volLink(vol),'返回本卷目录'));
+      if(num===0)bottom.push(navLink(chapLink(vol,1),'下一章 →'));
+      else if(num<10)bottom.push(navLink(chapLink(vol,num+1),'下一章 →'));
+      else if(vol<20)bottom.push(navLink(chapLink(vol+1,1),vol===10?'下一篇 · 第101章 →':'下一卷 · 下一章 →'));
+      footerPager.replaceChildren(...bottom);
+      footerPager.setAttribute('aria-label','章节底部导航');
+    }
     const crumb=$('.crumb');if(crumb)crumb.insertAdjacentElement('afterend',tools);
     requestAnimationFrame(save);
   }
