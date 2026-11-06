@@ -1,113 +1,94 @@
-/* 第零序列 · 原创背景配乐（不含朗读/说书功能） */
+/* 第零序列 · 四首原创情绪配乐，不含朗读/说书功能。 */
 (() => {
   'use strict';
-
-  const path = location.pathname.toLowerCase();
-  const theme = path.includes('volume-01') ? {
-    id:'rebirth', title:'第一卷 · 重返', subtitle:'ANIME / REBIRTH', chord:[220,329.63,440], accent:[523.25,659.25,783.99], color:'#e8c979'
-  } : path.includes('volume-02') ? {
-    id:'arrival', title:'第二卷 · 初临', subtitle:'ANIME / ADVENTURE', chord:[246.94,369.99,493.88], accent:[587.33,659.25,783.99,987.77], color:'#bfe6c8'
-  } : path.includes('volume-03') ? {
-    id:'undercurrent', title:'第三卷 · 暗流', subtitle:'ANIME / MYSTERY', chord:[196,293.66,392], accent:[493.88,587.33,698.46], color:'#cbbcf1'
-  } : {
-    id:'main', title:'第零序列 · 主题', subtitle:'ANIME / HEROIC FANTASY', chord:[220,329.63,440], accent:[523.25,659.25,783.99], color:'#e8c979'
+  if(window.__zsMusicV2Loaded)return;
+  window.__zsMusicV2Loaded=true;
+  const ROOT='/zero-sequence-public/';
+  const TRACKS={
+    quiet:{name:'静谧阅读',sub:'PIANO · WARM STRINGS',file:'quiet.mp3',color:'#e5c994'},
+    heroic:{name:'热血征途',sub:'ORCHESTRAL · HEROIC',file:'heroic.mp3',color:'#f0a779'},
+    sorrow:{name:'悲伤回忆',sub:'PIANO · MELANCHOLY',file:'sorrow.mp3',color:'#b8bddf'},
+    mystery:{name:'未知探索',sub:'MYSTERY · ADVENTURE',file:'mystery.mp3',color:'#b5a4e7'}
   };
-
-  const KEY_ENABLED='zs_audio_enabled';
   const KEY_VOLUME='zs_audio_volume';
-  let ctx=null, master=null, ambience=null;
-  let persistent=[], timers=[], playing=false;
-  let volume=Math.max(0,Math.min(1,parseFloat(localStorage.getItem(KEY_VOLUME)||'0.18')));
-
-  // ---------- Shared visual styles ----------
-  function styleUI(){
-    if(document.getElementById('zs-audio-style')) return;
-    const s=document.createElement('style');
-    s.id='zs-audio-style';
-    s.textContent=`
-      .zs-audio{position:fixed;right:18px;bottom:18px;z-index:9999;width:min(330px,calc(100vw - 28px));display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid rgba(232,201,121,.4);border-radius:16px;background:rgba(12,15,26,.9);box-shadow:0 14px 45px rgba(0,0,0,.34);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);font-family:inherit;color:#f6f1e7;transition:.25s ease}
-      .zs-audio:hover{border-color:rgba(232,201,121,.78);transform:translateY(-1px)}
-      .zs-audio button{width:42px;height:42px;flex:0 0 42px;border-radius:50%;border:1px solid rgba(232,201,121,.58);background:radial-gradient(circle at 35% 30%,rgba(232,201,121,.24),rgba(46,38,72,.9));color:#fff3d6;cursor:pointer;font-size:16px;line-height:1}
-      .zs-audio .zs-copy{min-width:0;flex:1}.zs-audio .zs-title{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.04em}.zs-audio .zs-sub{margin-top:3px;font-size:9px;letter-spacing:.15em;color:#b9b5c6}.zs-audio .zs-wave{display:flex;align-items:end;gap:2px;height:14px;margin-top:5px}.zs-audio .zs-wave i{display:block;width:2px;height:5px;background:var(--zs-accent,#e8c979);opacity:.6;border-radius:2px}.zs-audio.is-playing .zs-wave i{animation:zsWave .72s ease-in-out infinite alternate}.zs-audio .zs-wave i:nth-child(2){animation-delay:.12s}.zs-audio .zs-wave i:nth-child(3){animation-delay:.24s}.zs-audio .zs-wave i:nth-child(4){animation-delay:.36s}.zs-audio .zs-wave i:nth-child(5){animation-delay:.48s}
-      .zs-audio input[type=range]{width:64px;accent-color:#e8c979;opacity:.85}.zs-audio .zs-vol{font-size:10px;color:#aaa5b8;display:flex;align-items:center;gap:4px}
-      @keyframes zsWave{from{height:3px;opacity:.4}to{height:13px;opacity:1}}
-
-      @media(max-width:560px){.zs-audio{right:10px;bottom:10px;width:calc(100vw - 20px)}.zs-audio input[type=range]{width:52px}}
+  const KEY_MOOD='zs_audio_mood_v2';
+  const KEY_ENABLED='zs_audio_enabled';
+  let mood=localStorage.getItem(KEY_MOOD);
+  if(!TRACKS[mood])mood='quiet';
+  const storedVolume=Number(localStorage.getItem(KEY_VOLUME));
+  let volume=Number.isFinite(storedVolume)&&storedVolume>=0?Math.min(.45,storedVolume):.14;
+  let current=null,playing=false,fadeId=0,changeSerial=0;
+  const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches||false;
+  const clamp=n=>Math.max(0,Math.min(1,n));
+  function build(){
+    if(document.getElementById('zs-audio'))return;
+    const style=document.createElement('style');
+    style.id='zs-audio-style';
+    style.textContent=`
+      .zs-audio{--zs-accent:#e5c994;position:fixed;right:16px;bottom:16px;z-index:9999;width:min(370px,calc(100vw - 24px));display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid #d7c19b6d;border-radius:17px;background:#11182bec;box-shadow:0 16px 40px #05091866;color:#f5eada;font-family:inherit;backdrop-filter:blur(12px)}
+      .zs-audio .zs-play{border:1px solid #d9c09480;border-radius:50%;width:44px;height:44px;min-width:44px;background:#343c5b;color:#fff4e2;cursor:pointer;font-size:18px}
+      .zs-audio .zs-play:focus-visible,.zs-audio select:focus-visible,.zs-audio input:focus-visible{outline:2px solid #f1d3a1;outline-offset:3px}
+      .zs-audio .zs-copy{flex:1;min-width:0}.zs-audio .zs-title{font-size:13px;font-weight:600;color:#f5e4bd;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+      .zs-audio .zs-sub{font-size:10px;color:#c5c2d4;margin-top:4px;letter-spacing:.06em;line-height:1.4}
+      .zs-audio select{max-width:100%;width:100%;margin-top:7px;padding:7px 9px;border-radius:8px;border:1px solid #bda77e72;background:#242e4b;color:#f7e6c5;font-size:12px;cursor:pointer}
+      .zs-audio .zs-vol{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:#d4d0dc}
+      .zs-audio input[type=range]{width:68px;accent-color:#e4c68c;cursor:pointer}
+      .zs-audio.is-playing{border-color:var(--zs-accent)}
+      @media(max-width:560px){.zs-audio{bottom:8px;right:8px;width:calc(100vw - 16px);padding:9px 11px;gap:8px}.zs-audio .zs-vol input{width:53px}}
     `;
-    document.head.appendChild(s);
+    document.head.append(style);
+    const box=document.createElement('aside');box.className='zs-audio';box.id='zs-audio';box.setAttribute('aria-label','原创背景音乐播放器');
+    const play=document.createElement('button');play.className='zs-play';play.type='button';play.textContent='▶';play.setAttribute('aria-label','播放背景音乐');
+    const copy=document.createElement('div');copy.className='zs-copy';
+    const title=document.createElement('div');title.className='zs-title';
+    const sub=document.createElement('div');sub.className='zs-sub';sub.textContent='手动播放 · 不自动开启';
+    const select=document.createElement('select');select.className='zs-mood';select.setAttribute('aria-label','选择背景音乐情绪');
+    Object.entries(TRACKS).forEach(([k,v])=>{const option=document.createElement('option');option.value=k;option.textContent=v.name;select.append(option)});
+    select.value=mood;copy.append(title,sub,select);
+    const vol=document.createElement('label');vol.className='zs-vol';vol.textContent='音量';
+    const slider=document.createElement('input');slider.className='zs-slider';slider.type='range';slider.min='0';slider.max='0.45';slider.step='.01';slider.value=String(volume);slider.setAttribute('aria-label','背景音乐音量');
+    vol.append(slider);box.append(play,copy,vol);document.body.append(box);
+    function update(){title.textContent=TRACKS[mood].name;box.style.setProperty('--zs-accent',TRACKS[mood].color);play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'暂停背景音乐':'播放背景音乐');sub.textContent=(playing?'正在播放 · ':'点击播放 · ')+TRACKS[mood].sub;box.classList.toggle('is-playing',playing);}
+    update();
+    play.addEventListener('click',async()=>{if(playing)stop();else await start();update();});
+    select.addEventListener('change',async()=>{const value=select.value;if(!TRACKS[value])return;mood=value;localStorage.setItem(KEY_MOOD,mood);if(playing){await switchTrack();}update();});
+    slider.addEventListener('input',()=>{volume=clamp(Number(slider.value));volume=Math.min(.45,volume);localStorage.setItem(KEY_VOLUME,String(volume));if(current){current.volume=volume;}});
+    // 旧版自动播放偏好不再触发新的音频，避免阅读时突然响起。
+    window.addEventListener('pagehide',()=>{++fadeId;if(current){current.pause();current.src='';current=null;}playing=false;});
   }
-
-  // ---------- Background music ----------
-  function buildAudioUI(){
-    if(document.getElementById('zs-audio')) return;
-    styleUI();
-    const box=document.createElement('div');
-    box.id='zs-audio'; box.className='zs-audio';
-    box.style.setProperty('--zs-accent',theme.color);
-    box.innerHTML=`<button type="button" class="zs-play" aria-label="播放背景音乐">▶</button><div class="zs-copy"><div class="zs-title">${theme.title}</div><div class="zs-sub">${theme.subtitle}</div><div class="zs-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div><label class="zs-vol" title="音量">♫ <input class="zs-slider" type="range" min="0" max="1" step="0.01" value="${volume}"></label>`;
-    document.body.appendChild(box);
-    box.querySelector('.zs-play').addEventListener('click',async(e)=>{e.stopPropagation(); playing?stopMusic(true):await startMusic(true);});
-    box.querySelector('.zs-slider').addEventListener('input',(e)=>{
-      volume=parseFloat(e.target.value); localStorage.setItem(KEY_VOLUME,String(volume));
-      if(master && ctx) master.gain.setTargetAtTime(volume,ctx.currentTime,.08);
-    });
-    if(localStorage.getItem(KEY_ENABLED)==='1'){
-      box.querySelector('.zs-sub').textContent=theme.subtitle+' · 点击页面继续';
-      const resume=async()=>{document.removeEventListener('pointerdown',resume,true); if(localStorage.getItem(KEY_ENABLED)==='1'&&!playing) await startMusic(false);};
-      document.addEventListener('pointerdown',resume,true);
-    }
+  function makeAudio(){const audio=new Audio(ROOT+'assets/audio/'+TRACKS[mood].file);audio.loop=true;audio.preload='none';audio.volume=0;return audio;}
+  function fade(audio,from,to,ms,onDone){
+    const serial=++fadeId;const start=performance.now();
+    const step=()=>{if(serial!==fadeId)return;const p=Math.min(1,(performance.now()-start)/ms);audio.volume=clamp(from+(to-from)*(p*p*(3-2*p)));if(p<1)requestAnimationFrame(step);else onDone?.();};
+    if(ms===0){audio.volume=to;onDone?.();return;}requestAnimationFrame(step);
   }
-
-  function setAudioUI(on){
-    const box=document.getElementById('zs-audio'); if(!box) return;
-    box.classList.toggle('is-playing',on);
-    const b=box.querySelector('.zs-play'); b.textContent=on?'Ⅱ':'▶'; b.setAttribute('aria-label',on?'暂停背景音乐':'播放背景音乐');
-    box.querySelector('.zs-sub').textContent=theme.subtitle+(on?' · PLAYING':'');
+  async function start(){
+    if(playing)return;
+    const audio=makeAudio();current=audio;
+    try{await audio.play();playing=true;localStorage.setItem(KEY_ENABLED,'1');fade(audio,0,volume,reduceMotion?350:1300);}
+    catch(e){playing=false;current=null;const sub=document.querySelector('.zs-audio .zs-sub');if(sub)sub.textContent='音乐加载失败，请检查网络后重试';}
   }
-
-  function ensureAudio(){
-    if(ctx) return;
-    const AC=window.AudioContext||window.webkitAudioContext;
-    if(!AC) throw new Error('Web Audio not supported');
-    ctx=new AC(); master=ctx.createGain(); master.gain.value=volume;
-    const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-18; comp.knee.value=18; comp.ratio.value=3; comp.attack.value=.08; comp.release.value=.5;
-    master.connect(comp).connect(ctx.destination);
+  function stop(){if(!current)return;const audio=current;playing=false;localStorage.setItem(KEY_ENABLED,'0');fade(audio,audio.volume,0,reduceMotion?150:450,()=>{audio.pause();if(current===audio)current=null;});}
+  async function switchTrack(){
+    const old=current;const serial=++changeSerial;
+    if(old){old.pause();old.src='';} // 避免手机端多曲叠加引起突然大声。
+    ++fadeId;
+    const next=makeAudio();current=next;
+    try{await next.play();if(serial!==changeSerial){next.pause();return;}playing=true;fade(next,0,volume,reduceMotion?350:1000);}
+    catch(e){playing=false;current=null;}
   }
-  function persistentOsc(freq,type,gain,detune=0,pan=0){
-    const o=ctx.createOscillator(),g=ctx.createGain(),f=ctx.createBiquadFilter(); o.type=type;o.frequency.value=freq;o.detune.value=detune;g.gain.value=gain;f.type='lowpass';f.frequency.value=1600;f.Q.value=.25;
-    if(ctx.createStereoPanner){const p=ctx.createStereoPanner();p.pan.value=pan;o.connect(f).connect(p).connect(g).connect(master);}else{o.connect(f).connect(g).connect(master);}o.start();persistent.push(o,g,f);return{o,g,f};
-  }
-  function noiseBed(level=.0035){const len=ctx.sampleRate*2,buffer=ctx.createBuffer(1,len,ctx.sampleRate),data=buffer.getChannelData(0);let x=0;for(let i=0;i<len;i++){x=.97*x+(Math.random()*2-1)*.08;data[i]=x;}const src=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),g=ctx.createGain();src.buffer=buffer;src.loop=true;filter.type='lowpass';filter.frequency.value=650;g.gain.value=level;src.connect(filter).connect(g).connect(master);src.start();persistent.push(src,filter,g);ambience=src;}
-  function note(freq,when,dur=.7,gain=.025,type='triangle',pan=0){const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,when);g.gain.setValueAtTime(.0001,when);g.gain.exponentialRampToValueAtTime(gain,when+.018);g.gain.exponentialRampToValueAtTime(.0001,when+dur);if(ctx.createStereoPanner){const p=ctx.createStereoPanner();p.pan.value=pan;o.connect(g).connect(p).connect(master);}else{o.connect(g).connect(master);}o.start(when);o.stop(when+dur+.05);}
-  function bell(freq,when,gain=.018){note(freq,when,1.2,gain,'sine',-.15);note(freq*2.01,when+.012,.75,gain*.42,'sine',.15);}
-  function startPads(){theme.chord.forEach((f,i)=>{persistentOsc(f/2,'sine',.010,i*2-2,(i-1)*.24);persistentOsc(f,'triangle',.0045,2-i,(1-i)*.15);});noiseBed(.0028);}
-  function scheduleTheme(){const now=()=>ctx.currentTime+.03;let i=0;
-    if(theme.id==='rebirth'){timers.push(setInterval(()=>{if(!playing)return;const seq=[0,1,2,1,0,2];bell(theme.accent[seq[i++%seq.length]],now(),.015);},1500));}
-    else if(theme.id==='arrival'){timers.push(setInterval(()=>{if(!playing)return;const seq=[0,1,2,3,2,1,0,2];note(theme.accent[seq[i++%seq.length]],now(),.48,.018,'triangle',Math.sin(i*.7)*.35);},520));timers.push(setInterval(()=>{if(!playing)return;bell(theme.accent[2],now(),.009);},6200));}
-    else if(theme.id==='undercurrent'){timers.push(setInterval(()=>{if(!playing)return;const seq=[0,1,2,1,0,2,1];note(theme.accent[seq[i++%seq.length]],now(),.72,.014,'triangle',Math.sin(i)*.25);},900));}
-    else{timers.push(setInterval(()=>{if(!playing)return;const seq=[0,1,2,1,2,0];bell(theme.accent[seq[i++%seq.length]],now(),.014);},1250));}
-  }
-  async function startMusic(userAction){try{ensureAudio();await ctx.resume();if(playing)return;playing=true;persistent=[];timers=[];startPads();scheduleTheme();if(userAction)localStorage.setItem(KEY_ENABLED,'1');setAudioUI(true);}catch(err){const box=document.getElementById('zs-audio');if(box)box.querySelector('.zs-sub').textContent='浏览器暂不支持音频';}}
-  function stopMusic(userAction){playing=false;timers.forEach(clearInterval);timers=[];persistent.forEach(n=>{try{if(n.stop)n.stop();}catch(e){}try{n.disconnect();}catch(e){}});persistent=[];if(userAction)localStorage.setItem(KEY_ENABLED,'0');setAudioUI(false);}
-  function duckBGM(on){if(!master||!ctx||!playing)return;master.gain.setTargetAtTime(on?Math.min(volume,.045):volume,ctx.currentTime,on?.18:.35);}
-
   function init(){
-    buildAudioUI();
+    build();
     if(!document.querySelector('script[src*="progressive-archive.js"]')){
-      const unlock=document.createElement('script');unlock.src='/zero-sequence-public/assets/js/progressive-archive.js?v=12';document.body.appendChild(unlock);
+      const unlock=document.createElement('script');unlock.src=ROOT+'assets/js/progressive-archive.js?v=12';document.body.appendChild(unlock);
     }
     if(!document.querySelector('script[src*="reader-experience.js"]')){
-      const reader=document.createElement('script');reader.src='/zero-sequence-public/assets/js/reader-experience.js?v=2';document.body.appendChild(reader);
+      const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=2';document.body.appendChild(reader);
     }
     if(!document.querySelector('script[src*="visitor-analytics.js"]')){
-      const analytics=document.createElement('script');
-      analytics.src='/zero-sequence-public/assets/js/visitor-analytics.js?v=1';
-      analytics.defer=true;
-      document.body.appendChild(analytics);
+      const analytics=document.createElement('script');analytics.src=ROOT+'assets/js/visitor-analytics.js?v=1';analytics.defer=true;document.body.appendChild(analytics);
     }
-    if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('/zero-sequence-public/sw.js').catch(()=>{});
-    }
+    if('serviceWorker' in navigator)navigator.serviceWorker.register(ROOT+'sw.js').catch(()=>{});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
