@@ -44,6 +44,7 @@ function init(){
  host.append(bar);
  tabs.forEach((label,i)=>{const sec=node('section','zs-profile-section');sec.setAttribute('role','tabpanel');sec.setAttribute('aria-label',label);sec.hidden=i!==0;host.append(sec);sections.push(sec)});
  const links=node('div','zs-profile-links');
+ links.append(a(ROOT+'archive/character-art.html','专属人物插画 →'));
  links.append(a(ROOT+'archive/characters.html','← 返回人物图鉴'),a(ROOT+'archive/classes.html','职业图鉴'),a(ROOT+'archive/unlocks.html','阶段解锁总览'));
  const ix=profiles.indexOf(info);
  if(ix>0)links.append(a(profiles[ix-1].id+'.html','← 上一位人物'));
