@@ -18,6 +18,6 @@ for(const dir of readdirSync(chapters,{withFileTypes:true})){
   if(!checkOnly)writeFileSync(path,html.replace(/<\/body>/i,bootstrap+'</body>'));patched++;
  }
 }
-if(scanned!==251)throw new Error('Expected 251 published reading pages (prologue and 250 chapters), found '+scanned+'; refusing partial migration');
+if(scanned!==261)throw new Error('Expected 261 published reading pages (prologue and 260 chapters), found '+scanned+'; refusing partial migration');
 console.log('[CHAPTER BOOTSTRAP] audited '+scanned+' chapters; '+(checkOnly?'missing '+patched:'patched '+patched)+' script tags.');
 if(checkOnly&&patched)process.exitCode=1;
