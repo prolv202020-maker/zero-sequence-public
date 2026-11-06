@@ -17,3 +17,5 @@ jobs:
         run: node scripts/audit-site-links.mjs
       - name: Ensure first-time visitors receive reader scripts
         run: node scripts/ensure-chapter-bootstrap.mjs --check
+      - name: Test reading flow and independent chapter unlocks
+        run: node scripts/test-reading-flow.mjs
