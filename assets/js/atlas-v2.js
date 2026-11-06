@@ -79,7 +79,7 @@ function render(){
    card.append(make('small','',entry.type+' · 第'+entry.p+'篇已揭晓'),make('h3','',entry.name),make('span','zs-atlas-tag',entry.role),make('p','',entry.note));
    if(kind==='characters'){
      const art={'顾长渊':'f948ca5d-b2ab-4754-9cc7-72ed6df61f7c.png','苏紫璃':'586162d7-874d-4bf5-99a8-18fd31b2164e.png','林烈':'linlie.png','罗烬':'luojin.png','凌天曜':'ling%20tianyao.png','戴玄岳':'DAI%20XUANYUE.png','古言澈':'GU%20YANCHE.png'}[entry.name];
-     if(art){const pic=document.createElement('img');pic.src=ROOT+'assets/css/%60images/characters/'+art;pic.alt=entry.name+'人物立绘';pic.loading='lazy';pic.decoding='async';pic.className='zs-atlas-portrait';card.insertBefore(pic,card.firstChild);}
+     if(art){const pic=document.createElement('img');pic.src=ROOT+'assets/css/%60images/characters/'+art;pic.alt=entry.name+'人物立绘';pic.loading='lazy';pic.decoding='async';pic.setAttribute('fetchpriority','low');pic.className='zs-atlas-portrait';card.insertBefore(pic,card.firstChild);}
      const slug={'顾长渊':'gu-changyuan','苏紫璃':'su-zili','林烈':'lin-lie','罗烬':'luo-jin','凌天曜':'ling-tianyao','戴玄岳':'dai-xuanyue','古言澈':'gu-yanche'}[entry.name];
      if(slug)card.append(link(ROOT+'archive/characters/'+slug+'.html','进入独立档案 →'));
    }
@@ -89,7 +89,14 @@ function render(){
  count.textContent='目前显示 '+total+' 条档案';
  empty.hidden=total!==0;
 }
-input.addEventListener('input',render);select.addEventListener('change',render);
+// Batch rapid mobile keyboard input into one gallery render per frame.
+let pendingRender=false;
+function scheduleRender(){
+ if(pendingRender)return;
+ pendingRender=true;
+ requestAnimationFrame(()=>{pendingRender=false;render();});
+}
+input.addEventListener('input',scheduleRender);select.addEventListener('change',scheduleRender);
 document.addEventListener('zs:part-progress-changed',render);
 render();
 })();
