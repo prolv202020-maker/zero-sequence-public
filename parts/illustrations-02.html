@@ -49,6 +49,8 @@
 (()=>{
 'use strict';
 const BASE='../assets/images/illustrations/';
+const coverBase='../assets/images/covers/';
+const volumeBase='../volumes/';
 const art=[
 {need:1,name:'契约之外 · 商路初行',tag:'SCENE 01',file:'scene-02-shadow-road.svg',description:'商旅、行路者和城邦规则交织的旅程起点。',link:'../volumes/volume-11.html'},
 {need:21,name:'锻火账本 · 熔炉之光',tag:'SCENE 02',file:'scene-02-forge-ledger.svg',description:'工匠的熔炉、材料与城市运转的重量。',link:'../volumes/volume-13.html'},
@@ -77,13 +79,13 @@ for(let vol=11;vol<=20;vol++){
  const need=(vol-11)*10+1,ok=p>=need;
  const card=document.createElement('article');card.className='art-card'+(ok?'':' is-locked');
  const frame=document.createElement('div');frame.className='art-frame';
- if(ok){const img=document.createElement('img');img.src='../assets/images/covers/volume-'+String(vol).padStart(2,'0')+'.webp';img.loading='lazy';img.alt='第二篇第'+vol+'卷正式封面';img.className='zs-gallery-cover';frame.append(img);}
+ if(ok){const img=document.createElement('img');img.src=coverBase+'volume-'+String(vol).padStart(2,'0')+'.webp';img.loading='lazy';img.alt='第二篇第'+vol+'卷正式封面';img.className='zs-gallery-cover';frame.append(img);}
  else{const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.append(lock);}
  const copy=document.createElement('div');copy.className='art-copy';const label=document.createElement('small');label.textContent=ok?'VOLUME '+vol+' · 已解锁':'VOLUME · 未解锁';
  const h=document.createElement('h2');h.textContent=ok?'第'+vol+'卷 · 正式封面':'未揭晓的卷面';
  const desc=document.createElement('p');desc.textContent=ok?'第二篇已发布卷面艺术，探索更多内容请进入本卷目录。':'阅读至全书第'+(100+need)+'章后开放此卷封面画集。';
  copy.append(label,h,desc);
- if(ok){const link=document.createElement('a');link.href='../volumes/volume-'+String(vol).padStart(2,'0')+'.html';link.textContent='进入本卷目录 →';copy.append(link);}
+ if(ok){const link=document.createElement('a');link.href=volumeBase+'volume-'+String(vol).padStart(2,'0')+'.html';link.textContent='进入本卷目录 →';copy.append(link);}
  card.append(frame,copy);coverHost.append(card);
 }
 document.getElementById('art-count').textContent='第二篇已解锁 '+p+'/100 章 · 插画已开放 '+art.filter(a=>p>=a.need).length+'/'+art.length+' 张（不含概念封面）';
