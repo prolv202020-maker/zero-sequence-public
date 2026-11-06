@@ -12,7 +12,8 @@
     {label:'概念插画',url:ROOT+'parts/illustrations-01.html',children:[
       ['第一篇 · 概念画廊','parts/illustrations-01.html'],
       ['第二篇 · 百城星火画廊','parts/illustrations-02.html'],
-      ['人物图鉴与立绘','archive/characters.html']
+      ['人物专属插画馆','archive/character-art.html'],
+      ['人物图鉴与档案','archive/characters.html']
     ]},
     {label:'万界档案',url:ROOT+'archive/unlocks.html',children:[
       ['逐章解锁档案','archive/unlocks.html'],
