@@ -38,3 +38,26 @@ body.zs-profile-page .zs-profile-summary{position:relative;margin:25px auto 32px
  .zs-profile-tabs,.zs-profile-links{scroll-behavior:auto}
  .zs-profile-progress .zs-profile-meter i{transition:none!important}
 }
+
+
+/* 角色专属立绘展示升级 · 与人物画集共享深蓝金色视觉语言。 */
+.zs-profile-summary .zs-profile-profile-art{
+ max-width:min(32%,290px);
+ max-height:390px;
+ width:290px;
+ height:370px;
+ object-fit:contain;
+ object-position:center bottom;
+ padding:12px;
+ border:1px solid #e9cc918f;
+ border-radius:16px;
+ background:radial-gradient(ellipse at 50% 35%,#70729f66,transparent 70%),linear-gradient(155deg,#394365,#141d37);
+ box-shadow:0 14px 35px #080a2338,inset 0 0 0 6px #e0c38f0b;
+}
+.zs-profile-summary .zs-profile-profile-art:hover{border-color:#f4daaa}
+@media(max-width:650px){
+ .zs-profile-summary .zs-profile-profile-art{
+  max-width:220px;width:100%;height:270px;max-height:270px;
+  padding:10px;margin:0 auto 20px;float:none;box-shadow:none
+ }
+}
