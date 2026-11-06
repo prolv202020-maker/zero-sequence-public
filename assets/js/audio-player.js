@@ -15,7 +15,8 @@
   const KEY_ENABLED='zs_audio_enabled';
   let mood=localStorage.getItem(KEY_MOOD);
   if(!TRACKS[mood])mood='quiet';
-  const storedVolume=Number(localStorage.getItem(KEY_VOLUME));
+  const rawVolume=localStorage.getItem(KEY_VOLUME);
+  const storedVolume=rawVolume===null?NaN:Number(rawVolume);
   let volume=Number.isFinite(storedVolume)&&storedVolume>=0?Math.min(.45,storedVolume):.14;
   let current=null,playing=false,fadeId=0,changeSerial=0;
   const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches||false;
