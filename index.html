@@ -6,7 +6,7 @@
 <meta name="description" content="重生之后，命运重新开始。《第零序列》官方小说网站，免费阅读序章与已发布的200章，探索《轮回启幕》《百城星火》及随阅读解锁的人物和世界档案。">
 <title>第零序列 · 官方典藏书库</title>
 <link rel="stylesheet" href="assets/css/style.css?v=4">
-<link rel="stylesheet" href="assets/css/home-v2.css?v=2">
+<link rel="stylesheet" href="assets/css/home-v2.css?v=3">
 
 <link rel="canonical" href="https://prolv202020-maker.github.io/zero-sequence-public/">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -38,7 +38,7 @@
     <p class="zs-hero-description">别人以为这是一场游戏。而顾长渊知道，真正的危机尚未到来。带着过去的记忆，他与拥有各自命运的伙伴，一起寻找另一种未来。</p>
     <div class="zs-hero-actions">
       <a class="zs-primary" href="chapters/volume-01/prologue.html">从序章开始阅读</a>
-      <a class="zs-secondary" href="#reading">继续阅读</a>
+      <a class="zs-secondary" id="zs-hero-resume" href="#reading">继续阅读</a>
     </div>
     <div class="zs-home-statline" aria-label="作品发布进度"><span>2篇已发布</span><span>20卷</span><span>200章＋序章</span></div>
   </div>
@@ -46,6 +46,43 @@
     <picture class="zs-hero-picture"><source media="(max-width: 650px)" srcset="assets/images/illustrations/part-01-cover.webp" type="image/webp"><img class="zs-official-portrait" src="/zero-sequence-public/assets/css/%60images/characters/f948ca5d-b2ab-4754-9cc7-72ed6df61f7c.png" width="450" height="630" fetchpriority="high" decoding="async" alt="《第零序列》第一篇概念封面与顾长渊主题立绘"></picture>
     <span class="zs-hero-seal">REWRITE THE FATE · ZERO SEQUENCE</span>
   </div>
+</section>
+<section id="start-here" class="zs-home-section zs-reader-paths" aria-label="新老读者阅读入口">
+  <div class="zs-reader-path-grid">
+    <div class="zs-reader-path zs-reader-path-new">
+      <span class="zs-eyebrow">NEW READER · 第一次来到这里？</span>
+      <h2>从序章，走进第零序列</h2>
+      <p>先认识顾长渊，再跟着故事逐步探索世界。无需注册，也无需提前阅读图鉴。</p>
+      <a class="zs-reader-path-action" href="chapters/volume-01/prologue.html">立即阅读序章 →</a>
+    </div>
+    <div class="zs-reader-path zs-reader-path-returning">
+      <span class="zs-eyebrow">WELCOME BACK · 已经开始阅读？</span>
+      <h2>接着上次的故事</h2>
+      <p id="zs-path-resume-description">阅读记录保存在这台设备的浏览器。曾经读过的章节，可以从上次位置继续。</p>
+      <a class="zs-reader-path-action" id="zs-path-resume-link" href="#reading">查看我的阅读进度 →</a>
+    </div>
+  </div>
+</section>
+<section id="updates" class="zs-home-section zs-updates-section" aria-label="连载公告">
+  <div class="zs-section-heading">
+    <div><span class="zs-eyebrow">LATEST NEWS · 连载公告</span><h2>作品更新动态</h2></div>
+    <a href="chapters/volume-20/chapter-010.html">阅读最新一章</a>
+  </div>
+  <div class="zs-update-list">
+    <article class="zs-update-entry">
+      <span class="zs-update-label">已发布 · 第二篇</span>
+      <h3>《百城星火》正式篇章已完结</h3>
+      <p>第二篇第十一至第二十卷、全书第101—200章已开放阅读。可按自己的进度继续探索。</p>
+      <a href="parts/part-02.html">查看第二篇目录 →</a>
+    </article>
+    <article class="zs-update-entry">
+      <span class="zs-update-label">作品进度 · 创作中</span>
+      <h3>第三篇正在创作准备中</h3>
+      <p>后续公开消息将在这里更新。为保护阅读体验，暂不提前透露尚未发表的剧情与角色设定。</p>
+      <a href="parts/part-01.html">从第一篇开始阅读 →</a>
+    </article>
+  </div>
+  <p class="zs-updates-footnote">公告显示的是作品发布状态，并非实时自动更新的发布日期；新增正文后会同步维护。</p>
 </section>
 <section id="volumes" class="zs-home-section zs-reveal">
   <div class="zs-section-heading">
@@ -138,5 +175,6 @@
 <script src="assets/js/progressive-archive.js?v=3" defer></script>
 <script src="assets/js/audio-player.js" defer></script>
 <script src="assets/js/site-ui.js?v=3" defer></script>
+<script src="assets/js/visitor-analytics.js?v=1" defer></script>
 </body>
 </html>
