@@ -80,3 +80,30 @@ body.zs-recap-page:not(.zs-recap-ready) .r-list{visibility:hidden}
  .image-card,.card{transition:none!important}
  .image-card:hover,.card:hover{transform:none!important}
 }
+
+/* Mobile-first performance and navigation: 2026-11-06 */
+html{overflow-x:clip}
+img,video,iframe{max-width:100%}
+@media(max-width:880px){
+ body.zs-mobile-menu-open{overflow:hidden}
+ header.zs-header .zs-global-nav{max-height:min(76dvh,650px);overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+ header.zs-header .zs-header-search,header.zs-header .zs-mobile-toggle{min-width:44px;min-height:44px}
+}
+@media(max-width:650px){
+ body{background-attachment:scroll}
+ body:before,body:after{display:none}
+ header.zs-header{max-width:100%;min-height:60px;padding-inline:10px}
+ header.zs-header .zs-global-nav{max-height:calc(100dvh - 76px - env(safe-area-inset-bottom));}
+ main,.page,.article{min-width:0}
+ .page{padding-top:24px}
+ .page h1{overflow-wrap:anywhere;line-height:1.4}
+ .crumb{overflow-wrap:anywhere;line-height:1.8}
+ .pager a{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+ .card,.image-card{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ section{scroll-margin-top:72px}
+}
+@media(max-width:380px){
+ header.zs-header .brand{gap:6px}
+ header.zs-header .brand span{font-size:12px;letter-spacing:1px}
+ header.zs-header .zs-header-tools{gap:5px}
+}
