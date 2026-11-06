@@ -64,6 +64,14 @@ for(let volume=1;volume<=20;volume++){
  }
 }
 assert.ok(existsSync(p('chapters/volume-01/prologue.html')));
+const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
+assert.match(volPage,/if\(read===10\)\{resume\.href=startHref/,'Completed volume should restart from its opening chapter');
+const readingScript=readFileSync(p('assets/js/reader-experience.js'),'utf8');
+assert.match(readingScript,/else if\(num===1&&vol>1\)/,'First chapter should link back across volume boundary');
+assert.match(readingScript,/else if\(vol<20\)/,'Last chapter should link forward across volume boundary');
+assert.match(readingScript,/if\(num===0\)/,'Prologue should link into chapter one');
+assert.match(readingScript,/oldProgress\.index>0/,'Resume reader must offer saved paragraph position');
+
 const audio=readFileSync(p('assets/js/audio-player.js'),'utf8');
 assert.match(audio,/reader-experience\.js/,'Reader should initialize on direct chapter visits');
 assert.match(audio,/progressive-archive\.js/,'Unlock engine should initialize on direct chapter visits');
