@@ -62,7 +62,7 @@
     search.textContent='⌕';search.title='搜索章节';search.setAttribute('aria-label','搜索章节');
     const menu=document.createElement('button');menu.type='button';menu.className='zs-mobile-toggle';
     menu.setAttribute('aria-controls',nav.id);menu.setAttribute('aria-expanded','false');
-    menu.setAttribute('aria-label','展开导航菜单');menu.textContent='☰';
+    menu.setAttribute('aria-label','展开导航菜单');menu.textContent='☰';menu.setAttribute('aria-haspopup','true');
     tools.append(search,menu);
     old.replaceWith(nav);header.appendChild(tools);
     function closeMenu(){
@@ -84,7 +84,7 @@
       }
     });
     document.addEventListener('keydown',e=>{
-      if(e.key==='Escape'){closeMenu();menu.blur();}
+      if(e.key==='Escape'){const wasOpen=nav.classList.contains('zs-open');closeMenu();if(wasOpen)menu.focus();}
     });
     const update=()=>header.classList.toggle('zs-scrolled',window.scrollY>24);
     window.addEventListener('scroll',update,{passive:true});update();
