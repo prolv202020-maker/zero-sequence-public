@@ -155,7 +155,7 @@ assert.match(characterGallery,/id="zs-character-art-grid"/,'Missing dedicated ch
 assert.match(characterGallery,/character-art\.js/,'Character gallery must load its renderer');
 assert.match(characterJs,/zs:part-progress:v1/,'Character gallery must read the original saved progress');
 assert.match(characterJs,/if\(shown\)\{/,'Unrevealed characters must not load portraits');
-assert.match(characterJs,/pic\.src=ROOT/,'Only unlocked characters may load portrait URLs');
+assert.match(characterJs,/pic\.src=c\.slug==='gu-yanche'\?ROOT/,'Only unlocked characters may load the approved portrait or existing official portraits');
 assert.equal((characterJs.match(/slug:'(?:gu-changyuan|su-zili|lin-lie|luo-jin|ling-tianyao|dai-xuanyue|gu-yanche)'/g)||[]).length,7,'All seven established character portraits should be included');
 assert.match(characterJs,/need:21/,'Later first-part character must remain locked until the appropriate chapter');
 assert.ok(readFileSync(p('archive/characters.html'),'utf8').includes('href="character-art.html"'),'Atlas must link to illustration gallery');
