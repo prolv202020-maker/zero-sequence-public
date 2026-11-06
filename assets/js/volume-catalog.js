@@ -1,11 +1,11 @@
-/* 第零序列 · 两篇卷目统一视图。此脚本只渲染状态，不改变已读数据。 */
+/* 第零序列 · 多篇卷目统一视图。此脚本只渲染状态，不改变已读数据。 */
 (() => {
   'use strict';
   const grid=document.querySelector('.zs-cover-grid');
   const part=Number(document.body.dataset.zsPart||0);
-  if(!grid||![1,2].includes(part))return;
+  if(!grid||![1,2,3].includes(part))return;
   const pkey='p'+String(part).padStart(2,'0');
-  const root=part===1?1:11;
+  const root=part===1?1:part===2?11:21;
   const items=[...grid.querySelectorAll(':scope > a.zs-cover-card')];
   function progress(){
     if(window.ZSUnlock?.get)return window.ZSUnlock.get(part).max;
@@ -62,7 +62,7 @@
       if(readDone)complete++;
     });
     const counter=document.getElementById('zs-directory-counter');
-    if(counter)counter.textContent='已读完 '+complete+' / 10 卷 · 本篇 '+max+' / 100 章';
+    if(counter)counter.textContent='已读完 '+complete+' / '+items.length+' 卷 · 本篇 '+Math.min(max,part===3?10:100)+' / '+(part===3?10:100)+' 章';
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
   else mount();
