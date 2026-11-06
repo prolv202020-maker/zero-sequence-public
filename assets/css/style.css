@@ -69,3 +69,14 @@ header.zs-header .zs-global-nav{display:flex;align-items:center;justify-content:
 body.zs-sensitive-archive:not(.zs-archive-approved) main > :not(.crumb):not(.zs-spoiler-wall){display:none!important}
 body.zs-sensitive-archive:not(.zs-archive-approved) main .zs-spoiler-wall{display:block!important}
 body.zs-recap-page:not(.zs-recap-ready) .r-list{visibility:hidden}
+
+/* Mobile performance pass 2026-11: avoid large composited blur and reveal animations. */
+@media(max-width:650px){
+ html{scroll-behavior:auto}
+ header.zs-header,.card,.image-card,.zs-nav-items,.zs-unlock-panel{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ .zs-animations-ready .zs-reveal,.zs-reveal{opacity:1!important;transform:none!important;transition:none!important}
+ .home-page .hero:before{animation:none!important}
+ .character-hub{background-image:linear-gradient(145deg,#202542,#151a32)!important}
+ .image-card,.card{transition:none!important}
+ .image-card:hover,.card:hover{transform:none!important}
+}
