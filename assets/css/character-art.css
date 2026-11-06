@@ -1,0 +1,28 @@
+/* 专属插画馆：沿用正式角色立绘，视觉设计不修改角色身份与职业。 */
+.zs-character-art-intro{margin:26px 0;padding:clamp(20px,3vw,36px);border:1px solid #dfc99573;border-radius:22px;background:radial-gradient(circle at 85% 20%,#8d86b23d,transparent 45%),linear-gradient(135deg,#333a5e,#1b223d)}
+.zs-character-art-intro h1{font-size:clamp(31px,4vw,48px);margin:11px 0;color:#f6ddb0}
+.zs-character-art-intro>p:not(.eyebrow){font-size:14px;line-height:1.9;color:#d6d7e7}
+.zs-character-art-intro-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.zs-character-art-intro-actions a{padding:12px 17px;border:1px solid #e7cf9d7a;border-radius:10px;background:#343a60;color:#f8e3b5;font-size:13px}
+.zs-character-art-status{border-left:3px solid #edd19b;padding:12px 16px;background:#262f4c;border-radius:3px 12px 12px 3px;color:#eed9ab;font-size:13px;margin:20px 0}
+.zs-character-art-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:25px 0}
+.zs-character-art-card{--tint:#8f89b8;--glow:#ead3a4;overflow:hidden;border:1px solid #d8c29765;border-radius:18px;background:linear-gradient(145deg,#303955,#1b243d);box-shadow:0 18px 42px #080d202d}
+.zs-art-healing{--tint:#8773a8;--glow:#e1c6ee}.zs-art-ember{--tint:#9f5866;--glow:#ffb980}.zs-art-shadow{--tint:#536184;--glow:#afc1e8}.zs-art-thunder{--tint:#535f9c;--glow:#b4c6ff}.zs-art-shield{--tint:#537f87;--glow:#d4e5df}.zs-art-wanderer{--tint:#7d739f;--glow:#d9c9fb}
+.zs-character-art-visual{height:330px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 50% 35%,var(--tint),transparent 73%),linear-gradient(170deg,#343b65,#111a32)}
+.zs-character-art-visual:before{content:'';position:absolute;inset:17px;border:1px solid #e2c99075;border-radius:100% 100% 12px 12px;pointer-events:none;z-index:2}
+.zs-character-art-visual:after{content:'';position:absolute;inset:auto 0 0;height:36%;background:linear-gradient(transparent,#161d36d6);pointer-events:none;z-index:2}
+.zs-character-art-symbol{position:absolute;font:200px Georgia,serif;opacity:.14;color:var(--glow);transform:translateY(-12px)}
+.zs-character-art-portrait{height:100%;width:100%;object-fit:contain;object-position:center bottom;position:relative;z-index:1;filter:drop-shadow(0 18px 25px #090c28a0)}
+.zs-character-art-copy{padding:19px 20px 23px;display:flex;flex-direction:column;gap:9px}
+.zs-character-art-copy small{font:11px Georgia,serif;letter-spacing:.12em;color:#ecd3a0}
+.zs-character-art-copy h2{font-size:25px;color:#f6dfb1;margin:0}
+.zs-character-art-role{color:var(--glow);font-size:13px;margin:0}
+.zs-character-art-caption{font-size:13px;color:#d3d7e5;line-height:1.85;min-height:47px;margin:0}
+.zs-character-art-copy a{color:#ffe0a6;font-size:13px;text-decoration:underline;text-underline-offset:4px;align-self:flex-start}
+.zs-character-art-lock{font-size:48px;color:#e5d4bd}
+.zs-character-art-card.is-locked{border-style:dashed;background:#252a45}
+.zs-character-art-card.is-locked .zs-character-art-visual{background:linear-gradient(135deg,#2d3352,#20273f)}
+.zs-character-art-note{font-size:12px;color:#c7cbdb;line-height:1.85}
+@media(max-width:950px){.zs-character-art-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){.zs-character-art-grid{grid-template-columns:1fr;gap:14px}.zs-character-art-visual{height:315px}.zs-character-art-intro-actions a{flex:1;text-align:center}}
+@media(prefers-reduced-motion:reduce){.zs-character-art-card,.zs-character-art-portrait{animation:none;transition:none}}
