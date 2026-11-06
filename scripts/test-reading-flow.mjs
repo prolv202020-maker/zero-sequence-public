@@ -89,7 +89,25 @@ assert.ok(audio.includes("requestAnimationFrame(tick)"),'Crossfade should be smo
 assert.ok(!audio.includes('createOscillator'),'Remove old irritating repeated electronic oscillator music');
 assert.ok(!audio.includes('setInterval'),'Do not use an endlessly repeating timer melody');
 assert.ok(!audio.includes("addEventListener('pointerdown'"),'Background music should never start on first page touch');
-assert.ok(readFileSync(p('sw.js'),'utf8').includes('audio-player.js?v=7'),'Service worker must invalidate old BGM script');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('audio-player.js?v=8'),'Service worker must invalidate old BGM script');
+
+const mobileLayout=readFileSync(p('assets/css/style.css'),'utf8');
+const mobileReader=readFileSync(p('assets/css/reader-experience.css'),'utf8');
+const mobileNav=readFileSync(p('assets/js/site-ui.js'),'utf8');
+const currentAudio=readFileSync(p('assets/js/audio-player.js'),'utf8');
+const currentReader=readFileSync(p('assets/js/reader-experience.js'),'utf8');
+assert.match(mobileLayout,/zs-mobile-menu-open/,'Mobile navigation must lock background scroll');
+assert.match(mobileNav,/zs-mobile-menu-open/,'Mobile menu code must toggle background scroll lock');
+assert.match(mobileLayout,/overflow-x:clip/,'Phone layout should prevent horizontal overflow');
+assert.match(mobileReader,/env\(safe-area-inset-bottom\)/,'Reader settings need phone safe-area clearance');
+assert.match(mobileReader,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/,'Chapter buttons must fit narrow screens');
+assert.match(currentAudio,/zs-audio-expand/,'Music panel must be collapsible on phones');
+assert.match(currentAudio,/zs-audio-expanded/,'Music panel must expand when requested');
+assert.match(currentAudio,/env\(safe-area-inset-bottom\)/,'Music controls should respect phone safe area');
+assert.ok(currentReader.includes('assets/css/reader-experience.css?v=3'),'Reader stylesheet must invalidate old CSS');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=3'),'Chapter navigation must use newest reader code');
+assert.ok(readFileSync(p('index.html'),'utf8').includes('gu-changyuan-approved.webp'),'Homepage should use the optimized approved portrait');
+console.log('[MOBILE READING] PASS: menu scrolling, safe areas, chapter buttons, compact music, CSS cache and official portrait.');
 console.log('[EMOTIONAL BGM] PASS: 4 original MP3 themes, controls, smooth transitions, opt-in playback and no old synth loop.');
 assert.match(audio,/reader-experience\.js/,'Reader should initialize on direct chapter visits');
 assert.match(audio,/progressive-archive\.js/,'Unlock engine should initialize on direct chapter visits');
