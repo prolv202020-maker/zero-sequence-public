@@ -104,7 +104,7 @@
       const unlock=document.createElement('script');unlock.src=ROOT+'assets/js/progressive-archive.js?v=12';document.body.appendChild(unlock);
     }
     if(!document.querySelector('script[src*="reader-experience.js"]')){
-      const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=2';document.body.appendChild(reader);
+      const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=3';document.body.appendChild(reader);
     }
     if(!document.querySelector('script[src*="visitor-analytics.js"]')){
       const analytics=document.createElement('script');analytics.src=ROOT+'assets/js/visitor-analytics.js?v=1';analytics.defer=true;document.body.appendChild(analytics);
