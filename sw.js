@@ -1,7 +1,7 @@
 /* 第零序列 · 页面资源与阅读功能支持（无说书功能） */
-const PLAYER='<script src="/zero-sequence-public/assets/js/audio-player.js?v=7" defer></script>';
+const PLAYER='<script src="/zero-sequence-public/assets/js/audio-player.js?v=8" defer></script>';
 const UNLOCK='<script src="/zero-sequence-public/assets/js/progressive-archive.js?v=12" defer></script>';
-const READER='<script src="/zero-sequence-public/assets/js/reader-experience.js?v=2" defer></script>';
+const READER='<script src="/zero-sequence-public/assets/js/reader-experience.js?v=3" defer></script>';
 self.addEventListener('install',()=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',event=>{
