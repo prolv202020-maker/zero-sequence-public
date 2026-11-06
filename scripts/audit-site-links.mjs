@@ -7,7 +7,7 @@
 import {readdirSync,readFileSync,existsSync} from 'node:fs';
 import {resolve,relative,dirname,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
-const root=fileURLToPath(new URL('../',import.meta.url));
+const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const prefix='/zero-sequence-public/';
 const supported=new Set(['.html','.css','.js']);
 const warnings=[],missing=[],files=[];
