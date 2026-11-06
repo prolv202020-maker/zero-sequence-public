@@ -32,7 +32,7 @@
   function addContinue(){
     if(!document.body.classList.contains('home-page'))return;
     const last=get(LAST), box=$('#zs-home-resume');
-    const valid=last&&typeof last.url==='string'&&/^\\/zero-sequence-public\\/chapters\\/volume-\\d{2}\\/(?:chapter-\\d{3}|prologue)\\.html$/.test(last.url);
+    const valid=last&&typeof last.url==='string'&&last.url.startsWith(ROOT+'chapters/')&&/^\/zero-sequence-public\/chapters\/volume-\d{2}\/(?:chapter-\d{3}|prologue)\.html$/.test(last.url);
     const heroResume=$('#zs-hero-resume'),pathResume=$('#zs-path-resume-link'),pathDescription=$('#zs-path-resume-description');
     if(valid){
       if(heroResume){heroResume.href=last.url;heroResume.textContent='接着上次阅读 →';}
