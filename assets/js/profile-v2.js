@@ -57,7 +57,7 @@ function init(){
  phase.textContent=complete?'两篇阅读进度已完成':read?'当前人物已公开资料可阅读':'人物资料尚未解锁';
  fill.style.width=((x+y)/2)+'%';
  art.remove();
- if(read){art.src=info.id==='gu-yanche'?ROOT+'assets/images/characters/gu-yanche-approved.webp':ROOT+'assets/css/%60images/characters/'+info.art;heading.insertAdjacentElement('beforebegin',art);}
+ if(read){art.src=ROOT+'assets/images/characters/'+info.id+'-approved.webp';heading.insertAdjacentElement('beforebegin',art);}
  intro.textContent=read?info.bio:'继续阅读第一篇，人物身份和经历会在相应章节逐步公开。';
  const stage2=x>=Math.max(21,info.first),stage3=x>=61,stage4=y>=51;
  const base=read?info.role:'职业待揭晓';
