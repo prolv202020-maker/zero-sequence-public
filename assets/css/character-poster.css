@@ -102,3 +102,14 @@
 @media(max-width:570px){.cinema-directory{margin:24px 0 35px}.cinema-directory-title{padding:14px 8px 24px}.cinema-directory-title h2{font-size:30px}.cinema-directory-title p{font-size:12px}.cinema-gallery{gap:16px}.cinema-cover,.cinema-feature,.cinema-internal{min-height:395px;grid-template-columns:46% 54%;border-radius:16px}.cinema-cover-info,.cinema-feature .cinema-cover-info,.cinema-internal .cinema-cover-info{padding:22px 13px 22px 0}.cinema-cover-info h2,.cinema-feature .cinema-cover-info h2,.cinema-internal .cinema-cover-info h2{font-size:clamp(30px,8.7vw,48px)}.cinema-cover-kicker,.cinema-feature .cinema-cover-kicker{font-size:8px;letter-spacing:.06em;margin-top:21px}.cinema-cover-eyebrow{font-size:8px;letter-spacing:.07em}.cinema-cover-english,.cinema-feature .cinema-cover-english{font-size:9px;letter-spacing:.16em}.cinema-cover-divider{margin:12px 0}.cinema-cover-job,.cinema-feature .cinema-cover-job{font-size:10px;padding:6px 7px}.cinema-cover-quote,.cinema-feature .cinema-cover-quote{font-size:11px;line-height:1.7}.cinema-cover-bottom{display:block;font-size:9px}.cinema-cover-bottom>span{display:block}.cinema-cover-cta{margin-top:5px}.cinema-cover-number,.cinema-feature .cinema-cover-number,.cinema-internal .cinema-cover-number{font-size:140px;bottom:-24px}.cinema-cover-symbol{font-size:47px}.cinema-cover-media img{object-position:center 15%}.cinema-gallery-foot{font-size:8px;letter-spacing:.09em}}
 @media(max-width:370px){.cinema-cover,.cinema-feature,.cinema-internal{min-height:365px;grid-template-columns:45% 55%}.cinema-cover-info h2,.cinema-feature .cinema-cover-info h2,.cinema-internal .cinema-cover-info h2{font-size:31px}.cinema-cover-kicker{letter-spacing:0}.cinema-cover-quote{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.cinema-cover-orbit{animation:none}.cinema-cover,.cinema-cover-media img{transition:none}}
+
+
+/* Mobile character gallery: tone down cinematic effects while keeping art. */
+@media(max-width:650px){
+ .cinema-cover,.cinema-feature,.cinema-internal{box-shadow:none!important;transition:none!important}
+ .cinema-cover:hover,.cinema-feature:hover,.cinema-internal:hover{transform:none!important}
+ .cinema-cover-media img{filter:none!important;transition:none!important}
+ .cinema-cover:hover .cinema-cover-media img{transform:none!important}
+ .cinema-cover-orbit,.cinema-cover-orbit::before{animation:none!important}
+ .cinema-gallery{gap:14px}
+}
