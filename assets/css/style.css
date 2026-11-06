@@ -107,3 +107,20 @@ img,video,iframe{max-width:100%}
  header.zs-header .brand span{font-size:12px;letter-spacing:1px}
  header.zs-header .zs-header-tools{gap:5px}
 }
+
+
+/* 2026-11: mobile-safe navigation, tap targets and lower-cost painting. */
+@media(max-width:880px){
+ header.zs-header .zs-global-nav{max-height:calc(100dvh - 82px - env(safe-area-inset-bottom));overflow-x:hidden;}
+ header.zs-header .zs-nav-items a{min-height:46px;white-space:normal;line-height:1.5;overflow-wrap:anywhere;}
+ header.zs-header .zs-global-nav summary{touch-action:manipulation;}
+}
+@media(max-width:650px){
+ body{overflow-x:clip;}
+ header.zs-header{width:calc(100% - 16px);padding-inline:10px;}
+ header.zs-header .zs-mobile-toggle,header.zs-header .zs-header-search{min-width:44px;min-height:44px;touch-action:manipulation;}
+ body.zs-mobile-menu-open main{pointer-events:none;}
+ .page .crumb a,.page .pager a{touch-action:manipulation;}
+ .page .article{max-width:100%;}
+ .zs-header .zs-nav-items{overscroll-behavior:contain;}
+}
