@@ -4,8 +4,8 @@
   const m=location.pathname.match(/\/volumes\/volume-(\d{2})\.html$/);
   if(!m)return;
   const vol=Number(m[1]),part=Math.floor((vol-1)/10)+1;
-  if(vol<1||vol>22)return;
-  const partName=part===1?'轮回启幕':'百城星火';
+  if(vol<1||vol>23)return;
+  const partName=part===1?'轮回启幕':part===2?'百城星火':'临界回声';
   const ROOT='/zero-sequence-public/';
   const main=document.querySelector('main.page'), chapters=main?.querySelector('.list');
   if(!main||!chapters||document.querySelector('.zs-volume-hero'))return;
@@ -23,7 +23,7 @@
   if(!figure){
     figure=el('figure');
     const cover=el('img','zs-volume-official-cover');
-    cover.src=ROOT+'assets/images/covers/volume-'+String(vol).padStart(2,'0')+'.webp';
+    cover.src=vol>=21?ROOT+'assets/images/covers/zero-sequence-cover.webp':ROOT+'assets/images/covers/volume-'+String(vol).padStart(2,'0')+'.webp';
     cover.alt='第'+vol+'卷独立正式封面';
     cover.width=750;cover.height=1080;
     figure.append(cover);
@@ -99,7 +99,7 @@
     }
     const directory=el('a','','返回第'+part+'篇目录');
     directory.href=ROOT+'parts/part-0'+part+'.html';nav.push(directory);
-    if(vol<22){
+    if(vol<23){
       const next=el('a','',vol===10?'进入第二篇 →':vol===20?'进入第三篇 →':'下一卷 →');
       next.href=ROOT+'volumes/volume-'+String(vol+1).padStart(2,'0')+'.html';
       nav.push(next);
