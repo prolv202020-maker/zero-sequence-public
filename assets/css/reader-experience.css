@@ -50,3 +50,11 @@ body[data-zs-reader-theme="light"] .article p{color:#252e42}
  .zs-reader-panel{bottom:128px;left:10px;max-height:65vh}
 }
 @media(prefers-reduced-motion:reduce){.zs-reader-fab,.zs-reader-panel,.zs-chapter-tools a{transition:none!important}}
+
+
+/* Mobile chapter reading: do not sacrifice typography, reduce fixed overlays. */
+@media(max-width:650px){
+ .article{box-shadow:none!important}
+ .zs-reader-fab{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ .zs-reader-progress>i,.zs-reader-progress i{transition:none!important}
+}
