@@ -99,6 +99,12 @@
     if(!document.querySelector('script[src*="reader-experience.js"]')){
       const reader=document.createElement('script');reader.src='/zero-sequence-public/assets/js/reader-experience.js?v=2';document.body.appendChild(reader);
     }
+    if(!document.querySelector('script[src*="visitor-analytics.js"]')){
+      const analytics=document.createElement('script');
+      analytics.src='/zero-sequence-public/assets/js/visitor-analytics.js?v=1';
+      analytics.defer=true;
+      document.body.appendChild(analytics);
+    }
     if('serviceWorker' in navigator){
       navigator.serviceWorker.register('/zero-sequence-public/sw.js').catch(()=>{});
     }
