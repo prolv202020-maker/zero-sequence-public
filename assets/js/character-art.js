@@ -29,7 +29,7 @@ function render(){
   const visual=el('div','zs-character-art-visual');
   if(shown){
     const backdrop=el('div','zs-character-art-symbol',c.icon);backdrop.setAttribute('aria-hidden','true');
-    const pic=el('img','zs-character-art-portrait');pic.src=c.slug==='gu-yanche'?ROOT+'assets/images/characters/gu-yanche-approved.webp':ROOT+'assets/css/%60images/characters/'+c.art;pic.alt=c.name+'已有官方人物立绘';pic.loading='lazy';pic.decoding='async';
+    const pic=el('img','zs-character-art-portrait');pic.src=ROOT+'assets/images/characters/'+c.slug+'-approved.webp';pic.alt=c.name+'已有官方人物立绘';pic.loading='lazy';pic.decoding='async';
     visual.append(backdrop,pic);
   }else{const lock=el('span','zs-character-art-lock','🔒');lock.setAttribute('aria-label','人物尚未解锁');visual.append(lock);}
   const copy=el('div','zs-character-art-copy');
