@@ -13,3 +13,5 @@ jobs:
           node-version: '22'
       - name: Reject author-only source files in public website
         run: node scripts/audit-public-boundary.mjs
+      - name: Verify all local website links and assets
+        run: node scripts/audit-site-links.mjs
