@@ -47,3 +47,13 @@
 .zs-cover-grid>.zs-cover-card:not(.zs-cover-unlocked) .zs-cover-copy p{visibility:hidden!important}
 .zs-cover-grid>.zs-cover-card:not(.zs-cover-unlocked) .zs-cover-copy:after{content:"🔒 本卷资料尚未解锁";display:block;font:12px var(--zs-font-ui,sans-serif);color:#ead3a2}
 .zs-cover-grid>.zs-cover-card.zs-cover-unlocked .zs-cover-copy:after{content:none}
+
+
+/* Mobile part catalog: no hover GPU work on touch. */
+@media(max-width:650px){
+ .zs-cover-grid>.zs-cover-card{box-shadow:none!important;transition:none!important}
+ .zs-cover-grid>.zs-cover-card:hover{transform:none!important;box-shadow:none!important}
+ .zs-cover-grid>.zs-cover-card .zs-cover-thumb{transition:none!important}
+ .zs-cover-grid>.zs-cover-card:hover .zs-cover-thumb{transform:none!important}
+ .part-hero{box-shadow:none!important}
+}
