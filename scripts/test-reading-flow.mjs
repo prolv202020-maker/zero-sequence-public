@@ -110,7 +110,7 @@ assert.match(readerSource,/pathResume\.href=last\.url/,'Returning reader entry m
 assert.match(readerSource,/zs:reader:last:v1/,'Keep original bookmark storage key');
 assert.match(readerSource,/zs:reader:options:v1/,'Keep original reader settings key');
 const visitorAnalytics=readFileSync(p('assets/js/visitor-analytics.js'),'utf8');
-assert.match(visitorAnalytics,/const CLOUDFLARE_SITE_TOKEN='';/,'Visitor analytics must be opt-in with no default token');
+assert.match(visitorAnalytics,/const CLOUDFLARE_SITE_TOKEN='[a-f0-9]{32}';/,'Configured visitor analytics must use a valid public site token');
 assert.match(visitorAnalytics,/navigator\.globalPrivacyControl===true/,'Respect privacy opt-out');
 assert.ok(!/localStorage|sessionStorage|document\.cookie/.test(visitorAnalytics),'Analytics adapter must not read reader data or browser IDs');
 assert.match(readFileSync(p('assets/js/audio-player.js'),'utf8'),/visitor-analytics\.js/,'All reading pages should initialize optional analytics');
