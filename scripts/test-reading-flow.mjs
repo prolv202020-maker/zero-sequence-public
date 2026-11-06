@@ -78,4 +78,25 @@ assert.match(audio,/progressive-archive\.js/,'Unlock engine should initialize on
 const reader=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(reader,/zs:reader:last:v1/,'Resume key must remain stable');
 assert.match(reader,/zs:reader:options:v1/,'Preferences key must remain stable');
+const navCode=readFileSync(p('assets/js/reader-experience.js'),'utf8');
+assert.match(navCode,/footerPager\.replaceChildren\(\.\.\.bottom\)/,'All chapters should normalize the footer navigation');
+assert.match(navCode,/if\(num===0\)bottom\.push/,'Prologue bottom navigation must go to chapter one');
+assert.match(navCode,/else if\(vol<20\)bottom\.push/,'Volume and part boundaries must link forward');
+assert.match(navCode,/vol===10\?'下一篇/,'First part should lead directly to second part');
+const sitemap=readFileSync(p('sitemap.xml'),'utf8');
+const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
+assert.equal(urls.length,224,'Sitemap should cover 201 reading pages, 20 volumes, 2 parts and home');
+assert.equal(new Set(urls).size,urls.length,'Sitemap should have no duplicate URLs');
+for(const url of urls){
+ const prefix='https://prolv202020-maker.github.io/zero-sequence-public/';
+ assert.ok(url.startsWith(prefix),'Unexpected sitemap hostname');
+ assert.ok(existsSync(p(url.slice(prefix.length)||'index.html')),'Missing indexed page: '+url);
+}
+for(const file of ['index.html','parts/part-01.html','parts/part-02.html']){
+ const html=readFileSync(p(file),'utf8');
+ for(const metadata of ['property="og:title"','property="og:description"','property="og:image"','name="twitter:card"','rel="canonical"'])
+  assert.ok(html.includes(metadata),'Missing social/SEO metadata '+metadata+' in '+file);
+}
+assert.ok(readFileSync(p('robots.txt'),'utf8').includes('Sitemap: https://prolv202020-maker.github.io/zero-sequence-public/sitemap.xml'));
+console.log('[PUBLICATION SEO] PASS: 224 index URLs, canonical social previews, sitemap and robots.');
 console.log('[READING FLOW] PASS: 201 text files, 20 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
