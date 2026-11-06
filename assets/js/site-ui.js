@@ -86,7 +86,7 @@
     });
     const update=()=>header.classList.toggle('zs-scrolled',window.scrollY>24);
     window.addEventListener('scroll',update,{passive:true});update();
-    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches || window.matchMedia('(max-width: 650px)').matches;
     if(!reduce&&'IntersectionObserver'in window){
       document.body.classList.add('zs-animations-ready');
       const observer=new IntersectionObserver(entries=>{
