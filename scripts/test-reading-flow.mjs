@@ -73,6 +73,24 @@ assert.match(readingScript,/if\(num===0\)/,'Prologue should link into chapter on
 assert.match(readingScript,/oldProgress\.index>0/,'Resume reader must offer saved paragraph position');
 
 const audio=readFileSync(p('assets/js/audio-player.js'),'utf8');
+for(const track of ['quiet','heroic','sorrow','mystery']){
+ const path='assets/audio/'+track+'.mp3';
+ assert.ok(existsSync(p(path)),'Missing original emotional soundtrack: '+path);
+ const data=readFileSync(p(path));
+ assert.ok(data.length>100000&&data.length<1000000,'Soundtrack should be complete and web-optimized: '+path);
+ assert.ok(data.subarray(0,3).toString()==='ID3'||data[0]===255,'Soundtrack needs an MP3 signature: '+path);
+ assert.ok(audio.includes("file:'"+track+".mp3'"),'Music player does not offer '+track);
+}
+assert.ok(audio.includes('zs_audio_volume'),'Preserve existing BGM volume setting');
+assert.ok(audio.includes('zs_audio_mood_v2'),'Remember chosen music mood');
+assert.ok(audio.includes("audio.loop=true"),'Soundtracks should continue during reading');
+assert.ok(audio.includes("await next.play()"),'Mood changes must start the selected track');
+assert.ok(audio.includes("requestAnimationFrame(tick)"),'Crossfade should be smooth');
+assert.ok(!audio.includes('createOscillator'),'Remove old irritating repeated electronic oscillator music');
+assert.ok(!audio.includes('setInterval'),'Do not use an endlessly repeating timer melody');
+assert.ok(!audio.includes("addEventListener('pointerdown'"),'Background music should never start on first page touch');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('audio-player.js?v=7'),'Service worker must invalidate old BGM script');
+console.log('[EMOTIONAL BGM] PASS: 4 original MP3 themes, controls, smooth transitions, opt-in playback and no old synth loop.');
 assert.match(audio,/reader-experience\.js/,'Reader should initialize on direct chapter visits');
 assert.match(audio,/progressive-archive\.js/,'Unlock engine should initialize on direct chapter visits');
 const reader=readFileSync(p('assets/js/reader-experience.js'),'utf8');
