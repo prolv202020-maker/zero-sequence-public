@@ -12,7 +12,7 @@
 <script>
 (async()=>{
 const input=document.getElementById('s-input'),type=document.getElementById('s-type'),out=document.getElementById('s-results'),status=document.getElementById('s-count');
-let data=[];try{const response=await fetch('assets/data/search-index.json?v=7',{cache:'no-cache'});if(!response.ok)throw Error('index');data=await response.json();}catch{status.textContent='搜索索引暂时无法加载，请使用第一篇目录。';return}
+let data=[];try{const response=await fetch('assets/data/search-index.json?v=7',{cache:'no-cache'});if(!response.ok)throw Error('index');data=await response.json();const supplement=await fetch('assets/data/search-index-volume24.json?v=1',{cache:'no-cache'});if(supplement.ok)data.push(...await supplement.json());}catch{status.textContent='搜索索引暂时无法加载，请使用第一篇目录。';return}
 const qparam=new URLSearchParams(location.search).get('q');if(qparam)input.value=qparam.slice(0,80);
 function render(){const query=input.value.toLowerCase().replace(/\s+/g,'').trim(),kind=type.value;
 const progress=(()=>{try{const x=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return [Number(x.p01?.max)||0,Number(x.p02?.max)||0,Number(x.p03?.max)||0]}catch{return [0,0,0]}})();
@@ -39,4 +39,4 @@ found.forEach(item=>{const a=document.createElement('a');a.className='s-hit';a.h
 }
 input.addEventListener('input',render);type.addEventListener('change',render);render();
 })();
-</script><script src="assets/js/progressive-archive.js?v=13" defer></script></body></html>
+</script><script src="assets/js/progressive-archive.js?v=16" defer></script></body></html>
