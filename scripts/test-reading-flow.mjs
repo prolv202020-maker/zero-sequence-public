@@ -161,5 +161,17 @@ assert.match(characterJs,/need:21/,'Later first-part character must remain locke
 assert.ok(readFileSync(p('archive/characters.html'),'utf8').includes('href="character-art.html"'),'Atlas must link to illustration gallery');
 assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['人物专属插画馆','archive/character-art.html']"),'Global navigation should link to character art');
 assert.ok(readFileSync(p('assets/js/profile-v2.js'),'utf8').includes("ROOT+'archive/character-art.html'"),'Character profiles must link back to character artwork');
+const guApproved='assets/images/characters/gu-yanche-approved.webp';
+assert.ok(existsSync(p(guApproved)),'Missing author-approved Gu Yanche portrait');
+const guImage=readFileSync(p(guApproved));
+assert.equal(guImage.toString('ascii',0,4),'RIFF','Approved portrait must be real WebP');
+assert.equal(guImage.toString('ascii',8,12),'WEBP','Approved portrait format incorrect');
+assert.ok(guImage.length<500000,'Approved portrait should remain optimized');
+for(const f of ['assets/js/character-art.js','assets/js/profile-v2.js','assets/js/atlas-v2.js']){
+ assert.ok(readFileSync(p(f),'utf8').includes(guApproved),'Gu Yanche should use user-approved image in '+f);
+}
+const profileArt=readFileSync(p('assets/js/profile-v2.js'),'utf8');
+assert.match(profileArt,/if\(read\)\{art\.src=/,'Character profile art must not load before reading unlock');
+assert.doesNotMatch(profileArt,/const art=node\('img','zs-profile-profile-art'\);art\.src=/,'Do not eagerly load hidden character portraits');
 console.log('[CHARACTER ART] PASS: 7 existing portraits, independent visual themes, no advance image loading, progress gates and site links.');
 console.log('[READING FLOW] PASS: 201 text files, 20 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
