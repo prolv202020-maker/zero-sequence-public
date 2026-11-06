@@ -145,7 +145,7 @@
     progressLabel.textContent='本卷已读 '+read+' / 10 章'+(vol===1&&prologueDone?' · 序章已读':'');
     meterFill.style.width=(read*10)+'%';
     meter.setAttribute('aria-valuenow',String(read));
-    if(read===10)resume.textContent='重温本卷章节 →';
+    if(read===10){resume.href=startHref;resume.textContent='从本卷开头重温 →';}
     if(currentLink&&last&&Number(last.percent)>0&&Number(last.percent)<100){
       resume.title='上次读到约 '+Math.round(Number(last.percent))+'%，进入章节后可继续阅读';
     }else resume.removeAttribute('title');
