@@ -12,7 +12,7 @@
   const options=Object.assign({font:(window.matchMedia('(max-width:600px)').matches?17:18),leading:2.25,width:820,theme:'night'},get(OPT)||{});
   function loadCSS(){
     if($('link[data-zs-reader]'))return;
-    const l=document.createElement('link');l.rel='stylesheet';l.href=ROOT+'assets/css/reader-experience.css?v=3';l.dataset.zsReader='1';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href=ROOT+'assets/css/reader-experience.css?v=4';l.dataset.zsReader='1';document.head.appendChild(l);
   }
   function apply(){
     options.font=Math.min(24,Math.max(16,Number(options.font)||18));
@@ -63,6 +63,7 @@
   }
   function setupChapter(){
     const article=$('.article');if(!article)return;
+    document.body.classList.add('zs-chapter-reading');
     const paras=[...article.querySelectorAll(':scope > p')];
     const bar=document.createElement('div');bar.className='zs-progress';bar.setAttribute('aria-hidden','true');document.body.appendChild(bar);
     const last=get(LAST);
@@ -81,15 +82,16 @@
     }
     window.addEventListener('scroll',()=>{userMoved=true;if(!raf)raf=requestAnimationFrame(save)},{passive:true});
     window.addEventListener('pagehide',()=>{if(userMoved)save();});
+    document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&userMoved)save();});
     if(oldProgress&&oldProgress.index>0&&oldProgress.percent<99){
       const area=document.createElement('div');area.className='zs-resume';
       const hint=document.createElement('span');hint.textContent='上次阅读到约 '+oldProgress.percent+'%，是否接着阅读？';
       const btn=document.createElement('button');btn.type='button';btn.textContent='回到上次位置';
-      btn.onclick=()=>{const target=paras[Math.min(paras.length-1,oldProgress.index)];if(target){userMoved=true;target.scrollIntoView({behavior:'smooth',block:'center'});}area.remove();};
+      btn.onclick=()=>{const target=paras[Math.min(paras.length-1,oldProgress.index)];if(target){userMoved=true;target.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});}area.remove();};
       area.append(hint,btn);article.parentNode.insertBefore(area,article);
     }else if(!last||last.url!==path){put(LAST,{url:path,title:entryTitle,index:0,percent:0,date:Date.now()});}
     function settingPanel(){
-      const open=document.createElement('button');open.className='zs-reader-fab';open.type='button';open.textContent='Aa 阅读设置';open.setAttribute('aria-expanded','false');
+      const open=document.createElement('button');open.className='zs-reader-fab';open.type='button';open.textContent='Aa 阅读设置';open.setAttribute('aria-expanded','false');open.setAttribute('aria-haspopup','dialog');
       const panel=document.createElement('aside');panel.className='zs-reader-panel';panel.hidden=true;panel.setAttribute('aria-label','阅读设置');
       const h=document.createElement('h2');h.textContent='阅读设置';panel.appendChild(h);
       const label1=document.createElement('label');label1.textContent='正文字号';panel.append(label1);
@@ -114,8 +116,8 @@
       width.onchange=()=>{options.width=Number(width.value);apply();};panel.append(width);
       const note=document.createElement('p');note.className='zs-help';note.textContent='字号、背景与阅读进度仅保存在当前设备浏览器。';panel.append(note);
       panel.id='zs-reader-options';open.setAttribute('aria-controls',panel.id);open.setAttribute('aria-label','打开阅读设置');
-      open.onclick=()=>{panel.hidden=!panel.hidden;open.setAttribute('aria-expanded',String(!panel.hidden));open.setAttribute('aria-label',panel.hidden?'打开阅读设置':'关闭阅读设置');};
-      document.addEventListener('click',e=>{if(!panel.hidden&&!panel.contains(e.target)&&e.target!==open){panel.hidden=true;open.setAttribute('aria-expanded','false');open.setAttribute('aria-label','打开阅读设置');}});
+      open.onclick=()=>{panel.hidden=!panel.hidden;open.setAttribute('aria-expanded',String(!panel.hidden));open.setAttribute('aria-label',panel.hidden?'打开阅读设置':'关闭阅读设置');document.body.classList.toggle('zs-reader-panel-open',!panel.hidden);if(!panel.hidden)document.dispatchEvent(new Event('zs:reader-panel-open'));};
+      document.addEventListener('click',e=>{if(!panel.hidden&&!panel.contains(e.target)&&e.target!==open){panel.hidden=true;document.body.classList.remove('zs-reader-panel-open');open.setAttribute('aria-expanded','false');open.setAttribute('aria-label','打开阅读设置');}});
       document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;open.setAttribute('aria-expanded','false');open.setAttribute('aria-label','打开阅读设置');open.focus();}});
       document.body.append(open,panel);
     }
