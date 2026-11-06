@@ -12,7 +12,7 @@
   const options=Object.assign({font:(window.matchMedia('(max-width:600px)').matches?17:18),leading:2.25,width:820,theme:'night'},get(OPT)||{});
   function loadCSS(){
     if($('link[data-zs-reader]'))return;
-    const l=document.createElement('link');l.rel='stylesheet';l.href=ROOT+'assets/css/reader-experience.css?v=2';l.dataset.zsReader='1';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href=ROOT+'assets/css/reader-experience.css?v=3';l.dataset.zsReader='1';document.head.appendChild(l);
   }
   function apply(){
     options.font=Math.min(24,Math.max(16,Number(options.font)||18));
