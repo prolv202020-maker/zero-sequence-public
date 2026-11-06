@@ -84,3 +84,12 @@
 @media(max-width:660px){.sa-hero{min-height:290px;border-radius:19px}.sa-hero-inner{padding:30px 24px}.sa-tiers{grid-template-columns:repeat(5,1fr);gap:5px}.sa-tier{min-height:87px;padding:12px 3px}.sa-tier strong{font-size:13px}.sa-card{padding:18px}.sa-cards,.sa-two,.sa-points,.sa-compare,.sa-dossiers,.sa-timeline{grid-template-columns:1fr}.sa-flow{grid-template-columns:repeat(2,1fr)}.sa-page .lead{font-size:14px}.sa-section{margin:34px 0}.sa-table{font-size:11px}.sa-table th,.sa-table td{padding:10px 12px}}
 @media(max-width:385px){.sa-tiers{grid-template-columns:repeat(2,minmax(0,1fr))}.sa-flow{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.sa-card{transition:none}}
+
+
+/* Mobile reference pages: reduce the cost of scrolling long dossiers. */
+@media(max-width:650px){
+ .sa-hero,.sa-card,.sa-section,.sa-timeline article,.sa-compare article{box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ .sa-card{transition:none!important}
+ .sa-card:hover{transform:none!important}
+ .sa-table{overflow-wrap:anywhere}
+}
