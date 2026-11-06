@@ -138,5 +138,15 @@ for(let vol=11;vol<=20;vol++)
 assert.ok(readFileSync(p('parts/part-02.html'),'utf8').includes('href="illustrations-02.html"'),'Second arc directory must link to its gallery');
 assert.ok(homepage.includes('href="parts/illustrations-02.html"'),'Homepage must link to second gallery');
 assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['第二篇 · 百城星火画廊','parts/illustrations-02.html']"),'Global navigation must link to second gallery');
-console.log('[SECOND ARC GALLERY] PASS: 6 scenes, 10 covers, independent unlocks and connected navigation.');
+
+for(const name of ['shadow-road','forge-ledger','white-candle','mirror-path','north-wall','hundred-lights']){
+ const asset='assets/images/illustrations/scene-02-'+name+'.webp';
+ assert.ok(existsSync(p(asset)),'Missing refined WebP artwork: '+asset);
+ assert.ok(gallery2.includes('scene-02-'+name+'.webp'),'Gallery not wired to refined WebP artwork: '+name);
+ const img=readFileSync(p(asset));
+ assert.equal(img.toString('ascii',0,4),'RIFF','WebP file must begin with RIFF: '+asset);
+ assert.equal(img.toString('ascii',8,12),'WEBP','File must be a true WebP: '+asset);
+ assert.ok(img.length<500000,'WebP artwork should be web-optimized: '+asset);
+}
+console.log('[SECOND ARC GALLERY] PASS: 6 refined WebP scenes, 10 covers, independent unlocks and connected navigation.');
 console.log('[READING FLOW] PASS: 201 text files, 20 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
