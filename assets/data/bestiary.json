@@ -1473,6 +1473,79 @@
           "ch": 4
         }
       ]
+    },
+    {
+      "id": "rockfang-beast",
+      "name": "岩牙兽",
+      "p": 2,
+      "first": 14,
+      "vol": 12,
+      "ch": 4,
+      "type": "魔物",
+      "region": "西境雨坡",
+      "summary": "灰毛、突牙与肩背硬骨明显，因木料滚落受惊而袭击货车。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 14,
+          "text": "西境驿路附近的湿滑碎石坡。"
+        }
+      ],
+      "skills": [],
+      "habits": [
+        {
+          "at": 14,
+          "text": "曾被滚动木料惊动，部分个体会攻击散落粮袋。"
+        }
+      ],
+      "tactics": [
+        {
+          "at": 14,
+          "text": "守护货车和地面安全，避免在雨坡上追怪导致塌坡。"
+        }
+      ],
+      "observations": [],
+      "sources": [
+        {
+          "at": 14,
+          "vol": 12,
+          "ch": 4
+        }
+      ]
+    },
+    {
+      "id": "icearmor-beast",
+      "name": "冰甲兽",
+      "p": 2,
+      "first": 55,
+      "vol": 16,
+      "ch": 5,
+      "type": "魔物",
+      "region": "白霜边境雪坡",
+      "summary": "北侧高地曾发现至少两只冰甲兽活动，撤离时仍能听到其低吼。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 55,
+          "text": "霜栖镇磨坊外的北侧雪坡高地。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 55,
+          "text": "以侦察和村民撤离优先，不在未知雪地贸然开战。"
+        }
+      ],
+      "observations": [],
+      "sources": [
+        {
+          "at": 55,
+          "vol": 16,
+          "ch": 5
+        }
+      ]
     }
   ]
 }
