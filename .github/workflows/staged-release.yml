@@ -13,3 +13,5 @@ jobs:
           node-version: '22'
       - name: Check latest volume has ten complete chapters and synced publication
         run: node scripts/check-staged-release.mjs
+      - name: Verify all 30 volume chapter catalogs have the same layout, scripts, and reading-state safeguards
+        run: node scripts/test-unified-volume-catalogs.mjs
