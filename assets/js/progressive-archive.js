@@ -166,9 +166,9 @@ const intro=document.querySelector('main>.lead');if(intro)intro.textContent='每
 }
 function archiveGate(){if(document.querySelector('[data-public-archive]'))return;if(!/\/archive\//.test(location.pathname)||/\/archive\/(?:unlocks|quests|bestiary|equipment|characters|classes)\.html$/.test(location.pathname)||/\/archive\/characters\//.test(location.pathname))return;
 const main=document.querySelector('main');if(!main)return;
-if(get(1).max>=100&&get(2).max>=100){document.body.classList.add('zs-archive-approved');return;}
+if(get(1).max>=100&&get(2).max>=100&&get(3).max>=100){document.body.classList.add('zs-archive-approved');return;}
 main.classList.add('zs-gated-main');const wall=el('div','zs-spoiler-wall');
-wall.append(el('h2','','🔒 完整设定档案暂未解锁'),el('p','','此页可能包含第一篇后续章节的信息。为了避免剧透，先展示与你已读章节对应的渐进档案。为了防止第二篇和后期资料提前泄露，需完成第一篇与第二篇各100章，才开放原有的完整专题资料。'));
+wall.append(el('h2','','🔒 完整设定档案暂未解锁'),el('p','','此页可能包含尚未阅读篇章的信息。为了避免剧透，先展示与你已读章节对应的渐进档案；完整专题需要第一、第二、第三篇分别读完100章后才开放。'));
 const actions=el('div','zs-unlock-actions');actions.append(aLink(BASE+'archive/unlocks.html','查看已解锁档案 →'),aLink(BASE+'parts/part-01.html','返回第一篇目录 →'),aLink(BASE+'archive/quests.html','查看已解锁剧情事件 →'));wall.append(actions);main.append(wall);
 }
 function catalogPage(){if(!/\/archive\/unlocks\.html$/.test(location.pathname))return;const host=document.getElementById('zs-dynamic-catalog');if(!host)return;const params=new URLSearchParams(location.search),sel=Number(params.get('part'))||1;
