@@ -1,0 +1,64 @@
+name: Assemble first published audiobook MP3
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/assemble-first-audiobook.yml'
+jobs:
+  assemble:
+    if: github.repository == 'prolv202020-maker/zero-sequence-public'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Retrieve existing narrated audio without regenerating or spending credits
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/first-audio"
+          curl --fail --show-error --silent --location             --retry 2 --retry-delay 2             -H "Authorization: Bearer $GH_TOKEN"             -H 'Accept: application/vnd.github+json'             "https://api.github.com/repos/$GH_REPO/actions/artifacts/13573854853/zip"             -o "$RUNNER_TEMP/first-audio/recording.zip"
+          unzip -q "$RUNNER_TEMP/first-audio/recording.zip" -d "$RUNNER_TEMP/first-audio/unpacked"
+          mapfile -t PARTS < <(find "$RUNNER_TEMP/first-audio/unpacked" -name 'part_*.mp3' -type f | sort)
+          if [[ "${#PARTS[@]}" -ne 2 ]]; then
+            echo "Expected exactly two verified paid segments, found ${#PARTS[@]}" >&2
+            exit 1
+          fi
+          test -s "${PARTS[0]}"
+          test -s "${PARTS[1]}"
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          printf "file '%s'\n" "${PARTS[@]}" > "$RUNNER_TEMP/first-audio/playlist.txt"
+          mkdir -p assets/audio/audiobook/part-01/volume-01
+          ffmpeg -nostdin -hide_banner -loglevel error -y -f concat -safe 0             -i "$RUNNER_TEMP/first-audio/playlist.txt" -c copy             assets/audio/audiobook/part-01/volume-01/chapter-001.mp3
+          test -s assets/audio/audiobook/part-01/volume-01/chapter-001.mp3
+          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1             assets/audio/audiobook/part-01/volume-01/chapter-001.mp3
+          python3 - <<'PY'
+          from pathlib import Path
+          audio=Path('assets/audio/audiobook/part-01/volume-01/chapter-001.mp3')
+          data=audio.read_bytes()
+          assert len(data)>5_000_000 and data[:3]==b'ID3', 'Audio is incomplete or not MP3'
+          print('Verified complete published Chapter 1: ',len(data),'bytes')
+          PY
+      - name: Commit verified audio to an isolated publication branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="feat/first-audiobook-chapter-001-mp3-20261107"
+          git switch -c "$BRANCH"
+          git add assets/audio/audiobook/part-01/volume-01/chapter-001.mp3
+          git commit -m "Add original Mandarin female audiobook MP3 for chapter 001"
+          git push --set-upstream origin "$BRANCH"
