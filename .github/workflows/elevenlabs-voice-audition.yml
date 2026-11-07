@@ -1,0 +1,37 @@
+name: Preview new Zi Yue Mandarin female voice (v4)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'tts/auditions/zi_yue_v4_part01_ch001.txt'
+  workflow_dispatch:
+jobs:
+  voice-audition:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 10
+    env:
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate one short published-chapter excerpt, zero credits
+        run: |
+          python scripts/elevenlabs_narrate.py \
+            --input tts/auditions/zi_yue_v4_part01_ch001.txt \
+            --voice-preset zi-yue --model eleven_v4 --profile expressive --dry-run
+      - name: Generate exactly one new female-voice audition
+        run: |
+          python scripts/elevenlabs_narrate.py \
+            --input tts/auditions/zi_yue_v4_part01_ch001.txt \
+            --voice-preset zi-yue --model eleven_v4 --profile expressive
+      - name: Store new voice MP3 for review (not published to website)
+        uses: actions/upload-artifact@v4
+        with:
+          name: zi-yue-v4-female-chapter1-audition-${{ github.run_number }}
+          path: tts-output/
+          if-no-files-found: error
+          retention-days: 30
