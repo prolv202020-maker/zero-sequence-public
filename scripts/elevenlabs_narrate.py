@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 INBOX=ROOT/"tts"/"inbox"
 SAMPLES=ROOT/"tts"/"samples"
 AUDITIONS=ROOT/"tts"/"auditions"
+PRODUCTION=ROOT/"tts"/"production"
 MODEL="eleven_multilingual_v2"
 ALLOWED_MODELS=(MODEL,"eleven_v4")
 # Public candidate from the Chinese ElevenLabs voice catalog; not the old Amy voice.
@@ -95,12 +96,12 @@ def api_speak(key:str,voice:str,text:str,scene:str="旁白",profile:str="natural
 
 def input_file(name:str)->Path:
     path=(ROOT/name).resolve()
-    if path.suffix.lower()!=".txt" or not (path.is_relative_to(INBOX.resolve()) or path.is_relative_to(SAMPLES.resolve()) or path.is_relative_to(AUDITIONS.resolve())):
-        raise ValueError("Only .txt in tts/inbox/, tts/samples/ or tts/auditions/ is allowed")
+    if path.suffix.lower()!=".txt" or not (path.is_relative_to(INBOX.resolve()) or path.is_relative_to(SAMPLES.resolve()) or path.is_relative_to(AUDITIONS.resolve()) or path.is_relative_to(PRODUCTION.resolve())):
+        raise ValueError("Only .txt in tts/inbox/, tts/samples/, tts/auditions/ or tts/production/ is allowed")
     if not path.is_file(): raise FileNotFoundError("Article text does not exist")
     return path
 
-def run(filename:str,output_root:Path,dry_run:bool,profile:str="natural",model:str=MODEL,voice_preset:str="existing")->None:
+def run(filename:str,output_root:Path,dry_run:bool,profile:str="expressive",model:str="eleven_v4",voice_preset:str="zi-yue")->None:
     if profile not in ("natural","expressive"): raise ValueError("Unknown voice profile")
     if model not in ALLOWED_MODELS: raise ValueError("Unsupported ElevenLabs model")
     if voice_preset not in ("existing",*VOICE_PRESETS): raise ValueError("Unknown voice preset")
@@ -112,7 +113,8 @@ def run(filename:str,output_root:Path,dry_run:bool,profile:str="natural",model:s
     if is_audition and (voice_preset=="existing" or model!="eleven_v4"):
         raise ValueError("New-voice auditions require an explicitly different voice and Eleven v4")
     if len(text)>limit: raise ValueError(f"Text over {limit} characters; stop to protect credits")
-    chunks=split_text(text)
+    # Eleven v4 accepts up to 10k characters. Keep each published <=4500-character chapter continuous.
+    chunks=split_text(text,CHAPTER_LIMIT if model=="eleven_v4" else CHUNK_LIMIT)
     credits=sum(len(part) for part in chunks)
     print(f"File: {path.name}; approx {credits} characters; {len(chunks)} segments; voice = SAME; preset={voice_preset}; model={model}; profile={profile}")
     for i,part in enumerate(chunks,1):
@@ -156,9 +158,9 @@ if __name__=="__main__":
     cli.add_argument("--input",required=True)
     cli.add_argument("--out",default="tts-output")
     cli.add_argument("--dry-run",action="store_true")
-    cli.add_argument("--profile",choices=("natural","expressive"),default="natural")
-    cli.add_argument("--model",choices=ALLOWED_MODELS,default=MODEL)
-    cli.add_argument("--voice-preset",choices=("existing",*VOICE_PRESETS),default="existing")
+    cli.add_argument("--profile",choices=("natural","expressive"),default="expressive")
+    cli.add_argument("--model",choices=ALLOWED_MODELS,default="eleven_v4")
+    cli.add_argument("--voice-preset",choices=("existing",*VOICE_PRESETS),default="zi-yue")
     args=cli.parse_args()
     try:
         run(args.input,Path(args.out),args.dry_run,args.profile,args.model,args.voice_preset)

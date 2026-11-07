@@ -11,23 +11,23 @@ on:
         required: true
         type: string
       voice_profile:
-        description: 'Voice delivery: natural (clear, steady) or expressive (subtle emotional shifts)'
+        description: 'Narration: Zi Yue emotional delivery by default; natural keeps text-only pacing'
         type: choice
-        default: natural
+        default: expressive
         options:
           - natural
           - expressive
       voice_preset:
-        description: "Voice: existing Amy or new Zi Yue trial (not automatically published)"
+        description: "Official voice: Zi Yue; existing Amy is legacy for manual comparison"
         type: choice
-        default: existing
+        default: zi-yue
         options:
           - existing
           - zi-yue
       tts_model:
-        description: "Model: existing multilingual v2 or emotional Eleven v4"
+        description: "Eleven v4 emotion model (default); Multilingual v2 remains legacy"
         type: choice
-        default: eleven_multilingual_v2
+        default: eleven_v4
         options:
           - eleven_multilingual_v2
           - eleven_v4
@@ -97,9 +97,9 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$TRIGGER" == "workflow_dispatch" && "$DRY_RUN" == "true" ]]; then
-            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}' --profile "${VOICE_PROFILE:-natural}" --voice-preset "${VOICE_PRESET:-existing}" --model "${TTS_MODEL:-eleven_multilingual_v2}" --dry-run
+            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}' --profile "${VOICE_PROFILE:-expressive}" --voice-preset "${VOICE_PRESET:-zi-yue}" --model "${TTS_MODEL:-eleven_v4}" --dry-run
           else
-            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}' --profile "${VOICE_PROFILE:-natural}" --voice-preset "${VOICE_PRESET:-existing}" --model "${TTS_MODEL:-eleven_multilingual_v2}"
+            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}' --profile "${VOICE_PROFILE:-expressive}" --voice-preset "${VOICE_PRESET:-zi-yue}" --model "${TTS_MODEL:-eleven_v4}"
           fi
       - name: Download MP3 as artifact
         if: success() && (github.event_name == 'push' || inputs.dry_run == false)
