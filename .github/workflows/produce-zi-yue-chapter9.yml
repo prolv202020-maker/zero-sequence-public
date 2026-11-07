@@ -1,0 +1,74 @@
+name: Produce Zi Yue v4 Chapter 9 master audio
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/produce-zi-yue-chapter9.yml'
+jobs:
+  produce-chapter-009:
+    if: github.repository == 'prolv202020-maker/zero-sequence-public'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    env:
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prevent duplicate paid generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feat/zi-yue-v4-chapter-009-audio-20261107'
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo 'Chapter 9 is already generated. Refusing to repeat a paid API request.' >&2
+            exit 1
+          fi
+      - name: Confirm all original 78 paragraphs and free dry run
+        run: |
+          python scripts/test_zi_yue_chapter9.py
+          python scripts/elevenlabs_narrate.py \
+            --input tts/production/volume_01_chapter_009_zi_yue_v4.txt \
+            --voice-preset zi-yue --model eleven_v4 --profile expressive --dry-run
+      - name: Generate complete Chapter 9 with one approved Zi Yue v4 request
+        run: |
+          python scripts/elevenlabs_narrate.py \
+            --input tts/production/volume_01_chapter_009_zi_yue_v4.txt \
+            --voice-preset zi-yue --model eleven_v4 --profile expressive
+      - name: Verify MP3 and stage it for review
+        shell: bash
+        run: |
+          set -euo pipefail
+          AUDIO='tts-output/volume_01_chapter_009_zi_yue_v4/volume_01_chapter_009_zi_yue_v4.mp3'
+          test -s "$AUDIO"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path("tts-output/volume_01_chapter_009_zi_yue_v4/volume_01_chapter_009_zi_yue_v4.mp3")
+          b=p.read_bytes()
+          assert b[:3]==b"ID3" and 700_000<len(b)<20_000_000, "Audio invalid or incomplete"
+          print("Verified Zi Yue v4 Chapter 9:",len(b),"bytes")
+          PY
+          mkdir -p assets/audio/audiobook/part-01/volume-01
+          cp "$AUDIO" assets/audio/audiobook/part-01/volume-01/chapter-009.mp3
+      - name: Preserve master MP3 as GitHub Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: zi-yue-v4-chapter-009-master
+          path: tts-output/volume_01_chapter_009_zi_yue_v4/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Push verified MP3 only to review branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c feat/zi-yue-v4-chapter-009-audio-20261107
+          git add assets/audio/audiobook/part-01/volume-01/chapter-009.mp3
+          git commit -m 'Record full Zi Yue v4 narration for Chapter 9'
+          git push --set-upstream origin feat/zi-yue-v4-chapter-009-audio-20261107
