@@ -61,7 +61,45 @@
     const link=document.createElement('a');link.href=last.url;link.textContent='继续阅读 →';
     div.append(info,link);hero.insertAdjacentElement('afterend',div);
   }
+  // Recovery path for previously cached chapter HTML: the master MP3s are already
+  // published. Never replace an existing audio player or change the novel text.
+  function ensureVolume02Audiobook(){
+    const m=path.match(/\/chapters\/volume-02\/chapter-(\d{3})\.html$/);
+    if(!m||$('#zs-audiobook-player'))return;
+    const n=Number(m[1]);if(n<1||n>10)return;
+    const article=$('.article'),h=$('main.page h1');if(!article||!h)return;
+    const title=clean(h.textContent).replace(/^第[一二三四五六七八九十]+章\s*/,'');
+    const url=ROOT+'assets/audio/audiobook/part-01/volume-02/chapter-'+m[1]+'.mp3?v=zi-yue-v4';
+    if(!$('link[href*="chapter-audiobook.css"]')){
+      const css=document.createElement('link');css.rel='stylesheet';css.href=ROOT+'assets/css/chapter-audiobook.css?v=2';document.head.append(css);
+    }
+    const section=document.createElement('section');section.id='zs-audiobook-player';section.className='zs-audiobook-panel';
+    section.setAttribute('aria-labelledby','zs-audiobook-title');
+    const kicker=document.createElement('p');kicker.className='zs-audiobook-kicker';kicker.textContent='AUDIO EDITION · 第一篇《轮回启幕》';
+    const header=document.createElement('h2');header.id='zs-audiobook-title';header.textContent='🎧 第'+n+'章 · 子悦中文女声有声版';
+    const description=document.createElement('p');description.className='zs-audiobook-description';description.textContent='《'+title+'》· Zi Yue 子悦 · Eleven v4 · 情绪旁白 · 完整章回';
+    const audio=document.createElement('audio');audio.id='zs-chapter-narration';audio.controls=true;audio.preload='none';audio.setAttribute('aria-label','第'+n+'章'+title+'子悦中文女声朗读');
+    const source=document.createElement('source');source.src=url;source.type='audio/mpeg';audio.append(source);
+    const actions=document.createElement('div');actions.className='zs-audiobook-actions';
+    const note=document.createElement('span');note.textContent='点击后开始朗读 · 不自动播放';
+    const download=document.createElement('a');download.href=url;download.download='第零序列_第二卷_第'+n+'章_子悦_ZiYue_V4.mp3';download.textContent='下载完整 MP3';
+    actions.append(note,download);
+    const status=document.createElement('p');status.id='zs-chapter-narration-status';status.className='zs-audiobook-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.textContent='如正在播放背景音乐，开始朗读时会自动暂停背景音乐。';
+    section.append(kicker,header,description,audio,actions,status);
+    article.insertAdjacentElement('beforebegin',section);
+    // The old chapter HTML has no chapter-audiobook.js; wire the same behavior
+    // locally so the recovered control still pauses BGM on play.
+    const say=s=>{status.textContent=s};
+    audio.addEventListener('play',()=>{
+      const bgm=$('#zs-audio.is-playing .zs-play');if(bgm)bgm.click();
+      say('正在播放第'+n+'章中文女声。背景音乐已自动暂停（如之前正在播放）。');
+    });
+    audio.addEventListener('pause',()=>{if(!audio.ended)say('朗读已暂停，可从当前进度继续。')});
+    audio.addEventListener('ended',()=>say('第'+n+'章朗读已完成。'));
+    audio.addEventListener('error',()=>say('音频加载失败，请刷新页面或点击下载完整 MP3。'));
+  }
   function setupChapter(){
+    ensureVolume02Audiobook();
     const article=$('.article');if(!article)return;
     document.body.classList.add('zs-chapter-reading');
     const paras=[...article.querySelectorAll(':scope > p')];

@@ -51,6 +51,6 @@ assert.ok(readerCSS.includes('zs-chapter-jump'),'Reader dropdown needs styling')
 assert.ok(readerCSS.includes('env(safe-area-inset-bottom)'),'Mobile safe areas must remain supported');
 assert.ok(reader.includes('reader-experience.css?v=5'),'New reader CSS version must be loaded');
 assert.ok(audio.includes('reader-experience.js?v=11'),'Direct loads should get upgraded reader script');
-assert.ok(sw.includes('reader-experience.js?v=11'),'Service Worker navigation must get upgraded reader script');
+assert.ok(sw.includes('reader-experience.js?v=12'),'Service Worker navigation must get upgraded reader script');
 assert.ok(nav.includes("['输入章号快速跳转','index.html#quick-jump']"),'Mobile and desktop navigation must include quick chapter jump');
 console.log('[SITE RELAUNCH] PASS: accessible homepage, 30-volume navigator, 300 real chapter targets, spoiler opt-in, parallel search, upgraded reader UX, existing progress/BGM keys.');
