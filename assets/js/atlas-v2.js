@@ -27,7 +27,11 @@ const professionGroups=[
  {name:'治疗与支援',id:'support',entries:['治疗师','祝福者','净化师','结界术士'],desc:'通过恢复、强化、净化或保护协助团队。'}
 ];
 const professions=professionGroups.flatMap(g=>g.entries.map(name=>({name,role:g.name,type:g.name,p:1,n:11,note:g.desc,group:g.id})));
-const data=kind==='characters'?characters:professions;
+const verified=Array.isArray(window.ZSReaderCodex)?window.ZSReaderCodex:[];
+const names=new Set(characters.map(x=>x.name));
+const additionalPeople=verified.filter(x=>x.k==='人物'&&!names.has(x.t)).map(x=>({name:x.t,role:x.p===3?'第三篇已出现人物':x.p===2?'第二篇已出现人物':'已出现人物',type:x.p===3?'第三篇':x.p===2?'第二篇':'世界人物',p:x.p,n:x.n,note:x.d,source:true}));
+const additionalSkills=verified.filter(x=>x.k==='技能').map(x=>({name:x.t,role:'实战技能与战术',type:'技能与战术',p:x.p,n:x.n,note:x.d,source:true}));
+const data=kind==='characters'?[...characters,...additionalPeople]:[...professions,...additionalSkills];
 function progress(p){
   if(window.ZSUnlock?.get)return window.ZSUnlock.get(p).max;
   try{const x=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return Math.max(0,Math.min(100,Number(x['p'+String(p).padStart(2,'0')]?.max)||0));}
@@ -38,8 +42,8 @@ function link(url,label){const a=make('a','',label);a.href=url;return a;}
 const host=make('section','zs-atlas-public');
 host.setAttribute('aria-label',kind==='characters'?'渐进人物档案':'渐进职业档案');
 const kicker=make('div','zs-atlas-kicker',kind==='characters'?'CHARACTER FILES · VERIFIED STORY':'CLASS INDEX · PUBLIC BASICS');
-host.append(kicker,make('h2','',kind==='characters'?'已揭晓的人物档案':'五大体系 · 基础职业索引'));
-host.append(make('p','zs-atlas-intro',kind==='characters'?'按照本设备已读的章节，逐步显示人物姓名、已公开职业与阶段资料。人物最终命运、底牌和未确认档案不提前公布。':'以现有网站的五大职业体系与20个基础分支为准。普通基础职业也可以成长；隐藏职业、个人能力终局和未确认扩展资料不在初期公开。'));
+host.append(kicker,make('h2','',kind==='characters'?'已揭晓的人物档案':'五大体系 · 职业与实战技能'));
+host.append(make('p','zs-atlas-intro',kind==='characters'?'按照三篇已读章节逐步显示人物姓名、公开身份和对应正文；人物最终命运与未确认档案不提前公布。':'按三篇已读章节展示五大基础职业和已经公开的实战技能。不会把训练动作夸大成隐藏职业或提前公布未发表的个人能力。'));
 const status=make('div','zs-atlas-status'),meter=make('div','zs-atlas-progress'),fill=make('i');
 meter.append(fill);host.append(status,meter);
 const actions=make('div','zs-atlas-actions');
@@ -47,9 +51,9 @@ if(kind==='characters')actions.append(link(ROOT+'archive/character-art.html','�
 actions.append(link(ROOT+'parts/part-01.html','第一篇 · 轮回启幕'),link(ROOT+'parts/part-02.html','第二篇 · 百城星火'),link(ROOT+'archive/unlocks.html','查看逐章解锁记录'),link(ROOT+'archive/quests.html','剧情事件关联'),link(ROOT+(kind==='characters'?'archive/classes.html':'archive/characters.html'),kind==='characters'?'进入职业图鉴':'进入人物图鉴'));
 host.append(actions);
 const controls=make('div','zs-atlas-controls');
-const input=make('input');input.type='search';input.placeholder=kind==='characters'?'搜索已解锁的人物或职业':'搜索已解锁的基础职业';input.setAttribute('aria-label','搜索已解锁图鉴');
+const input=make('input');input.type='search';input.placeholder=kind==='characters'?'搜索已解锁的人物或职业':'搜索已解锁的职业与技能';input.setAttribute('aria-label','搜索已解锁图鉴');
 const select=make('select');select.setAttribute('aria-label','选择图鉴分类');
-const options=kind==='characters'?['全部分类','主角团','重要人物','世界人物','第二篇']:['全部分类',...professionGroups.map(x=>x.name)];
+const options=['全部分类',...new Set(data.map(x=>x.type))];
 options.forEach((v,i)=>{const o=document.createElement('option');o.value=i===0?'':v;o.textContent=v;select.append(o);});
 const count=make('span','zs-atlas-count');
 controls.append(input,select,count);host.append(controls);
@@ -63,15 +67,15 @@ h1.insertAdjacentElement('afterend',host);
 const oldNodes=[...main.children].filter(n=>n!==host&&!n.classList.contains('crumb')&&!n.classList.contains('eyebrow')&&n!==h1);
 oldNodes.forEach(n=>n.classList.add('zs-atlas-protected'));
 function render(){
- const p1=progress(1),p2=progress(2),full=p1>=100&&p2>=100;
+ const p1=progress(1),p2=progress(2),p3=progress(3),full=p1>=100&&p2>=100&&p3>=100;
  body.classList.toggle('zs-atlas-full',full);
- status.replaceChildren(make('span','','第一篇 '+p1+'/100 章'),make('span','','第二篇 '+p2+'/100 章'),make('span','',full?'两篇已读 · 公开档案持续更新':'按已读章节逐步公开'));
- fill.style.width=((p1+p2)/2)+'%';
+ status.replaceChildren(make('span','','第一篇 '+p1+'/100 章'),make('span','','第二篇 '+p2+'/100 章'),make('span','','第三篇 '+p3+'/100 章'),make('span','',full?'三篇已读 · 公开档案持续更新':'按已读章节逐步公开'));
+ fill.style.width=((p1+p2+p3)/3)+'%';
  legacy.textContent='这里仅展示已发布小说中适合读者阅读的阶段资料；完整成长方案、内部设计草案与未发表剧情保存在私人作者资料库。';
  const query=input.value.trim().toLowerCase(),filter=select.value;
  grid.replaceChildren();let total=0;
  data.forEach(entry=>{
-   const ok=(entry.p===1?p1:p2)>=entry.n;
+   const ok=(entry.p===1?p1:entry.p===2?p2:p3)>=entry.n;
    if(!ok)return;
    if(filter&&filter!==entry.type)return;
    if(query&&![entry.name,entry.role,entry.note].join(' ').toLowerCase().includes(query))return;
@@ -85,7 +89,8 @@ function render(){
      if(slug)card.append(link(ROOT+'archive/characters/'+slug+'.html','进入独立档案 →'));
    }
 
-   grid.append(card);
+   if(entry.source){const v=(entry.p-1)*10+Math.ceil(entry.n/10),c=(entry.n-1)%10+1;
+card.append(link(ROOT+'chapters/volume-'+String(v).padStart(2,'0')+'/chapter-'+String(c).padStart(3,'0')+'.html','阅读对应章节 →'));}grid.append(card);
  });
  count.textContent='目前显示 '+total+' 条档案';
  empty.hidden=total!==0;
