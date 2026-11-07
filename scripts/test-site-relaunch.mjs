@@ -32,7 +32,7 @@ assert.ok(homeCSS.includes('focus-visible'),'Keyboard focus must remain visible'
 assert.match(homeJS,/zs:part-progress:v1/,'Volume navigator must read original per-part progress');
 assert.match(homeJS,/zs:reader:last:v1/,'Volume navigator must use existing continue-reading data');
 assert.ok(!homeJS.includes('localStorage.setItem'),'Home browsing must not rewrite reading data');
-assert.ok(homeJS.includes('n>300'),'Chapter-number jump must enforce published upper bound');
+assert.ok(homeJS.includes('num>300'),'Chapter-number jump must enforce published upper bound');
 for(let n=1;n<=300;n++){
  const vol=Math.ceil(n/10),chapter=(n-1)%10+1;
  const path='chapters/volume-'+String(vol).padStart(2,'0')+'/chapter-'+String(chapter).padStart(3,'0')+'.html';
