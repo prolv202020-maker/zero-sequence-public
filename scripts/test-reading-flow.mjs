@@ -233,7 +233,7 @@ assert.ok(audio.includes("requestAnimationFrame(tick)"),'Crossfade should be smo
 assert.ok(!audio.includes('createOscillator'),'Remove old irritating repeated electronic oscillator music');
 assert.ok(!audio.includes('setInterval'),'Do not use an endlessly repeating timer melody');
 assert.ok(!audio.includes("addEventListener('pointerdown'"),'Background music should never start on first page touch');
-assert.ok(readFileSync(p('sw.js'),'utf8').includes('audio-player.js?v=10'),'Service worker must invalidate old BGM script');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('audio-player.js?v=11'),'Service worker must invalidate old BGM script');
 
 const mobileLayout=readFileSync(p('assets/css/style.css'),'utf8');
 const mobileReader=readFileSync(p('assets/css/reader-experience.css'),'utf8');
