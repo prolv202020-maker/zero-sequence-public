@@ -30,3 +30,5 @@ jobs:
         run: python3 scripts/test_zi_yue_production.py
       - name: Verify published first chapter audiobook player and original MP3
         run: node scripts/test-audiobook-publication.mjs
+      - name: Verify Zi Yue voice production script for chapter 2 without paid API requests
+        run: python3 scripts/test_zi_yue_chapter2.py
