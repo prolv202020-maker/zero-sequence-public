@@ -8,7 +8,8 @@
       ['第一篇 · 轮回启幕','parts/part-01.html'],
       ['第二篇 · 百城星火','parts/part-02.html'],
       ['第三篇 · 临界回声','parts/part-03.html'],
-      ['全部章节与搜索','search.html']
+      ['全部章节与搜索','search.html'],
+      ['输入章号快速跳转','index.html#quick-jump']
     ]},
     {label:'概念插画',url:ROOT+'parts/illustrations-01.html',children:[
       ['第一篇 · 概念画廊','parts/illustrations-01.html'],

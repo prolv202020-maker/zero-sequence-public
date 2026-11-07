@@ -19,3 +19,5 @@ jobs:
         run: node scripts/ensure-chapter-bootstrap.mjs --check
       - name: Test reading flow and independent chapter unlocks
         run: node scripts/test-reading-flow.mjs
+      - name: Test upgraded homepage, spoiler-safe search and reader navigation
+        run: node scripts/test-site-relaunch.mjs

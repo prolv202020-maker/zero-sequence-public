@@ -12,7 +12,7 @@
   const options=Object.assign({font:(window.matchMedia('(max-width:600px)').matches?17:18),leading:2.25,width:820,theme:'night'},get(OPT)||{});
   function loadCSS(){
     if($('link[data-zs-reader]'))return;
-    const l=document.createElement('link');l.rel='stylesheet';l.href=ROOT+'assets/css/reader-experience.css?v=4';l.dataset.zsReader='1';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href=ROOT+'assets/css/reader-experience.css?v=5';l.dataset.zsReader='1';document.head.appendChild(l);
   }
   function apply(){
     options.font=Math.min(24,Math.max(16,Number(options.font)||18));
@@ -114,11 +114,11 @@
       const width=document.createElement('select');width.setAttribute('aria-label','阅读版心');
       [['660','窄'],['820','标准'],['1000','宽']].forEach(([value,text])=>width.add(new Option(text,value)));width.value=String(options.width);
       width.onchange=()=>{options.width=Number(width.value);apply();};panel.append(width);
-      const note=document.createElement('p');note.className='zs-help';note.textContent='字号、背景与阅读进度仅保存在当前设备浏览器。';panel.append(note);
+      const note=document.createElement('p');note.className='zs-help';note.textContent='字号、背景与阅读进度仅保存在当前设备浏览器。章节顶部可按全书编号快速跳转。';panel.append(note);
       panel.id='zs-reader-options';open.setAttribute('aria-controls',panel.id);open.setAttribute('aria-label','打开阅读设置');
       open.onclick=()=>{panel.hidden=!panel.hidden;open.setAttribute('aria-expanded',String(!panel.hidden));open.setAttribute('aria-label',panel.hidden?'打开阅读设置':'关闭阅读设置');document.body.classList.toggle('zs-reader-panel-open',!panel.hidden);if(!panel.hidden)document.dispatchEvent(new Event('zs:reader-panel-open'));};
       document.addEventListener('click',e=>{if(!panel.hidden&&!panel.contains(e.target)&&e.target!==open){panel.hidden=true;document.body.classList.remove('zs-reader-panel-open');open.setAttribute('aria-expanded','false');open.setAttribute('aria-label','打开阅读设置');}});
-      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;open.setAttribute('aria-expanded','false');open.setAttribute('aria-label','打开阅读设置');open.focus();}});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden){panel.hidden=true;document.body.classList.remove('zs-reader-panel-open');open.setAttribute('aria-expanded','false');open.setAttribute('aria-label','打开阅读设置');open.focus();}});
       document.body.append(open,panel);
     }
     settingPanel();
@@ -129,6 +129,14 @@
     const num=match&&match[3]?Number(match[3]):0;
     const volLink=v=>ROOT+'volumes/volume-'+String(v).padStart(2,'0')+'.html';
     const chapLink=(v,n)=>ROOT+'chapters/volume-'+String(v).padStart(2,'0')+'/chapter-'+String(n).padStart(3,'0')+'.html';
+    // 不依赖外部数据；所有已公开章节可直接按编号访问，档案解锁仍维持独立。
+    const globalChapter=(vol-1)*10+num;
+    const length=paras.reduce((sum,p)=>sum+(p.textContent||'').length,0);
+    const estimate=Math.max(1,Math.ceil(length/460));
+    const stats=document.createElement('p');stats.className='zs-chapter-stats';
+    stats.textContent=(num===0?'序章':'全书第'+globalChapter+'章')+' · 约'+estimate+'分钟阅读 · 已发布300章';
+    const chapterHeading=$('main.page h1');if(chapterHeading)chapterHeading.insertAdjacentElement('afterend',stats);
+
     const navLink=(href,label,cls)=>{const a=document.createElement('a');a.href=href;a.textContent=label;if(cls)a.className=cls;return a;};
     if(num>1)tools.append(navLink(chapLink(vol,num-1),'← 上一章'));
     else if(num===1&&vol===1)tools.append(navLink(ROOT+'chapters/volume-01/prologue.html','← 序章'));
@@ -138,7 +146,30 @@
     if(num===0)tools.append(navLink(chapLink(vol,1),'下一章 →'));
     else if(num<10)tools.append(navLink(chapLink(vol,num+1),'下一章 →'));
     else if(vol<30)tools.append(navLink(chapLink(vol+1,1),'下一章 →'));
-    // Make the *bottom* chapter navigation consistent across the prologue and all 240 chapters.
+    // 非固定位置的快速跳章，避免和手机BGM/阅读设置悬浮控件重叠。
+    const jump=document.createElement('details');jump.className='zs-chapter-jump';
+    const jumpSummary=document.createElement('summary');jumpSummary.textContent='按章号跳转';jump.append(jumpSummary);
+    const jumpForm=document.createElement('form');jumpForm.className='zs-chapter-jump-form';
+    const jumpLabel=document.createElement('label');jumpLabel.textContent='全书章节编号（1—300）';
+    const jumpInput=document.createElement('input');jumpInput.type='number';jumpInput.min='1';jumpInput.max='300';jumpInput.step='1';
+    jumpInput.inputMode='numeric';jumpInput.placeholder='例如：128';
+    if(num>0)jumpInput.value=String(globalChapter);
+    jumpInput.setAttribute('aria-label','输入全书章节编号，1到300');
+    const jumpButton=document.createElement('button');jumpButton.type='submit';jumpButton.textContent='前往这一章';
+    const jumpStatus=document.createElement('span');jumpStatus.className='zs-chapter-jump-status';
+    jumpStatus.setAttribute('role','status');jumpStatus.setAttribute('aria-live','polite');
+    jumpForm.append(jumpLabel,jumpInput,jumpButton,jumpStatus);
+    jumpForm.addEventListener('submit',event=>{
+      event.preventDefault();
+      const raw=jumpInput.value.trim(),n=Number(raw);
+      if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(n)||n<1||n>300){
+        jumpStatus.textContent='请输入1—300之间的章节编号。';jumpInput.focus();return;
+      }
+      jumpStatus.textContent='';
+      location.assign(chapLink(Math.ceil(n/10),((n-1)%10)+1));
+    });
+    jump.append(jumpForm);tools.append(jump);
+    // Make the *bottom* chapter navigation consistent across the prologue and all 300 chapters.
     // The original HTML text stays untouched; the existing progress/localStorage keys remain stable.
     const footerPager=article.querySelector(':scope > .pager');
     if(footerPager){
