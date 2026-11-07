@@ -63,13 +63,13 @@
   }
   // Recovery path for previously cached chapter HTML: the master MP3s are already
   // published. Never replace an existing audio player or change the novel text.
-  function ensureVolume02Audiobook(){
-    const m=path.match(/\/chapters\/volume-02\/chapter-(\d{3})\.html$/);
+  function ensurePublishedAudiobook(){
+    const m=path.match(/\/chapters\/volume-(0[23])\/chapter-(\d{3})\.html$/);
     if(!m||$('#zs-audiobook-player'))return;
-    const n=Number(m[1]);if(n<1||n>10)return;
+    const v=Number(m[1]),n=Number(m[2]);if(n<1||n>10)return;
     const article=$('.article'),h=$('main.page h1');if(!article||!h)return;
     const title=clean(h.textContent).replace(/^第[一二三四五六七八九十]+章\s*/,'');
-    const url=ROOT+'assets/audio/audiobook/part-01/volume-02/chapter-'+m[1]+'.mp3?v=zi-yue-v4';
+    const url=ROOT+'assets/audio/audiobook/part-01/volume-'+m[1]+'/chapter-'+m[2]+'.mp3?v=zi-yue-v4';
     if(!$('link[href*="chapter-audiobook.css"]')){
       const css=document.createElement('link');css.rel='stylesheet';css.href=ROOT+'assets/css/chapter-audiobook.css?v=2';document.head.append(css);
     }
@@ -82,7 +82,7 @@
     const source=document.createElement('source');source.src=url;source.type='audio/mpeg';audio.append(source);
     const actions=document.createElement('div');actions.className='zs-audiobook-actions';
     const note=document.createElement('span');note.textContent='点击后开始朗读 · 不自动播放';
-    const download=document.createElement('a');download.href=url;download.download='第零序列_第二卷_第'+n+'章_子悦_ZiYue_V4.mp3';download.textContent='下载完整 MP3';
+    const download=document.createElement('a');download.href=url;download.download='第零序列_第'+(v===2?'二':'三')+'卷_第'+n+'章_子悦_ZiYue_V4.mp3';download.textContent='下载完整 MP3';
     actions.append(note,download);
     const status=document.createElement('p');status.id='zs-chapter-narration-status';status.className='zs-audiobook-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.textContent='如正在播放背景音乐，开始朗读时会自动暂停背景音乐。';
     section.append(kicker,header,description,audio,actions,status);
@@ -99,7 +99,7 @@
     audio.addEventListener('error',()=>say('音频加载失败，请刷新页面或点击下载完整 MP3。'));
   }
   function setupChapter(){
-    ensureVolume02Audiobook();
+    ensurePublishedAudiobook();
     const article=$('.article');if(!article)return;
     document.body.classList.add('zs-chapter-reading');
     const paras=[...article.querySelectorAll(':scope > p')];
