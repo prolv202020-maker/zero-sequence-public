@@ -26,3 +26,5 @@ jobs:
 
       - name: Validate ElevenLabs narration bridge without API usage
         run: python3 scripts/test_elevenlabs_narrate.py
+      - name: Verify published first chapter audiobook player and original MP3
+        run: node scripts/test-audiobook-publication.mjs
