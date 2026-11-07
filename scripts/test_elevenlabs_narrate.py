@@ -59,6 +59,33 @@ class Tests(unittest.TestCase):
         self.assertEqual(body["previous_text"],"之前的文字")
         self.assertEqual(body["next_text"],"之后的文字")
 
+    def test_long_chapter_mp3_merge_paths_are_absolute(self):
+        from types import SimpleNamespace
+        with tempfile.TemporaryDirectory() as temp:
+            article=tts.INBOX/"__mp3_concat_test__.txt"
+            article.write_text("这是完整第一章配音的分段测试。"*140,encoding="utf-8")
+            output=Path(temp)/"audio"
+            commands=[]
+            def fake_ffmpeg(cmd,**kwargs):
+                commands.append(cmd)
+                source=Path(cmd[cmd.index("-i")+1])
+                target=Path(cmd[-1])
+                self.assertTrue(source.is_absolute(),"ffmpeg list path must be absolute with cwd=folder")
+                self.assertTrue(target.is_absolute(),"ffmpeg output path must be absolute with cwd=folder")
+                self.assertTrue(source.is_file())
+                target.write_bytes(b"test-mp3")
+                return SimpleNamespace(returncode=0)
+            try:
+                with mock.patch.dict(tts.os.environ,{"ELEVENLABS_API_KEY":"dummy","ELEVENLABS_VOICE_ID":"1234567890abcdefgh"}):
+                    with mock.patch.object(tts,"api_speak",return_value=b"x"*600):
+                        with mock.patch.object(tts.shutil,"which",return_value="/usr/bin/ffmpeg"):
+                            with mock.patch.object(tts.subprocess,"run",side_effect=fake_ffmpeg):
+                                tts.run("tts/inbox/__mp3_concat_test__.txt",output,False,"natural")
+                self.assertEqual(len(commands),1)
+                self.assertTrue((output/"__mp3_concat_test__"/"__mp3_concat_test__.mp3").is_file())
+            finally:
+                article.unlink(missing_ok=True)
+
     def test_no_request_in_dry_run(self):
         with tempfile.TemporaryDirectory() as temp:
             file=tts.INBOX/"__narration_test__.txt"

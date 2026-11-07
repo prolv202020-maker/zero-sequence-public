@@ -129,9 +129,10 @@ def run(filename:str,output_root:Path,dry_run:bool,profile:str="natural")->None:
     elif shutil.which("ffmpeg"):
         playlist=folder/"_concat.txt"
         playlist.write_text("".join(f"file '{p.name}'\n" for p in files),encoding="utf-8")
-        check=subprocess.run(["ffmpeg","-hide_banner","-loglevel","error","-y","-f","concat","-safe","0","-i",str(playlist),"-c","copy",str(result)],cwd=folder,capture_output=True,text=True)
+        check=subprocess.run(["ffmpeg","-hide_banner","-loglevel","error","-y","-f","concat","-safe","0","-i",str(playlist.resolve()),"-c","copy",str(result.resolve())],cwd=folder,capture_output=True,text=True)
         playlist.unlink(missing_ok=True)
-        if check.returncode!=0: print("MP3 merge failed; segments remain saved")
+        if check.returncode!=0 or not result.is_file():
+            print("MP3 merge failed; original parts remain available in the workflow artifact",file=sys.stderr)
     else:
         print("FFmpeg not installed; download segments")
     print("Saved audio as a GitHub Actions artifact:",folder)
