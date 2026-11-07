@@ -35,7 +35,29 @@ class Tests(unittest.TestCase):
         self.assertTrue(sample.is_file())
         text=sample.read_text(encoding="utf-8-sig")
         self.assertLessEqual(len(text),tts.PREVIEW_LIMIT)
-        self.assertGreater(len(tts.split_text(text,125)),1)
+        self.assertEqual(len(tts.split_text(text)),1)
+
+    def test_new_pacing_presets(self):
+        self.assertEqual(tts.CHUNK_LIMIT,1250)
+        self.assertEqual(tts.NATURAL_SETTINGS["speed"],1.0)
+        self.assertTrue(tts.NATURAL_SETTINGS["use_speaker_boost"])
+        self.assertTrue(all(0.98<=x["speed"]<=1.01 for x in tts.SCENE_PRESETS.values()))
+        self.assertGreaterEqual(tts.NATURAL_SETTINGS["stability"],0.60)
+
+    def test_api_previous_next_context(self):
+        import json
+        class FakeAudio:
+            headers={"Content-Type":"audio/mpeg"}
+            def __enter__(self): return self
+            def __exit__(self,*args): return False
+            def read(self): return b"x"*420
+        with mock.patch.object(tts.urllib.request,"urlopen",return_value=FakeAudio()) as send:
+            audio=tts.api_speak("dummy-key","1234567890abcdef","你好，这里是测试。","战斗","natural","之前的文字","之后的文字")
+        self.assertEqual(len(audio),420)
+        body=json.loads(send.call_args.args[0].data)
+        self.assertEqual(body["voice_settings"],tts.NATURAL_SETTINGS)
+        self.assertEqual(body["previous_text"],"之前的文字")
+        self.assertEqual(body["next_text"],"之后的文字")
 
     def test_no_request_in_dry_run(self):
         with tempfile.TemporaryDirectory() as temp:
