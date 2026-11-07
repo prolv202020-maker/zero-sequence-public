@@ -8,18 +8,21 @@ ROOT=Path(__file__).resolve().parents[1]
 INBOX=ROOT/"tts"/"inbox"
 SAMPLES=ROOT/"tts"/"samples"
 MODEL="eleven_multilingual_v2"
-CHUNK_LIMIT=680
+CHUNK_LIMIT=1250
 CHAPTER_LIMIT=4500
 PREVIEW_LIMIT=520
 
 # 单人女声的轻度表演：只改变声学参数，不向正文插入会被朗读的指令。
 # Multilingual v2 暂不使用 v3/v4 音频标签。
+# Clear, steady narrator. Chinese punctuation carries emotion naturally without abrupt parameter jumps.
+NATURAL_SETTINGS={"stability":0.64,"similarity_boost":0.82,"style":0.0,"speed":1.0,"use_speaker_boost":True}
+# Optional mild drama for long chapters; all blocks still use the same Voice ID.
 SCENE_PRESETS={
-    "旁白":{"stability":0.56,"similarity_boost":0.76,"style":0.0,"speed":0.95},
-    "战斗":{"stability":0.42,"similarity_boost":0.76,"style":0.0,"speed":1.02},
-    "悬疑":{"stability":0.49,"similarity_boost":0.76,"style":0.0,"speed":0.92},
-    "悲伤":{"stability":0.62,"similarity_boost":0.76,"style":0.0,"speed":0.90},
-    "温柔":{"stability":0.53,"similarity_boost":0.76,"style":0.0,"speed":0.94},
+    "旁白":{"stability":0.62,"similarity_boost":0.82,"style":0.0,"speed":1.0,"use_speaker_boost":True},
+    "战斗":{"stability":0.57,"similarity_boost":0.82,"style":0.0,"speed":1.01,"use_speaker_boost":True},
+    "悬疑":{"stability":0.60,"similarity_boost":0.82,"style":0.0,"speed":0.99,"use_speaker_boost":True},
+    "悲伤":{"stability":0.64,"similarity_boost":0.82,"style":0.0,"speed":0.98,"use_speaker_boost":True},
+    "温柔":{"stability":0.62,"similarity_boost":0.82,"style":0.0,"speed":0.99,"use_speaker_boost":True},
 }
 
 EMOTION_LEXICON={
@@ -61,9 +64,14 @@ def split_text(text:str,limit:int=CHUNK_LIMIT)->list[str]:
     if buf.strip(): parts.append(buf.strip())
     return [p for p in parts if p]
 
-def api_speak(key:str,voice:str,text:str,scene:str="旁白")->bytes:
+def api_speak(key:str,voice:str,text:str,scene:str="旁白",profile:str="natural",previous_text:str="",next_text:str="")->bytes:
     url=f"https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128"
-    payload=json.dumps({"text":text,"model_id":MODEL,"voice_settings":SCENE_PRESETS.get(scene,SCENE_PRESETS["旁白"])},ensure_ascii=False).encode("utf-8")
+    settings=NATURAL_SETTINGS if profile=="natural" else SCENE_PRESETS.get(scene,SCENE_PRESETS["旁白"])
+    body={"text":text,"model_id":MODEL,"voice_settings":settings,"apply_text_normalization":"auto"}
+    # Surrounding story context is not spoken, but helps natural flow between longer blocks.
+    if previous_text: body["previous_text"]=previous_text[-160:]
+    if next_text: body["next_text"]=next_text[:160]
+    payload=json.dumps(body,ensure_ascii=False).encode("utf-8")
     request=urllib.request.Request(url,data=payload,method="POST",headers={"xi-api-key":key,"Content-Type":"application/json","Accept":"audio/mpeg"})
     try:
         with urllib.request.urlopen(request,timeout=150) as response:
@@ -83,17 +91,18 @@ def input_file(name:str)->Path:
     if not path.is_file(): raise FileNotFoundError("Article text does not exist")
     return path
 
-def run(filename:str,output_root:Path,dry_run:bool)->None:
+def run(filename:str,output_root:Path,dry_run:bool,profile:str="natural")->None:
+    if profile not in ("natural","expressive"): raise ValueError("Unknown voice profile")
     path=input_file(filename)
     text=path.read_text(encoding="utf-8-sig")
     if not text.strip(): raise ValueError("Empty article")
     limit=PREVIEW_LIMIT if path.is_relative_to(SAMPLES.resolve()) else CHAPTER_LIMIT
     if len(text)>limit: raise ValueError(f"Text over {limit} characters; stop to protect credits")
-    chunks=split_text(text, 125 if path.is_relative_to(SAMPLES.resolve()) else CHUNK_LIMIT)
+    chunks=split_text(text)
     credits=sum(len(part) for part in chunks)
-    print(f"File: {path.name}; approx {credits} characters; {len(chunks)} segments; voice = SAME for all scenes")
+    print(f"File: {path.name}; approx {credits} characters; {len(chunks)} segments; voice = SAME; profile={profile}")
     for i,part in enumerate(chunks,1):
-        print(f"   Part {i}: {classify_scene(part)} ({len(part)} characters)")
+        print(f"   Part {i}: {'自然旁白' if profile=='natural' else classify_scene(part)} ({len(part)} characters)")
     if dry_run:
         print("DRY RUN: 0 requests to ElevenLabs; no credits consumed")
         return
@@ -108,9 +117,11 @@ def run(filename:str,output_root:Path,dry_run:bool)->None:
     files=[]
     for idx,chunk in enumerate(chunks,1):
         name=folder/f"part_{idx:03d}.mp3"
-        scene=classify_scene(chunk)
-        print(f"Generating {idx}/{len(chunks)}: {len(chunk)} characters, delivery={scene}",flush=True)
-        name.write_bytes(api_speak(key,voice,chunk,scene))
+        scene="旁白" if profile=="natural" else classify_scene(chunk)
+        print(f"Generating {idx}/{len(chunks)}: {len(chunk)} characters, profile={profile}, delivery={scene}",flush=True)
+        name.write_bytes(api_speak(key,voice,chunk,scene,profile,
+            previous_text=chunks[idx-2] if idx>1 else "",
+            next_text=chunks[idx] if idx<len(chunks) else ""))
         files.append(name)
     result=folder/f"{path.stem}.mp3"
     if len(files)==1:
@@ -130,9 +141,10 @@ if __name__=="__main__":
     cli.add_argument("--input",required=True)
     cli.add_argument("--out",default="tts-output")
     cli.add_argument("--dry-run",action="store_true")
+    cli.add_argument("--profile",choices=("natural","expressive"),default="natural")
     args=cli.parse_args()
     try:
-        run(args.input,Path(args.out),args.dry_run)
+        run(args.input,Path(args.out),args.dry_run,args.profile)
     except (OSError,ValueError,RuntimeError) as error:
         print("TTS ERROR:",error,file=sys.stderr)
         sys.exit(1)
