@@ -23,3 +23,6 @@ jobs:
           node scripts/test-phase1-integration.mjs
       - name: Verify visual codex sources, spoiler gates and graceful image fallback
         run: node scripts/test-visual-codex.mjs
+
+      - name: Validate ElevenLabs narration bridge without API usage
+        run: python3 scripts/test_elevenlabs_narrate.py
