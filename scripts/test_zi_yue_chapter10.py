@@ -25,7 +25,7 @@ class Tests(unittest.TestCase):
         self.assertLessEqual(len(production),tts.CHAPTER_LIMIT)
         self.assertEqual(len(tts.split_text(production,tts.CHAPTER_LIMIT)),1)
         self.assertEqual(tts.VOICE_PRESETS["zi-yue"],"5qr5FEpvZGzmVOPBS55W")
-        self.assertEqual(tts.V4_NARRATOR_SETTINGS,{"stability":0.53,"similarity_boost":0.153})
+        self.assertEqual(tts.V4_NARRATOR_SETTINGS,{"stability":0.53,"similarity_boost":0.78})
     def test_dry_run_never_calls_elevenlabs(self):
         with mock.patch.object(tts,"api_speak",side_effect=AssertionError("API should not be called")):
             tts.run("tts/production/volume_01_chapter_010_zi_yue_v4.txt",ROOT/"_no_output",True,"expressive","eleven_v4","zi-yue")
