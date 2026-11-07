@@ -7,7 +7,12 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 INBOX=ROOT/"tts"/"inbox"
 SAMPLES=ROOT/"tts"/"samples"
+AUDITIONS=ROOT/"tts"/"auditions"
 MODEL="eleven_multilingual_v2"
+ALLOWED_MODELS=(MODEL,"eleven_v4")
+# Public candidate from the Chinese ElevenLabs voice catalog; not the old Amy voice.
+VOICE_PRESETS={"zi-yue":"5qr5FEpvZGzmVOPBS55W"}
+V4_NARRATOR_SETTINGS={"stability":0.53,"similarity_boost":0.78}
 CHUNK_LIMIT=1250
 CHAPTER_LIMIT=4500
 PREVIEW_LIMIT=520
@@ -64,10 +69,14 @@ def split_text(text:str,limit:int=CHUNK_LIMIT)->list[str]:
     if buf.strip(): parts.append(buf.strip())
     return [p for p in parts if p]
 
-def api_speak(key:str,voice:str,text:str,scene:str="旁白",profile:str="natural",previous_text:str="",next_text:str="")->bytes:
+def api_speak(key:str,voice:str,text:str,scene:str="旁白",profile:str="natural",previous_text:str="",next_text:str="",model:str=MODEL)->bytes:
     url=f"https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128"
-    settings=NATURAL_SETTINGS if profile=="natural" else SCENE_PRESETS.get(scene,SCENE_PRESETS["旁白"])
-    body={"text":text,"model_id":MODEL,"voice_settings":settings,"apply_text_normalization":"auto"}
+    if model not in ALLOWED_MODELS: raise ValueError("Unsupported ElevenLabs model")
+    # v4 supports emotion tags and uses ONLY stability/similarity settings: no speed/style sliders.
+    settings=V4_NARRATOR_SETTINGS if model=="eleven_v4" else (
+        NATURAL_SETTINGS if profile=="natural" else SCENE_PRESETS.get(scene,SCENE_PRESETS["旁白"]))
+    body={"text":text,"model_id":model,"voice_settings":settings,"apply_text_normalization":"auto"}
+    if model=="eleven_v4": body["language_code"]="zh"
     # Surrounding story context is not spoken, but helps natural flow between longer blocks.
     if previous_text: body["previous_text"]=previous_text[-160:]
     if next_text: body["next_text"]=next_text[:160]
@@ -86,28 +95,33 @@ def api_speak(key:str,voice:str,text:str,scene:str="旁白",profile:str="natural
 
 def input_file(name:str)->Path:
     path=(ROOT/name).resolve()
-    if path.suffix.lower()!=".txt" or not (path.is_relative_to(INBOX.resolve()) or path.is_relative_to(SAMPLES.resolve())):
-        raise ValueError("Only .txt in tts/inbox/ or tts/samples/ is allowed")
+    if path.suffix.lower()!=".txt" or not (path.is_relative_to(INBOX.resolve()) or path.is_relative_to(SAMPLES.resolve()) or path.is_relative_to(AUDITIONS.resolve())):
+        raise ValueError("Only .txt in tts/inbox/, tts/samples/ or tts/auditions/ is allowed")
     if not path.is_file(): raise FileNotFoundError("Article text does not exist")
     return path
 
-def run(filename:str,output_root:Path,dry_run:bool,profile:str="natural")->None:
+def run(filename:str,output_root:Path,dry_run:bool,profile:str="natural",model:str=MODEL,voice_preset:str="existing")->None:
     if profile not in ("natural","expressive"): raise ValueError("Unknown voice profile")
+    if model not in ALLOWED_MODELS: raise ValueError("Unsupported ElevenLabs model")
+    if voice_preset not in ("existing",*VOICE_PRESETS): raise ValueError("Unknown voice preset")
     path=input_file(filename)
     text=path.read_text(encoding="utf-8-sig")
     if not text.strip(): raise ValueError("Empty article")
-    limit=PREVIEW_LIMIT if path.is_relative_to(SAMPLES.resolve()) else CHAPTER_LIMIT
+    is_audition=path.is_relative_to(AUDITIONS.resolve())
+    limit=PREVIEW_LIMIT if path.is_relative_to(SAMPLES.resolve()) or is_audition else CHAPTER_LIMIT
+    if is_audition and (voice_preset=="existing" or model!="eleven_v4"):
+        raise ValueError("New-voice auditions require an explicitly different voice and Eleven v4")
     if len(text)>limit: raise ValueError(f"Text over {limit} characters; stop to protect credits")
     chunks=split_text(text)
     credits=sum(len(part) for part in chunks)
-    print(f"File: {path.name}; approx {credits} characters; {len(chunks)} segments; voice = SAME; profile={profile}")
+    print(f"File: {path.name}; approx {credits} characters; {len(chunks)} segments; voice = SAME; preset={voice_preset}; model={model}; profile={profile}")
     for i,part in enumerate(chunks,1):
         print(f"   Part {i}: {'自然旁白' if profile=='natural' else classify_scene(part)} ({len(part)} characters)")
     if dry_run:
         print("DRY RUN: 0 requests to ElevenLabs; no credits consumed")
         return
     key=os.environ.get("ELEVENLABS_API_KEY","").strip()
-    voice=os.environ.get("ELEVENLABS_VOICE_ID","").strip()
+    voice=(os.environ.get("ELEVENLABS_VOICE_ID","").strip() if voice_preset=="existing" else VOICE_PRESETS[voice_preset])
     if not key or not voice:
         raise RuntimeError("Missing GitHub Secret ELEVENLABS_API_KEY or Variable ELEVENLABS_VOICE_ID")
     if not re.fullmatch(r"[A-Za-z0-9_-]{8,120}",voice):
@@ -121,7 +135,7 @@ def run(filename:str,output_root:Path,dry_run:bool,profile:str="natural")->None:
         print(f"Generating {idx}/{len(chunks)}: {len(chunk)} characters, profile={profile}, delivery={scene}",flush=True)
         name.write_bytes(api_speak(key,voice,chunk,scene,profile,
             previous_text=chunks[idx-2] if idx>1 else "",
-            next_text=chunks[idx] if idx<len(chunks) else ""))
+            next_text=chunks[idx] if idx<len(chunks) else "",model=model))
         files.append(name)
     result=folder/f"{path.stem}.mp3"
     if len(files)==1:
@@ -143,9 +157,11 @@ if __name__=="__main__":
     cli.add_argument("--out",default="tts-output")
     cli.add_argument("--dry-run",action="store_true")
     cli.add_argument("--profile",choices=("natural","expressive"),default="natural")
+    cli.add_argument("--model",choices=ALLOWED_MODELS,default=MODEL)
+    cli.add_argument("--voice-preset",choices=("existing",*VOICE_PRESETS),default="existing")
     args=cli.parse_args()
     try:
-        run(args.input,Path(args.out),args.dry_run,args.profile)
+        run(args.input,Path(args.out),args.dry_run,args.profile,args.model,args.voice_preset)
     except (OSError,ValueError,RuntimeError) as error:
         print("TTS ERROR:",error,file=sys.stderr)
         sys.exit(1)
