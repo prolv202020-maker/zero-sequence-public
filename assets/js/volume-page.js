@@ -29,8 +29,11 @@
     figure.append(cover);
     figure.append(el('figcaption','', '第'+part+'篇《'+partName+'》 · 独立卷封面'));
   } else {
+    // 早期卷封面存在内联尺寸与边距，统一以同一份CSS为准。
+    figure.removeAttribute('style');
     const image=figure.querySelector('img');
-    if(image)image.loading='eager';
+    if(image){image.removeAttribute('style');image.loading='eager';}
+    figure.querySelector('figcaption')?.removeAttribute('style');
   }
   const info=el('div','zs-volume-info');
   info.append(eyebrow,title);
@@ -79,6 +82,10 @@
       raw=raw.replace(/^【正式正文】\s*/,'')
         .replace(/\s*·\s*全书第\s*\d+\s*章\s*$/,'')
         .replace(/\s*·\s*正式正文\s*$/,'').trim();
+      if(!prologue&&n>=1&&n<=10){
+        const han=['','一','二','三','四','五','六','七','八','九','十'][n];
+        raw=raw.replace(/^第\s*(?:\d{1,2}|[一二三四五六七八九十]+)\s*章[\s　]*/,'第'+han+'章　');
+      }
       mainTitle.textContent=raw;
       mainTitle.classList.add('zs-chapter-name');
       const serial=el('span','zs-chapter-index',prologue?'PROLOGUE · 序章':'CHAPTER '+String(globalFirst+n-1).padStart(3,'0'));
@@ -141,7 +148,8 @@
       a.classList.toggle('zs-chapter-current',!!current);
       const state=a.querySelector('.zs-chapter-state');
       if(state)state.textContent=done?'✓ 已读':current?'继续阅读':'未读';
-      a.setAttribute('aria-label',(prologue?'序章':'全书第'+(globalFirst+number-1)+'章')+'，'+(done?'已读':current?'继续阅读':'未读')+'，点击进入阅读');
+      const chapterTitle=a.querySelector('.zs-chapter-name')?.textContent?.trim()||'';
+      a.setAttribute('aria-label',(prologue?'序章':'全书第'+(globalFirst+number-1)+'章')+' '+chapterTitle+'，'+(done?'已读':current?'继续阅读':'未读')+'，点击进入阅读');
       if(current)currentLink=a;
       if(!done&&!nextUnread)nextUnread=a;
     }
