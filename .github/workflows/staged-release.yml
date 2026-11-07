@@ -40,3 +40,5 @@ jobs:
         run: python3 scripts/test_zi_yue_chapter5.py
       - name: Verify Zi Yue voice production script for chapter 6 without paid API requests
         run: python3 scripts/test_zi_yue_chapter6.py
+      - name: Verify Zi Yue voice production script for chapter 7 without paid API requests
+        run: python3 scripts/test_zi_yue_chapter7.py
