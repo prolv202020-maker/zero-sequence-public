@@ -6,9 +6,40 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 INBOX=ROOT/"tts"/"inbox"
+SAMPLES=ROOT/"tts"/"samples"
 MODEL="eleven_multilingual_v2"
-CHUNK_LIMIT=1450
+CHUNK_LIMIT=680
 CHAPTER_LIMIT=4500
+PREVIEW_LIMIT=520
+
+# 单人女声的轻度表演：只改变声学参数，不向正文插入会被朗读的指令。
+# Multilingual v2 暂不使用 v3/v4 音频标签。
+SCENE_PRESETS={
+    "旁白":{"stability":0.56,"similarity_boost":0.76,"style":0.0,"speed":0.95},
+    "战斗":{"stability":0.42,"similarity_boost":0.76,"style":0.0,"speed":1.02},
+    "悬疑":{"stability":0.49,"similarity_boost":0.76,"style":0.0,"speed":0.92},
+    "悲伤":{"stability":0.62,"similarity_boost":0.76,"style":0.0,"speed":0.90},
+    "温柔":{"stability":0.53,"similarity_boost":0.76,"style":0.0,"speed":0.94},
+}
+
+EMOTION_LEXICON={
+    "战斗":("剑锋","刀锋","挥剑","斩","冲锋","厮杀","爆炸","突袭","击退","格挡","护盾","怪物","魔物","血","危险","战斗","怒吼","大喊","追击","倒下"),
+    "悬疑":("不可能","异常","突然","谜","秘密","怀疑","陌生","警告","凝视","沉默","冷汗","恐惧","记忆","回声","黑暗","疑惑"),
+    "悲伤":("泪","哭","离别","失去","牺牲","死去","再也","遗憾","悲伤","对不起","最后一刻","最后那一刻"),
+    "温柔":("微笑","轻声","温柔","安慰","放心","早点睡","谢谢","握住","拥抱","安心","醒了吗","守护"),
+}
+def classify_scene(text:str)->str:
+    """轻量场景判断；避免给每一句话频繁切换音色。"""
+    if not text.strip(): return "旁白"
+    scores={kind:sum(text.count(phrase) for phrase in words) for kind,words in EMOTION_LEXICON.items()}
+    strongest=max(scores,key=scores.get)
+    if scores[strongest]==0: return "旁白"
+    if scores["悲伤"]>=2 and scores["悲伤"]>=scores["战斗"]: return "悲伤"
+    if scores["战斗"]>=2 and scores["战斗"]>=scores["悬疑"]: return "战斗"
+    if scores["温柔"]>=2 and scores["温柔"]>=scores["悬疑"]: return "温柔"
+    if scores["悬疑"]>=1: return "悬疑"
+    return "旁白"
+
 
 def split_text(text:str,limit:int=CHUNK_LIMIT)->list[str]:
     text=text.strip().replace("\r\n","\n").replace("\r","\n")
@@ -30,9 +61,9 @@ def split_text(text:str,limit:int=CHUNK_LIMIT)->list[str]:
     if buf.strip(): parts.append(buf.strip())
     return [p for p in parts if p]
 
-def api_speak(key:str,voice:str,text:str)->bytes:
+def api_speak(key:str,voice:str,text:str,scene:str="旁白")->bytes:
     url=f"https://api.elevenlabs.io/v1/text-to-speech/{voice}?output_format=mp3_44100_128"
-    payload=json.dumps({"text":text,"model_id":MODEL,"voice_settings":{"stability":0.55,"similarity_boost":0.75,"style":0.0}},ensure_ascii=False).encode("utf-8")
+    payload=json.dumps({"text":text,"model_id":MODEL,"voice_settings":SCENE_PRESETS.get(scene,SCENE_PRESETS["旁白"])},ensure_ascii=False).encode("utf-8")
     request=urllib.request.Request(url,data=payload,method="POST",headers={"xi-api-key":key,"Content-Type":"application/json","Accept":"audio/mpeg"})
     try:
         with urllib.request.urlopen(request,timeout=150) as response:
@@ -47,8 +78,8 @@ def api_speak(key:str,voice:str,text:str)->bytes:
 
 def input_file(name:str)->Path:
     path=(ROOT/name).resolve()
-    if not path.is_relative_to(INBOX.resolve()) or path.suffix.lower()!=".txt":
-        raise ValueError("Only .txt in tts/inbox/ is allowed")
+    if path.suffix.lower()!=".txt" or not (path.is_relative_to(INBOX.resolve()) or path.is_relative_to(SAMPLES.resolve())):
+        raise ValueError("Only .txt in tts/inbox/ or tts/samples/ is allowed")
     if not path.is_file(): raise FileNotFoundError("Article text does not exist")
     return path
 
@@ -56,10 +87,13 @@ def run(filename:str,output_root:Path,dry_run:bool)->None:
     path=input_file(filename)
     text=path.read_text(encoding="utf-8-sig")
     if not text.strip(): raise ValueError("Empty article")
-    if len(text)>CHAPTER_LIMIT: raise ValueError(f"Chapter over {CHAPTER_LIMIT} characters; stop to protect credits")
-    chunks=split_text(text)
+    limit=PREVIEW_LIMIT if path.is_relative_to(SAMPLES.resolve()) else CHAPTER_LIMIT
+    if len(text)>limit: raise ValueError(f"Text over {limit} characters; stop to protect credits")
+    chunks=split_text(text, 125 if path.is_relative_to(SAMPLES.resolve()) else CHUNK_LIMIT)
     credits=sum(len(part) for part in chunks)
-    print(f"Chapter: {path.name}; approx {credits} credits; {len(chunks)} segments")
+    print(f"File: {path.name}; approx {credits} characters; {len(chunks)} segments; voice = SAME for all scenes")
+    for i,part in enumerate(chunks,1):
+        print(f"   Part {i}: {classify_scene(part)} ({len(part)} characters)")
     if dry_run:
         print("DRY RUN: 0 requests to ElevenLabs; no credits consumed")
         return
@@ -74,8 +108,9 @@ def run(filename:str,output_root:Path,dry_run:bool)->None:
     files=[]
     for idx,chunk in enumerate(chunks,1):
         name=folder/f"part_{idx:03d}.mp3"
-        print(f"Generating {idx}/{len(chunks)}: {len(chunk)} characters",flush=True)
-        name.write_bytes(api_speak(key,voice,chunk))
+        scene=classify_scene(chunk)
+        print(f"Generating {idx}/{len(chunks)}: {len(chunk)} characters, delivery={scene}",flush=True)
+        name.write_bytes(api_speak(key,voice,chunk,scene))
         files.append(name)
     result=folder/f"{path.stem}.mp3"
     if len(files)==1:

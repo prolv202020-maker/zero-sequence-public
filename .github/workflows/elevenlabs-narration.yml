@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       file:
-        description: 'Article, e.g. tts/inbox/chapter_001.txt'
+        description: 'Article, e.g. tts/samples/volume_01_chapter_001_audition.txt'
         required: true
         type: string
       dry_run:
@@ -50,7 +50,12 @@ jobs:
             fi
             ARTICLE="${ARTICLES[0]}"
           fi
-          if [[ ! "$ARTICLE" =~ ^tts/inbox/[A-Za-z0-9_-]+\.txt$ ]]; then
+          if [[ "$TRIGGER" == "workflow_dispatch" ]]; then
+            REGEX='^tts/(inbox|samples)/[A-Za-z0-9_-]+\.txt$'
+          else
+            REGEX='^tts/inbox/[A-Za-z0-9_-]+\.txt$'
+          fi
+          if [[ ! "$ARTICLE" =~ $REGEX ]]; then
             echo 'Invalid article path: tts/inbox/chapter_001.txt is valid.' >&2
             exit 1
           fi
