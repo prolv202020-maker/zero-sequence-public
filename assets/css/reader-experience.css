@@ -98,3 +98,25 @@ body[data-zs-reader-theme="light"] .article p{color:#252e42}
  .zs-reader-panel .zs-controls button{min-height:44px;}
 }
 @media(max-width:360px){.zs-reader-fab{font-size:12px;padding:10px 11px}.zs-reader-panel{width:calc(100vw - 16px)}}
+
+/* V5 · 章节速查、阅读时长与移动端低遮挡控件。 */
+.zs-chapter-stats{max-width:var(--zs-reader-width);margin:10px auto 12px;text-align:center;color:#d5c4a3;font:12px var(--zs-font-ui,sans-serif);letter-spacing:.03em;line-height:1.8}
+.zs-chapter-jump{position:relative;flex:0 1 180px;min-width:150px;font-family:var(--zs-font-ui,sans-serif)}
+.zs-chapter-jump>summary{min-height:42px;display:flex;align-items:center;justify-content:center;list-style:none;cursor:pointer;padding:10px 13px;border:1px solid #d7c18c73;border-radius:10px;background:#292f4bb8;color:#f2d5a1;font-size:13px}
+.zs-chapter-jump>summary::-webkit-details-marker{display:none}
+.zs-chapter-jump>summary:after{content:"⌄";margin-left:9px;opacity:.9}
+.zs-chapter-jump[open]>summary:after{transform:rotate(180deg)}
+.zs-chapter-jump>summary:focus-visible,.zs-chapter-jump-form input:focus-visible,.zs-chapter-jump-form button:focus-visible{outline:2px solid #efd39c;outline-offset:3px}
+.zs-chapter-jump-form{position:absolute;top:calc(100% + 9px);right:0;z-index:30;min-width:260px;width:290px;padding:15px;border:1px solid #e7cc9588;border-radius:12px;background:#1b223c;box-shadow:0 12px 36px #050817ac;display:grid;grid-template-columns:1fr auto;gap:9px}
+.zs-chapter-jump-form label{grid-column:1/-1;font-size:12px;color:#eed6a8}
+.zs-chapter-jump-form input{width:100%;min-width:0;padding:10px 11px;min-height:44px;font:16px var(--zs-font-ui,sans-serif);border:1px solid #d9c39485;border-radius:9px;background:#11172c;color:#fff}
+.zs-chapter-jump-form button{min-height:44px;padding:10px;border:1px solid #e9d3a0;border-radius:9px;background:#e7cf9c;color:#211e2c;font:650 12px var(--zs-font-ui,sans-serif);cursor:pointer}
+.zs-chapter-jump-status{grid-column:1/-1;font-size:12px;color:#f4baa6;line-height:1.6}
+.zs-chapter-jump-status:empty{display:none}
+@media(max-width:650px){
+ .zs-chapter-stats{font-size:11px;margin-block:7px 10px}
+ .zs-chapter-jump{grid-column:1/-1;min-width:0}
+ .zs-chapter-jump>summary{min-height:48px}
+ .zs-chapter-jump-form{position:static;width:100%;min-width:0;margin-top:8px;padding:12px;box-shadow:none}
+ .zs-chapter-jump-form input,.zs-chapter-jump-form button{min-height:46px}
+}
