@@ -23,7 +23,7 @@
   if(!figure){
     figure=el('figure');
     const cover=el('img','zs-volume-official-cover');
-    cover.src=vol>=21?ROOT+'assets/images/covers/zero-sequence-cover.webp':ROOT+'assets/images/covers/volume-'+String(vol).padStart(2,'0')+'.webp';
+    cover.src=ROOT+'assets/images/covers/volume-'+String(vol).padStart(2,'0')+'.webp';
     cover.alt='第'+vol+'卷独立正式封面';
     cover.width=750;cover.height=1080;
     figure.append(cover);
@@ -149,7 +149,7 @@
       const state=a.querySelector('.zs-chapter-state');
       if(state)state.textContent=done?'✓ 已读':current?'继续阅读':'未读';
       const chapterTitle=a.querySelector('.zs-chapter-name')?.textContent?.trim()||'';
-      a.setAttribute('aria-label',(prologue?'序章':'全书第'+(globalFirst+number-1)+'章')+' '+chapterTitle+'，'+(done?'已读':current?'继续阅读':'未读')+'，点击进入阅读');
+      a.setAttribute('aria-label',(isPrologue?'序章':'全书第'+(globalFirst+number-1)+'章')+' '+chapterTitle+'，'+(done?'已读':current?'继续阅读':'未读')+'，点击进入阅读');
       if(current)currentLink=a;
       if(!done&&!nextUnread)nextUnread=a;
     }
