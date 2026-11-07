@@ -1,3 +1,29 @@
+# 《第零序列》更换中文女声计划 · Zi Yue + Eleven v4 (2026-11-07)
+
+**网站当前已发布第一章音频保持原样，直到作者确认新音色的效果。**
+
+## 本轮新女声试听
+- 当前旧声：Amy（原有 GitHub Actions Variable ELEVENLABS_VOICE_ID，未改动）
+- 新候选：Zi Yue - Pro Voice（子悦，Voice ID `5qr5FEpvZGzmVOPBS55W`），据公开中文音色目录描述，属于发音标准、轻柔自然的女声；**是否有该音色的 API 访问权限由 ElevenLabs 账号决定**
+- 新模型：`eleven_v4`，按官方新模型能力使用 `[curious]`、`[sad]`、`[whispers]` 控制同一女声的情绪
+- Eleven v4 仅覆盖 stability 0.53 / similarity 0.78，不发送旧 v2 的 speed/style/speaker boost 参数
+- 试听文字：第一卷第一章已公开片段，`tts/auditions/zi_yue_v4_part01_ch001.txt`，不超过 520 字符，**1 次 API 请求**，成本根据订阅计费；合并本试听稿时自动运行
+- 独立工作流：`.github/workflows/elevenlabs-voice-audition.yml`，不会修改旧 MP3 或网站。运行成功后下载 `zi-yue-v4-female-chapter1-audition-...` artifact
+- 新音色必须试听认可后才正式升级整章和网站；若 API 回复 403/404，先在 ElevenLabs Voices → Explore 搜索 Zi Yue，并添加到 My Voices 后获取可以使用的 Voice ID，再由作者同意重新试音。**不要分享 API Key**
+
+## 人工试听操作（可自选音色与模型）
+前往 GitHub → Actions → ElevenLabs Chinese Female Narration → Run workflow:
+- Branch: main
+- file: `tts/auditions/zi_yue_v4_part01_ch001.txt`
+- voice_preset: `zi-yue`
+- tts_model: `eleven_v4`
+- voice_profile: `expressive`
+- dry_run: true 表示只做文本与预计使用量检查；false 才消耗额度生成真实 MP3
+
+注意：原有 `tts/inbox/*.txt` 自动合成仍使用旧音色与 `eleven_multilingual_v2`，除非作者明确最终确认切换。
+
+---
+
 # 《第零序列》中文女声朗读 · 清晰自然 V2
 
 ## 本次试听改进
