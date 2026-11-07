@@ -59,6 +59,43 @@ class Tests(unittest.TestCase):
         self.assertEqual(body["previous_text"],"之前的文字")
         self.assertEqual(body["next_text"],"之后的文字")
 
+    def test_v4_chinese_emotive_settings_and_voice_distinct(self):
+        import json
+        self.assertIn("eleven_v4",tts.ALLOWED_MODELS)
+        self.assertEqual(tts.VOICE_PRESETS["zi-yue"],"5qr5FEpvZGzmVOPBS55W")
+        self.assertNotEqual(tts.VOICE_PRESETS["zi-yue"],"bhJUNIXWQQ94l8eI2VUf")
+        class FakeAudio:
+            headers={"Content-Type":"audio/mpeg"}
+            def __enter__(self): return self
+            def __exit__(self,*args): return False
+            def read(self): return b"x"*420
+        with mock.patch.object(tts.urllib.request,"urlopen",return_value=FakeAudio()) as send:
+            audio=tts.api_speak("dummy-key",tts.VOICE_PRESETS["zi-yue"],
+                "[sad] 顾长渊想起了苏紫璃。","悲伤","expressive",model="eleven_v4")
+        self.assertEqual(len(audio),420)
+        body=json.loads(send.call_args.args[0].data)
+        self.assertEqual(body["model_id"],"eleven_v4")
+        self.assertEqual(body["language_code"],"zh")
+        self.assertEqual(body["voice_settings"],tts.V4_NARRATOR_SETTINGS)
+        self.assertNotIn("speed",body["voice_settings"])
+        self.assertNotIn("style",body["voice_settings"])
+        self.assertIn("[sad]",body["text"])
+
+    def test_v4_short_audition_is_single_request_and_dry_run_safe(self):
+        file="tts/auditions/zi_yue_v4_part01_ch001.txt"
+        sample=tts.input_file(file)
+        content=sample.read_text(encoding="utf-8")
+        self.assertGreater(len(content),300)
+        self.assertLessEqual(len(content),tts.PREVIEW_LIMIT)
+        self.assertEqual(len(tts.split_text(content)),1)
+        self.assertTrue(all(x in content for x in ("[curious]","[sad]","[whispers]")))
+        with tempfile.TemporaryDirectory() as temp:
+            with mock.patch.object(tts,"api_speak",side_effect=AssertionError("API called during dry run")):
+                tts.run(file,Path(temp),True,"expressive","eleven_v4","zi-yue")
+        with tempfile.TemporaryDirectory() as temp:
+            with self.assertRaises(ValueError):
+                tts.run(file,Path(temp),True,"natural",tts.MODEL,"existing")
+
     def test_long_chapter_mp3_merge_paths_are_absolute(self):
         from types import SimpleNamespace
         with tempfile.TemporaryDirectory() as temp:
