@@ -174,4 +174,25 @@ for(let i=1;i<=10;i++){
   assert.ok(listeningPage.includes('chapter-'+pad+'.mp3?v=zi-yue-v4'),'Chapter '+pad+' missing official MP3 player');
   assert.ok(listeningPage.includes('controls preload="none"'),'Chapter '+pad+' must be opt-in listening');
 }
+const prologueMp3='assets/audio/audiobook/part-01/volume-01/prologue.mp3';
+const prologueBytes=readFileSync(join(root,prologueMp3));
+assert.ok(prologueBytes.length>4_000_000 && prologueBytes.length<18_000_000,'Prologue official MP3 missing or incomplete');
+assert.equal(prologueBytes.subarray(0,3).toString('utf8'),'ID3','Prologue must be MP3');
+const prologuePage=read('chapters/volume-01/prologue.html');
+assert.ok(prologuePage.includes('序章 · 子悦中文女声有声版')&&prologuePage.includes('Zi Yue 子悦 · Eleven v4'),'Prologue narrator or model missing');
+assert.ok(prologuePage.includes('prologue.mp3?v=zi-yue-v4'),'Prologue official MP3 missing or cached');
+assert.ok(prologuePage.includes('download="第零序列_最后的时刻_子悦_ZiYue_V4.mp3"'),'Prologue MP3 download missing');
+assert.ok(prologuePage.includes('controls preload="none"')&&!/<audio[^>]+autoplay/.test(prologuePage),'Prologue must be manual playback');
+assert.ok(prologuePage.includes('chapter-audiobook.js?v=2'),'Prologue must use correct dynamic status and BGM coordination');
+assert.ok(prologuePage.includes('<p>雨已经下了三天。</p>')&&prologuePage.includes('<p>滴答。</p>'),'Original prologue text boundary changed');
+const prologueBody=prologuePage.split('<div class="article">',2)[1].split('<div class="pager">',2)[0];
+assert.equal(prologueBody.split('<p').length-1,85,'Prologue original 85 paragraphs must be preserved');
+assert.equal((prologuePage.match(/<div class="article">/g)||[]).length,1,'Prologue article container missing');
+assert.ok(volume.includes('prologue.html#zs-audiobook-player'),'Prologue audiobook catalog link missing');
+assert.ok(volume.indexOf('prologue.html#zs-audiobook-player')<volume.indexOf('chapter-001.html#zs-audiobook-player'),'Prologue listening entry must precede Chapter 1');
+const statusScript=read('assets/js/chapter-audiobook.js');
+assert.ok(statusScript.includes('chapterLabel')&&statusScript.includes('序章')&&!statusScript.includes('正在播放第一章'),'Listening status must name the actual chapter, not Chapter 1');
+for(const audioName of ['prologue',...Array.from({length:10},(_,i)=>'chapter-'+String(i+1).padStart(3,'0'))]){
+  assert.ok(existsSync(join(root,'assets/audio/audiobook/part-01/volume-01/'+audioName+'.mp3')),'Full volume audiobook missing '+audioName);
+}
 console.log('[AUDIOBOOK] PASS: official Zi Yue v4 Chapter 1 published with a '+data.length+'-byte opt-in MP3, mobile controls, progress and BGM preserved.');
