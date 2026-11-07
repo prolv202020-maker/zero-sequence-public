@@ -1,0 +1,15 @@
+/* 《第零序列》有声小说首章：原生播放器、手动开始、手机优先。 */
+.zs-audiobook-panel{max-width:870px;margin:25px auto 35px;border:1px solid #d7bb847d;border-radius:20px;padding:clamp(17px,3.5vw,27px);background:linear-gradient(135deg,#323856,#1b2340);box-shadow:0 12px 30px #070b2055}
+.zs-audiobook-kicker{margin:0 0 8px;font:11px var(--zs-font-ui,sans-serif);letter-spacing:.16em;color:#e9cf99}
+.zs-audiobook-panel h2{margin:0 0 9px;color:#f5deb0;font-size:clamp(19px,3.1vw,27px);line-height:1.5}
+.zs-audiobook-description{margin:0 0 17px;color:#d8d5e3;line-height:1.85;font-size:13px}
+.zs-audiobook-panel audio{display:block;width:100%;max-width:100%;min-width:0;min-height:52px;accent-color:#d6b67a;color-scheme:light;touch-action:manipulation}
+.zs-audiobook-actions{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:16px 0 0}
+.zs-audiobook-actions>span{color:#d3cddb;font-size:12px;line-height:1.65}
+.zs-audiobook-actions>a,.zs-volume-audiobook a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border:1px solid #d7bb8480;border-radius:10px;color:#f5dcaa;background:#2b3351;text-decoration:none;font-size:13px}
+.zs-audiobook-actions a:hover,.zs-volume-audiobook a:hover{border-color:#f2d6a0;background:#394264}
+.zs-audiobook-status{font-size:12px;line-height:1.8;color:#c4c2d3;margin:14px 0 0}
+.zs-volume-audiobook{margin:15px 0 22px}
+.zs-volume-audiobook a{display:flex;justify-content:flex-start;max-width:730px;line-height:1.8;text-align:left}
+@media(max-width:650px){.zs-audiobook-panel{border-radius:15px;margin:18px 0 29px;padding:14px}.zs-audiobook-actions>a{width:100%}.zs-volume-audiobook a{width:100%}}
+@media(prefers-reduced-motion:reduce){.zs-audiobook-panel audio{scroll-behavior:auto}}
