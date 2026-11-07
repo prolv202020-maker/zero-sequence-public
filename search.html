@@ -12,7 +12,7 @@
 <script>
 (async()=>{
 const input=document.getElementById('s-input'),type=document.getElementById('s-type'),out=document.getElementById('s-results'),status=document.getElementById('s-count');
-let data=[];try{const response=await fetch('assets/data/search-index.json?v=7',{cache:'no-cache'});if(!response.ok)throw Error('index');data=await response.json();const supplement=await fetch('assets/data/search-index-volume24.json?v=1',{cache:'no-cache'});if(supplement.ok)data.push(...await supplement.json());const supplement25=await fetch('assets/data/search-index-volume25.json?v=1',{cache:'no-cache'});if(supplement25.ok)data.push(...await supplement25.json());const supplement26=await fetch('assets/data/search-index-volume26.json?v=1',{cache:'no-cache'});if(supplement26.ok)data.push(...await supplement26.json());const supplement27=await fetch('assets/data/search-index-volume27.json?v=1',{cache:'no-cache'});if(supplement27.ok)data.push(...await supplement27.json());}catch{status.textContent='搜索索引暂时无法加载，请使用第一篇目录。';return}
+let data=[];try{const response=await fetch('assets/data/search-index.json?v=7',{cache:'no-cache'});if(!response.ok)throw Error('index');data=await response.json();const supplement=await fetch('assets/data/search-index-volume24.json?v=1',{cache:'no-cache'});if(supplement.ok)data.push(...await supplement.json());const supplement25=await fetch('assets/data/search-index-volume25.json?v=1',{cache:'no-cache'});if(supplement25.ok)data.push(...await supplement25.json());const supplement26=await fetch('assets/data/search-index-volume26.json?v=1',{cache:'no-cache'});if(supplement26.ok)data.push(...await supplement26.json());const supplement27=await fetch('assets/data/search-index-volume27.json?v=1',{cache:'no-cache'});if(supplement27.ok)data.push(...await supplement27.json());const supplement28=await fetch('assets/data/search-index-volume28.json?v=1',{cache:'no-cache'});if(supplement28.ok)data.push(...await supplement28.json());}catch{status.textContent='搜索索引暂时无法加载，请使用第一篇目录。';return}
 const qparam=new URLSearchParams(location.search).get('q');if(qparam)input.value=qparam.slice(0,80);
 function render(){const query=input.value.toLowerCase().replace(/\s+/g,'').trim(),kind=type.value;
 const progress=(()=>{try{const x=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return [Number(x.p01?.max)||0,Number(x.p02?.max)||0,Number(x.p03?.max)||0]}catch{return [0,0,0]}})();
@@ -20,12 +20,12 @@ const publicItem=(item)=>{
  if(item.type==='chapter'){
   if((item.url||'').includes('prologue.html'))return true;
   const m=(item.url||'').match(/volume-(\d+)\/chapter-(\d+)/);
-  if(m){const v=Number(m[1]),n=(v-1)%10*10+Number(m[2]);return v>=1&&v<=27&&n<=progress[Math.floor((v-1)/10)];}
+  if(m){const v=Number(m[1]),n=(v-1)%10*10+Number(m[2]);return v>=1&&v<=28&&n<=progress[Math.floor((v-1)/10)];}
   return false;
  }
  if(item.type==='volume'){
   const m=(item.url||'').match(/volume-(\d+)/);
-  if(m){const v=Number(m[1]);return v>=1&&v<=27&&((v-1)%10)*10<=progress[Math.floor((v-1)/10)];}
+  if(m){const v=Number(m[1]);return v>=1&&v<=28&&((v-1)%10)*10<=progress[Math.floor((v-1)/10)];}
   return false;
  }
  // Archive landing pages are reader-safe; each page separately applies its own read progress.
