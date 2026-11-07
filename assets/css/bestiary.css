@@ -56,3 +56,6 @@
 .beast-actions a{display:inline-block;padding:10px 16px;border-radius:10px;border:1px solid #e7cb945c;background:#292c50;color:#f3d7a1;font-size:13px}
 @media(max-width:940px){.beast-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:710px){.beast-hero{grid-template-columns:1fr;padding:25px 20px}.beast-emblem{min-height:150px}.beast-emblem>span{font-size:90px}.beast-emblem:before{inset:10px}.beast-grid{grid-template-columns:1fr}.beast-card{padding:20px}.beast-filters{grid-template-columns:1fr}.beast-identity h3{font-size:21px}}
+/* 魔物独立视觉档案：仅在已读章节的动态条目中请求图片 */
+.beast-visual-preview{display:block;max-width:100%;margin:14px 0 16px;border-radius:13px;overflow:hidden;border:1px solid #d9c08f85;background:#171d37}
+.beast-visual-preview img{display:block;width:100%;height:auto;aspect-ratio:1122/1402;object-fit:contain}
