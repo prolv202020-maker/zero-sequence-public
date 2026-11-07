@@ -117,7 +117,7 @@ class Tests(unittest.TestCase):
                     with mock.patch.object(tts,"api_speak",return_value=b"x"*600):
                         with mock.patch.object(tts.shutil,"which",return_value="/usr/bin/ffmpeg"):
                             with mock.patch.object(tts.subprocess,"run",side_effect=fake_ffmpeg):
-                                tts.run("tts/inbox/__mp3_concat_test__.txt",output,False,"natural")
+                                tts.run("tts/inbox/__mp3_concat_test__.txt",output,False,"natural",tts.MODEL,"existing")
                 self.assertEqual(len(commands),1)
                 self.assertTrue((output/"__mp3_concat_test__"/"__mp3_concat_test__.mp3").is_file())
             finally:
