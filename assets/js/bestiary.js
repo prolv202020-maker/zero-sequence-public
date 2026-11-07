@@ -5,7 +5,7 @@ const root=document.getElementById('bestiary-root');
 if(!root)return;
 const search=document.getElementById('beast-search'),kind=document.getElementById('beast-kind'),region=document.getElementById('beast-region'),state=document.getElementById('beast-state');
 const count=document.getElementById('beast-count'),bar=document.getElementById('beast-bar'),meter=document.getElementById('beast-meter');
-const volnames=['重返','初临','暗流','无声之城','灰石盟约','失落商道','白霜边境','百城之约','黑风试炼','无名之门'];const p3volnames=['无声偏差','远域双钟','失去编号的城','外缘旧门','断潮回廊','外环裂线','熔谷争锋','双轨冷光','无钟之夜','零刻回廊'];
+const volnames=['重返','初临','暗流','无声之城','灰石盟约','失落商道','白霜边境','百城之约','黑风试炼','无名之门'];const p2volnames=['契约之外','无影商路','锻火账本','白烛与月','镜路歧途','北境长墙','分道与雷鸣','万家灯火','被改写的信','星火未熄'];const p3volnames=['无声偏差','远域双钟','失去编号的城','外缘旧门','断潮回廊','外环裂线','熔谷争锋','双轨冷光','无钟之夜','零刻回廊'];
 const labels={habitats:'栖息地',skills:'已知能力 / 战斗表现',habits:'习性与生态',tactics:'实战观察与应对',observations:'待考证 / 附注'};
 let records=[];
 function progress(p=1){try{if(window.ZSUnlock?.get)return Math.max(0,Math.min(100,Number(window.ZSUnlock.get(p).max)||0));const x=JSON.parse(localStorage.getItem(KEY)||'{}');return Math.max(0,Math.min(100,Number(x['p'+String(p).padStart(2,'0')]?.max)||0));}catch{return 0;}}
@@ -13,7 +13,7 @@ function elem(tag,cls,text){const n=document.createElement(tag);if(cls)n.classNa
 function link(at,volume,chapter,text){const a=elem('a','beast-source',text);a.href='../chapters/volume-'+String(volume).padStart(2,'0')+'/chapter-'+String(chapter).padStart(3,'0')+'.html';a.setAttribute('aria-label',text+'，打开原文章节');return a;}
 function span(cls,text){return elem('span',cls,text);}
 function available(list,up){return (list||[]).filter(d=>d.at<=up);}
-function chapterLabel(item){const title=item.vol<=10?volnames[item.vol-1]:p3volnames[item.vol-21];return '第'+item.vol+'卷'+(title?'《'+title+'》':'')+' · 第'+item.ch+'章';}
+function chapterLabel(item){const title=item.vol<=10?volnames[item.vol-1]:item.vol<=20?p2volnames[item.vol-11]:p3volnames[item.vol-21];return '第'+item.vol+'卷'+(title?'《'+title+'》':'')+' · 第'+item.ch+'章';}
 function unlocked(entry,up){return entry.first<=up;}
 function normalize(t){return String(t||'').toLocaleLowerCase('zh-Hans').replace(/\s+/g,'');}
 function keywords(entry,up){return [entry.name,entry.type,entry.region,entry.summary,...['habitats','skills','habits','tactics','observations','level'].flatMap(k=>available(entry[k],up).map(x=>x.text))].join(' ');}
@@ -46,15 +46,15 @@ function one(entry,up){
  return card;
 }
 function lockedCard(i,needed,part){const card=elem('article','beast-card beast-locked');
- card.append(elem('div','beast-lock-emblem','◈'),elem('h3','','未解锁生物档案'),elem('p','','继续阅读第一篇，在对应剧情出现后才会公开身份、栖息地及能力资料。'));
+ card.append(elem('div','beast-lock-emblem','◈'),elem('h3','','未解锁生物档案'),elem('p','','继续阅读对应篇章，在故事出现后才会公开身份、栖息地及能力资料。'));
  card.append(span('beast-chip','第'+part+'篇 · 第'+needed+'章后解锁'));card.setAttribute('aria-label','未解锁条目 '+(i+1));return card;}
-function setAreas(up){
+function setAreas(){
  const current=region.value||'all';const names=[...new Set(records.filter(x=>unlocked(x,progress(x.p||1))).map(x=>x.region))].sort((a,b)=>a.localeCompare(b,'zh-CN'));
  region.replaceChildren(new Option('全部已解锁地区','all'));names.forEach(n=>region.add(new Option(n,n)));region.value=names.includes(current)?current:'all';
 }
 function render(){
  const up=progress(1),up2=progress(2),up3=progress(3);const unlockedList=records.filter(x=>unlocked(x,progress(x.p||1)));const lockedList=records.filter(x=>!unlocked(x,progress(x.p||1)));
- setAreas(up);root.replaceChildren();
+ setAreas();root.replaceChildren();
  const query=normalize(search.value),k=kind.value,z=region.value,st=state.value;
  const shown=unlockedList.filter(x=>(k==='all'||x.type===k)&&(z==='all'||x.region===z)&&(!query||normalize(keywords(x,progress(x.p||1))).includes(query)));
  const showLocked=(st==='all'||st==='locked')&&!query&&k==='all'&&z==='all';
