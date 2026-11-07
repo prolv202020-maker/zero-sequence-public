@@ -1044,6 +1044,435 @@
           "ch": 10
         }
       ]
+    },
+    {
+      "id": "grey-spine-beast",
+      "name": "灰刺兽",
+      "p": 3,
+      "type": "魔物",
+      "region": "回声坡外侧",
+      "first": 6,
+      "vol": 21,
+      "ch": 6,
+      "summary": "岩缝及碎石坡附近活动的群体魔物，能快速改变突击方向。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 6,
+          "text": "回声坡外侧的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 6,
+          "text": "剑士与盾卫应先保护测绘员的撤离线，不宜追逐离队。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 6,
+          "text": "常依靠同伴的尖叫调整冲锋方向，狭窄地形不利于观察。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 6,
+          "vol": 21,
+          "ch": 6
+        }
+      ]
+    },
+    {
+      "id": "splitfin-beast",
+      "name": "裂鳍兽",
+      "p": 3,
+      "type": "魔物",
+      "region": "断潮水域",
+      "first": 43,
+      "vol": 25,
+      "ch": 3,
+      "summary": "水生魔物成群袭击灰鲸号，背鳍骨刃可割损船体。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 43,
+          "text": "断潮水域的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 43,
+          "text": "优先保护船舱和船员，轮流防护船体最薄弱的一侧。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 43,
+          "text": "旧航标发光后，兽群行动方向似有变化，不能直接排除人为诱导。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 43,
+          "vol": 25,
+          "ch": 3
+        }
+      ]
+    },
+    {
+      "id": "ridge-rock-lord",
+      "name": "裂脊岩侯",
+      "p": 3,
+      "type": "魔物",
+      "region": "外环矿道",
+      "first": 57,
+      "vol": 26,
+      "ch": 7,
+      "summary": "外环矿洞精英首领，背甲与矿纹巨角坚硬。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 57,
+          "text": "外环矿道的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 57,
+          "text": "利用遮挡掩护工人，避免正面砍击厚甲。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 57,
+          "text": "攻击后会发生明显的身体重心转移。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 57,
+          "vol": 26,
+          "ch": 7
+        }
+      ]
+    },
+    {
+      "id": "night-fire-lizard",
+      "name": "夜行火蜥",
+      "p": 3,
+      "type": "魔物",
+      "region": "灰烬熔谷",
+      "first": 64,
+      "vol": 27,
+      "ch": 4,
+      "summary": "熔谷夜间出现的火蜥，逼近营地补给点。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 64,
+          "text": "灰烬熔谷的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 64,
+          "text": "夜间护卫同时注意物资安全和撤离通道。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 64,
+          "text": "夜间活动记录来自护卫应对。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 64,
+          "vol": 27,
+          "ch": 4
+        }
+      ]
+    },
+    {
+      "id": "molten-back-drake",
+      "name": "熔背龙蜥",
+      "p": 3,
+      "type": "魔物",
+      "region": "灰烬熔谷中央炉",
+      "first": 67,
+      "vol": 27,
+      "ch": 7,
+      "summary": "精英首领，背甲如熔过的铸铁，能够冲撞周围工业设施。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 67,
+          "text": "灰烬熔谷中央炉的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 67,
+          "text": "需避开未经验收的旧铸槽，不可任意操作公共冷却设备。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 67,
+          "text": "会撞击熔谷中央炉的废管和护栏，威胁工匠及输水支管。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 67,
+          "vol": 27,
+          "ch": 7
+        }
+      ]
+    },
+    {
+      "id": "deep-frost-beast",
+      "name": "潜霜兽",
+      "p": 3,
+      "type": "魔物",
+      "region": "镜霜驿道冻湖",
+      "first": 75,
+      "vol": 28,
+      "ch": 5,
+      "summary": "潜行冻湖暗流，长须能够缠绕旧铁架并干扰井口救援。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 75,
+          "text": "镜霜驿道冻湖的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 75,
+          "text": "优先保持绳索稳定和受困人员安全，避免在狭井争力。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 75,
+          "text": "可能从非正面路线进入井底，改变救援绳负重。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 75,
+          "vol": 28,
+          "ch": 5
+        }
+      ]
+    },
+    {
+      "id": "frost-mirror-automaton",
+      "name": "镜霜卫偶",
+      "p": 3,
+      "type": "构装体",
+      "region": "镜霜驿道旧塔",
+      "first": 76,
+      "vol": 28,
+      "ch": 6,
+      "summary": "旧塔构装体，能针对重复的剑士步法采取封锁。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 76,
+          "text": "镜霜驿道旧塔的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 76,
+          "text": "战斗需要变换行动路径，并保持独立观测。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 76,
+          "text": "规律性防守行为说明单一招式可能失效。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 76,
+          "vol": 28,
+          "ch": 6
+        }
+      ]
+    },
+    {
+      "id": "frost-mirror-hunter",
+      "name": "霜镜巡狩者",
+      "p": 3,
+      "type": "魔物",
+      "region": "镜霜驿道",
+      "first": 79,
+      "vol": 28,
+      "ch": 9,
+      "summary": "北境高危精英，在护运路线上造成威胁。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 79,
+          "text": "镜霜驿道的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 79,
+          "text": "守住公共护运路线，不为追击越过撤离边界。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 79,
+          "text": "战斗强度和冰雪地形共同提高风险。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 79,
+          "vol": 28,
+          "ch": 9
+        }
+      ]
+    },
+    {
+      "id": "clockless-guardian",
+      "name": "无钟守卫",
+      "p": 3,
+      "type": "构装体",
+      "region": "无钟站北井镜海",
+      "first": 87,
+      "vol": 29,
+      "ch": 7,
+      "summary": "旧式构装守卫，利用记录下来的动作轨迹发动压制。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 87,
+          "text": "无钟站北井镜海的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 87,
+          "text": "由盾卫吸引压力，机关队另行寻找安全停止核心的方法。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 87,
+          "text": "可以重现先前玩家的动作路线并布置冰刺。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 87,
+          "vol": 29,
+          "ch": 7
+        }
+      ]
+    },
+    {
+      "id": "echo-hound",
+      "name": "回纹猎犬",
+      "p": 3,
+      "type": "魔物",
+      "region": "零刻回廊",
+      "first": 94,
+      "vol": 30,
+      "ch": 4,
+      "summary": "回廊内出现的防护兽，可追随已记录的行动轨迹。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 94,
+          "text": "零刻回廊的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 94,
+          "text": "测绘队逐段核验安全石径，避免依靠重复路线诱敌。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 94,
+          "text": "重复走位容易让队伍被引向危险路线。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 94,
+          "vol": 30,
+          "ch": 4
+        }
+      ]
+    },
+    {
+      "id": "echo-scout-crow",
+      "name": "回纹哨鸦",
+      "p": 3,
+      "type": "魔物",
+      "region": "零刻回廊",
+      "first": 94,
+      "vol": 30,
+      "ch": 4,
+      "summary": "羽翼呈半透明镜晶的大型鸟类魔物。",
+      "level": [],
+      "habitats": [
+        {
+          "at": 94,
+          "text": "零刻回廊的公开遭遇区域。"
+        }
+      ],
+      "skills": [],
+      "habits": [],
+      "tactics": [
+        {
+          "at": 94,
+          "text": "需要监测其是否影响回廊中的追踪与声学回传。"
+        }
+      ],
+      "observations": [
+        {
+          "at": 94,
+          "text": "羽片记录附近声响与动作，飞行时几乎无声。"
+        }
+      ],
+      "sources": [
+        {
+          "at": 94,
+          "vol": 30,
+          "ch": 4
+        }
+      ]
     }
   ]
 }
