@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       file:
-        description: 'Article, e.g. tts/inbox/chapter_001.txt'
+        description: 'Article, e.g. tts/samples/volume_01_chapter_001_audition.txt'
         required: true
         type: string
       dry_run:
@@ -50,7 +50,56 @@ jobs:
             fi
             ARTICLE="${ARTICLES[0]}"
           fi
-          if [[ ! "$ARTICLE" =~ ^tts/inbox/[A-Za-z0-9_-]+\.txt$ ]]; then
+          if [[ "$TRIGGER" == "workflow_dispatch" ]]; then
+            REGEX='^tts/(inbox|samples)/[A-Za-z0-9_-]+\\.txt
+            echo 'Invalid article path: tts/inbox/chapter_001.txt is valid.' >&2
+            exit 1
+          fi
+          echo "article=$ARTICLE" >> "$GITHUB_OUTPUT"
+      - name: Generate Chinese female narration
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$TRIGGER" == "workflow_dispatch" && "$DRY_RUN" == "true" ]]; then
+            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}' --dry-run
+          else
+            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}'
+          fi
+      - name: Download MP3 as artifact
+        if: success() && (github.event_name == 'push' || inputs.dry_run == false)
+        uses: actions/upload-artifact@v4
+        with:
+          name: chinese-female-mp3-${{ github.run_number }}
+          path: tts-output/
+          if-no-files-found: error
+          retention-days: 30
+
+          else
+            REGEX='^tts/inbox/[A-Za-z0-9_-]+\\.txt
+            echo 'Invalid article path: tts/inbox/chapter_001.txt is valid.' >&2
+            exit 1
+          fi
+          echo "article=$ARTICLE" >> "$GITHUB_OUTPUT"
+      - name: Generate Chinese female narration
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$TRIGGER" == "workflow_dispatch" && "$DRY_RUN" == "true" ]]; then
+            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}' --dry-run
+          else
+            python scripts/elevenlabs_narrate.py --input '${{ steps.article.outputs.article }}'
+          fi
+      - name: Download MP3 as artifact
+        if: success() && (github.event_name == 'push' || inputs.dry_run == false)
+        uses: actions/upload-artifact@v4
+        with:
+          name: chinese-female-mp3-${{ github.run_number }}
+          path: tts-output/
+          if-no-files-found: error
+          retention-days: 30
+
+          fi
+          if [[ ! "$ARTICLE" =~ $REGEX ]]; then
             echo 'Invalid article path: tts/inbox/chapter_001.txt is valid.' >&2
             exit 1
           fi

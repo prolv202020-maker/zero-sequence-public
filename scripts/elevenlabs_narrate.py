@@ -89,7 +89,7 @@ def run(filename:str,output_root:Path,dry_run:bool)->None:
     if not text.strip(): raise ValueError("Empty article")
     limit=PREVIEW_LIMIT if path.is_relative_to(SAMPLES.resolve()) else CHAPTER_LIMIT
     if len(text)>limit: raise ValueError(f"Text over {limit} characters; stop to protect credits")
-    chunks=split_text(text)
+    chunks=split_text(text, 125 if path.is_relative_to(SAMPLES.resolve()) else CHUNK_LIMIT)
     credits=sum(len(part) for part in chunks)
     print(f"File: {path.name}; approx {credits} characters; {len(chunks)} segments; voice = SAME for all scenes")
     for i,part in enumerate(chunks,1):
