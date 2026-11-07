@@ -15,7 +15,7 @@ assert.match(script,/zs-chapter-state/,'Reading status badge must exist');
 assert.match(script,/zs:part-progress:v1/,'Preserve original per-part reading progress');
 assert.match(script,/zs:reader:last:v1/,'Preserve original last-read chapter key');
 assert.ok(!script.includes('localStorage.setItem'),'Volume catalog must never overwrite progress');
-assert.match(script,/全书第\\s\*\\d\+/,'Remove duplicate global-number suffix in chapter titles');
+assert.ok(script.includes('全书第\\s*\\d+'),'Remove duplicate global-number suffix in chapter titles');
 assert.match(script,/const han=\['','一','二'/,'Display uniform Chinese local chapter names');
 const style=read('assets/css/volume-page.css');
 assert.match(style,/\.zs-volume-page \.list\.zs-volume-chapters/,'Volume catalog needs common visual system');
