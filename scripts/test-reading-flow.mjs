@@ -58,7 +58,7 @@ unlock.set(3,5,false);unlock.set(3,2,false);
 assert.equal(unlock.get(3).max,5,'Part III progress must be monotonic');
 assert.ok(unlock.entries.every(e=>[1,2,3].includes(e.p)));
 assert.ok(unlock.entries.every(e=>e.n>=1&&e.n<=100));
-for(let volume=1;volume<=26;volume++){
+for(let volume=1;volume<=27;volume++){
  const directory='volumes/volume-'+String(volume).padStart(2,'0')+'.html';
  assert.ok(existsSync(p(directory)),'Missing volume directory: '+directory);
  for(let chapter=1;chapter<=10;chapter++){
@@ -143,20 +143,34 @@ for(let i=1;i<=10;i++){
  assert.ok(html.includes('audio-player.js'),'Missing bootstrap '+f);
 }
 unlock.set(3,60,false);assert.equal(unlock.get(3).max,60,'Part III must advance to sixty chapters');
+const volume27Titles=["新战帖","灰烬谷口","三十步剑线","夜行火蜥","旧炉的钥匙","破盾与断刃","火脉之下","两份战利品","剑意有形","谷外仍有火"];
+for(let i=1;i<=10;i++){
+ const f='chapters/volume-27/chapter-'+String(i).padStart(3,'0')+'.html';
+ const html=readFileSync(p(f),'utf8');
+ const m=html.match(/<div class="article">([\s\S]*?)<div class="pager">/);
+ assert.ok(m,'Chapter body missing '+f);
+ const body=[...m[1].matchAll(/<p>([\s\S]*?)<\/p>/g)].map(v=>v[1]).join('');
+ const han=(body.match(/\p{Script=Han}/gu)||[]).length;
+ assert.ok(han>=3000&&han<=3500,'Chapter '+(260+i)+' outside 3000–3500 Han chars: '+han);
+ assert.ok(html.includes(volume27Titles[i-1]),'Wrong Chapter '+(260+i)+' title');
+ assert.ok(html.includes('audio-player.js'),'Missing bootstrap '+f);
+}
+unlock.set(3,70,false);assert.equal(unlock.get(3).max,70,'Part III must grow to seventy chapters');
+
 
 const p3Index=readFileSync(p('parts/part-03.html'),'utf8');
-assert.ok(p3Index.includes('volume-21.html')&&p3Index.includes('volume-22.html')&&p3Index.includes('volume-23.html')&&p3Index.includes('volume-24.html')&&p3Index.includes('volume-25.html')&&p3Index.includes('volume-26.html'),'Third arc must link both published volumes');
+assert.ok(p3Index.includes('volume-21.html')&&p3Index.includes('volume-22.html')&&p3Index.includes('volume-23.html')&&p3Index.includes('volume-24.html')&&p3Index.includes('volume-25.html')&&p3Index.includes('volume-26.html')&&p3Index.includes('volume-27.html'),'Third arc must link both published volumes');
 assert.ok(readFileSync(p('index.html'),'utf8').includes('href="parts/part-03.html"'),'Homepage should link Part III');
 assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['第三篇 · 临界回声','parts/part-03.html']"),'Global navigation should include Part III');
 assert.ok(readFileSync(p('assets/js/reader-experience.js'),'utf8').includes("vol===20?'第三篇"),'Chapter 200 should continue to Part III');
-assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes("p===3?60:100"),'Third part must use a sixty-chapter release meter');
-console.log('[PART III] PASS: 60 complete full-length chapters, third-arc reading and unlock progress, official links.');
+assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes("p===3?70:100"),'Third part must use a seventy-chapter release meter');
+console.log('[PART III] PASS: 70 complete full-length chapters, third-arc reading and unlock progress, official links.');
 assert.ok(existsSync(p('chapters/volume-01/prologue.html')));
 const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
 assert.match(volPage,/if\(read===10\)\{resume\.href=startHref/,'Completed volume should restart from its opening chapter');
 const readingScript=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readingScript,/else if\(num===1&&vol>1\)/,'First chapter should link back across volume boundary');
-assert.match(readingScript,/else if\(vol<26\)/,'Last chapter should link forward across volume boundary');
+assert.match(readingScript,/else if\(vol<27\)/,'Last chapter should link forward across volume boundary');
 assert.match(readingScript,/if\(num===0\)/,'Prologue should link into chapter one');
 assert.match(readingScript,/oldProgress\.index>0/,'Resume reader must offer saved paragraph position');
 
@@ -197,7 +211,7 @@ assert.match(currentReader,/zs-chapter-reading/,'Chapters must expose mobile-spe
 assert.match(currentAudio,/site-ui\.js/,'Direct chapter loads should initialize accessible mobile navigation');
 assert.match(currentAudio,/env\(safe-area-inset-bottom\)/,'Music controls should respect phone safe area');
 assert.ok(currentReader.includes('assets/css/reader-experience.css?v=4'),'Reader stylesheet must invalidate old CSS');
-assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=6'),'Chapter navigation must use newest reader code');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=7'),'Chapter navigation must use newest reader code');
 assert.ok(readFileSync(p('index.html'),'utf8').includes('gu-changyuan-approved.webp'),'Homepage should use the optimized approved portrait');
 console.log('[MOBILE READING] PASS: menu scrolling, safe areas, chapter buttons, compact music, CSS cache and official portrait.');
 console.log('[EMOTIONAL BGM] PASS: 4 original MP3 themes, controls, smooth transitions, opt-in playback and no old synth loop.');
@@ -209,11 +223,11 @@ assert.match(reader,/zs:reader:options:v1/,'Preferences key must remain stable')
 const navCode=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(navCode,/footerPager\.replaceChildren\(\.\.\.bottom\)/,'All chapters should normalize the footer navigation');
 assert.match(navCode,/if\(num===0\)bottom\.push/,'Prologue bottom navigation must go to chapter one');
-assert.match(navCode,/else if\(vol<26\)bottom\.push/,'Volume and part boundaries must link forward');
+assert.match(navCode,/else if\(vol<27\)bottom\.push/,'Volume and part boundaries must link forward');
 assert.match(navCode,/vol===10\?'下一篇/,'First part should lead directly to second part');
 const sitemap=readFileSync(p('sitemap.xml'),'utf8');
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-assert.equal(urls.length,291,'Sitemap should cover 261 reading pages, 26 volumes, 3 parts and home');
+assert.equal(urls.length,302,'Sitemap should cover 271 reading pages, 27 volumes, 3 parts and home');
 assert.equal(new Set(urls).size,urls.length,'Sitemap should have no duplicate URLs');
 for(const url of urls){
  const prefix='https://prolv202020-maker.github.io/zero-sequence-public/';
@@ -226,12 +240,12 @@ for(const file of ['index.html','parts/part-01.html','parts/part-02.html','parts
   assert.ok(html.includes(metadata),'Missing social/SEO metadata '+metadata+' in '+file);
 }
 assert.ok(readFileSync(p('robots.txt'),'utf8').includes('Sitemap: https://prolv202020-maker.github.io/zero-sequence-public/sitemap.xml'));
-console.log('[PUBLICATION SEO] PASS: 291 index URLs, canonical social previews, sitemap and robots.');
+console.log('[PUBLICATION SEO] PASS: 302 index URLs, canonical social previews, sitemap and robots.');
 const homepage=readFileSync(p('index.html'),'utf8');
 for(const id of ['id="start-here"','id="zs-hero-resume"','id="zs-path-resume-link"','id="updates"','id="zs-home-resume"'])
  assert.ok(homepage.includes(id),'Missing landing page feature: '+id);
 assert.ok(homepage.includes('href="chapters/volume-01/prologue.html"'),'First-time readers should start at prologue');
-assert.ok(homepage.includes('《临界回声》第26卷正式开放'),'Spoiler-safe update notice missing');
+assert.ok(homepage.includes('《临界回声》第27卷正式开放'),'Spoiler-safe update notice missing');
 const readerSource=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readerSource,/heroResume\.href=last\.url/,'Homepage hero must use saved reading URL');
 assert.match(readerSource,/pathResume\.href=last\.url/,'Returning reader entry must use saved URL');
@@ -305,4 +319,4 @@ assert.match(atlasArt,/if\(art\)\{const pic=/,'Character atlas should only load 
 assert.match(atlasArt,/approvedSlug/,'Character atlas should resolve approved portrait slug');
 assert.doesNotMatch(profileArt,/const art=node\('img','zs-profile-profile-art'\);art\.src=/,'Do not eagerly load hidden character portraits');
 console.log('[CHARACTER ART] PASS: 7 user-approved portraits, independent visual themes, no advance image loading, progress gates and site links.');
-console.log('[READING FLOW] PASS: 261 text files, 26 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
+console.log('[READING FLOW] PASS: 271 text files, 27 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
