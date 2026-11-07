@@ -1,0 +1,22 @@
+/* 第零序列视觉图鉴 · 与正文阅读档案一致的暗蓝金色 */
+.zs-visual-lead{padding:28px;border:1px solid #e9d09b77;border-radius:22px;background:linear-gradient(132deg,#303a60,#171d37)}
+.zs-visual-lead h1{font-size:clamp(32px,5vw,52px);margin:8px 0}
+.zs-visual-lead p{line-height:1.85;color:#dcdce8;max-width:800px}
+.zs-visual-notice{font-size:13px;line-height:1.85;color:#e6ddcd;border-left:3px solid #dfc38b;background:#252a46;padding:12px 16px;margin:22px 0}
+.zs-visual-tools{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin:23px 0}
+.zs-visual-tools select{min-height:44px;padding:10px 14px;background:#17213d;border:1px solid #dfc38a78;color:#ffe3ab;border-radius:10px}
+.zs-visual-tools p{font-size:12px;color:#d6d6e4}
+.zs-visual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:34px}
+.zs-visual-card{overflow:hidden;border:1px solid #e2c99966;border-radius:16px;background:linear-gradient(145deg,#30385d,#1c243f);min-width:0}
+.zs-visual-art{display:block;max-width:100%;border-bottom:1px solid #d6b77c66;overflow:hidden}
+.zs-visual-art img{display:block;width:100%;height:auto;aspect-ratio:1122/1402;object-fit:cover}
+.zs-visual-copy{padding:19px}
+.zs-visual-copy small{font:11px var(--zs-font-ui,sans-serif);color:#f0d59b}
+.zs-visual-copy h2{font-size:23px;line-height:1.3;margin:10px 0;color:#f1e1be}
+.zs-visual-copy p{font-size:13px;color:#d7d7e4;line-height:1.8}
+.zs-visual-links{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}
+.zs-visual-links a{display:inline-flex;min-height:40px;align-items:center;padding:9px 11px;border-radius:9px;border:1px solid #e5ce9a6a;background:#27324f;color:#eed6a3;font-size:12px}
+.zs-visual-fallback{min-height:200px;display:grid;place-items:center;text-align:center;color:#d7cdb9;font-size:13px;padding:25px}
+.zs-visual-locked-art{min-height:220px;display:grid;place-items:center;font-size:60px;color:#a79ab6;background:radial-gradient(ellipse,#6b6d9a33,transparent)}
+.zs-visual-card.is-locked{border-style:dashed}
+@media(max-width:700px){.zs-visual-grid{grid-template-columns:1fr}.zs-visual-copy{padding:16px}.zs-visual-tools{align-items:stretch}.zs-visual-tools select{width:100%}}
