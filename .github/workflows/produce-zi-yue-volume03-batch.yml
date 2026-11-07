@@ -1,0 +1,33 @@
+name: Produce Zi Yue v4 Volume 03 Full Audiobook (Chapters 1 to 10)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/produce-zi-yue-volume03-batch.yml'
+jobs:
+  produce-volume03:
+    if: github.repository == 'prolv202020-maker/zero-sequence-public'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    env:
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prevent duplicate paid batch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feat/zi-yue-v4-volume03-audio-20261108'
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo 'Batch already started; no duplicate paid generation.' >&2
+            exit 1
+          fi
+      - name: Validate all 10 published chapter texts before any paid requests
+        run: python scripts/produce_zi_yue_volume03_batch.py --preflight
+      - name: Generate full MP3 chapters with per-chapter checkpoints
+        run: python -u scripts/produce_zi_yue_volume03_batch.py --produce
