@@ -16,7 +16,21 @@ const records=[
 [2,51,'防线','北境共同防线','伙伴分别承担防守与行动责任。','林烈:characters/lin-lie.html','戴玄岳:characters/dai-xuanyue.html'],
 [2,71,'现实','现实应急基地建设','后勤、物资储备与管理成为重要环节。','工坊订单模板:orders.html','产业:industry.html'],
 [2,81,'情报','被改写的情报','可疑信息需要交叉核验与独立判断。','罗烬:characters/luo-jin.html','势力:factions.html'],
-[2,91,'救援','跨城联合行动','不同队伍在高风险事件中协作。','势力:factions.html','职业:classes.html']
+[2,91,'救援','跨城联合行动','不同队伍在高风险事件中协作。','势力:factions.html','职业:classes.html'],
+[3,6,"探索","回声坡灰刺兽护卫","碎石坡外勤战斗要求保护测绘员、损坏设备和撤离路线。","魔物:bestiary.html","人物:characters.html"],
+[3,21,"探索","栖潮旧城的迁居记录","旧城籍、旧地名与合法访问记录交错出现。","地图:world.html","人物:characters.html"],
+[3,31,"遗迹","外缘旧门的实地测绘","已批准的观察区与施工现场决定探索能到哪里。","地图:world.html","势力:factions.html"],
+[3,43,"防线","灰鲸号与裂鳍兽袭击","未知水域中护航船员，不能让追怪影响航行安全。","魔物:bestiary.html","装备:equipment.html"],
+[3,51,"探索","外环校准器取回","测绘队在合法工程区修复旧路线与仪器记录。","道具:items.html","地图:world.html"],
+[3,57,"试炼","裂脊岩侯之战","外环矿洞精英首领攻击工人路线，盾卫与剑士分工撤离。","魔物:bestiary.html","职业:classes.html"],
+[3,61,"合作","灰烬熔谷公开探索赛","不同队伍为锻造材料、公开贡献与工匠安全展开竞争。","材料:materials.html","势力:factions.html"],
+[3,67,"试炼","熔背龙蜥的炉台威胁","高危首领的攻击可能损坏公共冷却系统，各队被迫合作。","魔物:bestiary.html","材料:materials.html"],
+[3,71,"现实","冷链订单与镜霜驿道","现实温控订单和万界公共护运分别考验后勤与记录。","道具:items.html","装备:equipment.html"],
+[3,75,"救援","冻湖潜霜兽救援","玩家落入冰井，专业救援先行，护卫防守唯一的撤离通道。","魔物:bestiary.html","人物:characters.html"],
+[3,81,"遗迹","无钟站旧观测线索","祁望失踪与秦栖的记录引出北境旧刻盘。","道具:items.html","人物:characters.html"],
+[3,87,"防线","无钟守卫与镜海","团队一面牵制失控构装守卫，一面寻找停机方法。","魔物:bestiary.html","职业:classes.html"],
+[3,91,"探索","零刻回廊提前开放","新地图与前世记忆产生偏移，各方重新核对公开通行资格。","地图:world.html","人物:characters.html"],
+[3,94,"救援","无声门廊工匠搜救","回纹哨鸦与回纹猎犬带来新风险，测绘和防线保护失联工匠。","魔物:bestiary.html","道具:items.html"]
 ];
 const progress=p=>{try{if(window.ZSUnlock?.get)return window.ZSUnlock.get(p).max;const x=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return Math.max(0,Math.min(100,Number(x['p'+String(p).padStart(2,'0')]?.max)||0));}catch{return 0;}};
 const el=(tag,cls,content)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(content!==undefined)x.textContent=content;return x};
@@ -24,9 +38,9 @@ const link=(path,title)=>{const a=el('a','',title);a.href=ROOT+path;return a;};
 const chapter=(p,n)=>{const vol=(p-1)*10+Math.ceil(n/10),local=(n-1)%10+1;return 'chapters/volume-'+String(vol).padStart(2,'0')+'/chapter-'+String(local).padStart(3,'0')+'.html';};
 function start(){const host=document.getElementById('zq-results');if(!host)return;
  const search=document.getElementById('zq-search'),part=document.getElementById('zq-part'),cat=document.getElementById('zq-category'),status=document.getElementById('zq-status'),locked=document.getElementById('zq-locked');
- function render(){const one=progress(1),two=progress(2),query=search.value.trim().toLowerCase(),p=Number(part.value||0),category=cat.value;let count=0;host.replaceChildren();
+ function render(){const one=progress(1),two=progress(2),three=progress(3),query=search.value.trim().toLowerCase(),p=Number(part.value||0),category=cat.value;let count=0;host.replaceChildren();
  for(const [arc,n,k,name,description,...refs] of records){
-  if((arc===1?one:two)<n||(p&&arc!==p)||(category&&category!==k))continue;
+  if((arc===1?one:arc===2?two:three)<n||(p&&arc!==p)||(category&&category!==k))continue;
   if(query&&![name,description,k,...refs].join(' ').toLowerCase().includes(query))continue;
   const card=el('article','zq-card');card.append(el('small','',('第'+arc+'篇 · 第'+n+'章后 · '+k)),el('h2','',name),el('p','',description));
   const links=el('div','zq-links');links.append(link(chapter(arc,n),'阅读相关章节 →'));
@@ -34,8 +48,8 @@ function start(){const host=document.getElementById('zq-results');if(!host)retur
   card.append(links);host.append(card);count++;
  }
  if(!count)host.append(el('p','zq-empty','没有符合筛选条件的已解锁剧情线索。'));
- const hidden=records.filter(x=>(x[0]===1?one:two)<x[1]).length;
- status.textContent='第一篇 '+one+'/100章 · 第二篇 '+two+'/100章 · 已显示 '+count+' 条';
+ const hidden=records.filter(x=>(x[0]===1?one:x[0]===2?two:three)<x[1]).length;
+ status.textContent='第一篇 '+one+'/100 · 第二篇 '+two+'/100 · 第三篇 '+three+'/100 · 已显示 '+count+' 条';
  locked.textContent='另有 '+hidden+' 条未解锁记录；名称与关联资料暂不展示。';
  }
  [search,part,cat].forEach(x=>x.addEventListener(x===search?'input':'change',render));document.addEventListener('zs:part-progress-changed',render);window.addEventListener('pageshow',render);render();
