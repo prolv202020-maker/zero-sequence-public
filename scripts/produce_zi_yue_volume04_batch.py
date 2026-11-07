@@ -18,7 +18,7 @@ def source(i):
     path=ROOT/f"chapters/volume-04/chapter-{i:03d}.html"
     raw=path.read_text(encoding="utf-8")
     article=raw.split('<div class="article">',1)[1].split('<div class="pager">',1)[0]
-    paragraphs=[html_lib.unescape(x) for x in re.findall(r'<p(?:\s[^>]*)?>(.*?)</p>',article,re.S)]
+    paragraphs=[html_lib.unescape(re.sub(r"<br\s*/?>","\n",x,flags=re.I)) for x in re.findall(r'<p(?:\s[^>]*)?>(.*?)</p>',article,re.S)]
     title=html_lib.unescape(re.search(r'<h1[^>]*>(.*?)</h1>',raw).group(1))
     assert len(paragraphs)>=40 and not any("<" in x for x in paragraphs),f"Unexpected HTML in chapter {i}"
     assert not "zs-audiobook-player" in raw,f"Chapter {i} already has an audio player; refuse duplicate"
