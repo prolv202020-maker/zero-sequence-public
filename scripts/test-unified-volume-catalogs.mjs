@@ -38,7 +38,8 @@ for(let n=1;n<=30;n++){
    assert.ok(html.includes('../assets/'+basename+'?'+expected),path+' missing current '+asset+'?'+expected);
  }
  assert.equal((html.match(/volume-page\.js\?v=11/g)||[]).length,1,'No duplicate volume renderer '+path);
- const chapterLinks=[...html.matchAll(/href="\.\.\/chapters\/volume-(\d{2})\/chapter-(\d{3})\.html"/g)];
+ const listHtml=html.match(/<div class="list">([\s\S]*?)<\/div>/)?.[1]||'';
+ const chapterLinks=[...listHtml.matchAll(/href="\.\.\/chapters\/volume-(\d{2})\/chapter-(\d{3})\.html"/g)];
  assert.equal(chapterLinks.length,10,path+' must have ten direct chapter links');
  for(let i=1;i<=10;i++){
   const suffix=String(i).padStart(3,'0'),rel='chapters/volume-'+id+'/chapter-'+suffix+'.html';
