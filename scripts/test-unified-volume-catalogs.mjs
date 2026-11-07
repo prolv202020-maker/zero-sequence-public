@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* All thirty volume chapter catalogs must match the original Part I reader design. */
 import assert from 'node:assert/strict';
-import {readFileSync,existsSync} from 'node:fs';
+import {readFileSync,existsSync,readdirSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {Script} from 'node:vm';
@@ -21,8 +21,15 @@ const style=read('assets/css/volume-page.css');
 assert.match(style,/\.zs-volume-page \.list\.zs-volume-chapters/,'Volume catalog needs common visual system');
 assert.match(style,/@media\(max-width:650px\)/,'Mobile reading chapter layout must work');
 assert.match(style,/zs-chapter-current/,'Highlight the last read chapter without revealing spoilers');
+const volumes=readdirSync(join(root,'volumes')).filter(f=>/^volume-\d{2}\.html$/.test(f))
+ .map(f=>Number(f.match(/\d{2}/)[0])).sort((a,b)=>a-b);
+assert.ok(volumes.length>=30,'Do not accidentally remove a published volume');
+assert.deepEqual(volumes,Array.from({length:volumes.at(-1)},(_,i)=>i+1),'Published volume catalogs must be contiguous');
+const latest=volumes.at(-1);
+assert.ok(script.includes('vol>'+latest),'Shared catalog script must include latest published volume');
+assert.ok(script.includes('vol<'+latest),'Shared catalog pager must link through latest published volume');
 let verified=0;
-for(let n=1;n<=30;n++){
+for(const n of volumes){
  const id=String(n).padStart(2,'0');
  const path='volumes/volume-'+id+'.html',html=read(path);
  assert.match(html,/<main class="page">/,'Volume needs main page: '+path);
@@ -56,4 +63,4 @@ for(let n=1;n<=30;n++){
  if(n===22)assert.ok(!html.includes('<h2 style="color:#f0d89f">远域双钟</h2>'),'Volume 22 must not duplicate its hero');
  verified++;
 }
-console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, 300 linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
+console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(verified*10)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
