@@ -26,7 +26,7 @@
     const style=document.createElement('style');
     style.id='zs-audio-style';
     style.textContent=`
-      .zs-audio{--zs-accent:#e5c994;position:fixed;right:16px;bottom:16px;z-index:9999;width:min(370px,calc(100vw - 24px));display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid #d7c19b6d;border-radius:17px;background:#11182bec;box-shadow:0 16px 40px #05091866;color:#f5eada;font-family:inherit;backdrop-filter:blur(12px)}
+      .zs-audio{--zs-accent:#e5c994;position:fixed;right:16px;bottom:16px;z-index:9999;width:auto;max-width:calc(100vw - 24px);display:flex;align-items:center;gap:11px;padding:12px 14px;border:1px solid #d7c19b6d;border-radius:17px;background:#11182bec;box-shadow:0 16px 40px #05091866;color:#f5eada;font-family:inherit;backdrop-filter:blur(12px)}
       .zs-audio .zs-play{border:1px solid #d9c09480;border-radius:50%;width:44px;height:44px;min-width:44px;background:#343c5b;color:#fff4e2;cursor:pointer;font-size:18px}
       .zs-audio .zs-play:focus-visible,.zs-audio select:focus-visible,.zs-audio input:focus-visible{outline:2px solid #f1d3a1;outline-offset:3px}
       .zs-audio .zs-copy{flex:1;min-width:0}.zs-audio .zs-title{font-size:13px;font-weight:600;color:#f5e4bd;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
@@ -37,8 +37,15 @@
       .zs-audio.is-playing{border-color:var(--zs-accent)}
       .zs-audio-expand{display:none;border:1px solid #d9c09480;border-radius:10px;background:#343a58;color:#f5e4bd;min-width:44px;min-height:44px;font-size:19px;cursor:pointer}
       .zs-audio-expand:focus-visible{outline:2px solid #f1d3a1;outline-offset:2px}
+      /* Default to a small dock on desktop and mobile; expand on explicit click. */
+      .zs-audio .zs-copy,.zs-audio .zs-vol{display:none}
+      .zs-audio .zs-audio-expand{display:inline-flex;align-items:center;justify-content:center}
+      .zs-audio.zs-audio-expanded{width:min(365px,calc(100vw - 24px));padding:12px 14px}
+      .zs-audio.zs-audio-expanded .zs-copy{display:block}
+      .zs-audio.zs-audio-expanded .zs-vol{display:flex}
+      body.zs-has-audio footer{padding-bottom:calc(85px + env(safe-area-inset-bottom))}
       @media(max-width:650px){.zs-audio{right:max(10px,env(safe-area-inset-right));bottom:calc(10px + env(safe-area-inset-bottom));width:auto;max-width:calc(100vw - 20px);padding:7px;gap:7px;border-radius:14px;backdrop-filter:none;-webkit-backdrop-filter:none}.zs-audio .zs-play{width:44px;height:44px;min-width:44px}.zs-audio .zs-copy,.zs-audio .zs-vol{display:none}.zs-audio-expand{display:inline-flex;align-items:center;justify-content:center}.zs-audio.zs-audio-expanded{width:min(350px,calc(100vw - 20px));padding:10px}.zs-audio.zs-audio-expanded .zs-copy{display:block}.zs-audio.zs-audio-expanded .zs-vol{display:flex}.zs-audio.zs-audio-expanded .zs-audio-expand{min-width:32px;min-height:44px}.zs-audio.zs-audio-expanded .zs-vol input{width:48px}}
-      @media(min-width:651px){.zs-audio-expand{display:none}}
+      @media(min-width:651px){.zs-audio{padding:8px 9px}}
     `;
     document.head.append(style);
     const box=document.createElement('aside');box.className='zs-audio';box.id='zs-audio';box.setAttribute('aria-label','原创背景音乐播放器');
@@ -52,7 +59,7 @@
     select.value=mood;copy.append(title,sub,select);
     const vol=document.createElement('label');vol.className='zs-vol';vol.textContent='音量';
     const slider=document.createElement('input');slider.className='zs-slider';slider.type='range';slider.min='0';slider.max='0.45';slider.step='.01';slider.value=String(volume);slider.setAttribute('aria-label','背景音乐音量');
-    vol.append(slider);box.append(play,copy,vol,expand);document.body.append(box);
+    vol.append(slider);box.append(play,copy,vol,expand);document.body.append(box);document.body.classList.add('zs-has-audio');
     const setExpanded=(yes)=>{box.classList.toggle('zs-audio-expanded',yes);expand.setAttribute('aria-expanded',String(yes));expand.setAttribute('aria-label',yes?'收起音乐设置':'展开音乐设置');};
     expand.addEventListener('click',()=>setExpanded(!box.classList.contains('zs-audio-expanded')));
     document.addEventListener('zs:reader-panel-open',()=>setExpanded(false));
