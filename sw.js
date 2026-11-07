@@ -1,8 +1,8 @@
 /* 第零序列 · 页面资源与阅读功能支持（无说书功能） */
 const PLAYER='<script src="/zero-sequence-public/assets/js/audio-player.js?v=10" defer></script>';
 const STYLE_VERSION=6;
-const UNLOCK='<script src="/zero-sequence-public/assets/js/progressive-archive.js?v=20" defer></script>';
-const READER='<script src="/zero-sequence-public/assets/js/reader-experience.js?v=8" defer></script>';
+const UNLOCK='<script src="/zero-sequence-public/assets/js/progressive-archive.js?v=21" defer></script>';
+const READER='<script src="/zero-sequence-public/assets/js/reader-experience.js?v=9" defer></script>';
 self.addEventListener('install',()=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',event=>{
@@ -23,7 +23,7 @@ self.addEventListener('fetch',event=>{
         html=html.replace('</body>',PLAYER+'</body>');
       }
       if(!/(?:\/zero-sequence\/)?assets\/js\/progressive-archive\.js(?:\?v=\d+)?/.test(html)) html=html.replace('</body>',UNLOCK+'</body>');
-      else html=html.replace(/((?:\/zero-sequence\/)?assets\/js\/progressive-archive\.js)(?:\?v=\d+)?/g,'$1?v=20');
+      else html=html.replace(/((?:\/zero-sequence\/)?assets\/js\/progressive-archive\.js)(?:\?v=\d+)?/g,'$1?v=21');
       if(!/(?:\/zero-sequence\/)?assets\/js\/reader-experience\.js(?:\?v=\d+)?/.test(html)) html=html.replace('</body>',READER+'</body>');
       const headers=new Headers(res.headers);headers.delete('content-length');headers.set('cache-control','no-cache');
       return new Response(html,{status:res.status,statusText:res.statusText,headers});
