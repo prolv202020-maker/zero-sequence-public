@@ -1,4 +1,4 @@
-/* 第零序列 · 通用单卷章节目录。只读取进度，不写入或重置任何阅读数据。 */
+/* 第零序列 · 全30卷统一章节目录。阅读状态只读，保留全部原始链接和阅读进度。 */
 (() => {
   'use strict';
   const m=location.pathname.match(/\/volumes\/volume-(\d{2})\.html$/);
@@ -40,6 +40,7 @@
   if(existingComplete)existingComplete.remove();
   const actions=el('div','zs-volume-actions');
   const links=[...chapters.querySelectorAll('a[href*="/chapters/"]')];
+  // 第一篇与后续各篇使用同一结构，原始页面可保留不同的章号写法。
   const first=links.find(a=>/chapter-001\.html$/.test(a.getAttribute('href')||''))||links[0];
   const begin=links.find(a=>/prologue\.html$/.test(a.getAttribute('href')||''))||first;
   const startHref=begin?.getAttribute('href')||'';
@@ -72,9 +73,12 @@
     const n=Number(href.match(/chapter-(\d{3})\.html$/)?.[1]||0);
     const prologue=/prologue\.html$/.test(href);
     const mainTitle=a.querySelector('span')||a;
+    a.classList.add('row','zs-chapter-row');
     if(!mainTitle.classList.contains('zs-chapter-name')){
       let raw=mainTitle.textContent.trim();
-      raw=raw.replace(/^【正式正文】/,'').replace(/\s*·\s*正式正文\s*$/,'').trim();
+      raw=raw.replace(/^【正式正文】\s*/,'')
+        .replace(/\s*·\s*全书第\s*\d+\s*章\s*$/,'')
+        .replace(/\s*·\s*正式正文\s*$/,'').trim();
       mainTitle.textContent=raw;
       mainTitle.classList.add('zs-chapter-name');
       const serial=el('span','zs-chapter-index',prologue?'PROLOGUE · 序章':'CHAPTER '+String(globalFirst+n-1).padStart(3,'0'));
@@ -107,7 +111,7 @@
     pager.replaceChildren(...nav);
     pager.setAttribute('aria-label','卷目导航');
   }
-  const hint=el('p','zs-volume-hint','阅读状态依据当前浏览器保存的记录显示。访问未解锁的卷目录不会影响进度；点击章节仍可直接阅读。');
+  const hint=el('p','zs-volume-hint','章节均可直接阅读；已读状态仅参考当前浏览器进度。人物与世界档案仍遵守独立的防剧透解锁规则。');
   chapters.insertAdjacentElement('afterend',hint);
   function loadProgress(){
     if(window.ZSUnlock?.get)return window.ZSUnlock.get(part);
@@ -136,7 +140,8 @@
       a.classList.toggle('zs-chapter-read',done);
       a.classList.toggle('zs-chapter-current',!!current);
       const state=a.querySelector('.zs-chapter-state');
-      if(state)state.textContent=current&&!done?'上次阅读':done?'✓ 已读':'阅读 →';
+      if(state)state.textContent=done?'✓ 已读':current?'继续阅读':'未读';
+      a.setAttribute('aria-label',(prologue?'序章':'全书第'+(globalFirst+number-1)+'章')+'，'+(done?'已读':current?'继续阅读':'未读')+'，点击进入阅读');
       if(current)currentLink=a;
       if(!done&&!nextUnread)nextUnread=a;
     }

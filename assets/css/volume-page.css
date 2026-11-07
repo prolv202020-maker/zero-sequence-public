@@ -58,3 +58,21 @@ body:not(.zs-volume-page) .zs-volume-cover-figure figcaption{font-size:11px;colo
  .zs-volume-page .zs-volume-chapters .zs-chapter-row{transition:none!important}
  .zs-volume-page .zs-volume-hero figure img{box-shadow:none!important}
 }
+
+/* V3 全站统一：章号／标题／阅读状态。特别兼容较早发布的卷目录。 */
+.zs-volume-page .list.zs-volume-chapters{width:100%;max-width:none;margin:0 auto}
+.zs-volume-page .zs-volume-chapters a.zs-chapter-row{display:flex;align-items:center;justify-content:space-between;gap:16px;min-width:0;min-height:75px;touch-action:manipulation}
+.zs-volume-page .zs-volume-chapters .zs-chapter-name{display:block;flex:1;min-width:0;overflow-wrap:anywhere}
+.zs-volume-page .zs-volume-chapters .zs-chapter-index{font-size:11px;line-height:1.6;letter-spacing:.055em}
+.zs-volume-page .zs-volume-chapters .zs-chapter-state{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;min-width:58px;min-height:30px}
+.zs-volume-page .zs-volume-chapters a.zs-chapter-current .zs-chapter-state{border-color:#efce90}
+.zs-volume-page .zs-volume-chapters a:focus-visible{outline:2px solid #f3dbaa;outline-offset:-2px;border-radius:8px}
+@media(max-width:650px){
+ .zs-volume-page .zs-volume-chapter-head{align-items:center;gap:8px}
+ .zs-volume-page .zs-volume-chapter-head h2{font-size:22px}
+ .zs-volume-page .zs-volume-chapter-head span{font-size:11px;line-height:1.5}
+ .zs-volume-page .list.zs-volume-chapters{padding:4px 11px}
+ .zs-volume-page .zs-volume-chapters a.zs-chapter-row{min-height:72px;gap:10px;padding:11px 5px}
+ .zs-volume-page .zs-volume-chapters .zs-chapter-name{font-size:14px;line-height:1.65}
+ .zs-volume-page .zs-volume-chapters .zs-chapter-state{min-width:52px;font-size:11px;padding:5px 8px}
+}
