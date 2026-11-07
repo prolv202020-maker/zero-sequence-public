@@ -269,7 +269,8 @@ assert.match(navCode,/else if\(vol<30\)bottom\.push/,'Volume and part boundaries
 assert.match(navCode,/vol===10\?'下一篇/,'First part should lead directly to second part');
 const sitemap=readFileSync(p('sitemap.xml'),'utf8');
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-assert.equal(urls.length,335,'Sitemap should cover 301 reading pages, 30 volumes, 3 parts and home');
+assert.equal(urls.length,336,'Sitemap should cover 301 reading pages, 30 volumes, 3 parts, home and the public reader encyclopedia');
+assert.ok(urls.includes('https://prolv202020-maker.github.io/zero-sequence-public/archive/codex.html'),'Published reader encyclopedia must appear in sitemap');
 assert.equal(new Set(urls).size,urls.length,'Sitemap should have no duplicate URLs');
 for(const url of urls){
  const prefix='https://prolv202020-maker.github.io/zero-sequence-public/';
