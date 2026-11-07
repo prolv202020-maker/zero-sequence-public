@@ -38,6 +38,13 @@ function render(){
  for(const e of visible){
   const card=el('article','pa-item');
   card.append(el('small','pa-card-meta','第'+e.p+'篇 · 读至第'+e.n+'章 · '+e.k),el('h3','',e.t),el('p','',e.d));
+  const art=(Array.isArray(window.ZSVisualCodex)?window.ZSVisualCodex:[]).find(x=>x.kind===e.k&&x.name===e.t);
+  if(art && p[art.p]>=art.n){
+   const link=el('a','pa-visual-art');link.href=ROOT+'assets/images/codex/'+art.file;link.target='_blank';link.rel='noopener';link.setAttribute('aria-label','放大查看'+e.t+'视觉档案');
+   const pic=el('img');pic.src=link.href;pic.alt=e.t+'视觉图鉴';pic.loading='lazy';pic.decoding='async';pic.width=960;pic.height=1200;
+   pic.addEventListener('error',()=>link.remove());link.append(pic);
+   card.insertBefore(link,card.firstChild);
+  }
   const links=el('div','pa-related');
   const src=el('a','','查看对应正文 →');src.href=chapter(e);links.append(src);
   if(mapping[e.k]&&main.dataset.publicArchive!=='codex'){const cat=el('a','','相关图鉴');cat.href=ROOT+'archive/'+mapping[e.k];links.append(cat);}

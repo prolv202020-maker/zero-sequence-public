@@ -61,3 +61,12 @@ body.zs-profile-page .zs-profile-summary{position:relative;margin:25px auto 32px
   padding:10px;margin:0 auto 20px;float:none;box-shadow:none
  }
 }
+
+/* 已解锁个人视觉档案：不提前加载图片，图像缺失时保留原人物立绘 */
+.zs-profile-visual-panel{clear:both;margin:20px 0 24px;padding:20px;border:1px solid #e2c68e72;border-radius:16px;background:#202842dd}
+.zs-profile-visual-panel h2{font-size:20px;margin:0 0 9px;color:#f2dcaf}
+.zs-profile-visual-panel p{font-size:13px;line-height:1.7;color:#d6d5e4}
+.zs-profile-visual-panel>a:not(.zs-profile-visual-link){display:inline-block;min-height:42px;margin-top:13px;padding:9px 11px;border:1px solid #ddc28c8c;border-radius:9px;color:#f2d79f}
+.zs-profile-visual-link{display:block;max-width:590px;margin:13px auto 0}
+.zs-profile-visual-link img{display:block;width:100%;height:auto;aspect-ratio:1122/1402;border-radius:12px;border:1px solid #e6c88c80}
+@media(max-width:650px){.zs-profile-visual-panel{padding:14px}.zs-profile-visual-panel h2{font-size:18px}}

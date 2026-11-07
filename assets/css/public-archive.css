@@ -10,3 +10,7 @@
 .pa-tools #public-archive-status{flex:1 1 100%;margin:0}
 @media(max-width:680px){.pa-tools{align-items:stretch;gap:10px}.pa-tools input{width:100%;flex-basis:100%}.pa-tools .pa-select{flex:1 1 135px}.pa-grid{gap:10px}.pa-item{padding:17px}.pa-related a{flex:1 1 auto;justify-content:center}}
 @media(prefers-reduced-motion:reduce){.pa-item,.pa-related a{transition:none!important}}
+
+/* 读者百科中的已解锁人物、武器与装备视觉卡片 */
+.pa-visual-art{display:block;overflow:hidden;border-radius:12px;border:1px solid #ddc59277;background:#131d36;margin-bottom:14px;padding:0!important;min-height:0!important}
+.pa-visual-art img{display:block;width:100%;height:auto;aspect-ratio:1122/1402;object-fit:contain}

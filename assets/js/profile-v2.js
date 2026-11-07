@@ -24,6 +24,8 @@ const progress=part=>{
 const node=(tag,cls,txt)=>{const v=document.createElement(tag);if(cls)v.className=cls;if(txt!==undefined)v.textContent=txt;return v};
 const a=(url,label)=>{const e=node('a','',label);e.href=url;return e};
 const chapterUrl=(vol,n)=>ROOT+'chapters/volume-'+String(vol).padStart(2,'0')+'/chapter-'+String(n).padStart(3,'0')+'.html';
+const visualRecords=Array.isArray(window.ZSVisualCodex)?window.ZSVisualCodex:[];
+const visual=visualRecords.find(x=>x.kind==='人物'&&x.id===info.id);
 const tabs=['已知资料','职业能力','成长记录','人物关系','相关章节'];
 const tabEls=[],sections=[];
 function card(label,title,desc,locked=false){
@@ -37,8 +39,9 @@ function init(){
  const heading=node('h1','',info.name);host.append(heading);
  const intro=node('p','zs-profile-opening','人物资料随正文推进开放，不以作者内部未来设定代替已经公开的剧情。');
  host.append(intro);
- const stats=node('div','zs-profile-progress'),p1=node('span'),p2=node('span'),phase=node('span'),meter=node('span','zs-profile-meter'),fill=node('i');
- meter.append(fill);stats.append(p1,p2,phase,meter);host.append(stats);
+ const stats=node('div','zs-profile-progress'),p1=node('span'),p2=node('span'),p3=node('span'),phase=node('span'),meter=node('span','zs-profile-meter'),fill=node('i');
+ meter.append(fill);stats.append(p1,p2,p3,phase,meter);host.append(stats);
+ const visualPanel=node('section','zs-profile-visual-panel');visualPanel.setAttribute('aria-label','已公开人物独立视觉档案');
  const bar=node('div','zs-profile-tabs');bar.setAttribute('role','tablist');bar.setAttribute('aria-label','档案分类');
  tabs.forEach((label,i)=>{const b=node('button','',label);b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-selected',i===0?'true':'false');b.addEventListener('click',()=>setTab(i));bar.append(b);tabEls.push(b);});
  host.append(bar);
@@ -49,16 +52,28 @@ function init(){
  const ix=profiles.indexOf(info);
  if(ix>0)links.append(a(profiles[ix-1].id+'.html','← 上一位人物'));
  if(ix<profiles.length-1)links.append(a(profiles[ix+1].id+'.html','下一位人物 →'));
- host.append(links,node('p','zs-profile-footnote','该页面使用当前设备的第一、二篇已读记录。未读阶段不显示秘密职业、隐藏能力、未来情节与结局；全部已发布章节仍可自由阅读。'));
+ host.append(links,node('p','zs-profile-footnote','该页面使用当前设备的第一、二、三篇独立阅读记录。未读阶段不显示秘密职业、隐藏能力、未来情节与结局；全部已发布章节仍可自由阅读。'));
  function refresh(){
- const x=progress(1),y=progress(2),read=x>=info.first,complete=x>=100&&y>=100;
+ const x=progress(1),y=progress(2),z=progress(3),read=x>=info.first,complete=x>=100&&y>=100&&z>=100;
  document.body.classList.toggle('zs-profile-full',complete);
- p1.textContent='第一篇 '+x+'/100 章';p2.textContent='第二篇 '+y+'/100 章';
- phase.textContent=complete?'两篇阅读进度已完成':read?'当前人物已公开资料可阅读':'人物资料尚未解锁';
- fill.style.width=((x+y)/2)+'%';
+ p1.textContent='第一篇 '+x+'/100 章';p2.textContent='第二篇 '+y+'/100 章';p3.textContent='第三篇 '+z+'/100 章';
+ phase.textContent=complete?'三篇阅读进度已完成':read?'当前人物已公开资料可阅读':'人物资料尚未解锁';
+ fill.style.width=((x+y+z)/3)+'%';
  art.remove();
  if(read){art.src=ROOT+'assets/images/characters/'+info.id+'-approved.webp'+(info.id==='gu-yanche'?'?v=20261106c':'');heading.insertAdjacentElement('beforebegin',art);}
  intro.textContent=read?info.bio:'继续阅读第一篇，人物身份和经历会在相应章节逐步公开。';
+ visualPanel.remove();visualPanel.replaceChildren();
+ if(visual && x>=visual.n){
+  const title=node('h2','',info.name+' · 独立视觉档案');
+  const hint=node('p','','这张图属于已公开阶段的形象设计，点击可以放大查看。人物经历以正文为准。');
+  const picture=document.createElement('img');
+  picture.loading='lazy';picture.decoding='async';picture.alt=info.name+'视觉图鉴卡';
+  const url=ROOT+'assets/images/codex/'+visual.file;
+  const fullImage=a(url,'');fullImage.className='zs-profile-visual-link';fullImage.target='_blank';fullImage.rel='noopener';
+  picture.addEventListener('error',()=>{visualPanel.remove();});picture.src=url;fullImage.append(picture);
+  const all=a(ROOT+'archive/visual-codex.html','查看全部已解锁视觉图鉴 →');
+  visualPanel.append(title,hint,fullImage,all);bar.insertAdjacentElement('beforebegin',visualPanel);
+ }
  const stage2=x>=Math.max(21,info.first),stage3=x>=61,stage4=y>=51;
  const base=read?info.role:'职业待揭晓';
  const states=[
@@ -67,7 +82,8 @@ function init(){
    card('进阶能力',stage3?'成长方向已展开':'🔒 后续能力仍封存',stage3?info.later:'成长细节请以你已经阅读的正式正文为准。',!stage3)],
   [card('首次阶段',read?'初期同行与探索':'🔒 待出场',read?'在读者已接触的章节里，人物展现了最初的性格和行动选择。':'本阶段尚未阅读。',!read),
    card('成长阶段',stage2?'逐步建立独立判断':'🔒 后续经历封存',stage2?info.later:'成长细节请以你已经阅读的正式正文为准。',!stage2),
-   card('第二篇阶段',stage4?'独立行动与团队协作':'🔒 百城星火阶段',stage4?'在新的冒险和合作中继续承担自己的责任。':'继续阅读第二篇后开放。',!stage4)],
+   card('第二篇阶段',stage4?'独立行动与团队协作':'🔒 百城星火阶段',stage4?'在新的冒险和合作中继续承担自己的责任。':'继续阅读第二篇后开放。',!stage4),
+   card('第三篇阶段',z>=1?'新的观察与合作':'🔒 临界回声阶段',z>=1?'第三篇的记录由该篇已读章节独立解锁。具体经历请阅读原文。':'继续阅读第三篇后开放。',z<1)],
   [card('已知关系',read?'团队与伙伴':'🔒 关系待揭晓',read?info.bond:'尚未解锁的人物关系不提前公布。',!read),
    card('后续关系变化',stage4?'信任与独立选择':'🔒 关系发展封存',stage4?'人物之间的合作会随具体经历不断变化，而非固定在最初的标签里。':'阅读第二篇的相关章节后开放。',!stage4)]
  ];

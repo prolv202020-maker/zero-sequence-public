@@ -21,3 +21,5 @@ jobs:
         run: |
           node scripts/audit-published-timeline.mjs
           node scripts/test-phase1-integration.mjs
+      - name: Verify visual codex sources, spoiler gates and graceful image fallback
+        run: node scripts/test-visual-codex.mjs
