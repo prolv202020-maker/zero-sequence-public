@@ -148,4 +148,30 @@ const chapterNineBody=pageNine.split('<div class="article">',2)[1].split('<div c
 assert.equal((chapterNineBody.match(/<p>/g)||[]).length,78,'Original Chapter 9 78 paragraphs must remain');
 assert.equal((pageNine.match(/<div class="article">/g)||[]).length,1,'Chapter 9 article container missing');
 assert.ok(volume.includes('chapter-009.html#zs-audiobook-player'),'Chapter 9 audiobook link absent from Volume 1 directory');
+const mp3Ten='assets/audio/audiobook/part-01/volume-01/chapter-010.mp3';
+const tenthBinary=readFileSync(join(root,mp3Ten));
+assert.ok(tenthBinary.length>3_000_000 && tenthBinary.length<18_000_000,'Finale MP3 missing or invalid');
+assert.equal(tenthBinary.subarray(0,3).toString('utf8'),'ID3','Chapter 10 must be MP3');
+const pageTen=read('chapters/volume-01/chapter-010.html');
+assert.ok(pageTen.includes('第十章 · 子悦中文女声有声版')&&pageTen.includes('Zi Yue 子悦 · Eleven v4'),'Finale must use official Zi Yue voice');
+assert.ok(pageTen.includes('chapter-010.mp3?v=zi-yue-v4'),'Chapter 10 official MP3 path and version missing');
+assert.ok(pageTen.includes('download="第零序列_重返_子悦_ZiYue_V4.mp3"'),'Finale download link missing');
+assert.ok(pageTen.includes('controls preload="none"')&&!/<audio[^>]+autoplay/.test(pageTen),'Chapter 10 narration must not autoplay');
+assert.ok(pageTen.includes('assets/js/chapter-audiobook.js?v=1'),'Chapter 10 must pause BGM during narration');
+assert.ok(pageTen.includes('<p>兽群袭击后的第三天，晨星镇开始下雨。</p>')&&pageTen.includes('——第一卷《重返》· 完——'),'Original finale opening and ending must remain');
+const finaleBody=pageTen.split('<div class="article">',2)[1].split('<div class="pager">',2)[0];
+assert.equal(finaleBody.split('<p').length-1,153,'The finale must preserve all 153 paragraphs');
+assert.equal((pageTen.match(/<div class="article">/g)||[]).length,1,'Finale article container missing');
+assert.ok(volume.includes('chapter-010.html#zs-audiobook-player'),'Finale listening link missing in first volume');
+assert.ok(volume.includes('第一卷有声版完结'),'First volume audiobook completion label required');
+for(let i=1;i<=10;i++){
+  const pad=String(i).padStart(3,'0');
+  const href='chapter-'+pad+'.html#zs-audiobook-player';
+  const mp3=join(root,'assets/audio/audiobook/part-01/volume-01/chapter-'+pad+'.mp3');
+  const listeningPage=read('chapters/volume-01/chapter-'+pad+'.html');
+  assert.ok(volume.includes(href),'Volume 1 missing audiobook chapter '+pad);
+  assert.ok(existsSync(mp3),'Volume 1 missing published MP3 '+pad);
+  assert.ok(listeningPage.includes('chapter-'+pad+'.mp3?v=zi-yue-v4'),'Chapter '+pad+' missing official MP3 player');
+  assert.ok(listeningPage.includes('controls preload="none"'),'Chapter '+pad+' must be opt-in listening');
+}
 console.log('[AUDIOBOOK] PASS: official Zi Yue v4 Chapter 1 published with a '+data.length+'-byte opt-in MP3, mobile controls, progress and BGM preserved.');
