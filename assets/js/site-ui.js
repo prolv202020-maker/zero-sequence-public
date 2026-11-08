@@ -15,6 +15,7 @@
     {label:'概念插画',url:ROOT+'parts/illustrations-01.html',children:[
       ['第一篇 · 概念画廊','parts/illustrations-01.html'],
       ['第二篇 · 百城星火画廊','parts/illustrations-02.html'],
+      ['第三篇 · 临界回声画廊','parts/illustrations-03.html'],
       ['人物专属插画馆','archive/character-art.html'],
       ['人物图鉴与档案','archive/characters.html']
     ]},
