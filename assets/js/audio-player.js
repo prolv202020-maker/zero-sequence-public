@@ -81,6 +81,9 @@
   }
   async function start(){
     if(playing)return;
+    // Keep music controls unchanged; when readers explicitly start BGM, prevent simultaneous narration.
+    const narration=document.querySelector('#zs-chapter-narration,#zs-ab-audio');
+    if(narration&&!narration.paused)narration.pause();
     ++fadeId; if(current){current.pause();current.src='';current=null;}
     const audio=makeAudio();current=audio;
     try{await audio.play();playing=true;localStorage.setItem(KEY_ENABLED,'1');fade(audio,0,volume,reduceMotion?350:1300);}
