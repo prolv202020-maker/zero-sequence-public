@@ -41,7 +41,7 @@
   function saveCurrent(){
     const v=selected.volume,c=selected.chapter;
     if(!api.available(v,c)||audio.ended)return;
-    if(audio.currentTime>0&&Number.isFinite(audio.currentTime)&&audio.currentSrc===api.audioUrl(v,c)){
+    if(audio.currentTime>0&&Number.isFinite(audio.currentTime)&&audio.currentSrc===new URL(api.audioUrl(v,c),location.href).href){
       api.save(v,c,audio.currentTime,audio.duration);
     }
   }
@@ -141,7 +141,7 @@
       if(start)startPlaying();
       return;
     }
-    saveCurrent();audio.pause();
+    saveCurrent();audio.pause();lastSavedAt=0;
     selected={volume:v,chapter:chosen};
     volumeSelect.value=String(v);updateChapterSelect();
     title.textContent=voiced?'第'+v+'卷《'+volumeInfo(v).title+'》· '+(chosen===0?'序章':('第'+chosen+'章'))+' · '+chapterName(v,chosen):'第'+v+'卷 · 尚未配音';
