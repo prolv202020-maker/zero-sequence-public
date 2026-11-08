@@ -68,9 +68,14 @@
       const voiced=v<=13;
       const card=make('article','zs-ab-volume-card');
       card.dataset.volume=String(v);card.dataset.selected=String(v===selected.volume);
-      const image=make('img');image.src=api.ROOT+'assets/images/covers/volume-'+pad(v)+'.webp';
-      image.loading='lazy';image.decoding='async';image.alt='第'+v+'卷正式封面';
-      card.append(image,make('span','zs-ab-volume-label','VOL '+pad(v)+' · 第'+(Math.floor((v-1)/10)+1)+'篇'));
+      if(v===1||showUnread||isRead(v,1)){
+        const image=make('img');image.src=api.ROOT+'assets/images/covers/volume-'+pad(v)+'.webp';
+        image.loading='lazy';image.decoding='async';image.alt='第'+v+'卷正式封面';
+        card.append(image);
+      }else{
+        card.append(make('div','zs-ab-volume-placeholder','VOL '+pad(v)));
+      }
+      card.append(make('span','zs-ab-volume-label','VOL '+pad(v)+' · 第'+(Math.floor((v-1)/10)+1)+'篇'));
       const label=make('strong','',voiced?(showUnread||isRead(v,1)?'《'+volumeInfo(v).title+'》':'第'+v+'卷 · 标题未解锁'):'第'+v+'卷');
       card.append(label,make('span','zs-ab-available'+(voiced?'':' zs-ab-unavailable'),voiced?'✓ 完整有声 · 10章':'暂未配音 · 文字版'));
       if(voiced){
@@ -141,7 +146,7 @@
       if(start)startPlaying();
       return;
     }
-    saveCurrent();audio.pause();lastSavedAt=0;
+    saveCurrent();audio.pause();lastSavedAt=0;restoredKey='';
     selected={volume:v,chapter:chosen};
     volumeSelect.value=String(v);updateChapterSelect();
     title.textContent=voiced?'第'+v+'卷《'+volumeInfo(v).title+'》· '+(chosen===0?'序章':('第'+chosen+'章'))+' · '+chapterName(v,chosen):'第'+v+'卷 · 尚未配音';
@@ -166,13 +171,18 @@
     const target=direction==='next'?api.next(selected.volume,selected.chapter):api.previous(selected.volume,selected.chapter);
     if(target)selectTrack(target.volume,target.chapter,start);
   }
-  audio.addEventListener('loadedmetadata',()=>{
+  let restoredKey='';
+  function restoreSelection(){
+    const key=api.trackKey(selected.volume,selected.chapter);
+    if(key===restoredKey)return;
     const prior=api.saved(selected.volume,selected.chapter);
     if(prior&&!prior.completed&&prior.seconds>0&&Number.isFinite(audio.duration)&&prior.seconds<audio.duration-2){
-      try{audio.currentTime=prior.seconds;}catch{/* Some mobile players need a later seek */ }
+      try{audio.currentTime=prior.seconds;restoredKey=key;}catch{/* Mobile browser may require canplay */ }
     }
     refreshPosition();
-  });
+  }
+  audio.addEventListener('loadedmetadata',restoreSelection);
+  audio.addEventListener('canplay',restoreSelection);
   audio.addEventListener('play',()=>{
     api.pauseBgm();announce('正在播放 · 背景音乐已自动暂停（如之前开启）。');
   });
