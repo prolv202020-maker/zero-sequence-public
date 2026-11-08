@@ -25,3 +25,5 @@ jobs:
         run: node scripts/test-audiobook-center.mjs
       - name: Validate third-arc original illustrations, existing covers and spoiler-safe per-part unlocks
         run: node scripts/test-third-gallery.mjs
+      - name: Protect seven approved character portraits and audit visual identity references
+        run: node scripts/test-character-visual-identity.mjs
