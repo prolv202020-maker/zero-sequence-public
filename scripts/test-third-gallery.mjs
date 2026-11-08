@@ -47,7 +47,9 @@ for(let i=0;i<slugs.length;i++){
    const attrs=[...m[2].matchAll(/(?:^|\s)([a-zA-Z_:][\w:.-]*)\s*=/g)].map(x=>x[1]);
    assert.equal(new Set(attrs).size,attrs.length,'Duplicate SVG XML attributes in '+name);
  }
- assert.ok(scripts[0].includes("file:'"+name+"'"),'Gallery not wired to '+name);
+ const newName='scene-03-'+slugs[i]+'-cg.webp';
+ assert.ok(!scripts[0].includes("file:'"+name+"'"),'Legacy SVG still used for active gallery: '+name);
+ assert.ok(scripts[0].includes("file:'"+newName+"'"),'New cinematic scene not wired to '+newName);
  assert.ok(scripts[0].includes('need:'+needs[i]),'Missing unlock checkpoint for '+name);
 }
 const gitBlob=buffer=>createHash('sha1').update('blob '+buffer.length+'\0').update(buffer).digest('hex');
@@ -58,7 +60,13 @@ const newCG=[
  {file:'part-03-echo-ridge-investigation.webp',sha:'9c38b8f96185f8f94d711ad7ee771bcb5c55deea',kind:'new chapter-linked CG'},
  {file:'part-03-gray-whale-storm-battle.webp',sha:'d92838580d687f4d2f3666df5b2dd8a15897621c',kind:'new chapter-linked CG'},
  {file:'part-03-molten-forge-guardian.webp',sha:'29cfef6168dd779cc2d4da45d12b4170bee6b6e5',kind:'new chapter-linked CG'},
- {file:'part-03-star-ring-council.webp',sha:'fa81fa21785104d45cec42cc843e64753f85c5fb',kind:'new chapter-linked CG'}
+ {file:'part-03-star-ring-council.webp',sha:'fa81fa21785104d45cec42cc843e64753f85c5fb',kind:'new chapter-linked CG'},
+ {file:'scene-03-echo-ridge-cg.webp',sha:'818cddeb5d77ee96cfbefe1aac0c707d26f122e4',kind:'approved scene 01'},
+ {file:'scene-03-lost-city-cg.webp',sha:'dd117e8183f7b204c323486c5bf00167b9a2b363',kind:'approved scene 02'},
+ {file:'scene-03-storm-voyage-cg.webp',sha:'0d5104c948ff43d74b079599f20c5b91e4ac9de9',kind:'approved scene 03'},
+ {file:'scene-03-outer-ring-cg.webp',sha:'ad0040b3ae3dc9a12a5b49889eb9ec9b9482c317',kind:'approved scene 04'},
+ {file:'scene-03-molten-valley-cg.webp',sha:'e22bd05de8d5a8eb3b79b6520c3c2b3a8660522d',kind:'approved scene 05'},
+ {file:'scene-03-zero-corridor-cg.webp',sha:'24994862a5db8f75b66e8fc1985659ec6ff99347',kind:'approved scene 06'}
 ];
 for(const art of newCG){
  const location='assets/images/illustrations/'+art.file;
@@ -73,6 +81,8 @@ for(const [name,need] of [['part-03-ring-ensemble.webp',61],['part-03-starlit-oa
  assert.ok(scripts[0].includes("file:'"+name+"'"),'CG not registered as reader-gated art: '+name);
  assert.ok(scripts[0].includes('need:'+need),'Incorrect CG unlock chapter '+name);
 }
+assert.equal((scripts[0].match(/tag:'SCENE 0[1-6]'/g)||[]).length,6,'The six named official scene cards must remain exactly six');
+assert.ok(!/<img[^>]+scene-03-.*-cg\.webp/.test(gallery),'Spoiler-locked six CGs must never load from HTML before reading progress');
 assert.ok(!/<img[^>]+part-03-(?:ring-ensemble|starlit-oath)/.test(gallery),'Do not expose reader-gated CGs in static hero HTML');
 assert.ok(!/<img[^>]+part-03-(?:echo-ridge-investigation|gray-whale-storm-battle|molten-forge-guardian|star-ring-council)/.test(gallery),'Story CGs must not load before spoiler unlock');
 const story=[
@@ -95,4 +105,4 @@ for(let v=21;v<=30;v++){
  const binary=readFileSync(file(cover));assert.equal(binary.subarray(0,4).toString(),'RIFF');assert.equal(binary.subarray(8,12).toString(),'WEBP');
 }
 assert.ok(!gallery.includes('80级'),'Do not leak author-only merge trigger in gallery');
-console.log('[PART III ART] PASS: original six SVGs + six reader-gated CGs, all 4 newly chapter-linked CG hashes and 4 story milestones, author-approved hero, ten unchanged covers, independent p03 unlocks.');
+console.log('[PART III ART] PASS: six new cinematic scene WebPs, six existing story/group CGs, six preserved source SVGs, ten unchanged covers, all binary hashes and independent p03 spoiler unlocks.');
