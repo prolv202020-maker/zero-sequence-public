@@ -1,0 +1,27 @@
+/* 沉浸式插画阅读 V1 · 不影响小说字体、BGM 或阅读进度 */
+.zs-story-illustration{box-sizing:border-box;width:100%;max-width:100%;margin:2.2rem auto 2.5rem;padding:0;border:1px solid #dcc39274;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#242d48,#161e35);box-shadow:0 12px 32px #070d2240;scroll-margin-top:22px}
+.zs-story-illustration-open{display:block;border:0;border-radius:0;background:#171d32;color:#f2e1c3;padding:0;width:100%;cursor:zoom-in;line-height:0;min-height:0}
+.zs-story-illustration-open img{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:16/9;object-fit:contain;background:#121b32}
+.zs-story-illustration-fallback{display:block;padding:32px 16px;color:#f1dcb5;line-height:1.8;font-size:14px}
+.zs-story-illustration-caption{padding:17px 20px 19px;display:flex;flex-direction:column;gap:8px;line-height:1.7}
+.zs-story-illustration-kicker{font:11px/1.5 Georgia,serif;letter-spacing:.12em;color:#d3b37a}
+.zs-story-illustration-name{display:block;font-weight:700;font-size:18px;color:#f8e5c0}
+.zs-story-illustration-note{font:13px/1.85 system-ui,sans-serif;color:#d7d3e0;margin:0!important;max-width:none!important}
+.zs-story-illustration-gallery{font:600 13px/1.7 system-ui,sans-serif;color:#eed39d;text-decoration:underline;text-underline-offset:3px;align-self:flex-start;min-height:44px;display:inline-flex;align-items:center}
+.zs-story-illustration-open:focus-visible,.zs-story-illustration-gallery:focus-visible,.zs-illustration-dialog-close:focus-visible{outline:3px solid #ffe3a3;outline-offset:3px}
+.zs-illustration-lightbox{width:min(96vw,1500px);max-width:min(96vw,1500px);max-height:94dvh;box-sizing:border-box;overflow:auto;overscroll-behavior:contain;padding:12px 14px 16px;border-radius:15px;border:1px solid #ddcaad77;background:#151b30;color:#f8e6c8;box-shadow:0 25px 80px #050816aa}
+.zs-illustration-lightbox::backdrop{background:#03060ddb;backdrop-filter:blur(6px)}
+.zs-illustration-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.zs-illustration-dialog-title{font-size:clamp(16px,2.2vw,23px);margin:0;line-height:1.5;color:#f3dfb6}
+.zs-illustration-dialog-close{border:1px solid #e8c98e88;border-radius:10px;background:#333d5b;color:#fff0cf;min-width:72px;min-height:44px;padding:8px 13px;cursor:pointer;flex:none;font-size:13px}
+.zs-illustration-dialog-image{display:block;width:100%;height:auto;max-height:calc(94dvh - 175px);aspect-ratio:16/9;object-fit:contain;border-radius:9px;background:#090f21}
+.zs-illustration-dialog-note{font:13px/1.85 system-ui,sans-serif;color:#d4d0dc;margin:12px 4px 0}
+@media(max-width:650px){
+ .zs-story-illustration{margin:1.5rem 0 1.8rem;border-radius:12px}
+ .zs-story-illustration-caption{padding:13px 14px 16px}
+ .zs-story-illustration-name{font-size:16px}
+ .zs-story-illustration-note{font-size:12px}
+ .zs-illustration-lightbox{width:100vw;max-width:100vw;max-height:100dvh;min-height:0;padding:10px;border-radius:0}
+ .zs-illustration-dialog-image{max-height:calc(100dvh - 160px)}
+}
+@media(prefers-reduced-motion:reduce){.zs-story-illustration-open{transition:none}.zs-illustration-lightbox::backdrop{backdrop-filter:none}}
