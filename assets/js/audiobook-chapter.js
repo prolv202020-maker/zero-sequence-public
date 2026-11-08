@@ -29,7 +29,7 @@ const format=s=>{const t=Math.max(0,Math.floor(s||0));return String(Math.floor(t
 const saved=Number(positions[key])||0;
 status.textContent=saved>1?'上次听到 '+format(saved)+'，可从断点续听。':'收听进度仅保存在此设备，不影响阅读进度。';
 function save(){
- if(!Number.isFinite(audio.currentTime)||audio.currentTime<0)return;
+ if(audio.ended||!Number.isFinite(audio.currentTime)||audio.currentTime<0)return;
  positions[key]=Math.floor(audio.currentTime);
  put(POSITIONS,positions);put(LAST,{v,n,seconds:positions[key]});
 }
