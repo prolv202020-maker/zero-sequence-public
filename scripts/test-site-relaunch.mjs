@@ -21,7 +21,7 @@ assert.doesNotThrow(()=>new Script(searchScripts[0],{filename:'search-inline.js'
 for(const id of ['world-entry','quick-jump','zs-quick-volumes','zs-number-jump','zs-chapter-number','zs-jump-feedback']){
  assert.ok(home.includes('id="'+id+'"'),'Home missing '+id);
 }
-assert.ok(home.includes('assets/css/home-relaunch.css?v=1'),'Home needs current redesign CSS');
+assert.ok(home.includes('assets/css/home-relaunch.css?v=2'),'Home needs current redesign CSS');
 assert.ok(home.includes('assets/js/home-relaunch.js?v=1'),'Home needs quick-navigation script');
 assert.ok(home.includes('VOL 21—30 · COMPLETE'),'Part III cover must reflect completed volumes');
 assert.ok(!home.includes('VOL 21—26 · NOW READING'),'Outdated home status must not recur');
