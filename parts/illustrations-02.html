@@ -21,7 +21,7 @@
 .art-copy h2{font-size:23px;margin:9px 0}
 .art-copy p{font-size:13px;color:#d7d7e4;line-height:1.85}
 .art-copy a{display:inline-block;margin-top:9px;color:#f0d596;text-decoration:underline}
-.art-card.is-locked .art-copy h2{color:#d1cbd9}
+.art-card.is-locked .art-copy h2{color:#d1cbd9}.art-card[id]{scroll-margin-top:18px}.art-copy a+a{margin-left:14px}.zs-illustration-fallback{color:#d5d1e3;padding:20px;text-align:center;line-height:1.7;font-size:13px}
 .zs-gallery-cover{object-fit:contain!important;background:#161b32;padding:8px}.note{color:#c7c6d4;font-size:12px;line-height:1.75}
 @media(max-width:760px){.gallery-hero{grid-template-columns:1fr}.gallery-hero img{max-height:340px}.art-grid{grid-template-columns:1fr}}
 </style>
@@ -34,7 +34,7 @@
 <section class="gallery-hero">
 <img src="../assets/images/illustrations/scene-02-shadow-road.webp" width="520" height="650" loading="eager" alt="第二篇百城星火的概念视觉封面">
 <div><p class="eyebrow">PART 02 · VISUAL ARCHIVE</p><h1>百城星火<br><span style="color:#ead09a">插画画廊</span></h1>
-<p>从无影商路到万家灯火，以画面记录第二篇一路铺开的城市、探索与普通人的生活。画廊会跟随你的阅读进度解锁，尚未读到的场景不会提前展示。</p>
+<p>从无影商路到万家灯火，以画面记录第二篇一路铺开的城市、探索与普通人的生活。画廊随本篇阅读进度解锁；已读到相应章节的插画可双向跳转正文，未读内容不提前展示。</p>
 <p class="note">图片属于第二批视觉概念稿，暂不代表最终角色造型或场景定稿。将来会根据正式人物档案和小说设定继续校正。</p>
 <a class="button" href="part-02.html">返回第二篇目录</a></div></section>
 <div class="gallery-info"><strong id="art-count">正在读取此设备的解锁进度……</strong>
@@ -49,46 +49,62 @@
 (()=>{
 'use strict';
 const BASE='../assets/images/illustrations/';
-const coverBase='../assets/images/covers/';
-const volumeBase='../volumes/';
-const art=[
-{need:1,name:'契约之外 · 商路初行',tag:'SCENE 01',file:'scene-02-shadow-road.webp',description:'商旅、行路者和城邦规则交织的旅程起点。',link:'../volumes/volume-11.html'},
-{need:21,name:'锻火账本 · 熔炉之光',tag:'SCENE 02',file:'scene-02-forge-ledger.webp',description:'工匠的熔炉、材料与城市运转的重量。',link:'../volumes/volume-13.html'},
-{need:31,name:'白烛与月 · 夜间医馆',tag:'SCENE 03',file:'scene-02-white-candle.webp',description:'烛光下的医疗工作与深夜仍未熄灭的灯火。',link:'../volumes/volume-14.html'},
-{need:41,name:'镜路歧途 · 旧境幻影',tag:'SCENE 04',file:'scene-02-mirror-path.webp',description:'通往未知的旧路与镜面般的奇异遗迹。',link:'../volumes/volume-15.html'},
-{need:51,name:'北境长墙 · 雪线守望',tag:'SCENE 05',file:'scene-02-north-wall.webp',description:'北境远山与风雪中仍坚守的长墙。',link:'../volumes/volume-16.html'},
-{need:91,name:'星火未熄 · 百城灯火',tag:'SCENE 06',file:'scene-02-hundred-lights.webp',description:'夜幕下的城镇彼此相望，星火来自无数人的努力。',link:'../volumes/volume-20.html'}
-];
-let p=0;try{p=Math.max(0,Math.min(100,Number(JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}').p02?.max)||0));}catch(e){}
+const COVER='../assets/images/covers/';
+const VOLUME='../volumes/';
+const partNumber=2,storagePart='p0'+partNumber;
+const art=[{"need":1,"name":"契约之外 · 商路初行","tag":"SCENE 01","file":"scene-02-shadow-road.webp","description":"商旅、行路者和城邦规则交织的旅程起点。","link":"../volumes/volume-11.html","id":"p2-shadow-road","readerNeed":1,"reader":"../chapters/volume-11/chapter-001.html#zs-story-art-p2-shadow-road"},{"need":21,"name":"锻火账本 · 熔炉之光","tag":"SCENE 02","file":"scene-02-forge-ledger.webp","description":"工匠的熔炉、材料与城市运转的重量。","link":"../volumes/volume-13.html","id":"p2-forge-ledger","readerNeed":23,"reader":"../chapters/volume-13/chapter-003.html#zs-story-art-p2-forge-ledger"},{"need":31,"name":"白烛与月 · 夜间医馆","tag":"SCENE 03","file":"scene-02-white-candle.webp","description":"烛光下的医疗工作与深夜仍未熄灭的灯火。","link":"../volumes/volume-14.html","id":"p2-white-candle","readerNeed":31,"reader":"../chapters/volume-14/chapter-001.html#zs-story-art-p2-white-candle"},{"need":41,"name":"镜路歧途 · 旧境幻影","tag":"SCENE 04","file":"scene-02-mirror-path.webp","description":"通往未知的旧路与镜面般的奇异遗迹。","link":"../volumes/volume-15.html","id":"p2-mirror-path","readerNeed":41,"reader":"../chapters/volume-15/chapter-001.html#zs-story-art-p2-mirror-path"},{"need":51,"name":"北境长墙 · 雪线守望","tag":"SCENE 05","file":"scene-02-north-wall.webp","description":"北境远山与风雪中仍坚守的长墙。","link":"../volumes/volume-16.html","id":"p2-north-wall","readerNeed":51,"reader":"../chapters/volume-16/chapter-001.html#zs-story-art-p2-north-wall"},{"need":91,"name":"星火未熄 · 百城灯火","tag":"SCENE 06","file":"scene-02-hundred-lights.webp","description":"夜幕下的城镇彼此相望，星火来自无数人的努力。","link":"../volumes/volume-20.html","id":"p2-hundred-lights","readerNeed":100,"reader":"../chapters/volume-20/chapter-010.html#zs-story-art-p2-hundred-lights"}];
+function getProgress(){
+ try{const d=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return Math.max(0,Math.min(100,Number(d[storagePart]?.max)||0));}
+ catch(_){return 0;}
+}
 const host=document.getElementById('art-list');
-for(const a of art){
- const unlocked=p>=a.need,card=document.createElement('article');card.className='art-card'+(unlocked?'':' is-locked');
- const frame=document.createElement('div');frame.className='art-frame';
- if(unlocked){const img=document.createElement('img');img.src=BASE+a.file;img.loading='lazy';img.alt=a.name+'概念插画';frame.appendChild(img);}
- else{const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.appendChild(lock);}
- const copy=document.createElement('div');copy.className='art-copy';
- const tag=document.createElement('small');tag.textContent=a.tag+(unlocked?' · 已解锁':' · 未解锁');
- const h=document.createElement('h2');h.textContent=unlocked?a.name:'未揭晓的场景';
- const desc=document.createElement('p');desc.textContent=unlocked?a.description:'阅读至全书第'+(100+a.need)+'章后解锁本幅概念插画。';
- copy.append(tag,h,desc);
- if(unlocked){const link=document.createElement('a');link.href=a.link;link.textContent='返回对应卷目 →';copy.appendChild(link);}
- card.append(frame,copy);host.appendChild(card);
-}
 const coverHost=document.getElementById('cover-list');
-for(let vol=11;vol<=20;vol++){
- const need=(vol-11)*10+1,ok=p>=need;
- const card=document.createElement('article');card.className='art-card'+(ok?'':' is-locked');
- const frame=document.createElement('div');frame.className='art-frame';
- if(ok){const img=document.createElement('img');img.src=coverBase+'volume-'+String(vol).padStart(2,'0')+'.webp';img.loading='lazy';img.alt='第二篇第'+vol+'卷正式封面';img.className='zs-gallery-cover';frame.append(img);}
- else{const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.append(lock);}
- const copy=document.createElement('div');copy.className='art-copy';const label=document.createElement('small');label.textContent=ok?'VOLUME '+vol+' · 已解锁':'VOLUME · 未解锁';
- const h=document.createElement('h2');h.textContent=ok?'第'+vol+'卷 · 正式封面':'未揭晓的卷面';
- const desc=document.createElement('p');desc.textContent=ok?'第二篇已发布卷面艺术，探索更多内容请进入本卷目录。':'阅读至全书第'+(100+need)+'章后开放此卷封面画集。';
- copy.append(label,h,desc);
- if(ok){const link=document.createElement('a');link.href=volumeBase+'volume-'+String(vol).padStart(2,'0')+'.html';link.textContent='进入本卷目录 →';copy.append(link);}
- card.append(frame,copy);coverHost.append(card);
+function imageOrLock(frame,ok,file,alt,cover=false){
+ if(!ok){const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.append(lock);return;}
+ const image=document.createElement('img');image.src=(cover?COVER:BASE)+file;image.loading='lazy';image.decoding='async';image.alt=alt;
+ if(cover)image.className='zs-gallery-cover';
+ image.addEventListener('error',()=>{image.remove();const note=document.createElement('span');note.className='zs-illustration-fallback';note.textContent='图片暂时无法加载，请稍后刷新重试。';frame.append(note);},{once:true});
+ frame.append(image);
 }
-document.getElementById('art-count').textContent='第二篇已解锁 '+p+'/100 章 · 插画已开放 '+art.filter(a=>p>=a.need).length+'/'+art.length+' 张（不含概念封面）';
+function createCard(ok,title,tag,description,file,link,cover=false,id='',reader='',readerNeed=0,p=0){
+ const card=document.createElement('article');card.className='art-card'+(ok?'':' is-locked');
+ if(id)card.id='zs-gallery-art-'+id;
+ const frame=document.createElement('div');frame.className='art-frame';imageOrLock(frame,ok,file,title+'概念插画',cover);
+ const copy=document.createElement('div');copy.className='art-copy';
+ const small=document.createElement('small');small.textContent=tag+(ok?' · 已解锁':' · 未解锁');
+ const heading=document.createElement('h2');heading.textContent=ok?title:'未揭晓的场景';
+ const desc=document.createElement('p');desc.textContent=description;
+ copy.append(small,heading,desc);
+ if(ok){
+   if(reader&&p>=readerNeed){const a=document.createElement('a');a.href=reader;a.textContent='查看正文中的插画段落 →';copy.append(a);}
+   const b=document.createElement('a');b.href=link;b.textContent=cover?'进入本卷目录 →':'返回对应卷目 →';copy.append(b);
+ }
+ card.append(frame,copy);return card;
+}
+function jumpToIllustration(){
+ let id;try{id=decodeURIComponent(location.hash.slice(1));}catch(_){return;}
+ if(!/^zs-gallery-art-[a-z0-9-]+$/.test(id))return;
+ const card=document.getElementById(id);
+ if(card)requestAnimationFrame(()=>card.scrollIntoView({block:'start',behavior:'auto'}));
+}
+function render(){
+ const p=getProgress();host.replaceChildren();
+ for(const a of art){
+  const ok=p>=a.need;
+  host.append(createCard(ok,a.name,a.tag,ok?a.description:'阅读至第'+partNumber+'篇第'+a.need+'章后解锁本幅概念插画。',a.file,a.link,false,a.id,a.reader,a.readerNeed,p));
+ }
+ coverHost.replaceChildren();
+ for(let v=11;v<=20;v++){
+  const need=(v-11)*10+1,ok=p>=need,file='volume-'+String(v).padStart(2,'0')+'.webp';
+  coverHost.append(createCard(ok,'第'+v+'卷 · 正式封面',ok?'VOLUME '+v:'VOLUME',ok?'第二篇已发布卷面艺术，可进入本卷目录。':'阅读至第二篇第'+need+'章后开放此卷封面画集。',file,VOLUME+'volume-'+String(v).padStart(2,'0')+'.html',true));
+ }
+ document.getElementById('art-count').textContent='第'+partNumber+'篇已解锁 '+p+'/100 章 · 场景插画 '+art.filter(x=>p>=x.need).length+'/'+art.length+' 张 · 卷封面 '+[...Array(10)].filter((_,i)=>p>=i*10+1).length+'/10 张';
+ if(location.hash)requestAnimationFrame(jumpToIllustration);
+}
+render();
+window.addEventListener('hashchange',jumpToIllustration);
+window.addEventListener('pageshow',render);
+document.addEventListener('zs:part-progress-changed',render);
 })();
 </script>
 <script src="../assets/js/audio-player.js" defer></script>
