@@ -160,7 +160,9 @@ auto.addEventListener('change',()=>safeSet(AUTO,auto.checked));
 window.addEventListener('pagehide',()=>snapshot(true));
 document.addEventListener('visibilitychange',()=>{if(document.hidden)snapshot(true);});
 renderVolumes();
+const params=new URLSearchParams(location.search);
+const queryV=Number(params.get('volume')),queryN=Number(params.get('chapter'));
 const saved=safeGet(LAST,null);
-if(saved&&valid(saved.v,saved.n)){chooseVolume(saved.v).then(()=>loadTrack(saved.v,saved.n,false));}
-else chooseVolume(1).then(()=>loadTrack(1,0,false));
+const target=valid(queryV,queryN)?{v:queryV,n:queryN}:(saved&&valid(saved.v,saved.n)?saved:{v:1,n:0});
+chooseVolume(target.v).then(()=>loadTrack(target.v,target.n,false));
 })();
