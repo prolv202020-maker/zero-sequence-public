@@ -236,6 +236,18 @@
       const script=document.createElement('script');script.src=ROOT+'assets/js/audiobook-chapter.js?v=1';script.defer=true;document.body.append(script);
     }
   }
-  function init(){loadCSS();apply();addSearchNav();addContinue();if(chapter){setupChapter();loadAudiobookChapterEnhancements();}}
+  function loadImmersiveIllustrations(){
+    const m=path.match(/\/chapters\/volume-(\d{2})\/chapter-(\d{3})\.html$/);
+    if(!m||Number(m[1])<21||Number(m[1])>30)return;
+    if(!$('link[href*="immersive-illustrations.css"]')){
+      const css=document.createElement('link');
+      css.rel='stylesheet';css.href=ROOT+'assets/css/immersive-illustrations.css?v=1';document.head.append(css);
+    }
+    if(!$('script[src*="immersive-illustrations.js"]')){
+      const script=document.createElement('script');
+      script.src=ROOT+'assets/js/immersive-illustrations.js?v=1';script.defer=true;document.body.append(script);
+    }
+  }
+  function init(){loadCSS();apply();addSearchNav();addContinue();if(chapter){setupChapter();loadAudiobookChapterEnhancements();loadImmersiveIllustrations();}}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

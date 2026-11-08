@@ -21,7 +21,7 @@
 .art-copy h2{font-size:23px;margin:9px 0}
 .art-copy p{font-size:13px;color:#d7d7e4;line-height:1.85}
 .art-copy a{display:inline-block;margin-top:9px;color:#f0d596;text-decoration:underline}
-.art-card.is-locked .art-copy h2{color:#d1cbd9}
+.art-card.is-locked .art-copy h2{color:#d1cbd9}.art-card[id]{scroll-margin-top:18px}.art-copy a+a{margin-left:15px}
 .zs-gallery-cover{object-fit:contain!important;background:#161b32;padding:8px}.note{color:#c7c6d4;font-size:12px;line-height:1.75}
 @media(max-width:760px){.gallery-hero{grid-template-columns:1fr}.gallery-hero img{max-height:340px}.art-grid{grid-template-columns:1fr}}
  .zs-illustration-fallback{color:#d8d2e5;padding:20px;text-align:center;font-size:13px;line-height:1.8}
@@ -54,18 +54,18 @@ const BASE='../assets/images/illustrations/';
 const coverBase='../assets/images/covers/';
 const volumeBase='../volumes/';
 const art=[
- {need:1,name:'回声坡 · 两道余音',tag:'SCENE 01',file:'scene-03-echo-ridge-cg.webp',description:'边境测绘路上的回声与雾影，古钟留下有待验证的线索。',link:'../volumes/volume-21.html'},
- {need:21,name:'栖潮旧城 · 失名街道',tag:'SCENE 02',file:'scene-03-lost-city-cg.webp',description:'有些街道未曾消失，只是名字被记录遗忘。',link:'../volumes/volume-23.html'},
- {need:41,name:'断潮回廊 · 灰鲸航路',tag:'SCENE 03',file:'scene-03-storm-voyage-cg.webp',description:'风暴、海兽和似真似假的灯光，考验船员之间的配合。',link:'../volumes/volume-25.html'},
- {need:51,name:'外环裂线 · 岩甲险径',tag:'SCENE 04',file:'scene-03-outer-ring-cg.webp',description:'测绘者与护卫在崎岖道路上面对真正的危险。',link:'../volumes/volume-26.html'},
- {need:61,name:'熔谷争锋 · 古炉试炼',tag:'SCENE 05',file:'scene-03-molten-valley-cg.webp',description:'熔谷古炉深处，剑士与伙伴迎接一场团队试炼。',link:'../volumes/volume-27.html'},
- {need:91,name:'零刻回廊 · 共同前行',tag:'SCENE 06',file:'scene-03-zero-corridor-cg.webp',description:'在充满未知的回廊里，伙伴们选择携手继续前行。',link:'../volumes/volume-30.html'},
- {need:61,name:'星环遗迹 · 远征集结',tag:'CINEMATIC CG 01',file:'part-03-ring-ensemble.webp',description:'以团队同行为主题的高精度群像概念CG，角色身份沿用官方立绘基准。',link:'../volumes/volume-27.html'},
- {need:91,name:'星域同行 · 光之誓约',tag:'CINEMATIC CG 02',file:'part-03-starlit-oath.webp',description:'宏大遗迹与七人并肩的概念画面，属于视觉艺术设计，不提前代表后续实际剧情。',link:'../volumes/volume-30.html'},
- {need:18,name:'回声坡 · 遗迹共鸣调查',tag:'STORY CG 03',file:'part-03-echo-ridge-investigation.webp',description:'关联《远域双钟》第八章《两座钟》：回声坡异常声响的复测。遗迹仪式与群像构图属于艺术化演绎。',link:'../chapters/volume-22/chapter-008.html'},
- {need:43,name:'断潮航路 · 灰鲸号追猎',tag:'STORY CG 04',file:'part-03-gray-whale-storm-battle.webp',description:'关联《断潮回廊》第三章《断潮追猎》：灰鲸号遭遇裂鳍兽与人为诱引。巨大鲸形轮廓属于概念化视觉处理。',link:'../chapters/volume-25/chapter-003.html'},
- {need:67,name:'熔谷争锋 · 中央炉守卫战',tag:'STORY CG 05',file:'part-03-molten-forge-guardian.webp',description:'关联《熔谷争锋》第七章《火脉之下》：队伍应对熔背龙蜥精英守卫。熔炉巨像为画面意象，并非新增正史首领。',link:'../chapters/volume-27/chapter-007.html'},
- {need:91,name:'零刻回廊 · 星环战略议会',tag:'STORY CG 06',file:'part-03-star-ring-council.webp',description:'关联《零刻回廊》第一章《偏移的日期》：伙伴规划探索、资源与安全安排。星环遗迹会议场景为人物互动概念图。',link:'../chapters/volume-30/chapter-001.html'}
+ {need:1,name:'回声坡 · 两道余音',tag:'SCENE 01',file:'scene-03-echo-ridge-cg.webp',id:'echo-ridge',reader:'../chapters/volume-21/chapter-010.html#zs-story-art-echo-ridge',description:'边境测绘路上的回声与雾影，古钟留下有待验证的线索。',link:'../volumes/volume-21.html'},
+ {need:21,name:'栖潮旧城 · 失名街道',tag:'SCENE 02',file:'scene-03-lost-city-cg.webp',id:'lost-city',reader:'../chapters/volume-23/chapter-004.html#zs-story-art-lost-city',description:'有些街道未曾消失，只是名字被记录遗忘。',link:'../volumes/volume-23.html'},
+ {need:41,name:'断潮回廊 · 灰鲸航路',tag:'SCENE 03',file:'scene-03-storm-voyage-cg.webp',id:'storm-voyage',reader:'../chapters/volume-25/chapter-002.html#zs-story-art-storm-voyage',description:'风暴、海兽和似真似假的灯光，考验船员之间的配合。',link:'../volumes/volume-25.html'},
+ {need:51,name:'外环裂线 · 岩甲险径',tag:'SCENE 04',file:'scene-03-outer-ring-cg.webp',id:'outer-ring',reader:'../chapters/volume-26/chapter-005.html#zs-story-art-outer-ring',description:'测绘者与护卫在崎岖道路上面对真正的危险。',link:'../volumes/volume-26.html'},
+ {need:61,name:'熔谷争锋 · 古炉试炼',tag:'SCENE 05',file:'scene-03-molten-valley-cg.webp',id:'molten-valley',reader:'../chapters/volume-27/chapter-005.html#zs-story-art-molten-valley',description:'熔谷古炉深处，剑士与伙伴迎接一场团队试炼。',link:'../volumes/volume-27.html'},
+ {need:91,name:'零刻回廊 · 共同前行',tag:'SCENE 06',file:'scene-03-zero-corridor-cg.webp',id:'zero-corridor',reader:'../chapters/volume-30/chapter-003.html#zs-story-art-zero-corridor',description:'在充满未知的回廊里，伙伴们选择携手继续前行。',link:'../volumes/volume-30.html'},
+ {need:61,name:'星环遗迹 · 远征集结',tag:'CINEMATIC CG 01',file:'part-03-ring-ensemble.webp',id:'ring-ensemble',reader:'../chapters/volume-27/chapter-001.html#zs-story-art-ring-ensemble',description:'以团队同行为主题的高精度群像概念CG，角色身份沿用官方立绘基准。',link:'../volumes/volume-27.html'},
+ {need:91,name:'星域同行 · 光之誓约',tag:'CINEMATIC CG 02',file:'part-03-starlit-oath.webp',id:'starlit-oath',reader:'../chapters/volume-30/chapter-010.html#zs-story-art-starlit-oath',description:'宏大遗迹与七人并肩的概念画面，属于视觉艺术设计，不提前代表后续实际剧情。',link:'../volumes/volume-30.html'},
+ {need:18,name:'回声坡 · 遗迹共鸣调查',tag:'STORY CG 03',file:'part-03-echo-ridge-investigation.webp',id:'echo-investigation',reader:'../chapters/volume-22/chapter-008.html#zs-story-art-echo-investigation',description:'关联《远域双钟》第八章《两座钟》：回声坡异常声响的复测。遗迹仪式与群像构图属于艺术化演绎。',link:'../chapters/volume-22/chapter-008.html'},
+ {need:43,name:'断潮航路 · 灰鲸号追猎',tag:'STORY CG 04',file:'part-03-gray-whale-storm-battle.webp',id:'gray-whale-battle',reader:'../chapters/volume-25/chapter-003.html#zs-story-art-gray-whale-battle',description:'关联《断潮回廊》第三章《断潮追猎》：灰鲸号遭遇裂鳍兽与人为诱引。巨大鲸形轮廓属于概念化视觉处理。',link:'../chapters/volume-25/chapter-003.html'},
+ {need:67,name:'熔谷争锋 · 中央炉守卫战',tag:'STORY CG 05',file:'part-03-molten-forge-guardian.webp',id:'molten-guardian',reader:'../chapters/volume-27/chapter-007.html#zs-story-art-molten-guardian',description:'关联《熔谷争锋》第七章《火脉之下》：队伍应对熔背龙蜥精英守卫。熔炉巨像为画面意象，并非新增正史首领。',link:'../chapters/volume-27/chapter-007.html'},
+ {need:91,name:'零刻回廊 · 星环战略议会',tag:'STORY CG 06',file:'part-03-star-ring-council.webp',id:'star-ring-council',reader:'../chapters/volume-30/chapter-001.html#zs-story-art-star-ring-council',description:'关联《零刻回廊》第一章《偏移的日期》：伙伴规划探索、资源与安全安排。星环遗迹会议场景为人物互动概念图。',link:'../chapters/volume-30/chapter-001.html'}
 ];
 art.sort((a,b)=>a.need-b.need || a.tag.localeCompare(b.tag));
 const getProgress=()=>{
@@ -84,8 +84,9 @@ function frameContent(frame,unlocked,file,alt,cover=false){
   const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.append(lock);
  }
 }
-function makeCard({ok,tag,name,description,link,file,cover=false}){
+function makeCard({ok,tag,name,description,link,file,cover=false,id,reader}){
  const card=document.createElement('article');card.className='art-card'+(ok?'':' is-locked');
+ if(id)card.id='zs-gallery-art-'+id;
  const frame=document.createElement('div');frame.className='art-frame';
  frameContent(frame,ok,file,name+'概念插画',cover);
  const copy=document.createElement('div');copy.className='art-copy';
@@ -93,7 +94,10 @@ function makeCard({ok,tag,name,description,link,file,cover=false}){
  const h=document.createElement('h2');h.textContent=ok?name:'未揭晓的画面';
  const p=document.createElement('p');p.textContent=description;
  copy.append(small,h,p);
- if(ok){const a=document.createElement('a');a.href=link;a.textContent=link.includes('/chapters/')?'阅读对应章节 →':'返回对应卷目 →';copy.append(a);}
+ if(ok){
+  if(reader){const a=document.createElement('a');a.href=reader;a.textContent='查看正文中的插画段落 →';copy.append(a);}
+  if(!reader||(!link.includes('/chapters/')&&reader)){const a=document.createElement('a');a.href=link;a.textContent=reader?'返回本卷目录 →':(link.includes('/chapters/')?'阅读对应章节 →':'返回对应卷目 →');copy.append(a);}
+ }
  card.append(frame,copy);return card;
 }
 const host=document.getElementById('art-list'),coverHost=document.getElementById('cover-list');
@@ -101,7 +105,7 @@ function render(){
  const progress=getProgress();host.replaceChildren();coverHost.replaceChildren();
  for(const a of art){
   const ok=progress>=a.need;
-  host.append(makeCard({ok,tag:a.tag,name:a.name,file:a.file,link:a.link,
+  host.append(makeCard({ok,tag:a.tag,name:a.name,file:a.file,link:a.link,id:a.id,reader:a.reader,
    description:ok?a.description:'阅读至第三篇第'+a.need+'章（全书第'+(200+a.need)+'章）后解锁此幅概念插画。'}));
  }
  for(let v=21;v<=30;v++){
@@ -113,8 +117,16 @@ function render(){
  }
  document.getElementById('art-count').textContent='第三篇已解锁 '+progress+'/100 章 · 场景插画 '+art.filter(x=>progress>=x.need).length+'/'+art.length+' 张 · 卷封面 '+[...Array(10)].filter((_,i)=>progress>=i*10+1).length+'/10 张';
 }
+function jumpToIllustration(){
+ const id=decodeURIComponent(location.hash.slice(1));
+ if(!/^zs-gallery-art-[a-z0-9-]+$/.test(id))return;
+ const card=document.getElementById(id);
+ if(card)requestAnimationFrame(()=>card.scrollIntoView({block:'start',behavior:'auto'}));
+}
 render();
-window.addEventListener('pageshow',render);
+if(location.hash)requestAnimationFrame(jumpToIllustration);
+window.addEventListener('hashchange',jumpToIllustration);
+window.addEventListener('pageshow',()=>{render();if(location.hash)requestAnimationFrame(jumpToIllustration);});
 document.addEventListener('zs:part-progress-changed',render);
 })();
 </script>
