@@ -226,6 +226,16 @@
     const crumb=$('.crumb');if(crumb)crumb.insertAdjacentElement('afterend',tools);
     requestAnimationFrame(save);
   }
-  function init(){loadCSS();apply();addSearchNav();addContinue();if(chapter)setupChapter();}
+  function loadAudiobookChapterEnhancements(){
+    const m=path.match(/\/chapters\/volume-(\d{2})\/(?:chapter-\d{3}|prologue)\.html$/);
+    if(!m||Number(m[1])>13)return;
+    if(!$('link[href*="audiobook-chapter.css"]')){
+      const style=document.createElement('link');style.rel='stylesheet';style.href=ROOT+'assets/css/audiobook-chapter.css?v=1';document.head.append(style);
+    }
+    if(!$('script[src*="audiobook-chapter.js"]')){
+      const script=document.createElement('script');script.src=ROOT+'assets/js/audiobook-chapter.js?v=1';script.defer=true;document.body.append(script);
+    }
+  }
+  function init(){loadCSS();apply();addSearchNav();addContinue();if(chapter){setupChapter();loadAudiobookChapterEnhancements();}}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
