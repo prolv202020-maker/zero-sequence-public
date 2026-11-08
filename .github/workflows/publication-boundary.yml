@@ -19,5 +19,7 @@ jobs:
         run: node scripts/ensure-chapter-bootstrap.mjs --check
       - name: Test reading flow and independent chapter unlocks
         run: node scripts/test-reading-flow.mjs
+      - name: Verify all 131 real audio files, phone layout, playback resume and three-part spoiler independence
+        run: node scripts/test-audiobook-center.mjs
       - name: Test upgraded homepage, spoiler-safe search and reader navigation
         run: node scripts/test-site-relaunch.mjs
