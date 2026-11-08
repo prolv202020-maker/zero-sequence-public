@@ -54,7 +54,11 @@ const gitBlob=buffer=>createHash('sha1').update('blob '+buffer.length+'\0').upda
 const newCG=[
  {file:'part-03-star-ring-expedition.webp',sha:'a3cd7191caefa71d53b127ff73f44b060f9a2164',kind:'author-approved hero'},
  {file:'part-03-ring-ensemble.webp',sha:'f1260c9521272c2b27ff6e4f6a6ab7d0315c023d',kind:'new character concept CG'},
- {file:'part-03-starlit-oath.webp',sha:'7fee44e87049662dbcb3cb80f569a7338d1e87b1',kind:'new character concept CG'}
+ {file:'part-03-starlit-oath.webp',sha:'7fee44e87049662dbcb3cb80f569a7338d1e87b1',kind:'new character concept CG'},
+ {file:'part-03-echo-ridge-investigation.webp',sha:'9c38b8f96185f8f94d711ad7ee771bcb5c55deea',kind:'new chapter-linked CG'},
+ {file:'part-03-gray-whale-storm-battle.webp',sha:'d92838580d687f4d2f3666df5b2dd8a15897621c',kind:'new chapter-linked CG'},
+ {file:'part-03-molten-forge-guardian.webp',sha:'29cfef6168dd779cc2d4da45d12b4170bee6b6e5',kind:'new chapter-linked CG'},
+ {file:'part-03-star-ring-council.webp',sha:'fa81fa21785104d45cec42cc843e64753f85c5fb',kind:'new chapter-linked CG'}
 ];
 for(const art of newCG){
  const location='assets/images/illustrations/'+art.file;
@@ -70,10 +74,25 @@ for(const [name,need] of [['part-03-ring-ensemble.webp',61],['part-03-starlit-oa
  assert.ok(scripts[0].includes('need:'+need),'Incorrect CG unlock chapter '+name);
 }
 assert.ok(!/<img[^>]+part-03-(?:ring-ensemble|starlit-oath)/.test(gallery),'Do not expose reader-gated CGs in static hero HTML');
+assert.ok(!/<img[^>]+part-03-(?:echo-ridge-investigation|gray-whale-storm-battle|molten-forge-guardian|star-ring-council)/.test(gallery),'Story CGs must not load before spoiler unlock');
+const story=[
+ ['part-03-echo-ridge-investigation.webp',18,'../chapters/volume-22/chapter-008.html'],
+ ['part-03-gray-whale-storm-battle.webp',43,'../chapters/volume-25/chapter-003.html'],
+ ['part-03-molten-forge-guardian.webp',67,'../chapters/volume-27/chapter-007.html'],
+ ['part-03-star-ring-council.webp',91,'../chapters/volume-30/chapter-001.html']
+];
+for(const [filename,need,target] of story){
+ assert.ok(scripts[0].includes("need:"+need+",name:")&&scripts[0].includes("file:'"+filename+"'"),'Missing reading threshold: '+filename);
+ assert.ok(scripts[0].includes("link:'"+target+"'"),'Story CG lacks correct chapter link: '+filename);
+ assert.ok(existsSync(file('parts/'+target.replace('../',''))),'Linked published novel chapter is missing: '+target);
+}
+assert.ok(scripts[0].includes('art.sort((a,b)=>a.need-b.need'),'Story CGs should display in reading order');
+assert.ok(gallery.includes('巨像为画面意象')&&gallery.includes('画面意象'),'Avoid mistaking illustrative monster design for new canon');
+
 for(let v=21;v<=30;v++){
  const cover='assets/images/covers/volume-'+String(v).padStart(2,'0')+'.webp';
  assert.ok(existsSync(file(cover)),'Missing official third volume cover '+cover);
  const binary=readFileSync(file(cover));assert.equal(binary.subarray(0,4).toString(),'RIFF');assert.equal(binary.subarray(8,12).toString(),'WEBP');
 }
 assert.ok(!gallery.includes('80级'),'Do not leak author-only merge trigger in gallery');
-console.log('[PART III ART] PASS: six existing SVGs, two newly-gated cinematic CGs, author-approved Part III hero, ten unchanged official covers, independent p03 unlocks and mobile links.');
+console.log('[PART III ART] PASS: original six SVGs + six reader-gated CGs, all 4 newly chapter-linked CG hashes and 4 story milestones, author-approved hero, ten unchanged covers, independent p03 unlocks.');
