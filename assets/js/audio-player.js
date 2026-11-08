@@ -115,8 +115,11 @@
     if(!document.querySelector('script[src*="reader-experience.js"]')){
       const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=23';document.body.appendChild(reader);
     }
+    if(!document.querySelector('script[src*="audiobook-progress.js"]')){
+      const listening=document.createElement('script');listening.src=ROOT+'assets/js/audiobook-progress.js?v=1';listening.defer=true;document.body.appendChild(listening);
+    }
     if(!document.querySelector('script[src*="site-ui.js"]')){
-      const site=document.createElement('script');site.src=ROOT+'assets/js/site-ui.js?v=7';site.defer=true;document.body.appendChild(site);
+      const site=document.createElement('script');site.src=ROOT+'assets/js/site-ui.js?v=8';site.defer=true;document.body.appendChild(site);
     }
     if(!document.querySelector('script[src*="visitor-analytics.js"]')){
       const analytics=document.createElement('script');analytics.src=ROOT+'assets/js/visitor-analytics.js?v=1';analytics.defer=true;document.body.appendChild(analytics);
