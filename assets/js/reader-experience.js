@@ -64,7 +64,7 @@
   // Recovery path for previously cached chapter HTML: the master MP3s are already
   // published. Never replace an existing audio player or change the novel text.
   function ensurePublishedAudiobook(){
-    const m=path.match(/\/chapters\/volume-(0[23456789]|1[012])\/chapter-(\d{3})\.html$/);
+    const m=path.match(/\/chapters\/volume-(0[23456789]|1[0123])\/chapter-(\d{3})\.html$/);
     if(!m||$('#zs-audiobook-player'))return;
     const v=Number(m[1]),n=Number(m[2]);if(n<1||n>10)return;
     const article=$('.article'),h=$('main.page h1');if(!article||!h)return;
@@ -83,7 +83,7 @@
     const source=document.createElement('source');source.src=url;source.type='audio/mpeg';audio.append(source);
     const actions=document.createElement('div');actions.className='zs-audiobook-actions';
     const note=document.createElement('span');note.textContent='点击后开始朗读 · 不自动播放';
-    const download=document.createElement('a');download.href=url;download.download='第零序列_第'+({2:'二',3:'三',4:'四',5:'五',6:'六',7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二'}[v])+'卷_第'+n+'章_子悦_ZiYue_V4.mp3';download.textContent='下载完整 MP3';
+    const download=document.createElement('a');download.href=url;download.download='第零序列_第'+({2:'二',3:'三',4:'四',5:'五',6:'六',7:'七',8:'八',9:'九',10:'十',11:'十一',12:'十二',13:'十三'}[v])+'卷_第'+n+'章_子悦_ZiYue_V4.mp3';download.textContent='下载完整 MP3';
     actions.append(note,download);
     const status=document.createElement('p');status.id='zs-chapter-narration-status';status.className='zs-audiobook-status';status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.textContent='如正在播放背景音乐，开始朗读时会自动暂停背景音乐。';
     section.append(kicker,header,description,audio,actions,status);
