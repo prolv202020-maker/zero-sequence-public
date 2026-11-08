@@ -303,12 +303,16 @@ assert.ok(homepage.includes('visitor-analytics.js'),'Homepage must load optional
 console.log('[PROMOTION LANDING] PASS: new reader, resume URL, spoiler-safe announcements, opt-in statistics; original reader keys intact.');
 const gallery2=readFileSync(p('parts/illustrations-02.html'),'utf8');
 const gallery1=readFileSync(p('parts/illustrations-01.html'),'utf8');
-assert.match(gallery2,/p02\?\.max/,'Second gallery must read independently tracked part 02 progress');
-assert.match(gallery1,/p01\?\.max/,'First gallery must retain part 01 progress');
-assert.match(gallery2,/if\(unlocked\)\{const img=/,'Scene art must not load before unlocking');
-assert.match(gallery2,/if\(ok\)\{const img=/,'Volume artwork must not load before unlocking');
-assert.match(gallery2,/const need=\(vol-11\)\*10\+1/,'Volume artwork must track relevant part two chapters');
-assert.equal((gallery2.match(/tag:'SCENE \d\d'/g)||[]).length,6,'Second arc needs six original scene illustrations');
+for(const [part,gallery] of [[1,gallery1],[2,gallery2]]){
+ assert.ok(gallery.includes("const partNumber="+part+",storagePart='p0'+partNumber"),
+   'Part '+part+' gallery must identify its own saved progress namespace');
+ assert.match(gallery,/d\[storagePart\]\?\.max/,'Gallery must read independent saved progress, never reset it');
+ assert.ok(gallery.includes("if(!ok){const lock=")&&gallery.includes("imageOrLock(frame,ok"),
+   'Locked gallery images and cover art must never be loaded');
+ assert.match(gallery,/if\(reader&&p>=readerNeed\)/,'Gallery must not link readers to chapters they have not read yet');
+}
+assert.match(gallery2,/const need=\(v-11\)\*10\+1/,'Volume artwork must track relevant part two chapters');
+assert.equal((gallery2.match(/"tag":"SCENE \d\d"/g)||[]).length,6,'Second arc needs six original scene illustrations');
 for(const name of [
  'scene-02-shadow-road.svg','scene-02-forge-ledger.svg','scene-02-white-candle.svg',
  'scene-02-mirror-path.svg','scene-02-north-wall.svg','scene-02-hundred-lights.svg'
