@@ -84,7 +84,7 @@ const story=[
 for(const [filename,need,target] of story){
  assert.ok(scripts[0].includes("need:"+need+",name:")&&scripts[0].includes("file:'"+filename+"'"),'Missing reading threshold: '+filename);
  assert.ok(scripts[0].includes("link:'"+target+"'"),'Story CG lacks correct chapter link: '+filename);
- assert.ok(existsSync(file('parts/'+target.replace('../',''))),'Linked published novel chapter is missing: '+target);
+ assert.ok(existsSync(file(target.replace('../',''))),'Linked published novel chapter is missing: '+target);
 }
 assert.ok(scripts[0].includes('art.sort((a,b)=>a.need-b.need'),'Story CGs should display in reading order');
 assert.ok(gallery.includes('巨像为画面意象')&&gallery.includes('画面意象'),'Avoid mistaking illustrative monster design for new canon');
