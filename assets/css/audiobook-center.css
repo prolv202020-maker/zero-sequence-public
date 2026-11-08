@@ -61,3 +61,5 @@
 @media(max-width:700px){.zs-ab-hero{grid-template-columns:1fr;padding:22px}.zs-ab-hero img{width:min(210px,65%)}.zs-ab-selection{grid-template-columns:1fr 1fr}.zs-ab-selection #zs-ab-resume{grid-column:1/-1}.zs-ab-volume-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.zs-ab-chapter-grid{grid-template-columns:1fr}.zs-ab-main{padding-bottom:calc(120px + env(safe-area-inset-bottom))}}
 @media(max-width:420px){.zs-ab-selection{grid-template-columns:1fr}.zs-ab-selection #zs-ab-resume{grid-column:auto}.zs-ab-section-head{align-items:start;flex-direction:column}.zs-ab-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.zs-ab-controls button{min-width:0}.zs-ab-links a{width:100%}.zs-ab-volume-card{padding:12px}.zs-ab-volume-card strong{font-size:15px}}
 @media(prefers-reduced-motion:reduce){.zs-ab-main *{scroll-behavior:auto}}
+
+.zs-ab-volume-placeholder{display:grid;place-items:center;aspect-ratio:750/1080;width:100%;border-radius:10px;border:1px solid #b5b6cc55;background:linear-gradient(155deg,#424660,#1a2342);font:700 clamp(18px,2.3vw,27px) system-ui,sans-serif;letter-spacing:.16em;color:#c7bfdb}
