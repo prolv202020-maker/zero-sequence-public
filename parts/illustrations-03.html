@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第三篇插画画廊 · 第零序列</title>
+<meta name="description" content="《第零序列》第三篇《临界回声》概念插画。按照阅读进度依次解锁场景和事件画面。">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+.gallery-hero{display:grid;grid-template-columns:minmax(200px,.75fr) 1.25fr;gap:30px;align-items:center;padding:27px;border:1px solid #e5cda062;border-radius:24px;background:linear-gradient(120deg,#32365e,#202540);margin:35px 0}
+.gallery-hero img{width:100%;max-height:430px;object-fit:contain;border-radius:13px;box-shadow:0 20px 46px #0b0c2370}
+.gallery-hero h1{font-size:clamp(34px,5vw,58px);margin:16px 0}
+.gallery-hero p{line-height:1.95;color:#d7d8e4}
+.gallery-info{margin:18px 0;padding:20px;border:1px solid #e1ce9b40;background:#242945a0;border-radius:15px;line-height:1.8}
+.art-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:19px;margin:30px 0}
+.art-card{overflow:hidden;border:1px solid #e3c89050;border-radius:18px;background:#2c3154;box-shadow:0 17px 45px #0b0c242d}
+.art-frame{aspect-ratio:16 / 9;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%,#7771ae54,#20243f)}
+.art-frame img{display:block;width:100%;height:100%;object-fit:cover}
+.art-locked{font-size:45px;color:#cab5ed;letter-spacing:6px}
+.art-copy{padding:20px 22px}
+.art-copy small{font:11px Georgia;color:#e9d099;letter-spacing:1.8px}
+.art-copy h2{font-size:23px;margin:9px 0}
+.art-copy p{font-size:13px;color:#d7d7e4;line-height:1.85}
+.art-copy a{display:inline-block;margin-top:9px;color:#f0d596;text-decoration:underline}
+.art-card.is-locked .art-copy h2{color:#d1cbd9}
+.zs-gallery-cover{object-fit:contain!important;background:#161b32;padding:8px}.note{color:#c7c6d4;font-size:12px;line-height:1.75}
+@media(max-width:760px){.gallery-hero{grid-template-columns:1fr}.gallery-hero img{max-height:340px}.art-grid{grid-template-columns:1fr}}
+ .zs-illustration-fallback{color:#d8d2e5;padding:20px;text-align:center;font-size:13px;line-height:1.8}
+</style>
+</head>
+<body>
+<header><a class="brand" href="../index.html">☾ <span>第零序列<small>THE ZERO SEQUENCE</small></span></a>
+<nav><a href="../index.html">首页</a><a href="part-03.html">第三篇</a><a href="../archive/unlocks.html">分篇档案</a><a href="final-archive.html">全部总结</a></nav></header>
+<main class="page">
+<div class="crumb"><a href="../index.html">首页</a> / <a href="part-03.html">第三篇</a> / 概念插画画廊</div>
+<section class="gallery-hero">
+<img src="../assets/images/covers/zero-sequence-cover.webp" width="520" height="650" loading="eager" alt="第零序列通用官方封面，不展示尚未阅读的第三篇场景">
+<div><p class="eyebrow">PART 03 · VISUAL ARCHIVE</p><h1>临界回声<br><span style="color:#ead09a">插画画廊</span></h1>
+<p>从回声坡的异常记录、失名旧城，到断潮航路与远域险境，以不提前透露结局的画面记录第三篇的探索与战斗。画廊会跟随你的阅读进度解锁，尚未读到的场景不会提前展示。</p>
+<p class="note">图片属于第三批原创矢量视觉概念稿，暂不代表最终角色造型或场景定稿。将来会根据正式人物档案和小说设定继续校正。</p>
+<a class="button" href="part-03.html">返回第三篇目录</a></div></section>
+<div class="gallery-info"><strong id="art-count">正在读取此设备的解锁进度……</strong>
+<div class="note">解锁进度记录在当前浏览器；阅读对应章节后，返回此页即可查看。场景采用原创轻量 SVG 插画，正式卷封面为 WebP 图片；未解锁的场景插画与卷封面不会预先加载，也不会显示标题。</div></div>
+<div class="art-grid" id="art-list"></div>
+<div class="gallery-info"><strong>十卷封面画集</strong><div class="note">每张封面根据第三篇的阅读章节逐步解锁，未解锁时只显示锁定卡片。封面为既有正式卷面，不额外泄露章节内容。</div></div>
+<div class="art-grid zs-volume-art-grid" id="cover-list"></div>
+<div class="gallery-info">提示：如果你已经读过章节但没有解锁，可以回到该章底部点击「标记本章已读」。</div>
+</main>
+<footer>© 第零序列 · 第三篇场景插画画廊 · 场景图像为概念美术，另含正式卷封面</footer>
+<script>
+(()=>{
+'use strict';
+const BASE='../assets/images/illustrations/';
+const coverBase='../assets/images/covers/';
+const volumeBase='../volumes/';
+const art=[
+ {need:1,name:'回声坡 · 两道余音',tag:'SCENE 01',file:'scene-03-echo-ridge.svg',description:'边境测绘路上的回声与雾影，古钟留下有待验证的线索。',link:'../volumes/volume-21.html'},
+ {need:21,name:'栖潮旧城 · 失名街道',tag:'SCENE 02',file:'scene-03-lost-city.svg',description:'有些街道未曾消失，只是名字被记录遗忘。',link:'../volumes/volume-23.html'},
+ {need:41,name:'断潮回廊 · 灰鲸航路',tag:'SCENE 03',file:'scene-03-storm-voyage.svg',description:'风暴、海兽和似真似假的灯光，考验船员之间的配合。',link:'../volumes/volume-25.html'},
+ {need:51,name:'外环裂线 · 岩甲险径',tag:'SCENE 04',file:'scene-03-outer-ring.svg',description:'测绘者与护卫在崎岖道路上面对真正的危险。',link:'../volumes/volume-26.html'},
+ {need:61,name:'熔谷争锋 · 古炉试炼',tag:'SCENE 05',file:'scene-03-molten-valley.svg',description:'熔谷古炉深处，剑士与伙伴迎接一场团队试炼。',link:'../volumes/volume-27.html'},
+ {need:91,name:'零刻回廊 · 共同前行',tag:'SCENE 06',file:'scene-03-zero-corridor.svg',description:'在充满未知的回廊里，伙伴们选择携手继续前行。',link:'../volumes/volume-30.html'}
+];
+const getProgress=()=>{
+ try{const d=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return Math.max(0,Math.min(100,Number(d.p03?.max)||0));}catch(_){return 0;}
+};
+function frameContent(frame,unlocked,file,alt,cover=false){
+ if(unlocked){
+  const img=document.createElement('img');img.src=(cover?coverBase:BASE)+file;img.loading='lazy';img.decoding='async';
+  img.alt=alt;
+  if(cover)img.className='zs-gallery-cover';
+  img.addEventListener('error',()=>{
+   img.remove();const note=document.createElement('span');note.className='zs-illustration-fallback';note.textContent='插画暂时无法加载，可稍后刷新重试。';frame.append(note);
+  },{once:true});
+  frame.append(img);
+ }else{
+  const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.append(lock);
+ }
+}
+function makeCard({ok,tag,name,description,link,file,cover=false}){
+ const card=document.createElement('article');card.className='art-card'+(ok?'':' is-locked');
+ const frame=document.createElement('div');frame.className='art-frame';
+ frameContent(frame,ok,file,name+'概念插画',cover);
+ const copy=document.createElement('div');copy.className='art-copy';
+ const small=document.createElement('small');small.textContent=tag+(ok?' · 已解锁':' · 未解锁');
+ const h=document.createElement('h2');h.textContent=ok?name:'未揭晓的画面';
+ const p=document.createElement('p');p.textContent=description;
+ copy.append(small,h,p);
+ if(ok){const a=document.createElement('a');a.href=link;a.textContent='返回对应卷目 →';copy.append(a);}
+ card.append(frame,copy);return card;
+}
+const host=document.getElementById('art-list'),coverHost=document.getElementById('cover-list');
+function render(){
+ const progress=getProgress();host.replaceChildren();coverHost.replaceChildren();
+ for(const a of art){
+  const ok=progress>=a.need;
+  host.append(makeCard({ok,tag:a.tag,name:a.name,file:a.file,link:a.link,
+   description:ok?a.description:'阅读至第三篇第'+a.need+'章（全书第'+(200+a.need)+'章）后解锁此幅概念插画。'}));
+ }
+ for(let v=21;v<=30;v++){
+  const need=(v-21)*10+1,ok=progress>=need;
+  const file='volume-'+String(v).padStart(2,'0')+'.webp';
+  coverHost.append(makeCard({ok,cover:true,tag:ok?'VOLUME '+v:'VOLUME',name:'第'+v+'卷 · 正式封面',file,
+   description:ok?'第三篇已发布卷面艺术，可进入目录继续阅读。':'阅读至第三篇第'+need+'章（全书第'+(200+need)+'章）后开放此卷封面。',
+   link:volumeBase+'volume-'+String(v).padStart(2,'0')+'.html'}));
+ }
+ document.getElementById('art-count').textContent='第三篇已解锁 '+progress+'/100 章 · 场景插画 '+art.filter(x=>progress>=x.need).length+'/6 张 · 卷封面 '+[...Array(10)].filter((_,i)=>progress>=i*10+1).length+'/10 张';
+}
+render();
+window.addEventListener('pageshow',render);
+document.addEventListener('zs:part-progress-changed',render);
+})();
+</script>
+<script src="../assets/js/audio-player.js" defer></script>
+</body></html>
