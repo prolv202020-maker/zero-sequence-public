@@ -1,0 +1,6 @@
+/* 章节听书附加控制：静态位置，不遮挡阅读器或BGM。 */
+.zs-chapter-resume{font-size:12px;color:#d9cfb9;line-height:1.8;margin:12px 0 4px}
+.zs-chapter-audio-links{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 0}
+.zs-chapter-audio-links a{display:inline-flex;justify-content:center;align-items:center;border:1px solid #d7bb8488;border-radius:9px;min-height:44px;padding:10px 14px;color:#f1deb7;background:#29334e;text-decoration:none;font-size:13px}
+.zs-chapter-audio-links a:hover,.zs-chapter-audio-links a:focus-visible{border-color:#ffe1a1}
+@media(max-width:650px){.zs-chapter-audio-links{display:grid;grid-template-columns:1fr}.zs-chapter-audio-links a{width:100%;text-align:center}}
