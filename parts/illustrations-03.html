@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="../assets/css/style.css">
 <style>
 .gallery-hero{display:grid;grid-template-columns:minmax(200px,.75fr) 1.25fr;gap:30px;align-items:center;padding:27px;border:1px solid #e5cda062;border-radius:24px;background:linear-gradient(120deg,#32365e,#202540);margin:35px 0}
-.gallery-hero img{width:100%;max-height:430px;object-fit:contain;border-radius:13px;box-shadow:0 20px 46px #0b0c2370}
+.gallery-hero img{width:100%;max-height:430px;object-fit:contain;border-radius:13px;box-shadow:0 20px 46px #0b0c2370}.gallery-hero img.zs-p3-main-cover{aspect-ratio:16/9;max-height:none;object-fit:cover}
 .gallery-hero h1{font-size:clamp(34px,5vw,58px);margin:16px 0}
 .gallery-hero p{line-height:1.95;color:#d7d8e4}
 .gallery-info{margin:18px 0;padding:20px;border:1px solid #e1ce9b40;background:#242945a0;border-radius:15px;line-height:1.8}
@@ -33,19 +33,19 @@
 <main class="page">
 <div class="crumb"><a href="../index.html">首页</a> / <a href="part-03.html">第三篇</a> / 概念插画画廊</div>
 <section class="gallery-hero">
-<img src="../assets/images/covers/zero-sequence-cover.webp" width="520" height="650" loading="eager" alt="第零序列通用官方封面，不展示尚未阅读的第三篇场景">
+<img class="zs-p3-main-cover" src="../assets/images/illustrations/part-03-star-ring-expedition.webp" width="1440" height="810" loading="eager" decoding="async" alt="第三篇《临界回声》作者选定主视觉：星环遗迹远征">
 <div><p class="eyebrow">PART 03 · VISUAL ARCHIVE</p><h1>临界回声<br><span style="color:#ead09a">插画画廊</span></h1>
 <p>从回声坡的异常记录、失名旧城，到断潮航路与远域险境，以不提前透露结局的画面记录第三篇的探索与战斗。画廊会跟随你的阅读进度解锁，尚未读到的场景不会提前展示。</p>
-<p class="note">图片属于第三批原创矢量视觉概念稿，暂不代表最终角色造型或场景定稿。将来会根据正式人物档案和小说设定继续校正。</p>
+<p class="note">《星环遗迹远征》为作者选定的第三篇主视觉；六幅SVG为环境概念画，另有两幅同风格角色群像CG。角色身份继续以已确认的七张原版立绘为准，剧情CG不替代人物定稿。</p>
 <a class="button" href="part-03.html">返回第三篇目录</a></div></section>
 <div class="gallery-info"><strong id="art-count">正在读取此设备的解锁进度……</strong>
-<div class="note">解锁进度记录在当前浏览器；阅读对应章节后，返回此页即可查看。场景采用原创轻量 SVG 插画，正式卷封面为 WebP 图片；未解锁的场景插画与卷封面不会预先加载，也不会显示标题。</div></div>
+<div class="note">解锁进度记录在当前浏览器；阅读对应章节后，返回此页即可查看。画廊同时采用原创SVG场景和压缩WebP剧情CG；既有正式卷封面继续保留。未解锁的插画与卷封面不会预先加载，也不会显示标题。</div></div>
 <div class="art-grid" id="art-list"></div>
 <div class="gallery-info"><strong>十卷封面画集</strong><div class="note">每张封面根据第三篇的阅读章节逐步解锁，未解锁时只显示锁定卡片。封面为既有正式卷面，不额外泄露章节内容。</div></div>
 <div class="art-grid zs-volume-art-grid" id="cover-list"></div>
 <div class="gallery-info">提示：如果你已经读过章节但没有解锁，可以回到该章底部点击「标记本章已读」。</div>
 </main>
-<footer>© 第零序列 · 第三篇场景插画画廊 · 场景图像为概念美术，另含正式卷封面</footer>
+<footer>© 第零序列 · 第三篇场景与群像CG画廊 · 角色原始立绘不变，另含正式卷封面</footer>
 <script>
 (()=>{
 'use strict';
@@ -58,7 +58,9 @@ const art=[
  {need:41,name:'断潮回廊 · 灰鲸航路',tag:'SCENE 03',file:'scene-03-storm-voyage.svg',description:'风暴、海兽和似真似假的灯光，考验船员之间的配合。',link:'../volumes/volume-25.html'},
  {need:51,name:'外环裂线 · 岩甲险径',tag:'SCENE 04',file:'scene-03-outer-ring.svg',description:'测绘者与护卫在崎岖道路上面对真正的危险。',link:'../volumes/volume-26.html'},
  {need:61,name:'熔谷争锋 · 古炉试炼',tag:'SCENE 05',file:'scene-03-molten-valley.svg',description:'熔谷古炉深处，剑士与伙伴迎接一场团队试炼。',link:'../volumes/volume-27.html'},
- {need:91,name:'零刻回廊 · 共同前行',tag:'SCENE 06',file:'scene-03-zero-corridor.svg',description:'在充满未知的回廊里，伙伴们选择携手继续前行。',link:'../volumes/volume-30.html'}
+ {need:91,name:'零刻回廊 · 共同前行',tag:'SCENE 06',file:'scene-03-zero-corridor.svg',description:'在充满未知的回廊里，伙伴们选择携手继续前行。',link:'../volumes/volume-30.html'},
+ {need:61,name:'星环遗迹 · 远征集结',tag:'CINEMATIC CG 01',file:'part-03-ring-ensemble.webp',description:'以团队同行为主题的高精度群像概念CG，角色身份沿用官方立绘基准。',link:'../volumes/volume-27.html'},
+ {need:91,name:'星域同行 · 光之誓约',tag:'CINEMATIC CG 02',file:'part-03-starlit-oath.webp',description:'宏大遗迹与七人并肩的概念画面，属于视觉艺术设计，不提前代表后续实际剧情。',link:'../volumes/volume-30.html'}
 ];
 const getProgress=()=>{
  try{const d=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return Math.max(0,Math.min(100,Number(d.p03?.max)||0));}catch(_){return 0;}
@@ -103,7 +105,7 @@ function render(){
    description:ok?'第三篇已发布卷面艺术，可进入目录继续阅读。':'阅读至第三篇第'+need+'章（全书第'+(200+need)+'章）后开放此卷封面。',
    link:volumeBase+'volume-'+String(v).padStart(2,'0')+'.html'}));
  }
- document.getElementById('art-count').textContent='第三篇已解锁 '+progress+'/100 章 · 场景插画 '+art.filter(x=>progress>=x.need).length+'/6 张 · 卷封面 '+[...Array(10)].filter((_,i)=>progress>=i*10+1).length+'/10 张';
+ document.getElementById('art-count').textContent='第三篇已解锁 '+progress+'/100 章 · 场景插画 '+art.filter(x=>progress>=x.need).length+'/'+art.length+' 张 · 卷封面 '+[...Array(10)].filter((_,i)=>progress>=i*10+1).length+'/10 张';
 }
 render();
 window.addEventListener('pageshow',render);
