@@ -36,10 +36,10 @@
 <img class="zs-p3-main-cover" src="../assets/images/illustrations/part-03-star-ring-expedition.webp" width="1440" height="810" loading="eager" decoding="async" alt="第三篇《临界回声》作者选定主视觉：星环遗迹远征">
 <div><p class="eyebrow">PART 03 · VISUAL ARCHIVE</p><h1>临界回声<br><span style="color:#ead09a">插画画廊</span></h1>
 <p>从回声坡的异常调查、灰鲸号追猎、中央炉守卫战到团队筹议，沿着已发表章节欣赏探索、战斗和伙伴互动的剧情概念画。画廊会跟随你的阅读进度解锁，尚未读到的场景不会提前展示。</p>
-<p class="note">《星环遗迹远征》为作者选定的第三篇主视觉；六幅SVG为环境概念画，另有六幅高精度动漫CG（包括四幅与正文事件关联的剧情概念图）。角色身份继续以已确认的七张原版立绘为准，剧情CG不替代人物定稿。</p>
+<p class="note">《星环遗迹远征》为作者选定的第三篇主视觉；六张场景高清CG已补齐，另有六幅高精度动漫CG（包含四幅与正文事件关联的剧情概念图）。原版SVG环境概念画已保留为历史素材。角色身份继续以已确认的七张原版立绘为准，剧情CG不替代人物定稿。</p>
 <a class="button" href="part-03.html">返回第三篇目录</a></div></section>
 <div class="gallery-info"><strong id="art-count">正在读取此设备的解锁进度……</strong>
-<div class="note">解锁进度记录在当前浏览器；阅读对应章节后，返回此页即可查看。画廊包含六幅SVG场景和六幅高清WebP概念CG；既有十张正式卷封面全部保留。剧情CG是艺术化呈现，小说正文为准。未解锁的插画与卷封面不会预先加载，也不会显示标题。</div></div>
+<div class="note">解锁进度记录在当前浏览器；阅读对应章节后，返回此页即可查看。画廊包含六幅新高清场景CG和六幅剧情概念CG；既有十张正式卷封面全部保留。剧情CG是艺术化呈现，小说正文为准。未解锁的插画与卷封面不会预先加载，也不会显示标题。</div></div>
 <div class="gallery-info"><strong>场景与剧情CG</strong><div class="note">根据已读进度展示；部分大型怪物、遗迹和光效经过视觉艺术化处理，不代表小说新增加的怪物设定或人物正式立绘。</div></div>
 <div class="art-grid" id="art-list"></div>
 <div class="gallery-info"><strong>十卷封面画集</strong><div class="note">每张封面根据第三篇的阅读章节逐步解锁，未解锁时只显示锁定卡片。封面为既有正式卷面，不额外泄露章节内容。</div></div>
@@ -54,12 +54,12 @@ const BASE='../assets/images/illustrations/';
 const coverBase='../assets/images/covers/';
 const volumeBase='../volumes/';
 const art=[
- {need:1,name:'回声坡 · 两道余音',tag:'SCENE 01',file:'scene-03-echo-ridge.svg',description:'边境测绘路上的回声与雾影，古钟留下有待验证的线索。',link:'../volumes/volume-21.html'},
- {need:21,name:'栖潮旧城 · 失名街道',tag:'SCENE 02',file:'scene-03-lost-city.svg',description:'有些街道未曾消失，只是名字被记录遗忘。',link:'../volumes/volume-23.html'},
- {need:41,name:'断潮回廊 · 灰鲸航路',tag:'SCENE 03',file:'scene-03-storm-voyage.svg',description:'风暴、海兽和似真似假的灯光，考验船员之间的配合。',link:'../volumes/volume-25.html'},
- {need:51,name:'外环裂线 · 岩甲险径',tag:'SCENE 04',file:'scene-03-outer-ring.svg',description:'测绘者与护卫在崎岖道路上面对真正的危险。',link:'../volumes/volume-26.html'},
- {need:61,name:'熔谷争锋 · 古炉试炼',tag:'SCENE 05',file:'scene-03-molten-valley.svg',description:'熔谷古炉深处，剑士与伙伴迎接一场团队试炼。',link:'../volumes/volume-27.html'},
- {need:91,name:'零刻回廊 · 共同前行',tag:'SCENE 06',file:'scene-03-zero-corridor.svg',description:'在充满未知的回廊里，伙伴们选择携手继续前行。',link:'../volumes/volume-30.html'},
+ {need:1,name:'回声坡 · 两道余音',tag:'SCENE 01',file:'scene-03-echo-ridge-cg.webp',description:'边境测绘路上的回声与雾影，古钟留下有待验证的线索。',link:'../volumes/volume-21.html'},
+ {need:21,name:'栖潮旧城 · 失名街道',tag:'SCENE 02',file:'scene-03-lost-city-cg.webp',description:'有些街道未曾消失，只是名字被记录遗忘。',link:'../volumes/volume-23.html'},
+ {need:41,name:'断潮回廊 · 灰鲸航路',tag:'SCENE 03',file:'scene-03-storm-voyage-cg.webp',description:'风暴、海兽和似真似假的灯光，考验船员之间的配合。',link:'../volumes/volume-25.html'},
+ {need:51,name:'外环裂线 · 岩甲险径',tag:'SCENE 04',file:'scene-03-outer-ring-cg.webp',description:'测绘者与护卫在崎岖道路上面对真正的危险。',link:'../volumes/volume-26.html'},
+ {need:61,name:'熔谷争锋 · 古炉试炼',tag:'SCENE 05',file:'scene-03-molten-valley-cg.webp',description:'熔谷古炉深处，剑士与伙伴迎接一场团队试炼。',link:'../volumes/volume-27.html'},
+ {need:91,name:'零刻回廊 · 共同前行',tag:'SCENE 06',file:'scene-03-zero-corridor-cg.webp',description:'在充满未知的回廊里，伙伴们选择携手继续前行。',link:'../volumes/volume-30.html'},
  {need:61,name:'星环遗迹 · 远征集结',tag:'CINEMATIC CG 01',file:'part-03-ring-ensemble.webp',description:'以团队同行为主题的高精度群像概念CG，角色身份沿用官方立绘基准。',link:'../volumes/volume-27.html'},
  {need:91,name:'星域同行 · 光之誓约',tag:'CINEMATIC CG 02',file:'part-03-starlit-oath.webp',description:'宏大遗迹与七人并肩的概念画面，属于视觉艺术设计，不提前代表后续实际剧情。',link:'../volumes/volume-30.html'},
  {need:18,name:'回声坡 · 遗迹共鸣调查',tag:'STORY CG 03',file:'part-03-echo-ridge-investigation.webp',description:'关联《远域双钟》第八章《两座钟》：回声坡异常声响的复测。遗迹仪式与群像构图属于艺术化演绎。',link:'../chapters/volume-22/chapter-008.html'},
