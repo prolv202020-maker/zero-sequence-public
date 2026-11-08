@@ -28,6 +28,8 @@ jobs:
         run: python3 scripts/test_elevenlabs_narrate.py
       - name: Validate Zi Yue audiobook script matches the published chapter without credit usage
         run: python3 scripts/test_zi_yue_production.py
+      - name: Verify audiobook center availability, 131 MP3 assets, continuous play and independent progress
+        run: node scripts/test-audiobook-center.mjs
       - name: Verify published first chapter audiobook player and original MP3
         run: node scripts/test-audiobook-publication.mjs
       - name: Verify Zi Yue voice production script for chapter 2 without paid API requests
