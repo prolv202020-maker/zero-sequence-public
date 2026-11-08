@@ -238,14 +238,15 @@
   }
   function loadImmersiveIllustrations(){
     const m=path.match(/\/chapters\/volume-(\d{2})\/chapter-(\d{3})\.html$/);
-    if(!m||Number(m[1])<21||Number(m[1])>30)return;
+    const illustratedChapters={"11":[1],"13":[3],"14":[1],"15":[1],"16":[1],"20":[10],"21":[10],"22":[8],"23":[4],"25":[2,3],"26":[5],"27":[1,5,7],"30":[1,3,10],"01":[6],"03":[3],"05":[4],"07":[8],"09":[8]};
+    if(!m||!(illustratedChapters[m[1]]||[]).includes(Number(m[2])))return;
     if(!$('link[href*="immersive-illustrations.css"]')){
       const css=document.createElement('link');
       css.rel='stylesheet';css.href=ROOT+'assets/css/immersive-illustrations.css?v=1';document.head.append(css);
     }
     if(!$('script[src*="immersive-illustrations.js"]')){
       const script=document.createElement('script');
-      script.src=ROOT+'assets/js/immersive-illustrations.js?v=1';script.defer=true;document.body.append(script);
+      script.src=ROOT+'assets/js/immersive-illustrations.js?v=2';script.defer=true;document.body.append(script);
     }
   }
   function init(){loadCSS();apply();addSearchNav();addContinue();if(chapter){setupChapter();loadAudiobookChapterEnhancements();loadImmersiveIllustrations();}}

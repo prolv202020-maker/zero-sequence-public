@@ -253,7 +253,7 @@ assert.match(currentReader,/zs-chapter-reading/,'Chapters must expose mobile-spe
 assert.match(currentAudio,/site-ui\.js/,'Direct chapter loads should initialize accessible mobile navigation');
 assert.match(currentAudio,/env\(safe-area-inset-bottom\)/,'Music controls should respect phone safe area');
 assert.ok(currentReader.includes('assets/css/reader-experience.css?v=5'),'Reader stylesheet must invalidate old CSS');
-assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=25'),'Chapter navigation must use newest reader code');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=26'),'Chapter navigation must use newest reader code');
 assert.ok(readFileSync(p('index.html'),'utf8').includes('gu-changyuan-approved.webp'),'Homepage should use the optimized approved portrait');
 console.log('[MOBILE READING] PASS: menu scrolling, safe areas, chapter buttons, compact music, CSS cache and official portrait.');
 console.log('[EMOTIONAL BGM] PASS: 4 original MP3 themes, controls, smooth transitions, opt-in playback and no old synth loop.');
@@ -303,12 +303,16 @@ assert.ok(homepage.includes('visitor-analytics.js'),'Homepage must load optional
 console.log('[PROMOTION LANDING] PASS: new reader, resume URL, spoiler-safe announcements, opt-in statistics; original reader keys intact.');
 const gallery2=readFileSync(p('parts/illustrations-02.html'),'utf8');
 const gallery1=readFileSync(p('parts/illustrations-01.html'),'utf8');
-assert.match(gallery2,/p02\?\.max/,'Second gallery must read independently tracked part 02 progress');
-assert.match(gallery1,/p01\?\.max/,'First gallery must retain part 01 progress');
-assert.match(gallery2,/if\(unlocked\)\{const img=/,'Scene art must not load before unlocking');
-assert.match(gallery2,/if\(ok\)\{const img=/,'Volume artwork must not load before unlocking');
-assert.match(gallery2,/const need=\(vol-11\)\*10\+1/,'Volume artwork must track relevant part two chapters');
-assert.equal((gallery2.match(/tag:'SCENE \d\d'/g)||[]).length,6,'Second arc needs six original scene illustrations');
+for(const [part,gallery] of [[1,gallery1],[2,gallery2]]){
+ assert.ok(gallery.includes("const partNumber="+part+",storagePart='p0'+partNumber"),
+   'Part '+part+' gallery must identify its own saved progress namespace');
+ assert.match(gallery,/d\[storagePart\]\?\.max/,'Gallery must read independent saved progress, never reset it');
+ assert.ok(gallery.includes("if(!ok){const lock=")&&gallery.includes("imageOrLock(frame,ok"),
+   'Locked gallery images and cover art must never be loaded');
+ assert.match(gallery,/if\(reader&&p>=readerNeed\)/,'Gallery must not link readers to chapters they have not read yet');
+}
+assert.match(gallery2,/const need=\(v-11\)\*10\+1/,'Volume artwork must track relevant part two chapters');
+assert.equal((gallery2.match(/"tag":"SCENE \d\d"/g)||[]).length,6,'Second arc needs six original scene illustrations');
 for(const name of [
  'scene-02-shadow-road.svg','scene-02-forge-ledger.svg','scene-02-white-candle.svg',
  'scene-02-mirror-path.svg','scene-02-north-wall.svg','scene-02-hundred-lights.svg'

@@ -21,7 +21,7 @@
 .art-copy h2{font-size:23px;margin:9px 0}
 .art-copy p{font-size:13px;color:#d7d7e4;line-height:1.85}
 .art-copy a{display:inline-block;margin-top:9px;color:#f0d596;text-decoration:underline}
-.art-card.is-locked .art-copy h2{color:#d1cbd9}
+.art-card.is-locked .art-copy h2{color:#d1cbd9}.art-card[id]{scroll-margin-top:18px}.art-copy a+a{margin-left:14px}.zs-illustration-fallback{color:#d5d1e3;padding:20px;text-align:center;line-height:1.7;font-size:13px}
 .note{color:#c7c6d4;font-size:12px;line-height:1.75}
 @media(max-width:760px){.gallery-hero{grid-template-columns:1fr}.gallery-hero img{max-height:340px}.art-grid{grid-template-columns:1fr}}
 </style>
@@ -34,7 +34,7 @@
 <section class="gallery-hero">
 <img src="../assets/images/illustrations/part-01-cover.webp" width="520" height="650" loading="eager" alt="第一篇轮回启幕的概念视觉封面">
 <div><p class="eyebrow">PART 01 · VISUAL ARCHIVE</p><h1>轮回启幕<br><span style="color:#ead09a">插画画廊</span></h1>
-<p>在文字之外，看见晨星镇的黎明、广阔城邦与险境的另一面。画廊会跟随你的阅读进度解锁，尚未读到的场景不会提前展示。</p>
+<p>在文字之外，看见晨星镇的黎明、广阔城邦与险境的另一面。画廊随本篇阅读进度解锁；已读到相应章节的插画可双向跳转正文，未读内容不提前展示。</p>
 <p class="note">图片属于第一批视觉概念稿，暂不代表最终角色造型或场景定稿。将来会根据正式人物档案和小说设定继续校正。</p>
 <a class="button" href="part-01.html">返回第一篇目录</a></div></section>
 <div class="gallery-info"><strong id="art-count">正在读取此设备的解锁进度……</strong>
@@ -47,29 +47,58 @@
 (()=>{
 'use strict';
 const BASE='../assets/images/illustrations/';
-const art=[
-{need:6,name:'晨星镇 · 黎明',tag:'SCENE 01',file:'scene-starfall-town.webp',description:'初期探索城镇的日常氛围与远方未知。',link:'../volumes/volume-01.html'},
-{need:21,name:'维兰德城 · 城市与商路',tag:'SCENE 02',file:'scene-viland-city.webp',description:'繁忙的商贸中心与更广阔的冒险舞台。',link:'../volumes/volume-03.html'},
-{need:41,name:'灰石盟约 · 运输线',tag:'SCENE 03',file:'scene-graystone-trade.webp',description:'矿区、车队和工匠的合作景象。',link:'../volumes/volume-05.html'},
-{need:61,name:'白霜边境 · 寒潮',tag:'SCENE 04',file:'scene-frost-border.webp',description:'风雪边境的守卫与艰难跋涉。',link:'../volumes/volume-07.html'},
-{need:81,name:'黑风试炼 · 危险之地',tag:'SCENE 05',file:'scene-blackwind-trial.webp',description:'一次需要共同面对的高危战斗。',link:'../volumes/volume-09.html'}
-];
-let p=0;try{p=Math.max(0,Math.min(100,Number(JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}').p01?.max)||0));}catch(e){}
-const host=document.getElementById('art-list');
-for(const a of art){
- const unlocked=p>=a.need,card=document.createElement('article');card.className='art-card'+(unlocked?'':' is-locked');
- const frame=document.createElement('div');frame.className='art-frame';
- if(unlocked){const img=document.createElement('img');img.src=BASE+a.file;img.loading='lazy';img.alt=a.name+'概念插画';frame.appendChild(img);}
- else{const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.appendChild(lock);}
- const copy=document.createElement('div');copy.className='art-copy';
- const tag=document.createElement('small');tag.textContent=a.tag+(unlocked?' · 已解锁':' · 未解锁');
- const h=document.createElement('h2');h.textContent=unlocked?a.name:'未揭晓的场景';
- const desc=document.createElement('p');desc.textContent=unlocked?a.description:'阅读至第一篇第'+a.need+'章后解锁本幅概念插画。';
- copy.append(tag,h,desc);
- if(unlocked){const link=document.createElement('a');link.href=a.link;link.textContent='返回对应卷目 →';copy.appendChild(link);}
- card.append(frame,copy);host.appendChild(card);
+const COVER='../assets/images/covers/';
+const VOLUME='../volumes/';
+const partNumber=1,storagePart='p0'+partNumber;
+const art=[{"need":6,"name":"晨星镇 · 黎明","tag":"SCENE 01","file":"scene-starfall-town.webp","description":"初期探索城镇的日常氛围与远方未知。","link":"../volumes/volume-01.html","id":"p1-starfall-town","readerNeed":6,"reader":"../chapters/volume-01/chapter-006.html#zs-story-art-p1-starfall-town"},{"need":21,"name":"维兰德城 · 城市与商路","tag":"SCENE 02","file":"scene-viland-city.webp","description":"繁忙的商贸中心与更广阔的冒险舞台。","link":"../volumes/volume-03.html","id":"p1-viland-city","readerNeed":23,"reader":"../chapters/volume-03/chapter-003.html#zs-story-art-p1-viland-city"},{"need":41,"name":"灰石盟约 · 运输线","tag":"SCENE 03","file":"scene-graystone-trade.webp","description":"矿区、车队和工匠的合作景象。","link":"../volumes/volume-05.html","id":"p1-graystone-trade","readerNeed":44,"reader":"../chapters/volume-05/chapter-004.html#zs-story-art-p1-graystone-trade"},{"need":61,"name":"白霜边境 · 寒潮","tag":"SCENE 04","file":"scene-frost-border.webp","description":"风雪边境的守卫与艰难跋涉。","link":"../volumes/volume-07.html","id":"p1-frost-border","readerNeed":68,"reader":"../chapters/volume-07/chapter-008.html#zs-story-art-p1-frost-border"},{"need":81,"name":"黑风试炼 · 危险之地","tag":"SCENE 05","file":"scene-blackwind-trial.webp","description":"一次需要共同面对的高危战斗。","link":"../volumes/volume-09.html","id":"p1-blackwind-trial","readerNeed":88,"reader":"../chapters/volume-09/chapter-008.html#zs-story-art-p1-blackwind-trial"}];
+function getProgress(){
+ try{const d=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');return Math.max(0,Math.min(100,Number(d[storagePart]?.max)||0));}
+ catch(_){return 0;}
 }
-document.getElementById('art-count').textContent='第一篇已解锁 '+p+'/100 章 · 插画已开放 '+art.filter(a=>p>=a.need).length+'/'+art.length+' 张（不含概念封面）';
+const host=document.getElementById('art-list');
+
+function imageOrLock(frame,ok,file,alt,cover=false){
+ if(!ok){const lock=document.createElement('span');lock.className='art-locked';lock.textContent='🔒';lock.setAttribute('aria-label','尚未解锁');frame.append(lock);return;}
+ const image=document.createElement('img');image.src=(cover?COVER:BASE)+file;image.loading='lazy';image.decoding='async';image.alt=alt;
+ if(cover)image.className='zs-gallery-cover';
+ image.addEventListener('error',()=>{image.remove();const note=document.createElement('span');note.className='zs-illustration-fallback';note.textContent='图片暂时无法加载，请稍后刷新重试。';frame.append(note);},{once:true});
+ frame.append(image);
+}
+function createCard(ok,title,tag,description,file,link,cover=false,id='',reader='',readerNeed=0,p=0){
+ const card=document.createElement('article');card.className='art-card'+(ok?'':' is-locked');
+ if(id)card.id='zs-gallery-art-'+id;
+ const frame=document.createElement('div');frame.className='art-frame';imageOrLock(frame,ok,file,title+'概念插画',cover);
+ const copy=document.createElement('div');copy.className='art-copy';
+ const small=document.createElement('small');small.textContent=tag+(ok?' · 已解锁':' · 未解锁');
+ const heading=document.createElement('h2');heading.textContent=ok?title:'未揭晓的场景';
+ const desc=document.createElement('p');desc.textContent=description;
+ copy.append(small,heading,desc);
+ if(ok){
+   if(reader&&p>=readerNeed){const a=document.createElement('a');a.href=reader;a.textContent='查看正文中的插画段落 →';copy.append(a);}
+   const b=document.createElement('a');b.href=link;b.textContent=cover?'进入本卷目录 →':'返回对应卷目 →';copy.append(b);
+ }
+ card.append(frame,copy);return card;
+}
+function jumpToIllustration(){
+ let id;try{id=decodeURIComponent(location.hash.slice(1));}catch(_){return;}
+ if(!/^zs-gallery-art-[a-z0-9-]+$/.test(id))return;
+ const card=document.getElementById(id);
+ if(card)requestAnimationFrame(()=>card.scrollIntoView({block:'start',behavior:'auto'}));
+}
+function render(){
+ const p=getProgress();host.replaceChildren();
+ for(const a of art){
+  const ok=p>=a.need;
+  host.append(createCard(ok,a.name,a.tag,ok?a.description:'阅读至第'+partNumber+'篇第'+a.need+'章后解锁本幅概念插画。',a.file,a.link,false,a.id,a.reader,a.readerNeed,p));
+ }
+ 
+ document.getElementById('art-count').textContent='第'+partNumber+'篇已解锁 '+p+'/100 章 · 场景插画 '+art.filter(x=>p>=x.need).length+'/'+art.length+' 张';
+ if(location.hash)requestAnimationFrame(jumpToIllustration);
+}
+render();
+window.addEventListener('hashchange',jumpToIllustration);
+window.addEventListener('pageshow',render);
+document.addEventListener('zs:part-progress-changed',render);
 })();
 </script>
 <script src="../assets/js/audio-player.js" defer></script>
