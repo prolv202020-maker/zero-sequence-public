@@ -1,0 +1,40 @@
+name: Produce Zi Yue v4 Volume 05 Full Audiobook (Chapters 1 to 10)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/produce-zi-yue-volume05-batch.yml'
+jobs:
+  produce-volume05:
+    if: github.repository == 'prolv202020-maker/zero-sequence-public'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    env:
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reject duplicate paid batch
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feat/zi-yue-v4-volume05-audio-20261108'
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo 'Batch already started; refusing duplicate paid request.' >&2
+            exit 1
+          fi
+      - name: Install MP3 merger if unavailable
+        shell: bash
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+      - name: Verify published prose and character budget before paid generation
+        run: python scripts/produce_zi_yue_volume05_batch.py --preflight
+      - name: Generate and checkpoint full ten chapter audio
+        run: python -u scripts/produce_zi_yue_volume05_batch.py --produce
