@@ -32,6 +32,8 @@ jobs:
         run: node scripts/test-audiobook-publication.mjs
       - name: Verify 13-volume audiobook center, 130 MP3 links, mobile listening and BGM safety
         run: node scripts/test-audiobook-center.mjs
+      - name: Validate third-arc original illustrations, existing covers and spoiler-safe per-part unlocks
+        run: node scripts/test-third-gallery.mjs
       - name: Verify Zi Yue voice production script for chapter 2 without paid API requests
         run: python3 scripts/test_zi_yue_chapter2.py
       - name: Verify Zi Yue voice production script for chapter 3 without paid API requests
