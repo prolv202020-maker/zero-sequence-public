@@ -50,7 +50,7 @@ for(let i=0;i<slugs.length;i++){
  assert.ok(scripts[0].includes("file:'"+name+"'"),'Gallery not wired to '+name);
  assert.ok(scripts[0].includes('need:'+needs[i]),'Missing unlock checkpoint for '+name);
 }
-const gitBlob=buffer=>createHash('sha1').update('blob '+buffer.length+'\\0').update(buffer).digest('hex');
+const gitBlob=buffer=>createHash('sha1').update('blob '+buffer.length+'\0').update(buffer).digest('hex');
 const newCG=[
  {file:'part-03-star-ring-expedition.webp',sha:'a3cd7191caefa71d53b127ff73f44b060f9a2164',kind:'author-approved hero'},
  {file:'part-03-ring-ensemble.webp',sha:'f1260c9521272c2b27ff6e4f6a6ab7d0315c023d',kind:'new character concept CG'},
