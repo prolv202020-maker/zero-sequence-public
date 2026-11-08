@@ -29,7 +29,7 @@ const link=(href,text,css)=>{const a=document.createElement('a');a.href=href;a.t
 const button=(text,css)=>{const b=document.createElement('button');b.type='button';b.textContent=text;if(css)b.className=css;return b;};
 function announce(s){message.textContent=s;}
 function snapshot(force=false){
- if(!active||!Number.isFinite(audio.currentTime)||audio.currentTime<0)return;
+ if(!active||audio.ended||!Number.isFinite(audio.currentTime)||audio.currentTime<0)return;
  if(!force&&Date.now()-lastSave<3000)return;
  lastSave=Date.now();const key=trackKey(active.v,active.n);
  positions[key]=Math.max(0,Math.floor(audio.currentTime));
@@ -138,7 +138,7 @@ async function loadTrack(v,n,playNow=false){
 audio.addEventListener('loadedmetadata',()=>{restoreTime();refresh();});
 audio.addEventListener('durationchange',refresh);
 audio.addEventListener('timeupdate',()=>{refresh();if(!restoring)snapshot();});
-audio.addEventListener('pause',()=>snapshot(true));
+audio.addEventListener('pause',()=>{if(!audio.ended)snapshot(true);});
 audio.addEventListener('seeked',()=>snapshot(true));
 audio.addEventListener('play',()=>{stopBgm();announce('正在收听 '+labelFor(active.v,active.n)+'；背景音乐已暂停。');});
 audio.addEventListener('error',()=>announce('音频无法加载，请检查网络，或使用“下载本章 MP3”。'));
