@@ -2,7 +2,7 @@
 const PLAYER='<script src="/zero-sequence-public/assets/js/audio-player.js?v=11" defer></script>';
 const STYLE_VERSION=6;
 const UNLOCK='<script src="/zero-sequence-public/assets/js/progressive-archive.js?v=23" defer></script>';
-const READER='<script src="/zero-sequence-public/assets/js/reader-experience.js?v=20" defer></script>';
+const READER='<script src="/zero-sequence-public/assets/js/reader-experience.js?v=21" defer></script>';
 self.addEventListener('install',()=>self.skipWaiting());
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch',event=>{
