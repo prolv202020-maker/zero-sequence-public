@@ -35,6 +35,7 @@ assert.ok(css.includes('min-height:44px')&&css.includes(':focus-visible'),'Mobil
 assert.ok(controller.includes("audio.addEventListener('ended'")&&controller.includes('api.next(selected.volume,selected.chapter)'),'Queue must auto advance within published albums');
 assert.ok(controller.includes('audio.play()')&&controller.includes('promise.catch'),'Autoplay failure must degrade to a manual play action');
 assert.ok(controller.includes('api.pauseBgm()'),'Audio narration must pause the original BGM');
+assert.ok(read('assets/js/audio-player.js').includes("document.querySelector('#zs-chapter-narration,#zs-ab-audio')"),'Starting BGM must also pause active narration');
 assert.ok(controller.includes("showTitles.checked")&&controller.includes('revealName(v,c)'),'Unseen chapter names must require opt-in');
 assert.ok(controller.includes('new URL(api.audioUrl(v,c),location.href).href'),'Browser absolute media source URL must be matched for resume saves');
 let files=0;
