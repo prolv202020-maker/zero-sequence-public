@@ -73,3 +73,12 @@
 }
 @media(max-width:360px){.zs-number-controls{flex-direction:column;align-items:stretch}.zs-number-controls input,.zs-number-controls button{width:100%}}
 @media(prefers-reduced-motion:reduce){.zs-arc-tabs button,.zs-quick-volumes a{transition:none}}
+
+/* 有声阅读中心首页入口，不修改原有双路径阅读导航。 */
+.zs-ab-home-spotlight{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:22px;padding:25px 28px;border:1px solid #dec99486;border-radius:20px;background:linear-gradient(110deg,#262c4d,#383951,#272c49);box-shadow:0 12px 36px #070f2848}
+.zs-ab-home-symbol{font-size:42px;display:grid;place-items:center;width:64px;height:64px;min-width:64px;border-radius:16px;background:#d6b77e28;color:#ffe2a7;border:1px solid #dfc59175}
+.zs-ab-home-copy{min-width:0}.zs-ab-home-copy h2{margin:7px 0 8px;font-size:clamp(19px,2.6vw,27px);color:#fae6ba}.zs-ab-home-copy p{margin:0;line-height:1.8;color:#d6d7e4;font-size:14px}
+.zs-ab-home-action{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 18px;text-align:center;border-radius:10px;border:1px solid #e6cc93;background:linear-gradient(125deg,#e9d49f,#d2b478);color:#21273c;font:700 13px system-ui,sans-serif;white-space:nowrap;text-decoration:none}
+.zs-ab-home-action:focus-visible{outline:3px solid #ffefc3;outline-offset:3px}
+@media(max-width:850px){.zs-ab-home-spotlight{grid-template-columns:auto minmax(0,1fr)}.zs-ab-home-action{grid-column:1/-1;justify-self:stretch}}
+@media(max-width:500px){.zs-ab-home-spotlight{padding:19px;gap:14px}.zs-ab-home-symbol{width:50px;height:50px;min-width:50px;font-size:29px}.zs-ab-home-copy p{font-size:13px}}
