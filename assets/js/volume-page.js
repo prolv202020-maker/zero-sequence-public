@@ -39,6 +39,7 @@
   info.append(eyebrow,title);
   const tags=el('div','zs-volume-tags');
   tags.append(el('span','', '第'+part+'篇 · '+partName),el('span','', '第'+vol+'卷'),el('span','', '本卷10章 · 已发布'));
+  tags.append(el('span','zs-volume-audio-status',vol<=13?'🎧 已配音 · 完整10章':'仅正文 · 尚未配音'));
   info.append(tags,intro);
   if(existingComplete)existingComplete.remove();
   const actions=el('div','zs-volume-actions');
@@ -54,6 +55,8 @@
   const back=el('a','zs-return-part','返回本篇目录');
   back.href=ROOT+'parts/part-0'+part+'.html';
   actions.append(start,resume,back);
+  if(vol<=13){const listen=el('a','zs-listen-volume','🎧 收听本卷');listen.href=ROOT+'audiobooks.html?volume='+vol+'&chapter='+(vol===1?0:1);actions.append(listen);}
+  else {const note=el('span','zs-volume-not-voiced','本卷暂未配音 · 可免费阅读');actions.append(note);}
   info.append(actions);
   const progress=el('div','zs-volume-progress');
   const progressLabel=el('label','','本卷阅读进度 0 / 10 章');
