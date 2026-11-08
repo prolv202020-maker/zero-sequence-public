@@ -43,7 +43,7 @@ function getDialog(){
  return dialog;
 }
 function openLightbox(scene,src,trigger){
- if(!HTMLDialogElement?.prototype?.showModal){window.open(src,'_blank','noopener,noreferrer');return;}
+ if(typeof HTMLDialogElement==='undefined'||typeof HTMLDialogElement.prototype.showModal!=='function'){window.open(src,'_blank','noopener,noreferrer');return;}
  const d=getDialog();previousFocus=trigger;
  const img=d.querySelector('img');img.src=src;img.alt=scene.title+' · 第零序列插画';
  d.querySelector('h2').textContent=scene.title;
