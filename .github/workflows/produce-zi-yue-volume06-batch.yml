@@ -1,0 +1,40 @@
+name: Produce Zi Yue v4 Volume 06 Full Audiobook (Chapters 1 to 10)
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/produce-zi-yue-volume06-batch.yml'
+jobs:
+  produce-volume06:
+    if: github.repository == 'prolv202020-maker/zero-sequence-public'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+    env:
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refuse duplicate paid generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          BRANCH='feat/zi-yue-v4-volume06-audio-20261108'
+          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            echo 'Generation has already started; aborting to avoid duplicate charges.' >&2
+            exit 1
+          fi
+      - name: Install audio merger if needed
+        shell: bash
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+      - name: Validate all chapters and TTS request lengths
+        run: python scripts/produce_zi_yue_volume06_batch.py --preflight
+      - name: Generate and checkpoint complete ten chapter MP3 files
+        run: python -u scripts/produce_zi_yue_volume06_batch.py --produce
