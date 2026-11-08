@@ -4,6 +4,7 @@
   const ROOT='/zero-sequence-public/';
   const groups=[
     {label:'首页',url:ROOT+'index.html'},
+    {label:'有声小说',url:ROOT+'audiobooks.html'},
     {label:'篇章书库',url:ROOT+'index.html#volumes',children:[
       ['第一篇 · 轮回启幕','parts/part-01.html'],
       ['第二篇 · 百城星火','parts/part-02.html'],

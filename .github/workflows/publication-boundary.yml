@@ -21,3 +21,5 @@ jobs:
         run: node scripts/test-reading-flow.mjs
       - name: Test upgraded homepage, spoiler-safe search and reader navigation
         run: node scripts/test-site-relaunch.mjs
+      - name: Verify 13-volume audiobook center, 130 MP3 links, mobile listening and BGM safety
+        run: node scripts/test-audiobook-center.mjs

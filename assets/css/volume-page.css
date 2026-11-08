@@ -76,3 +76,7 @@ body:not(.zs-volume-page) .zs-volume-cover-figure figcaption{font-size:11px;colo
  .zs-volume-page .zs-volume-chapters .zs-chapter-name{font-size:14px;line-height:1.65}
  .zs-volume-page .zs-volume-chapters .zs-chapter-state{min-width:52px;font-size:11px;padding:5px 8px}
 }
+
+.zs-volume-actions .zs-listen-volume{background:#dcbf8c;color:#23253e;border-color:#f6dcab;font-weight:700}
+.zs-volume-not-voiced{display:inline-flex;align-items:center;font:12px var(--zs-font-ui,sans-serif);color:#c8cad5;padding:10px}
+.zs-volume-audio-status{border-color:#b9a9ca87!important}
