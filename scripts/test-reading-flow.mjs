@@ -253,7 +253,7 @@ assert.match(currentReader,/zs-chapter-reading/,'Chapters must expose mobile-spe
 assert.match(currentAudio,/site-ui\.js/,'Direct chapter loads should initialize accessible mobile navigation');
 assert.match(currentAudio,/env\(safe-area-inset-bottom\)/,'Music controls should respect phone safe area');
 assert.ok(currentReader.includes('assets/css/reader-experience.css?v=5'),'Reader stylesheet must invalidate old CSS');
-assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=17'),'Chapter navigation must use newest reader code');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=18'),'Chapter navigation must use newest reader code');
 assert.ok(readFileSync(p('index.html'),'utf8').includes('gu-changyuan-approved.webp'),'Homepage should use the optimized approved portrait');
 console.log('[MOBILE READING] PASS: menu scrolling, safe areas, chapter buttons, compact music, CSS cache and official portrait.');
 console.log('[EMOTIONAL BGM] PASS: 4 original MP3 themes, controls, smooth transitions, opt-in playback and no old synth loop.');
