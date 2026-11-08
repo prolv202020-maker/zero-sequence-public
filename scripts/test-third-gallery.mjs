@@ -5,6 +5,7 @@ import {readFileSync,existsSync,statSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {Script} from 'node:vm';
+import {createHash} from 'node:crypto';
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const file=p=>join(root,p),read=p=>readFileSync(file(p),'utf8');
 const gallery=read('parts/illustrations-03.html'),third=read('parts/part-03.html');
@@ -26,7 +27,10 @@ assert.match(scripts[0],/h\.textContent=ok\?name:'未揭晓的画面'/,'Lock car
 assert.match(scripts[0],/for\(let v=21;v<=30;v\+\+\)/,'Gallery must enumerate all ten third-part covers');
 assert.match(scripts[0],/const need=\(v-21\)\*10\+1/,'Cover unlocks must use third-arc local chapter positions');
 assert.match(scripts[0],/art\.filter\(x=>progress>=x\.need\)/,'Count must use third-arc read progress');
-assert.ok(gallery.includes('zero-sequence-cover.webp'),'Public hero must be spoiler-neutral');
+assert.ok(gallery.includes('part-03-star-ring-expedition.webp'),'The author-approved Part III key visual must be the gallery hero');
+assert.ok(third.includes('part-03-star-ring-expedition.webp'),'Part III title page must show its author-approved cover');
+assert.ok(home.includes('part-03-star-ring-expedition.webp'),'Homepage Part III entry must show the correct cover');
+assert.ok(scripts[0].includes("length+'/'+art.length+' 张"),'Art counter must include high-fidelity CG additions');
 assert.ok(!/<img[^>]+scene-03-/.test(gallery),'Scene art cannot be eagerly loaded outside the unlock script');
 const slugs=['echo-ridge','lost-city','storm-voyage','outer-ring','molten-valley','zero-corridor'];
 const needs=[1,21,41,51,61,91];
@@ -46,10 +50,30 @@ for(let i=0;i<slugs.length;i++){
  assert.ok(scripts[0].includes("file:'"+name+"'"),'Gallery not wired to '+name);
  assert.ok(scripts[0].includes('need:'+needs[i]),'Missing unlock checkpoint for '+name);
 }
+const gitBlob=buffer=>createHash('sha1').update('blob '+buffer.length+'\\0').update(buffer).digest('hex');
+const newCG=[
+ {file:'part-03-star-ring-expedition.webp',sha:'a3cd7191caefa71d53b127ff73f44b060f9a2164',kind:'author-approved hero'},
+ {file:'part-03-ring-ensemble.webp',sha:'f1260c9521272c2b27ff6e4f6a6ab7d0315c023d',kind:'new character concept CG'},
+ {file:'part-03-starlit-oath.webp',sha:'7fee44e87049662dbcb3cb80f569a7338d1e87b1',kind:'new character concept CG'}
+];
+for(const art of newCG){
+ const location='assets/images/illustrations/'+art.file;
+ assert.ok(existsSync(file(location)),'Missing Part III new CG: '+art.file);
+ const bytes=readFileSync(file(location));
+ assert.ok(bytes.length>100000&&bytes.length<1000000,'Unexpected web-optimized CG size: '+art.file);
+ assert.equal(bytes.subarray(0,4).toString(),'RIFF','Invalid CG header '+art.file);
+ assert.equal(bytes.subarray(8,12).toString(),'WEBP','Invalid CG format '+art.file);
+ assert.equal(gitBlob(bytes),art.sha,'Unexpected change to approved image: '+art.file);
+}
+for(const [name,need] of [['part-03-ring-ensemble.webp',61],['part-03-starlit-oath.webp',91]]){
+ assert.ok(scripts[0].includes("file:'"+name+"'"),'CG not registered as reader-gated art: '+name);
+ assert.ok(scripts[0].includes('need:'+need),'Incorrect CG unlock chapter '+name);
+}
+assert.ok(!/<img[^>]+part-03-(?:ring-ensemble|starlit-oath)/.test(gallery),'Do not expose reader-gated CGs in static hero HTML');
 for(let v=21;v<=30;v++){
  const cover='assets/images/covers/volume-'+String(v).padStart(2,'0')+'.webp';
  assert.ok(existsSync(file(cover)),'Missing official third volume cover '+cover);
  const binary=readFileSync(file(cover));assert.equal(binary.subarray(0,4).toString(),'RIFF');assert.equal(binary.subarray(8,12).toString(),'WEBP');
 }
 assert.ok(!gallery.includes('80级'),'Do not leak author-only merge trigger in gallery');
-console.log('[PART III ART] PASS: six original illustrations, ten official covers, independent p03-only unlocks, mobile grid, homepage/nav/part links.');
+console.log('[PART III ART] PASS: six existing SVGs, two newly-gated cinematic CGs, author-approved Part III hero, ten unchanged official covers, independent p03 unlocks and mobile links.');
