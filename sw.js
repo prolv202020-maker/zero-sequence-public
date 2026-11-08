@@ -1,5 +1,5 @@
-/* 第零序列 · 页面资源与阅读功能支持（无说书功能） */
-const PLAYER='<script src="/zero-sequence-public/assets/js/audio-player.js?v=11" defer></script>';
+/* 第零序列 · 阅读与有声资源缓存兼容，不修改章节正文。 */
+const PLAYER='<script src="/zero-sequence-public/assets/js/audio-player.js?v=12" defer></script>';
 const STYLE_VERSION=6;
 const UNLOCK='<script src="/zero-sequence-public/assets/js/progressive-archive.js?v=23" defer></script>';
 const READER='<script src="/zero-sequence-public/assets/js/reader-experience.js?v=23" defer></script>';
@@ -25,6 +25,8 @@ self.addEventListener('fetch',event=>{
       if(!/(?:\/zero-sequence\/)?assets\/js\/progressive-archive\.js(?:\?v=\d+)?/.test(html)) html=html.replace('</body>',UNLOCK+'</body>');
       else html=html.replace(/((?:\/zero-sequence\/)?assets\/js\/progressive-archive\.js)(?:\?v=\d+)?/g,'$1?v=23');
       if(!/(?:\/zero-sequence\/)?assets\/js\/reader-experience\.js(?:\?v=\d+)?/.test(html)) html=html.replace('</body>',READER+'</body>');
+      html=html.replace(/((?:\/zero-sequence-public\/|(?:\.\.\/)*|)assets\/js\/site-ui\.js)(?:\?v=\d+)?/g,'$1?v=8');
+      html=html.replace(/((?:\/zero-sequence-public\/|(?:\.\.\/)*|)assets\/js\/volume-page\.js)(?:\?v=\d+)?/g,'$1?v=12');
       const headers=new Headers(res.headers);headers.delete('content-length');headers.set('cache-control','no-cache');
       return new Response(html,{status:res.status,statusText:res.statusText,headers});
     }catch(err){return fetch(event.request);}
