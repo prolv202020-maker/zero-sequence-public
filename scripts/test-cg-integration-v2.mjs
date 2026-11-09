@@ -9,16 +9,16 @@ const ROOT=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const read=p=>readFileSync(join(ROOT,p),'utf8');
 const ctx={window:{}};runInNewContext(read('assets/js/visual-codex-data.js'),ctx);
 const records=ctx.window.ZSVisualCodex;
-assert.equal(records.length,24,'V2 must keep all 24 approved image cards');
-assert.equal(new Set(records.map(x=>x.id)).size,24,'CG ids must remain unique');
-assert.equal(new Set(records.map(x=>x.file)).size,24,'Do not copy duplicate art binaries');
+assert.equal(records.length,25,'V2 must keep all 24 approved image cards');
+assert.equal(new Set(records.map(x=>x.id)).size,25,'CG ids must remain unique');
+assert.equal(new Set(records.map(x=>x.file)).size,25,'Do not copy duplicate art binaries');
 const types={};for(const x of records){
  types[x.kind]=(types[x.kind]||0)+1;
  assert.ok(existsSync(join(ROOT,'assets/images/codex',x.file)),'Missing artwork '+x.file);
  assert.ok(existsSync(join(ROOT,x.source)),'Missing published source '+x.source);
  assert.ok([1,2,3].includes(x.p)&&x.n>=1&&x.n<=100,'Invalid independently gated chapter');
 }
-assert.deepEqual(types,{人物:2,魔物:8,武器:4,装备:4,材料:2,道具:4});
+assert.deepEqual(types,{人物:2,魔物:8,武器:4,装备:5,材料:2,道具:4});
 for(const id of ['large-rift-fin-beast-cg','rift-fin-swarm-voyage-cg'])
  assert.equal(records.find(x=>x.id===id)?.subject,'裂鳍兽','Related creatures need explicit approved species, not substring guessing');
 const aliases=new Map([
@@ -38,7 +38,7 @@ const pages=['archive/visual-codex.html','archive/codex.html','archive/equipment
  ...['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'].map(x=>'archive/characters/'+x+'.html')];
 for(const path of pages){
  const html=read(path);
- assert.ok(html.includes('visual-codex-data.js?v=5'),'Manifest cache update missing: '+path);
+ assert.ok(html.includes('visual-codex-data.js?v=6'),'Manifest cache update missing: '+path);
  assert.ok(html.includes('cg-lightbox.js?v=1')&&html.includes('cg-lightbox.css?v=1'),'Full-screen CG component not linked: '+path);
 }
 const visualHtml=read('archive/visual-codex.html');
@@ -83,10 +83,10 @@ let locked=renderGallery({});
 assert.equal(flatten(locked.host).filter(x=>x.tag==='img').length,0,'Unopened reader must never load CG image');
 assert.ok(!flatten(locked.host).some(x=>String(x.textContent).includes('裂鳍兽群追船')),'Unopened reader must not receive visible CG titles');
 let full=renderGallery({1:100,2:100,3:100});
-assert.equal(flatten(full.host).filter(x=>x.tag==='img').length,24,'All 24 CG cards must display for fully-read readers');
+assert.equal(flatten(full.host).filter(x=>x.tag==='img').length,28,'All 24 CG cards must display for fully-read readers');
 let only3=renderGallery({3:43},{kind:'魔物',part:'3',search:'裂鳍兽'});
 assert.equal(flatten(only3.host).filter(x=>x.tag==='img').length,3,'Three approved rift-fin depictions share independent gates');
 let noLeak=renderGallery({},{search:'裂鳍兽'});
 assert.equal(flatten(noLeak.host).filter(x=>x.tag==='img').length,0,'Unread search may not reveal or load CGs');
 assert.ok(!flatten(noLeak.host).some(x=>String(x.textContent).includes('裂鳍兽')),'Unread search may not expose names');
-console.log('[CG V2] PASS: 24 cards, 19 bidirectional source links, 13 integrated reader pages, full-screen viewer, explicit aliases and species scenes, locked search/image privacy.');
+console.log('[CG V2+] PASS: 25 cards, 3 same-item supplemental views, 19 bidirectional source links, 13 integrated reader pages, full-screen viewer, explicit aliases and species scenes, locked search/image privacy.');

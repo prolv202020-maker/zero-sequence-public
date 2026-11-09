@@ -29,6 +29,8 @@ jobs:
         run: node scripts/test-cg-scenes-v3.mjs
       - name: Test CG V4 reading controls and locked-only filtering
         run: node scripts/test-cg-reader-v4.mjs
+      - name: Validate four new V5 artwork files, alternate views and spoiler-safe catalog links
+        run: node scripts/test-cg-supplemental-v5.mjs
       - name: Verify visual codex sources, spoiler gates and graceful image fallback
         run: node scripts/test-visual-codex.mjs
 
