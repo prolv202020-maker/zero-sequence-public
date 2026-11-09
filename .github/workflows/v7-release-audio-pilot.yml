@@ -1,0 +1,47 @@
+name: V7 one-file release audio compatibility pilot
+on:
+  push:
+    branches:
+      - audit/v7-audio-integrity-and-hosting-prep-20261109
+    paths:
+      - '.github/workflows/v7-release-audio-pilot.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish-and-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: audio-v7-onefile-pilot-20261109
+      MP3: assets/audio/audiobook/part-01/volume-01/chapter-008.mp3
+      ASSET: zs-v7-part01-volume01-chapter008-pilot.mp3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify original audio present and hash
+        run: |
+          test -s "$MP3"
+          file "$MP3"
+          sha256sum "$MP3" | tee /tmp/v7-pilot-sha256.txt
+          wc -c "$MP3"
+      - name: Publish one audio file in clearly marked test Release
+        run: |
+          gh release create "$TAG" "$MP3#$ASSET" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "V7 AUDIO PILOT — test asset only" --notes "Single audio asset to verify Releases compatibility. Not an audiobook release. The official site remains unchanged." --latest=false
+      - name: Probe public URL and range behavior
+        run: |
+          URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$ASSET"
+          echo "Test asset: $URL"
+          curl -fsSL -D /tmp/v7-full-headers.txt -o /tmp/v7-pilot-download.mp3 "$URL"
+          sha256sum /tmp/v7-pilot-download.mp3
+          cmp "$MP3" /tmp/v7-pilot-download.mp3
+          curl -sSL -D /tmp/v7-range-headers.txt -o /tmp/v7-pilot-range.bin -H 'Range: bytes=0-1023' "$URL" || true
+          echo '=== Full HEADERS ==='
+          grep -Ei 'HTTP/|content-type:|content-length:|accept-ranges:|content-disposition:|access-control-allow-origin:' /tmp/v7-full-headers.txt || true
+          echo '=== RANGE HEADERS ==='
+          grep -Ei 'HTTP/|content-range:|content-type:|content-length:|accept-ranges:|content-disposition:|access-control-allow-origin:' /tmp/v7-range-headers.txt || true
+          echo '=== RANGE BYTES ==='
+          wc -c /tmp/v7-pilot-range.bin
+          echo 'Browser playback NOT established by server probe.'
