@@ -16,7 +16,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       TAG: audio-v7-onefile-pilot-20261109
       MP3: assets/audio/audiobook/part-01/volume-01/chapter-008.mp3
-      ASSET: zs-v7-part01-volume01-chapter008-pilot.mp3
+      ASSET: chapter-008.mp3
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,7 +29,12 @@ jobs:
           wc -c "$MP3"
       - name: Publish one audio file in clearly marked test Release
         run: |
-          gh release create "$TAG" "$MP3#$ASSET" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "V7 AUDIO PILOT — test asset only" --notes "Single audio asset to verify Releases compatibility. Not an audiobook release. The official site remains unchanged." --latest=false
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Pilot Release exists; reuse previously uploaded asset, no duplicate upload."
+          else
+            gh release create "$TAG" "$MP3" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "V7 AUDIO PILOT — test asset only" --notes "Single audio asset to verify Releases compatibility. Not an audiobook release. The official site remains unchanged." --latest=false
+          fi
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fx "$ASSET"
       - name: Probe public URL and range behavior
         run: |
           URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/$ASSET"
