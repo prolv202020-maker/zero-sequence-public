@@ -1,0 +1,22 @@
+/* 第零序列 · 专题档案高清CG区（保留三篇独立防剧透门槛） */
+.pa-artworks{margin:28px 0 35px;padding:clamp(15px,3vw,26px);border:1px solid #d7bd8766;border-radius:20px;background:linear-gradient(135deg,#2d3553,#1b233d)}
+.pa-artworks-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;flex-wrap:wrap;margin-bottom:15px}
+.pa-artworks-head h2{color:#f4e3be;font-size:clamp(23px,3vw,30px);line-height:1.25;margin:0 0 8px}
+.pa-artworks-head p{color:#d5d5e5;font-size:13px;line-height:1.8;max-width:690px;margin:0}
+.pa-artworks-status{color:#edd5aa;font-size:12px;margin:5px 0;line-height:1.7}
+.pa-artworks-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.pa-artwork-card{min-width:0;overflow:hidden;border:1px solid #dac28c69;background:#202942;border-radius:15px}
+.pa-artwork-image{display:block;overflow:hidden;background:#12182a;border-bottom:1px solid #dac28c55}
+.pa-artwork-image img{display:block;width:100%;aspect-ratio:4/5;object-fit:contain;height:auto}
+.pa-artwork-body{padding:15px 17px 17px}
+.pa-artwork-meta{display:block;color:#e4ca90;font-size:11px;line-height:1.6}
+.pa-artwork-body h3{color:#f3e0b5;font-size:19px;line-height:1.35;margin:8px 0 7px}
+.pa-artwork-body p{color:#d6d8e6;font-size:12px;line-height:1.85;margin:0}
+.pa-artwork-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.pa-artwork-link{display:inline-flex;align-items:center;padding:9px 12px;min-height:40px;color:#ffe1ac;background:#273453;border:1px solid #d6b87588;border-radius:9px;font-size:12px;text-decoration:none}
+.pa-artwork-link:focus-visible,.pa-artwork-image:focus-visible{outline:2px solid #ffdf94;outline-offset:2px}
+.pa-artwork-locked-image{aspect-ratio:4/5;display:grid;place-items:center;font-size:65px;color:#8c8fa9;background:radial-gradient(circle at 50% 42%,#6c739d38,transparent 65%),#171c30}
+.pa-artwork-card.is-locked{border-style:dashed}
+.pa-artwork-unavailable{display:grid;place-items:center;padding:20px;min-height:180px;color:#e5d7c0;text-align:center;font-size:13px}
+@media(max-width:720px){.pa-artworks-grid{grid-template-columns:1fr}.pa-artwork-body{padding:15px}.pa-artworks{margin:20px 0}}
+@media(prefers-reduced-motion:reduce){.pa-artwork-card,.pa-artwork-link{transition:none!important}}

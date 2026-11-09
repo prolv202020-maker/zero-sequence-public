@@ -19,6 +19,8 @@ jobs:
         run: node scripts/ensure-chapter-bootstrap.mjs --check
       - name: Test reading flow and independent chapter unlocks
         run: node scripts/test-reading-flow.mjs
+      - name: Verify equipment, items and materials render chapter-gated CG images
+        run: node scripts/test-inline-archive-artworks.mjs
       - name: Test upgraded homepage, spoiler-safe search and reader navigation
         run: node scripts/test-site-relaunch.mjs
       - name: Verify 13-volume audiobook center, 130 MP3 links, mobile listening and BGM safety

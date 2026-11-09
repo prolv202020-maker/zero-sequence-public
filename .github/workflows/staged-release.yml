@@ -21,6 +21,8 @@ jobs:
         run: |
           node scripts/audit-published-timeline.mjs
           node scripts/test-phase1-integration.mjs
+      - name: Verify equipment, items and materials render chapter-gated CG images
+        run: node scripts/test-inline-archive-artworks.mjs
       - name: Verify visual codex sources, spoiler gates and graceful image fallback
         run: node scripts/test-visual-codex.mjs
 
