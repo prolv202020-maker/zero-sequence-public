@@ -73,6 +73,7 @@ for(const [page,script] of [
  ['archive/equipment.html','public-archive.js'],
  ['archive/codex.html','public-archive.js'],
  ['archive/items.html','public-archive.js'],
+ ['archive/materials.html','public-archive.js'],
  ['archive/bestiary.html','bestiary.js'],
  ...['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'].map(x=>['archive/characters/'+x+'.html','profile-v2.js'])
 ]){
@@ -83,7 +84,8 @@ assert.ok(read('archive/visual-codex.html').includes('data-public-archive="visua
 assert.ok(existsSync(join(ROOT,'assets/images/codex/.gitkeep')),'Author image upload directory must exist');
 assert.ok(read('index.html').includes('archive/visual-codex.html'),'Home page needs a visual gallery entry');
 assert.ok(read('archive/visual-codex.html').includes('<option value="道具">道具</option>')&&read('archive/visual-codex.html').includes('<option value="材料">材料</option>'),'Missing new item/material category filters');
-assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=2'),'Material and item text archive must load visual card data');
+assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=2'),'Item text archive must load visual card data');
+assert.ok(read('archive/materials.html').includes('visual-codex-data.js?v=2'),'Material text archive must load visual card data');
 assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=2'),'New artwork manifest version must be used');
 const installed=a.filter(x=>existsSync(join(ROOT,'assets/images/codex',x.file))).length;
 console.log('[VISUAL CODEX] PASS: 6 original cards + 10 source-verified cinematic CGs, correct chapter gates, hashes, protected reader progress, monster/equipment/item integration. Image binaries: '+installed+'/16.');
