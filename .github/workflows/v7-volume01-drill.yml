@@ -1,0 +1,151 @@
+name: V7 volume01 11-MP3 backup upload and isolated compatibility drill
+on:
+  push:
+    branches: [audit/v7-audio-integrity-and-hosting-prep-20261109]
+    paths: ['.github/workflows/v7-volume01-drill.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify-and-backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      manifest-sha: ${{ steps.verify.outputs.manifest_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - id: verify
+        name: Verify 11 source Git blob SHAs, byte sizes, MP3 headers; create backup and SHA-256 manifest
+        run: |
+          set -euo pipefail
+          mkdir -p v7-volume01-backup
+          node --input-type=module <<'NODE'
+          import {readFileSync,statSync,copyFileSync,writeFileSync} from 'node:fs';
+          import {execFileSync} from 'node:child_process';
+          import {createHash} from 'node:crypto';
+          import assert from 'node:assert/strict';
+          import {basename} from 'node:path';
+          const m=JSON.parse(readFileSync('docs/v7-audio-inventory.json','utf8'));
+          const files=m.files.filter(x=>x.path.startsWith('assets/audio/audiobook/part-01/volume-01/'));
+          assert.equal(files.length,11);
+          let total=0;const out=[];
+          for(const f of files){
+            const buf=readFileSync(f.path);
+            assert.equal(buf.length,f.bytes,'Byte mismatch '+f.path);
+            assert.ok(buf.subarray(0,3).toString()==='ID3'||buf[0]===255,'Bad MP3 '+f.path);
+            const blob=execFileSync('git',['hash-object','--',f.path],{encoding:'utf8'}).trim();
+            assert.equal(blob,f.gitBlobSha,'Original Git blob SHA changed '+f.path);
+            const name='part-01-volume-01-'+basename(f.path);
+            copyFileSync(f.path,'v7-volume01-backup/'+name);
+            const hash=createHash('sha256').update(buf).digest('hex');
+            out.push({source:f.path,name,bytes:f.bytes,gitBlobSha:blob,sha256:hash});
+            total+=f.bytes;
+          }
+          assert.equal(total,41544776);
+          writeFileSync('v7-volume01-backup/sha256-manifest.json',JSON.stringify({schema:'v7-first-volume-backup',count:11,totalBytes:total,files:out},null,2)+'\n');
+          console.log('VERIFIED 11 MP3 + SHA256 backup manifest, total bytes: '+total);
+          NODE
+          sha256sum v7-volume01-backup/sha256-manifest.json
+          echo "manifest_sha=$(sha256sum v7-volume01-backup/sha256-manifest.json | awk '{print $1}')" >> "$GITHUB_OUTPUT"
+      - name: Backup 11 unchanged MP3 files and SHA-256 manifest as downloadable CI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-volume01-original-backup-${{ github.run_id }}
+          path: v7-volume01-backup/
+          retention-days: 30
+          if-no-files-found: error
+
+  upload-and-test:
+    needs: verify-and-backup
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: zs-v7-volume01-drill-20261109
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: v7-volume01-original-backup-${{ github.run_id }}
+          path: v7-volume01-backup
+      - name: Verify recovered backup and upload unchanged 11 MP3 to test Release
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          import {createHash} from 'node:crypto';
+          import assert from 'node:assert/strict';
+          const m=JSON.parse(readFileSync('v7-volume01-backup/sha256-manifest.json'));
+          assert.equal(m.count,11);assert.equal(m.totalBytes,41544776);
+          for(const f of m.files){
+            const b=readFileSync('v7-volume01-backup/'+f.name);
+            assert.equal(b.byteLength,f.bytes);
+            assert.equal(createHash('sha256').update(b).digest('hex'),f.sha256);
+          }
+          NODE
+          echo "Backup manifest SHA: $(sha256sum v7-volume01-backup/sha256-manifest.json | awk '{print $1}')"
+          test "$(sha256sum v7-volume01-backup/sha256-manifest.json | awk '{print $1}')" = "${{ needs.verify-and-backup.outputs.manifest-sha }}"
+          if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "V7 Volume 01 isolated 11-audio test" --notes "TEST ONLY: original untouched MP3 assets. Do not use in published site until release validation and explicit approval." --latest=false
+          fi
+          for path in v7-volume01-backup/*.mp3; do
+            file="$(basename "$path")"
+            if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name' | grep -Fxq "$file"; then
+              echo "Already present: $file"
+            else
+              gh release upload "$TAG" "$path" --repo "$GITHUB_REPOSITORY"
+            fi
+          done
+      - name: Download all 11 Release audio assets and verify SHA-256, bytes, and Range 206
+        run: |
+          set -euo pipefail
+          mkdir -p v7-volume01-results/downloads
+          python3 - <<'PY'
+          import json, os, hashlib, subprocess
+          m=json.load(open('v7-volume01-backup/sha256-manifest.json'))
+          prefix=f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/releases/download/{os.environ['TAG']}/"
+          details=[]
+          for f in m['files']:
+              url=prefix+f['name']
+              dest='v7-volume01-results/downloads/'+f['name']
+              subprocess.run(['curl','--fail','--location','--silent','--show-error','--retry','3','--output',dest,url],check=True)
+              b=open(dest,'rb').read()
+              assert len(b)==f['bytes'],f['name']+' unexpected size'
+              assert hashlib.sha256(b).hexdigest()==f['sha256'],f['name']+' unexpected SHA-256'
+              details.append({'name':f['name'],'bytes':len(b),'sha256':f['sha256'],'downloadVerified':True})
+              print('DOWNLOAD HASH PASS:',f['name'])
+          json.dump(details,open('v7-volume01-results/remote-validation.json','w'),indent=2)
+          PY
+          URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/part-01-volume-01-chapter-008.mp3"
+          curl --fail --location --silent --show-error --retry 3 -D v7-volume01-results/range-headers.txt -H 'Range: bytes=0-1023' --output v7-volume01-results/range-bytes.bin "$URL"
+          grep -qi '^HTTP/.* 206' v7-volume01-results/range-headers.txt
+          grep -qi '^content-range: bytes 0-1023/2662025' v7-volume01-results/range-headers.txt
+          test "$(wc -c < v7-volume01-results/range-bytes.bin)" -eq 1024
+          echo "11/11 Release downloads verified byte-for-byte, HTTP Range 206 PASS"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned Playwright tooling and Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.65.0
+          npx playwright install --with-deps chromium
+      - name: Verify one chapter through Release playback, resume and continuous next chapter in real browsers
+        run: node scripts/test-v7-volume01-drill.mjs
+      - name: Archive evidence only (never modify site)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-volume01-evidence-${{ github.run_id }}
+          path: |
+            v7-volume01-results/remote-validation.json
+            v7-volume01-results/range-headers.txt
+            v7-volume01-results/browser.json
+          if-no-files-found: warn
+          retention-days: 30

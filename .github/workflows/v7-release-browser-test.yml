@@ -1,0 +1,32 @@
+name: V7 browser playback compatibility of GitHub Releases
+on:
+  push:
+    branches:
+      - audit/v7-audio-integrity-and-hosting-prep-20261109
+    paths:
+      - '.github/workflows/v7-release-browser-test.yml'
+      - 'scripts/test-v7-release-browser.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chromium-playback-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.65.0
+      - run: npx playwright install --with-deps chromium
+      - name: Test desktop and emulated mobile HTML audio
+        run: node scripts/test-v7-release-browser.mjs
+      - name: Archive evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-release-browser-results-${{ github.run_id }}
+          path: v7-browser-results/
+          if-no-files-found: warn
+          retention-days: 14

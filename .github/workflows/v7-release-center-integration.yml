@@ -1,0 +1,29 @@
+name: V7 release audiobook center integration
+on:
+  push:
+    branches: [audit/v7-audio-integrity-and-hosting-prep-20261109]
+    paths:
+      - 'scripts/test-v7-release-center-integration.mjs'
+      - '.github/workflows/v7-release-center-integration.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.65.0
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/test-v7-release-center-integration.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v7-center-integration-${{ github.run_id }}
+          path: v7-center-integration-results/
+          retention-days: 14
+          if-no-files-found: warn

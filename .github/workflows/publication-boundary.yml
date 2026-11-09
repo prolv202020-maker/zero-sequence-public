@@ -33,6 +33,8 @@ jobs:
         run: node scripts/test-site-relaunch.mjs
       - name: Verify 13-volume audiobook center, 130 MP3 links, mobile listening and BGM safety
         run: node scripts/test-audiobook-center.mjs
+      - name: Audit V7 all 131 original MP3 hashes, sizes and unmodified playback URLs
+        run: node scripts/test-v7-audio-integrity.mjs
       - name: Validate third-arc original illustrations, existing covers and spoiler-safe per-part unlocks
         run: node scripts/test-third-gallery.mjs
       - name: Protect seven approved character portraits and audit visual identity references

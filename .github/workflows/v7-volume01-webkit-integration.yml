@@ -1,0 +1,31 @@
+name: V7 volume01 WebKit audiobook center compatibility
+on:
+  push:
+    branches: [audit/v7-audio-integrity-and-hosting-prep-20261109]
+    paths: ['.github/workflows/v7-volume01-webkit-integration.yml', 'scripts/test-v7-volume01-webkit-integration.mjs']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  webkit-center:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install pinned Playwright and WebKit
+        run: |
+          npm install --no-save --no-package-lock playwright@1.65.0
+          npx playwright install --with-deps webkit
+      - name: Test real GitHub Release audio and chapter transitions in isolated center
+        run: node scripts/test-v7-volume01-webkit-integration.mjs
+      - name: Archive pass or failure details
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-volume01-webkit-center-${{ github.run_id }}
+          path: v7-volume01-webkit-results/
+          if-no-files-found: warn
+          retention-days: 14

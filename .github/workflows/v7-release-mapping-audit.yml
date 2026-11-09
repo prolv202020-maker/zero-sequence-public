@@ -1,0 +1,27 @@
+name: V7 release mapping dry-run audit
+on:
+  push:
+    branches:
+      - audit/v7-audio-integrity-and-hosting-prep-20261109
+    paths:
+      - 'scripts/prepare-v7-release-mapping.mjs'
+      - '.github/workflows/v7-release-mapping-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate verified candidate list without uploads
+        run: node scripts/prepare-v7-release-mapping.mjs
+      - name: Save migration candidate artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-release-candidates-${{ github.run_id }}
+          path: v7-migration-results/release-candidates.json
+          retention-days: 14
