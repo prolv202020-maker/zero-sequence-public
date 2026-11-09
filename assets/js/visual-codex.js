@@ -4,6 +4,7 @@ const ROOT='/zero-sequence-public/',records=Array.isArray(window.ZSVisualCodex)?
 const host=document.getElementById('zs-visual-codex-grid'),status=document.getElementById('zs-visual-codex-status');
 if(!host||!status)return;
 const kindSelect=document.getElementById('zs-visual-kind'),partSelect=document.getElementById('zs-visual-part'),search=document.getElementById('zs-visual-search');
+const onlyUnlocked=document.getElementById('zs-visual-only-unlocked');
 const query=new URLSearchParams(location.search),targetId=query.get('art'),source=query.get('source');
 const types=new Set(['人物','魔物','武器','装备','道具','材料']);
 const el=(tag,cls,value)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(value!==undefined)n.textContent=value;return n;};
@@ -24,7 +25,7 @@ function render(){
  const p={1:progress(1),2:progress(2),3:progress(3)},kind=kindSelect?.value||'all',part=Number(partSelect?.value||0);
  const term=(search?.value||'').trim().toLocaleLowerCase('zh-Hans');
  const unlocked=records.filter(r=>p[r.p]>=r.n);
- const scoped=records.filter(r=>(!part||r.p===part)&&(kind==='all'||r.kind===kind)&&(!source||r.source===source));
+ const scoped=records.filter(r=>(!part||r.p===part)&&(kind==='all'||r.kind===kind)&&(!source||r.source===source)&&(!onlyUnlocked?.checked||available(r)));
  host.replaceChildren();
  let count=0;
  for(const record of scoped){
@@ -63,7 +64,7 @@ if(targetId){
  const target=records.find(r=>r.id===targetId);
  if(target&&available(target)){if(kindSelect)kindSelect.value=types.has(target.kind)?target.kind:'all';if(partSelect)partSelect.value=String(target.p);}
 }
-for(const field of [kindSelect,partSelect,search])field?.addEventListener(field===search?'input':'change',render);
+for(const field of [kindSelect,partSelect,search,onlyUnlocked])field?.addEventListener(field===search?'input':'change',render);
 document.addEventListener('zs:part-progress-changed',render);
 window.addEventListener('pageshow',render);
 window.addEventListener('storage',e=>{if(e.key==='zs:part-progress:v1')render();});

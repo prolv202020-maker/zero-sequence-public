@@ -50,9 +50,9 @@ for(const [key,needle] of Object.entries(anchors)){
  assert.equal(initial.inserted.length,1,'Insert exactly one CG section after the verified prose anchor '+path);
  assert.equal(getAll(initial.inserted[0],'img').length,0,'Unread chapter must not load CG '+path);
  assert.ok(!arts.some(x=>getAll(initial.inserted[0],'strong').some(n=>n.textContent===x.name)),'Unread chapter must never reveal an item name '+path);
- assert.ok(initial.html.includes('chapter-cg-scenes.js?v=1'),'CG renderer missing in '+path);
+ assert.ok(initial.html.includes('chapter-cg-scenes.js?v=2'),'CG renderer missing in '+path);
  assert.ok(initial.html.includes('visual-codex-data.js?v=5'),'CG data missing in '+path);
- assert.ok(initial.html.includes('chapter-cg-scenes.css?v=1'),'CG adaptive styles missing in '+path);
+ assert.ok(initial.html.includes('chapter-cg-scenes.css?v=2'),'CG adaptive styles missing in '+path);
  assert.ok(initial.html.includes('cg-lightbox.js?v=1'),'Chapter fullscreen viewer missing in '+path);
  assert.ok(initial.html.includes('zs-cg-chapter-bridge'),'Preserve the existing V2 backlink '+path);
  const fullyRead=simulate(path,{1:100,2:100,3:100});
@@ -70,7 +70,7 @@ assert.equal(getAll(simulate('chapters/volume-29/chapter-001.html',{3:80}).inser
 assert.equal(getAll(simulate('chapters/volume-29/chapter-001.html',{3:81}).inserted[0],'img').length,1,'Frost-repaired sword unlocks correctly at chapter 81');
 const equipment=read('archive/equipment.html');
 for(const id of ['pa-equipment-kind','pa-equipment-part','pa-equipment-sort','pa-equipment-search'])assert.ok(equipment.includes('id="'+id+'"'),'Equipment must have real filtering control '+id);
-assert.ok(equipment.includes('archive-artworks.js?v=3')&&equipment.includes('archive-artworks.css?v=2'),'Equipment browser must bust old CSS/JS cache');
+assert.ok(equipment.includes('archive-artworks.js?v=4')&&equipment.includes('archive-artworks.css?v=3'),'Equipment browser must bust old CSS/JS cache');
 const gearCode=read('assets/js/archive-artworks.js');
 assert.doesNotThrow(()=>new Script(gearCode),'Equipment browser V3 JS should parse');
 assert.ok(!gearCode.includes('localStorage.setItem'),'Equipment browsers must never write progress');

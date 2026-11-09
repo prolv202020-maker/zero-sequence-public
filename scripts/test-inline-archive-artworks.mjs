@@ -27,7 +27,7 @@ for(const [page,kinds] of Object.entries(groups)){
  }
  const html=read('archive/'+page+'.html');
  assert.ok(html.includes('id="pa-artworks-grid"')&&html.includes('id="pa-artworks-status"'),page+' missing inline CG area');
- const cssV=page==='equipment'?2:1,scriptV=page==='equipment'?3:2;
+ const cssV=page==='equipment'?3:1,scriptV=page==='equipment'?4:2;
  assert.ok(html.includes('archive-artworks.css?v='+cssV),page+' missing artwork CSS');
  const manifest=html.indexOf('visual-codex-data.js?v=5'),renderer=html.indexOf('archive-artworks.js?v='+scriptV);
  assert.ok(manifest>=0&&renderer>manifest,page+' must load manifest before inline artwork renderer');

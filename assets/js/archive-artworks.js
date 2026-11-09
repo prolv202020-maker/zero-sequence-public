@@ -8,6 +8,7 @@ const host=document.getElementById('pa-artworks-grid'),status=document.getElemen
 if(!host||!status)return;
 const ROOT='/zero-sequence-public/';
 const gearType=document.getElementById('pa-equipment-kind'),gearPart=document.getElementById('pa-equipment-part'),gearSearch=document.getElementById('pa-equipment-search'),gearSort=document.getElementById('pa-equipment-sort');
+const gearOnlyUnlocked=document.getElementById('pa-equipment-only-unlocked');
 
 const records=(Array.isArray(window.ZSVisualCodex)?window.ZSVisualCodex:[]).filter(x=>allowed[page].includes(x.kind)&&x.file&&Number.isInteger(x.p)&&Number.isInteger(x.n));
 const el=(tag,cls,value)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(value!==undefined)node.textContent=value;return node;};
@@ -50,6 +51,7 @@ function render(){
  const keyword=(gearSearch?.value||'').trim().toLocaleLowerCase('zh-Hans');
  const eligible=records.filter(r=>
   (kind==='all'||r.kind===kind)&&(!part||r.p===part)&&
+  (!gearOnlyUnlocked?.checked||progress(r.p)>=r.n)&&
   (!keyword||(progress(r.p)>=r.n&&[r.name,r.summary,r.kind].join(' ').toLocaleLowerCase('zh-Hans').includes(keyword))));
  const filtered=[...eligible];
  if(gearSort?.value==='story')filtered.sort((a,b)=>a.p-b.p||a.n-b.n||a.name.localeCompare(b.name,'zh-CN'));
@@ -58,7 +60,7 @@ function render(){
  if(!filtered.length){host.append(el('p','pa-empty',keyword?'没有符合搜索的已解锁装备CG。':'当前分类暂时没有作品。'));return;}
  for(const r of filtered)host.append(show(r));
 }
-for(const input of [gearType,gearPart,gearSearch,gearSort])input?.addEventListener(input===gearSearch?'input':'change',render);
+for(const input of [gearType,gearPart,gearSearch,gearSort,gearOnlyUnlocked])input?.addEventListener(input===gearSearch?'input':'change',render);
 document.addEventListener('zs:part-progress-changed',render);
 window.addEventListener('pageshow',render);
 window.addEventListener('storage',e=>{if(e.key==='zs:part-progress:v1')render();});

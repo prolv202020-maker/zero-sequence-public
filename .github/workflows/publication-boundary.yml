@@ -25,6 +25,8 @@ jobs:
         run: node scripts/test-cg-integration-v2.mjs
       - name: Validate CG V3 exact paragraph anchors, unlocked equipment filters and preservation
         run: node scripts/test-cg-scenes-v3.mjs
+      - name: Test CG V4 reading controls and locked-only filtering
+        run: node scripts/test-cg-reader-v4.mjs
       - name: Test upgraded homepage, spoiler-safe search and reader navigation
         run: node scripts/test-site-relaunch.mjs
       - name: Verify 13-volume audiobook center, 130 MP3 links, mobile listening and BGM safety

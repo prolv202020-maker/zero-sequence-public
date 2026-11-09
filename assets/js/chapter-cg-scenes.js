@@ -40,6 +40,7 @@ const progress=p=>{try{
 }catch{return 0;}};
 const node=el('section','zs-chapter-cg-scene');node.id='zs-chapter-cg-scene';
 node.setAttribute('aria-label','本章对应剧情CG视觉档案');
+let folded=false; // 仅当前页面的可见状态；不写阅读进度或其他保存数据
 const after=found[0].nextElementSibling?.classList?.contains('zs-story-illustration')?found[0].nextElementSibling:found[0];
 after.insertAdjacentElement('afterend',node);
 function render(){
@@ -47,12 +48,20 @@ function render(){
  node.replaceChildren();
  const title=el('h3','zs-chapter-cg-heading','本段对应的视觉图鉴');
  const hint=el('p','zs-chapter-cg-hint','已公开CG为装备、人物或魔物的艺术化演绎，不新增未确认的等级与属性。');
- node.append(title,hint);
  if(!unlocked.length){
-  node.append(el('p','zs-chapter-cg-locked','◇ 相关视觉资料尚未解锁。请在对应篇章标记章节已读后查看。'));
+  node.append(title,hint,el('p','zs-chapter-cg-locked','◇ 相关视觉资料尚未解锁。请在对应篇章标记章节已读后查看。'));
   return;
  }
- const grid=el('div','zs-chapter-cg-grid');
+ const bar=el('div','zs-chapter-cg-toolbar');
+ const toggle=el('button','zs-chapter-cg-toggle',folded?'展开本章CG':'收起本章CG');
+ toggle.type='button';toggle.setAttribute('aria-expanded',String(!folded));toggle.setAttribute('aria-controls','zs-chapter-cg-grid');
+ toggle.addEventListener('click',()=>{folded=!folded;render();});
+ bar.append(title,toggle);node.append(bar,hint);
+ if(folded){
+  node.append(el('p','zs-chapter-cg-collapsed','已收起 '+unlocked.length+' 张已解锁CG。展开后可查看缩略图，不影响正文或阅读进度。'));
+  return;
+ }
+ const grid=el('div','zs-chapter-cg-grid');grid.id='zs-chapter-cg-grid';
  for(const r of unlocked){
   const item=el('article','zs-chapter-cg-item');
   const link=el('a','zs-chapter-cg-art');link.href=ROOT+'assets/images/codex/'+r.file;

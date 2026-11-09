@@ -16,3 +16,11 @@
 .zs-chapter-cg-error{color:#e2d0ac;font-size:12px}
 @media(max-width:680px){.zs-chapter-cg-grid{grid-template-columns:1fr}.zs-chapter-cg-item{padding:9px}.zs-chapter-cg-art{max-width:100px}}
 @media(prefers-reduced-motion:reduce){.zs-chapter-cg-scene{scroll-behavior:auto}}
+
+/* V4：读者可临时收起剧情CG，减轻长章节视觉负担 */
+.zs-chapter-cg-toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:8px}
+.zs-chapter-cg-toolbar .zs-chapter-cg-heading{margin:0}
+.zs-chapter-cg-toggle{min-height:40px;border-radius:10px;border:1px solid #e1be84;background:#293450;color:#ffdf9e;padding:8px 13px;font:inherit;font-size:12px;cursor:pointer}
+.zs-chapter-cg-toggle:focus-visible{outline:2px solid #ffdf98;outline-offset:2px}
+.zs-chapter-cg-collapsed{border:1px dashed #d7b98466;padding:12px;border-radius:10px;margin:0;color:#d6d0c6;font-size:12px;line-height:1.7}
+@media(max-width:560px){.zs-chapter-cg-toolbar{align-items:stretch}.zs-chapter-cg-toggle{flex:0 0 auto}}

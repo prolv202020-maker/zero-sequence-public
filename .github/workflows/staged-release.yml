@@ -27,6 +27,8 @@ jobs:
         run: node scripts/test-cg-integration-v2.mjs
       - name: Validate CG V3 exact paragraph anchors, unlocked equipment filters and preservation
         run: node scripts/test-cg-scenes-v3.mjs
+      - name: Test CG V4 reading controls and locked-only filtering
+        run: node scripts/test-cg-reader-v4.mjs
       - name: Verify visual codex sources, spoiler gates and graceful image fallback
         run: node scripts/test-visual-codex.mjs
 
