@@ -17,7 +17,7 @@ assert.ok(read('assets/css/archive-artworks.css').includes('@media(max-width:720
 const ctx={window:{}};
 runInNewContext(read('assets/js/visual-codex-data.js'),ctx);
 const art=ctx.window.ZSVisualCodex,groups={equipment:['武器','装备'],items:['道具'],materials:['材料']};
-const counts={equipment:4,items:4,materials:2};
+const counts={equipment:8,items:4,materials:2};
 for(const [page,kinds] of Object.entries(groups)){
  const cards=art.filter(x=>kinds.includes(x.kind));
  assert.equal(cards.length,counts[page],'Unexpected '+page+' card count');
@@ -28,7 +28,7 @@ for(const [page,kinds] of Object.entries(groups)){
  const html=read('archive/'+page+'.html');
  assert.ok(html.includes('id="pa-artworks-grid"')&&html.includes('id="pa-artworks-status"'),page+' missing inline CG area');
  assert.ok(html.includes('archive-artworks.css?v=1'),page+' missing artwork CSS');
- const manifest=html.indexOf('visual-codex-data.js?v=3'),renderer=html.indexOf('archive-artworks.js?v=1');
+ const manifest=html.indexOf('visual-codex-data.js?v=4'),renderer=html.indexOf('archive-artworks.js?v=1');
  assert.ok(manifest>=0&&renderer>manifest,page+' must load manifest before inline artwork renderer');
 }
 // Run a minimal DOM simulation for the three independent reading tracks.
@@ -61,5 +61,10 @@ assert.equal(traverse(mock('equipment',{1:88,2:75} ).host,'img').length,4,'Equip
 assert.equal(traverse(mock('items',{2:31,3:65}).host,'img').length,4,'Items gallery should show four works');
 assert.equal(traverse(mock('materials',{1:44,3:55}).host,'img').length,2,'Materials gallery should show two works');
 assert.equal(traverse(mock('equipment',{2:75}).host,'img').length,3,'Only second-arc equipment art may unlock');
+assert.equal(traverse(mock('equipment',{3:6}).host,'img').length,1,'Shield plate only unlocks at third-arc chapter 6');
+assert.equal(traverse(mock('equipment',{3:11}).host,'img').length,2,'Ordinary sword unlocks at third-arc chapter 11');
+assert.equal(traverse(mock('equipment',{3:80}).host,'img').length,3,'Wrist bracer unlocks at third-arc chapter 80');
+assert.equal(traverse(mock('equipment',{3:81}).host,'img').length,4,'Cold-pattern repaired sword unlocks at third-arc chapter 81');
+assert.equal(traverse(mock('equipment',{1:100,2:100,3:100}).host,'img').length,8,'All equipment CG art appears after all three parts are read');
 assert.equal(traverse(mock('items',{3:28}).host,'img').length,1,'Single third-arc gate should not unlock future items');
-console.log('[INLINE ARTWORK] PASS: three independent galleries, 10 anchored art cards, locked images never load, mobile styles, reader progress unchanged.');
+console.log('[INLINE ARTWORK] PASS: three independent galleries, 14 anchored art cards, locked images never load, mobile styles, reader progress unchanged.');
