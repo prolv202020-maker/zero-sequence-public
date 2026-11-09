@@ -1,0 +1,32 @@
+name: V7 audiobook source integrity and migration preflight (no deploy)
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v7-audio-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test source map, reader progress isolation and simulated remote streaming
+        run: node scripts/test-v7-audio-preflight.mjs
+      - name: Verify every released MP3 byte-for-byte and generate SHA256 transfer ledger
+        run: node scripts/v7-audio-integrity.mjs --full --report
+      - name: Estimate custom Pages artifact size without deleting original MP3s
+        run: node scripts/v7-pages-size-plan.mjs --report
+      - name: Archive V7 transfer ledger and Pages size proposal
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-audio-preflight-${{ github.run_id }}
+          path: v7-audio-results/
+          if-no-files-found: warn
+          retention-days: 30

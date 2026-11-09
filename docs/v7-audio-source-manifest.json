@@ -1,0 +1,666 @@
+{
+  "schemaVersion": 1,
+  "description": "Immutable inventory snapshot of publicly released Zi Yue audiobook MP3 objects; no audio contents altered.",
+  "sourceRepository": "prolv202020-maker/zero-sequence-public",
+  "sourceCommit": "3137f25df8f508c4186b3c3a07f6e9832ae1231d",
+  "trackCount": 131,
+  "totalBytes": 929684308,
+  "recordType": "git_blob_sha1_with_bytes",
+  "records": [
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/prologue.mp3",
+      "bytes": 6563674,
+      "gitBlobSha1": "9a8171478c4e860921fc7ca78abbfe53ec5fe8f2"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-001.mp3",
+      "bytes": 5441035,
+      "gitBlobSha1": "4f241b25b535ab42dfdd41d5e1a8b2b5b9816912"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-002.mp3",
+      "bytes": 3402230,
+      "gitBlobSha1": "fa95699396b933b1aeee880c831bec8c98f6c035"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-003.mp3",
+      "bytes": 3171517,
+      "gitBlobSha1": "d15501cca0e04994870095020ee5e7889d280a7e"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-004.mp3",
+      "bytes": 3191997,
+      "gitBlobSha1": "26472640e9dfed1a4deffdeb99b80f3903535983"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-005.mp3",
+      "bytes": 3195758,
+      "gitBlobSha1": "bc3e8ab95a8565a0dcfe1b6cdecfec17217bf754"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-006.mp3",
+      "bytes": 2915726,
+      "gitBlobSha1": "06a39c1658cbe1c539a04db1caf240e5560e9cf2"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-007.mp3",
+      "bytes": 3070371,
+      "gitBlobSha1": "4cf0532166294a068b0b914110feb574944e6321"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-008.mp3",
+      "bytes": 2662025,
+      "gitBlobSha1": "84ce43553de73341778f59314b640e2b1149ac15"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-009.mp3",
+      "bytes": 3118018,
+      "gitBlobSha1": "380ada9dcd23334bee5f7298ad9b025a2e001f0c"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-01/chapter-010.mp3",
+      "bytes": 4812425,
+      "gitBlobSha1": "03d57b38c83b4c5f30252e8e925a6babb540e78e"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-001.mp3",
+      "bytes": 4575860,
+      "gitBlobSha1": "3eb4ffa84b95c515a4a0d7334802385a421b1a13"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-002.mp3",
+      "bytes": 4165006,
+      "gitBlobSha1": "65f73aa02fbf982f2255730070fe281a9b6f924b"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-003.mp3",
+      "bytes": 4199278,
+      "gitBlobSha1": "1f496d7df4f00bab3a14c7d6f8960a42eea9283c"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-004.mp3",
+      "bytes": 4379837,
+      "gitBlobSha1": "dc030743cbdc97b160b2c753e1ccce88cd6b4f4a"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-005.mp3",
+      "bytes": 4250687,
+      "gitBlobSha1": "90cf8ff70c149b7d54a4d2944bb33ce6e3c76702"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-006.mp3",
+      "bytes": 4871357,
+      "gitBlobSha1": "ebaf7c117264ca29dacb63f63769737945cb18cd"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-007.mp3",
+      "bytes": 3678501,
+      "gitBlobSha1": "4a1995acd7f93b4a95ed21a920ea98cee70e2a13"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-008.mp3",
+      "bytes": 4157065,
+      "gitBlobSha1": "84cd02b9f18d22fea233d73b30df7829d645c3b4"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-009.mp3",
+      "bytes": 3965221,
+      "gitBlobSha1": "d8b36e357b643aec9fb28d40a32f4193564cb68c"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-02/chapter-010.mp3",
+      "bytes": 4415781,
+      "gitBlobSha1": "5ad055995a6249fd9a3f9e38166413525f292ce4"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-001.mp3",
+      "bytes": 4502717,
+      "gitBlobSha1": "3e535a48e60e2c4e6b140092f3cc59593d4f8c95"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-002.mp3",
+      "bytes": 4536154,
+      "gitBlobSha1": "686d2d8eb2c50f577fa712bdf31c9b8d3c7a188a"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-003.mp3",
+      "bytes": 4692470,
+      "gitBlobSha1": "3bb74dcac7ed1580b261e22f25548555dc1220db"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-004.mp3",
+      "bytes": 3747465,
+      "gitBlobSha1": "09b76be4022bb50c2db9b0f514c79346eb364a0d"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-005.mp3",
+      "bytes": 4376075,
+      "gitBlobSha1": "a2c4a1b7339524d95eb265665f06a231ebeff299"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-006.mp3",
+      "bytes": 4478475,
+      "gitBlobSha1": "047da519528c21a68c44c6cfbffbe480c033cd16"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-007.mp3",
+      "bytes": 4382345,
+      "gitBlobSha1": "4f38583946f2a680ae4818f2c51adc0d334e0489"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-008.mp3",
+      "bytes": 4822874,
+      "gitBlobSha1": "31bc078ab21b29ae5ff2df3c8aec6f1fc78c5bad"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-009.mp3",
+      "bytes": 5046900,
+      "gitBlobSha1": "8073b92d87042650e779024c82d6389782197619"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-03/chapter-010.mp3",
+      "bytes": 5494952,
+      "gitBlobSha1": "2430aaeaae1706d7ca22bd648319c422092837eb"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-001.mp3",
+      "bytes": 17028535,
+      "gitBlobSha1": "f1a6209b86bfc3c89634b5a7129e815f43e33766"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-002.mp3",
+      "bytes": 4066367,
+      "gitBlobSha1": "81c0a1c776e42dfb795cf0a6c4a61019ce1bd445"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-003.mp3",
+      "bytes": 4750985,
+      "gitBlobSha1": "77dd81945336000a261cb8758a69ba2a3de34327"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-004.mp3",
+      "bytes": 2910710,
+      "gitBlobSha1": "bf3a975f58b93cdfcf9ae47e525396bba38bb543"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-005.mp3",
+      "bytes": 3357091,
+      "gitBlobSha1": "d2fd410cac4fad8b988fbf36cd14acf865314bdb"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-006.mp3",
+      "bytes": 2982181,
+      "gitBlobSha1": "30e903e7092a556da50f1f4c723d3720f5541b2f"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-007.mp3",
+      "bytes": 3512154,
+      "gitBlobSha1": "5fa8b6c92dbc0a4bcb7c099b14adb85ee03dae8f"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-008.mp3",
+      "bytes": 4014958,
+      "gitBlobSha1": "c09c0c4f598e8114a1cb3358bb9dcfc6eb548a14"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-009.mp3",
+      "bytes": 4389032,
+      "gitBlobSha1": "119a9aee7a2bd86c70f568eae757bdb6a1a2b747"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-04/chapter-010.mp3",
+      "bytes": 5574364,
+      "gitBlobSha1": "7874e95331be4e28bf94bf6fcac5770fb7ea9ab6"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-001.mp3",
+      "bytes": 5066126,
+      "gitBlobSha1": "2e49e296f074a66c5b633b14cffa27c471ed161a"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-002.mp3",
+      "bytes": 5173541,
+      "gitBlobSha1": "4ed8c1dff0e1e7c33cef44a5bd82e252ebaa00c1"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-003.mp3",
+      "bytes": 5185244,
+      "gitBlobSha1": "3ad6ea76794d1c94cbc3e0eb4039707dac1cf94f"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-004.mp3",
+      "bytes": 5187752,
+      "gitBlobSha1": "1c02de16b27231a954808e17527815daed8b7a69"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-005.mp3",
+      "bytes": 5374580,
+      "gitBlobSha1": "bb977b5802fa5eedd266f1757840f647a4484b89"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-006.mp3",
+      "bytes": 5094129,
+      "gitBlobSha1": "6762f9e82909365c636306287dadc0f840ace129"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-007.mp3",
+      "bytes": 5090367,
+      "gitBlobSha1": "950bf4afdf99e1521bc02d157bffbb7bf2314cfd"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-008.mp3",
+      "bytes": 5257969,
+      "gitBlobSha1": "75647e1a11826c14aa8f3cdb38d24dfb0558d2df"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-009.mp3",
+      "bytes": 5066126,
+      "gitBlobSha1": "6f712c12fcca999cb487cbabbae9fc14d6973fc2"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-05/chapter-010.mp3",
+      "bytes": 5194021,
+      "gitBlobSha1": "aedc2f96a1a80c099c9a32093ceb3f59b680afe1"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-001.mp3",
+      "bytes": 7048924,
+      "gitBlobSha1": "a59b62ce7935d678eaf0072edf5f0bc36b734c9d"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-002.mp3",
+      "bytes": 6367651,
+      "gitBlobSha1": "b019ece1d892e2f51c3250eb43318574c5137ccf"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-003.mp3",
+      "bytes": 7202315,
+      "gitBlobSha1": "84a3f14de9b790fd75c5f60c6746eff4130f1f66"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-004.mp3",
+      "bytes": 6604634,
+      "gitBlobSha1": "28631f6fe6e201ec03909e9cd1b5c0b4bdca68a9"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-005.mp3",
+      "bytes": 6947778,
+      "gitBlobSha1": "eada89709f3b684a759d1933397f1aa8467d6fcf"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-006.mp3",
+      "bytes": 6707034,
+      "gitBlobSha1": "c1dc730a9d118b62b10571cdf852aea396fe5746"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-007.mp3",
+      "bytes": 6581646,
+      "gitBlobSha1": "af43fd661a7b77b3575c4338989677879bc67691"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-008.mp3",
+      "bytes": 6610903,
+      "gitBlobSha1": "7b747722e3232e28e287c606ee23ba8f370ec77d"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-009.mp3",
+      "bytes": 6461274,
+      "gitBlobSha1": "dcf6cd73c4b9f09252e6b7116a6322953120e7a5"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-06/chapter-010.mp3",
+      "bytes": 7076927,
+      "gitBlobSha1": "83187ca32dabf12f4d4e169cdeeea226c40a22a4"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-001.mp3",
+      "bytes": 7837195,
+      "gitBlobSha1": "7f00214afd652412963f5a9ee246e6cb31e62da3"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-002.mp3",
+      "bytes": 7869378,
+      "gitBlobSha1": "642ee4d416f8de60225563c8a0b62daba7bd8c0f"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-003.mp3",
+      "bytes": 7536265,
+      "gitBlobSha1": "5ddecc0567755ca99c43e7ae3281d25eb571e0be"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-004.mp3",
+      "bytes": 7711807,
+      "gitBlobSha1": "4ff33360c29863273cebc8b0d3ab6c0399acef07"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-005.mp3",
+      "bytes": 7878155,
+      "gitBlobSha1": "09f5756518661de7459d5f7bccfacab6716fe470"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-006.mp3",
+      "bytes": 7914100,
+      "gitBlobSha1": "aba7d98d7dd98e9aa90502baf04a1ad362428059"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-007.mp3",
+      "bytes": 7948790,
+      "gitBlobSha1": "b3938f2281d86f3d11f1483a3cd14605eff7b22b"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-008.mp3",
+      "bytes": 8469567,
+      "gitBlobSha1": "e3f06c9cf4b668db9eff2a53144442c51ef23f08"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-009.mp3",
+      "bytes": 8112630,
+      "gitBlobSha1": "2d6674a5c5b1d47021a40acb85464cbbcedc124d"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-07/chapter-010.mp3",
+      "bytes": 8099674,
+      "gitBlobSha1": "f8266c870c67972b7fef26051ad06914c6c33fd9"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-001.mp3",
+      "bytes": 7757783,
+      "gitBlobSha1": "817bdddf21343baa41d465985c30f41201a84041"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-002.mp3",
+      "bytes": 7871886,
+      "gitBlobSha1": "624b584653b454fc6c97ac81206739a0afb73238"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-003.mp3",
+      "bytes": 9063487,
+      "gitBlobSha1": "22fe7ba55caeea30c9dd59f42f50c8ee67b28074"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-004.mp3",
+      "bytes": 8798501,
+      "gitBlobSha1": "2e70f94e29c669ac34052b1e522191267aa6ad0d"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-005.mp3",
+      "bytes": 7632395,
+      "gitBlobSha1": "19a33ffc774f6f6c058ddf8b793721e3fa216699"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-006.mp3",
+      "bytes": 7770740,
+      "gitBlobSha1": "096ce0e4384f6336eb29ad009d4ae75e5a29bd62"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-007.mp3",
+      "bytes": 9053038,
+      "gitBlobSha1": "ef1f3f19a11c131e3c56ff7d9b185d6e1c5a0c53"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-008.mp3",
+      "bytes": 8161114,
+      "gitBlobSha1": "4d5ea58bfce8c0fb97090501db44f31bf780faf6"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-009.mp3",
+      "bytes": 8551487,
+      "gitBlobSha1": "8504582243ed8d098c0b261df326094a0d4645e2"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-08/chapter-010.mp3",
+      "bytes": 8433623,
+      "gitBlobSha1": "c2c18780f1f58d88f4538240c1f7116ecaed89b3"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-001.mp3",
+      "bytes": 7955060,
+      "gitBlobSha1": "4b0a0574825acd67024f57390fc5467f300e1a18"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-002.mp3",
+      "bytes": 7834687,
+      "gitBlobSha1": "3cfe4efe831bcbcbd792f3aea91e9f6dadb6b89a"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-003.mp3",
+      "bytes": 7782025,
+      "gitBlobSha1": "f41d76bf5b2bd6c07bd10f28328dd5a7ae3b3376"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-004.mp3",
+      "bytes": 8133110,
+      "gitBlobSha1": "2b910f6e34d7b5ba3ef8f2307dee96e9fa79d102"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-005.mp3",
+      "bytes": 9192637,
+      "gitBlobSha1": "134fd76cbc6a07108448c98529bde6745831e640"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-006.mp3",
+      "bytes": 8209597,
+      "gitBlobSha1": "1ab70887290159a7f724c89a6b142cf4531c0bfa"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-007.mp3",
+      "bytes": 8087971,
+      "gitBlobSha1": "e0bbe99ddf5c1a07dbd21feab1b8228a6a3c7019"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-008.mp3",
+      "bytes": 7716823,
+      "gitBlobSha1": "5d76e129cedcb3c1cf4b55609f8c0a1841305164"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-009.mp3",
+      "bytes": 9103194,
+      "gitBlobSha1": "139bf19d0bcdeb086234e7e8a67419defab63e95"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-09/chapter-010.mp3",
+      "bytes": 9265780,
+      "gitBlobSha1": "3758ded2b4975f31239f027555b864e6ff08226a"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-001.mp3",
+      "bytes": 7958821,
+      "gitBlobSha1": "ac2e2ac5a3b300d693044f1500aee3a2cf10b2f6"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-002.mp3",
+      "bytes": 8568206,
+      "gitBlobSha1": "c182bc8b95877251f007769740bbd474996560fb"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-003.mp3",
+      "bytes": 7659145,
+      "gitBlobSha1": "c3d68bcc8521a750ae35a68b87384f8170768592"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-004.mp3",
+      "bytes": 8233838,
+      "gitBlobSha1": "0c7e892c35f60321f5b1d12b23b2b8db419a525f"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-005.mp3",
+      "bytes": 7986825,
+      "gitBlobSha1": "54f40e531e18f61e6df85b8f07989c4a577944a1"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-006.mp3",
+      "bytes": 8103435,
+      "gitBlobSha1": "02a699f0922067ee30eef06fa74cb4168e85526e"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-007.mp3",
+      "bytes": 8186609,
+      "gitBlobSha1": "c55147f128c5f810a5a166e2e991f76d0332e8ae"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-008.mp3",
+      "bytes": 8172398,
+      "gitBlobSha1": "e94220986b8b9171a4ccc5f83f90f0d7f424c8ac"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-009.mp3",
+      "bytes": 8296950,
+      "gitBlobSha1": "55d5eede59891be7be6a6eaf970ef153fb32466d"
+    },
+    {
+      "path": "assets/audio/audiobook/part-01/volume-10/chapter-010.mp3",
+      "bytes": 8195804,
+      "gitBlobSha1": "b579e6f32618ae52c681b87eee7b4d43e39723b5"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-001.mp3",
+      "bytes": 9711324,
+      "gitBlobSha1": "01cbcada38e945aa5c404a80081901ed394df599"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-002.mp3",
+      "bytes": 9553754,
+      "gitBlobSha1": "77f0c538ad33293e21869d9ae53e8ff2b6e3bd57"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-003.mp3",
+      "bytes": 9353969,
+      "gitBlobSha1": "b911c9a70e4fca2cd2c3d39087ba217eff45abd8"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-004.mp3",
+      "bytes": 10260105,
+      "gitBlobSha1": "3385f2a763989236f08abcad00671ee36a12beea"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-005.mp3",
+      "bytes": 9962100,
+      "gitBlobSha1": "9cc61fb58ff5cf121cc988477750f34b23c7bce1"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-006.mp3",
+      "bytes": 9959592,
+      "gitBlobSha1": "e1cc2a71256cc135a68dab4608b59c9bf6ada6e5"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-007.mp3",
+      "bytes": 10109221,
+      "gitBlobSha1": "e8f1c696a437ab65f52a876daf1e3fbb22309da1"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-008.mp3",
+      "bytes": 10046527,
+      "gitBlobSha1": "76da1a2dc65f5213fd2288cf7a0227cb6842da20"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-009.mp3",
+      "bytes": 9563785,
+      "gitBlobSha1": "8ef67963a771c1834d80d206f345af5c7d2c3933"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-11/chapter-010.mp3",
+      "bytes": 9753538,
+      "gitBlobSha1": "fb9206ae64fdb85692896a33c03b12232bcaa232"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-001.mp3",
+      "bytes": 10375461,
+      "gitBlobSha1": "4be3457a8cb937ed8ba62db2576fb2ee066175b9"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-002.mp3",
+      "bytes": 9911945,
+      "gitBlobSha1": "c581d0afbe7a5c27516e19d9866b4f16b0ef8ec7"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-003.mp3",
+      "bytes": 9779034,
+      "gitBlobSha1": "91137f678e9e1cbda8b612c5358278eff8a655f2"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-004.mp3",
+      "bytes": 9551246,
+      "gitBlobSha1": "14b0969d53004f6a9c1c69ed6c16220d9cbcdf3f"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-005.mp3",
+      "bytes": 10034825,
+      "gitBlobSha1": "9062769fd598190a3f1dc7c8357de53a3374fc4b"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-006.mp3",
+      "bytes": 9857192,
+      "gitBlobSha1": "cbb3a66a551a8f1ac22c06b63fa2c85632a18c27"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-007.mp3",
+      "bytes": 9524078,
+      "gitBlobSha1": "2a411dc46b7cc06cdbd80716101620acfe666132"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-008.mp3",
+      "bytes": 9712578,
+      "gitBlobSha1": "8d61966cabf9994e144c996ecb65cf683c8a4903"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-009.mp3",
+      "bytes": 9891465,
+      "gitBlobSha1": "937d320a2e28e506f1a57afa0d25fb499fe2eb80"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-12/chapter-010.mp3",
+      "bytes": 9835458,
+      "gitBlobSha1": "f55e161a4d7b2c8369a21d3d2b4df858007cf315"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-001.mp3",
+      "bytes": 10497087,
+      "gitBlobSha1": "581197577951324f6a97d9a51464513bca3626c5"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-002.mp3",
+      "bytes": 9950397,
+      "gitBlobSha1": "9ffb67a16b917330eaa6dda357fd24c5cfad24d7"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-003.mp3",
+      "bytes": 10287272,
+      "gitBlobSha1": "7ef115b57660492e770a9f7098d9b468eb8ece2c"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-004.mp3",
+      "bytes": 10732398,
+      "gitBlobSha1": "504f83c33883e0c4359cc21284122cf3fe9a4689"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-005.mp3",
+      "bytes": 10897910,
+      "gitBlobSha1": "70f70d57e20c7ca0f036a443d7b8938687544ff6"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-006.mp3",
+      "bytes": 10228340,
+      "gitBlobSha1": "07f5d5c6735abf959506052bd9a96f023a5ef519"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-007.mp3",
+      "bytes": 9969623,
+      "gitBlobSha1": "6f530fac0519ab55fbf9fdffa2c9239be1684c89"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-008.mp3",
+      "bytes": 10054051,
+      "gitBlobSha1": "c72d83088a3c1883a2634c782b0b399fb409064f"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-009.mp3",
+      "bytes": 10214129,
+      "gitBlobSha1": "91ed8da65b49ee13d047707712be33baeb95aa1e"
+    },
+    {
+      "path": "assets/audio/audiobook/part-02/volume-13/chapter-010.mp3",
+      "bytes": 10822260,
+      "gitBlobSha1": "e797b41ad592597cc3c8cc86cd912c5ed7c8f1ea"
+    }
+  ]
+}
