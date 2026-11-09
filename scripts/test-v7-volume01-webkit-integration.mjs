@@ -9,9 +9,12 @@ import {webkit,devices} from 'playwright';
 const ROOT=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const PREFIX='/zero-sequence-public/';
 const RELEASE='https://github.com/prolv202020-maker/zero-sequence-public/releases/download/zs-v7-volume01-drill-20261109/';
+const redirects=[];
 const server=createServer((req,res)=>{
  let path;try{path=decodeURIComponent(new URL(req.url,'http://localhost').pathname)}catch{return res.writeHead(400).end()}
  if(!path.startsWith(PREFIX))return res.writeHead(404).end();
+ const found=path.match(/^\/zero-sequence-public\/assets\/audio\/audiobook\/part-01\/volume-01\/((?:prologue|chapter-0(?:0[1-9]|10))\.mp3)$/);
+ if(found){const dest=RELEASE+'part-01-volume-01-'+found[1];redirects.push(dest);res.writeHead(302,{Location:dest,'Cache-Control':'no-store'});return res.end();}
  let full=resolve(ROOT,path.slice(PREFIX.length)||'index.html');
  if(full!==ROOT&&!full.startsWith(ROOT+sep))return res.writeHead(403).end();
  let st;try{st=statSync(full);if(st.isDirectory()){full=join(full,'index.html');st=statSync(full)}if(!st.isFile())throw Error()}catch{return res.writeHead(404).end()}
@@ -29,15 +32,7 @@ const results=[];
 try{
  for(const mode of ['webkit-desktop','webkit-iphone-emulation']){
   const context=await browser.newContext(mode==='webkit-iphone-emulation'?{...devices['iPhone 13']}:{});
-  const routeUrls=[];
-  await context.route('**/assets/audio/audiobook/part-01/volume-01/*.mp3*',route=>{
-   const path=new URL(route.request().url()).pathname;
-   const name=path.split('/').at(-1);
-   if(!/^(?:prologue|chapter-0(?:0[1-9]|10))\.mp3$/.test(name))throw new Error('Unrecognized audio URL '+name);
-   const dest=RELEASE+'part-01-volume-01-'+name;
-   routeUrls.push(dest);
-   return route.fulfill({status:302,headers:{location:dest}});
-  });
+  const redirectStart=redirects.length;
   const page=await context.newPage();
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   const audio=page.locator('#zs-listening-audio');
@@ -63,8 +58,8 @@ try{
   await page.waitForTimeout(800);
   const continuing=await audio.evaluate(a=>({playing:!a.paused,time:a.currentTime,src:a.currentSrc}));
   assert.ok(continuing.playing,'continuous next chapter did not play');
-  const result={mode,resume,continuing,remoteRequests:routeUrls.length,errorCount:errors.length,errors};
-  assert.ok(routeUrls.some(x=>x.endsWith('chapter-008.mp3'))&&routeUrls.some(x=>x.endsWith('chapter-009.mp3')),'Release URLs not requested');
+  const result={mode,resume,continuing,remoteRequests:redirects.length-redirectStart,errorCount:errors.length,errors};
+  assert.ok(redirects.slice(redirectStart).some(x=>x.endsWith('chapter-008.mp3'))&&redirects.slice(redirectStart).some(x=>x.endsWith('chapter-009.mp3')),'Release URLs not requested');
   assert.equal(errors.length,0,'Browser script error');
   results.push(result);console.log(JSON.stringify(result));await context.close();
  }
