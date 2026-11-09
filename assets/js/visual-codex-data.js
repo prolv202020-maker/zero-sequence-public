@@ -1,4 +1,4 @@
-/* 已发表读者版视觉图鉴：六张原卡+十四幅已确认CG，全部按各篇章已读进度延迟加载。 */
+/* 已发表读者版视觉图鉴：六张原卡+十八幅已确认CG，全部按各篇章已读进度延迟加载。 */
 window.ZSVisualCodex=Object.freeze([
  {id:"gu-changyuan",kind:"人物",name:"顾长渊",p:1,n:11,file:"character-gu-changyuan.webp",summary:"剑士与团队的公开阶段人物形象；图上包含已公开伙伴关系。",source:"chapters/volume-01/chapter-001.html",detail:"archive/characters/gu-changyuan.html"},
  {id:"su-zili",kind:"人物",name:"苏紫璃",p:1,n:11,file:"character-su-zili.webp",summary:"治疗与支援的独立人物资料卡。",source:"chapters/volume-02/chapter-001.html",detail:"archive/characters/su-zili.html"},
@@ -19,5 +19,9 @@ window.ZSVisualCodex=Object.freeze([
  {"id":"mineral-salt-powder-cg","kind":"材料","name":"矿盐粉末（CG演绎）","p":3,"n":55,"file":"material-mineral-salt-powder.webp","summary":"外环断桥遭袭时，蒙面人抛出矿盐粉末引动岩甲兽。本CG表现粗盐颗粒与布袋，为场景美术演绎；不意味着矿盐自带召唤属性或固定品质。","source":"chapters/volume-26/chapter-005.html","detail":"archive/materials.html","cg":true},
  {"id":"ordinary-medical-supplies-cg","kind":"道具","name":"常用医疗药剂（CG演绎）","p":2,"n":31,"file":"item-ordinary-medical-supplies.webp","summary":"白烛医疗院使用和存放常用药剂的医疗场景CG；瓶型、颜色和剂量均属艺术演绎，并非已命名的“白烛恢复药剂”或具有确认治疗数值的独特物品。","source":"chapters/volume-14/chapter-001.html","detail":"archive/items.html","cg":true},
  {"id":"large-rift-fin-beast-cg","kind":"魔物","name":"大型裂鳍兽个体（CG演绎）","p":3,"n":43,"file":"monster-large-rift-fin-beast.webp","summary":"灰鲸号遭遇体型远超同类的裂鳍兽，背鳍缠有金属链及发光诱引物；CG中夸张如翼的鳍片仅为视觉演绎，并非正史新物种、首领品阶或新增能力。","source":"chapters/volume-25/chapter-003.html","detail":"archive/bestiary.html?q=%E8%A3%82%E9%B3%8D%E5%85%BD","cg":true},
- {"id":"rift-fin-swarm-voyage-cg","kind":"魔物","name":"裂鳍兽群追船（CG演绎）","p":3,"n":42,"file":"monster-rift-fin-swarm-voyage.webp","summary":"断潮航路灰鲸号附近出现成群裂鳍兽；本幅为追船场景CG，不代表独立命名的“断潮海兽群”物种或新增首领设定。","source":"chapters/volume-25/chapter-002.html","detail":"archive/bestiary.html?q=%E8%A3%82%E9%B3%8D%E5%85%BD","cg":true}
+ {"id":"rift-fin-swarm-voyage-cg","kind":"魔物","name":"裂鳍兽群追船（CG演绎）","p":3,"n":42,"file":"monster-rift-fin-swarm-voyage.webp","summary":"断潮航路灰鲸号附近出现成群裂鳍兽；本幅为追船场景CG，不代表独立命名的“断潮海兽群”物种或新增首领设定。","source":"chapters/volume-25/chapter-002.html","detail":"archive/bestiary.html?q=%E8%A3%82%E9%B3%8D%E5%85%BD","cg":true},
+ {"id":"gu-changyuan-ordinary-longsword-cg","kind":"武器","name":"顾长渊·普通长剑（CG演绎）","p":3,"n":11,"file":"weapon-gu-changyuan-ordinary-longsword.webp","summary":"顾长渊仍以会磨损、需要保养的普通长剑完成日常剑士战斗。本CG为普通精钢剑的外观演绎，不是时序遗印神器，也不附带新能力。","source":"chapters/volume-22/chapter-001.html","detail":"archive/equipment.html","cg":true},
+ {"id":"cold-pattern-repaired-longsword-cg","kind":"武器","name":"寒纹修复长剑（CG演绎）","p":3,"n":81,"file":"weapon-cold-pattern-repaired-longsword.webp","summary":"顾长渊在北境持寒纹修复过的长剑练习普通剑士短步。剑身的蓝色纹理仅作CG材料视觉演绎，不代表冰系法术、隐藏品阶或额外技能。","source":"chapters/volume-29/chapter-001.html","detail":"archive/equipment.html","cg":true},
+ {"id":"dai-xuanyue-shield-plate-cg","kind":"装备","name":"戴玄岳·盾面护板（CG演绎）","p":3,"n":6,"file":"equipment-dai-xuanyue-shield-plate.webp","summary":"回声坡之后戴玄岳的盾面需要更换变形护板。本CG以盾面与背面固定结构展示维修用防护组件，并非一面已确认名称或稀有属性的新盾牌。","source":"chapters/volume-21/chapter-006.html","detail":"archive/equipment.html","cg":true},
+ {"id":"ordinary-swordman-forearm-bracer-cg","kind":"装备","name":"普通护腕（CG演绎）","p":3,"n":80,"file":"equipment-ordinary-forearm-bracer.webp","summary":"北境护运奖励足以为剑士升级普通护腕。此图为常规腕部护具的CG材质演绎，不宣称顾长渊已穿戴此款或具备未公开的寒镜附加效果。","source":"chapters/volume-28/chapter-010.html","detail":"archive/equipment.html","cg":true}
 ]);
