@@ -1,4 +1,4 @@
-/* 已发表读者版视觉图鉴：六张原卡+十幅新增CG，全部按各篇章已读进度延迟加载。 */
+/* 已发表读者版视觉图鉴：六张原卡+十四幅已确认CG，全部按各篇章已读进度延迟加载。 */
 window.ZSVisualCodex=Object.freeze([
  {id:"gu-changyuan",kind:"人物",name:"顾长渊",p:1,n:11,file:"character-gu-changyuan.webp",summary:"剑士与团队的公开阶段人物形象；图上包含已公开伙伴关系。",source:"chapters/volume-01/chapter-001.html",detail:"archive/characters/gu-changyuan.html"},
  {id:"su-zili",kind:"人物",name:"苏紫璃",p:1,n:11,file:"character-su-zili.webp",summary:"治疗与支援的独立人物资料卡。",source:"chapters/volume-02/chapter-001.html",detail:"archive/characters/su-zili.html"},
@@ -15,5 +15,9 @@ window.ZSVisualCodex=Object.freeze([
  {"id":"wind-throat-cg","kind":"魔物","name":"风喉兽","p":1,"n":88,"file":"monster-wind-throat-beast.webp","summary":"黑风峡谷的风压威胁，粗颈、岩甲与吸气特点以正文为准；CG造型属于视觉演绎。","source":"chapters/volume-09/chapter-008.html","detail":"archive/bestiary.html?q=%E9%A3%8E%E5%96%89%E5%85%BD","cg":true},
  {"id":"rift-fin-cg","kind":"魔物","name":"裂鳍兽","p":3,"n":43,"file":"monster-rift-fin-beast.webp","summary":"灰鲸号遭遇的鳍兽威胁；CG表现为深海鳍刃巨兽，体型与光效不代表固定正史形态。","source":"chapters/volume-25/chapter-003.html","detail":"archive/bestiary.html?q=%E8%A3%82%E9%B3%8D%E5%85%BD","cg":true},
  {"id":"rock-armor-cg","kind":"魔物","name":"岩甲兽","p":3,"n":55,"file":"monster-rock-armor-beast.webp","summary":"外环裂线被矿盐粉末刺激的厚甲兽；CG夸张的体态是演绎，不是新物种设定。","source":"chapters/volume-26/chapter-005.html","detail":"archive/bestiary.html?q=%E5%B2%A9%E7%94%B2%E5%85%BD","cg":true},
- {"id":"molten-back-drake-cg","kind":"魔物","name":"熔背龙蜥","p":3,"n":67,"file":"monster-molten-back-drake.webp","summary":"中央炉精英守卫，正文确认熔背甲片与热浪；CG火光、体形为艺术化重现。","source":"chapters/volume-27/chapter-007.html","detail":"archive/bestiary.html?q=%E7%86%94%E8%83%8C%E9%BE%99%E8%9C%A5","cg":true}
+ {"id":"molten-back-drake-cg","kind":"魔物","name":"熔背龙蜥","p":3,"n":67,"file":"monster-molten-back-drake.webp","summary":"中央炉精英守卫，正文确认熔背甲片与热浪；CG火光、体形为艺术化重现。","source":"chapters/volume-27/chapter-007.html","detail":"archive/bestiary.html?q=%E7%86%94%E8%83%8C%E9%BE%99%E8%9C%A5","cg":true},
+ {"id":"mineral-salt-powder-cg","kind":"材料","name":"矿盐粉末（CG演绎）","p":3,"n":55,"file":"material-mineral-salt-powder.webp","summary":"外环断桥遭袭时，蒙面人抛出矿盐粉末引动岩甲兽。本CG表现粗盐颗粒与布袋，为场景美术演绎；不意味着矿盐自带召唤属性或固定品质。","source":"chapters/volume-26/chapter-005.html","detail":"archive/materials.html","cg":true},
+ {"id":"ordinary-medical-supplies-cg","kind":"道具","name":"常用医疗药剂（CG演绎）","p":2,"n":31,"file":"item-ordinary-medical-supplies.webp","summary":"白烛医疗院使用和存放常用药剂的医疗场景CG；瓶型、颜色和剂量均属艺术演绎，并非已命名的“白烛恢复药剂”或具有确认治疗数值的独特物品。","source":"chapters/volume-14/chapter-001.html","detail":"archive/items.html","cg":true},
+ {"id":"large-rift-fin-beast-cg","kind":"魔物","name":"大型裂鳍兽个体（CG演绎）","p":3,"n":43,"file":"monster-large-rift-fin-beast.webp","summary":"灰鲸号遭遇体型远超同类的裂鳍兽，背鳍缠有金属链及发光诱引物；CG中夸张如翼的鳍片仅为视觉演绎，并非正史新物种、首领品阶或新增能力。","source":"chapters/volume-25/chapter-003.html","detail":"archive/bestiary.html?q=%E8%A3%82%E9%B3%8D%E5%85%BD","cg":true},
+ {"id":"rift-fin-swarm-voyage-cg","kind":"魔物","name":"裂鳍兽群追船（CG演绎）","p":3,"n":42,"file":"monster-rift-fin-swarm-voyage.webp","summary":"断潮航路灰鲸号附近出现成群裂鳍兽；本幅为追船场景CG，不代表独立命名的“断潮海兽群”物种或新增首领设定。","source":"chapters/volume-25/chapter-002.html","detail":"archive/bestiary.html?q=%E8%A3%82%E9%B3%8D%E5%85%BD","cg":true}
 ]);
