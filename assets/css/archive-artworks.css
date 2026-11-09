@@ -29,3 +29,8 @@
 [data-public-archive="equipment"] .pa-artwork-image img{height:clamp(220px,30vw,335px);width:100%;object-fit:contain;aspect-ratio:auto;padding:8px}
 @media(max-width:900px){.pa-equipment-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.pa-equipment-filters{grid-template-columns:1fr 1fr;gap:10px}.pa-equipment-filters label:last-child{grid-column:1/-1}[data-public-archive="equipment"] .pa-artwork-image img{height:290px}}
+
+/* V4: compact filter for already-read equipment only */
+.pa-equipment-unlocked-filter{display:flex;align-items:center;gap:9px;color:#f0dbb3;font-size:13px;min-height:44px;cursor:pointer;margin:-3px 0 15px}
+.pa-equipment-unlocked-filter input{width:18px;height:18px;accent-color:#e5c280}
+.pa-equipment-unlocked-filter:focus-within{outline:2px solid #e5c280;outline-offset:2px}
