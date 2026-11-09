@@ -33,7 +33,7 @@ const added=[
 ];
 assert.equal(a.length,expected.length+added.length,'Exactly six original and ten new CG cards');
 const all=[...expected,...added.map(([name,,p,n,file])=>[name,p,n,file])];
-const blobSha=bytes=>createHash('sha1').update('blob '+bytes.length+'\\0').update(bytes).digest('hex');
+const blobSha=bytes=>createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
 for(const [name,kind,p,n,file,sha] of added){
  const item=a.find(x=>x.name===name);
  assert.ok(item&&item.kind===kind&&item.cg===true,'New card metadata missing for '+name);
