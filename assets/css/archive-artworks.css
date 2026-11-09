@@ -20,3 +20,12 @@
 .pa-artwork-unavailable{display:grid;place-items:center;padding:20px;min-height:180px;color:#e5d7c0;text-align:center;font-size:13px}
 @media(max-width:720px){.pa-artworks-grid{grid-template-columns:1fr}.pa-artwork-body{padding:15px}.pa-artworks{margin:20px 0}}
 @media(prefers-reduced-motion:reduce){.pa-artwork-card,.pa-artwork-link{transition:none!important}}
+
+/* V3 正文来源顺序与装备分类检索；按已解锁内容检索避免未读名称泄露 */
+.pa-equipment-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 18px}
+.pa-equipment-filters label{display:flex;flex-direction:column;gap:6px;font-size:12px;line-height:1.5;color:#ead8b9}
+.pa-equipment-filters select,.pa-equipment-filters input{min-width:0;width:100%;height:43px;padding:9px 11px;color:#f5e9cf;border:1px solid #d7bb85aa;background:#18223d;border-radius:9px;font:inherit}
+.pa-equipment-filters :is(select,input):focus-visible{outline:2px solid #ffe0a1;outline-offset:2px}
+[data-public-archive="equipment"] .pa-artwork-image img{height:clamp(220px,30vw,335px);width:100%;object-fit:contain;aspect-ratio:auto;padding:8px}
+@media(max-width:900px){.pa-equipment-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.pa-equipment-filters{grid-template-columns:1fr 1fr;gap:10px}.pa-equipment-filters label:last-child{grid-column:1/-1}[data-public-archive="equipment"] .pa-artwork-image img{height:290px}}
