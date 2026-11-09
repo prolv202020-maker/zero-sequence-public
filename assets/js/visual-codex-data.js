@@ -1,9 +1,19 @@
-/* 已发表读者版六张视觉图鉴：插画在到达标注章节后才加载。 */
+/* 已发表读者版视觉图鉴：六张原卡+十幅新增CG，全部按各篇章已读进度延迟加载。 */
 window.ZSVisualCodex=Object.freeze([
  {id:"gu-changyuan",kind:"人物",name:"顾长渊",p:1,n:11,file:"character-gu-changyuan.webp",summary:"剑士与团队的公开阶段人物形象；图上包含已公开伙伴关系。",source:"chapters/volume-01/chapter-001.html",detail:"archive/characters/gu-changyuan.html"},
  {id:"su-zili",kind:"人物",name:"苏紫璃",p:1,n:11,file:"character-su-zili.webp",summary:"治疗与支援的独立人物资料卡。",source:"chapters/volume-02/chapter-001.html",detail:"archive/characters/su-zili.html"},
  {id:"yan-ya-shou",kind:"魔物",name:"岩牙兽",p:2,n:14,file:"monster-yan-ya-shou.webp",summary:"西境雨坡的岩牙兽遭遇与货车保护记录。",source:"chapters/volume-12/chapter-004.html",detail:"archive/bestiary.html?q=%E5%B2%A9%E7%89%99%E5%85%BD"},
  {id:"hui-ci-shou",kind:"魔物",name:"灰刺兽",p:3,n:6,file:"monster-hui-ci-shou.webp",summary:"回声坡外勤遭遇的群体突袭类魔物。",source:"chapters/volume-21/chapter-006.html",detail:"archive/bestiary.html?q=%E7%81%B0%E5%88%BA%E5%85%BD"},
  {id:"inlaid-display-greatsword",kind:"武器",name:"嵌晶展示重剑",p:2,n:24,file:"weapon-inlaid-display-greatsword.webp",summary:"拍卖展示重剑；外观与宣传不能证明真实强化效果。",source:"chapters/volume-13/chapter-004.html",detail:"archive/equipment.html"},
- {id:"guard-shield",kind:"装备",name:"普通守卫盾牌",p:2,n:75,file:"equipment-guard-shield.webp",summary:"维兰德工坊可维修的守卫盾牌，重视功能与耐用。",source:"chapters/volume-18/chapter-005.html",detail:"archive/equipment.html"}
+ {id:"guard-shield",kind:"装备",name:"普通守卫盾牌",p:2,n:75,file:"equipment-guard-shield.webp",summary:"维兰德工坊可维修的守卫盾牌，重视功能与耐用。",source:"chapters/volume-18/chapter-005.html",detail:"archive/equipment.html"},
+ {"id":"lin-lie-greatsword-cg","kind":"武器","name":"林烈·重剑（CG演绎）","p":1,"n":88,"file":"weapon-lin-lie-greatsword.webp","summary":"《风喉巨兽》中林烈以重剑破开受损甲板；红色光纹为CG艺术化表现，不代表附魔属性。","source":"chapters/volume-09/chapter-008.html","detail":"archive/equipment.html","cg":true},
+ {"id":"northern-cloak-cg","kind":"装备","name":"北境防寒斗篷（CG演绎）","p":2,"n":51,"file":"equipment-northern-cloak.webp","summary":"北境行军与补给行动中的厚斗篷CG艺术演绎；并非独立命名的稀有装备。","source":"chapters/volume-16/chapter-001.html","detail":"archive/equipment.html","cg":true},
+ {"id":"red-vein-ore-cg","kind":"材料","name":"赤纹矿","p":1,"n":44,"file":"material-red-vein-ore.webp","summary":"灰石矿道的运输资源；赤红晶簇比例与发光效果为CG美术处理，不暗示额外能力。","source":"chapters/volume-05/chapter-004.html","detail":"archive/items.html","cg":true},
+ {"id":"dual-recording-detector-cg","kind":"道具","name":"双记录探查器","p":3,"n":28,"file":"item-dual-recording-detector.webp","summary":"古言澈与银月改装，用独立存储记录回声数据的装置；仪器外形为CG艺术演绎。","source":"chapters/volume-22/chapter-008.html","detail":"archive/items.html","cg":true},
+ {"id":"forge-control-plate-cg","kind":"道具","name":"旧炉控制片","p":3,"n":65,"file":"item-forge-control-plate.webp","summary":"熔谷旧炉需要登记的三枚控制片；材质、图纹、发光属于CG美术设定，不涉及未公开权限。","source":"chapters/volume-27/chapter-005.html","detail":"archive/items.html","cg":true},
+ {"id":"forge-facility-key-cg","kind":"道具","name":"旧炉设施钥匙 · 视觉演绎","p":3,"n":65,"file":"item-forge-access-key-impression.webp","summary":"正文中的控制片可登记为共用设施钥匙。本CG将“开启权限”视觉化，并非新增一件实体钥匙。","source":"chapters/volume-27/chapter-005.html","detail":"archive/items.html","cg":true},
+ {"id":"wind-throat-cg","kind":"魔物","name":"风喉兽","p":1,"n":88,"file":"monster-wind-throat-beast.webp","summary":"黑风峡谷的风压威胁，粗颈、岩甲与吸气特点以正文为准；CG造型属于视觉演绎。","source":"chapters/volume-09/chapter-008.html","detail":"archive/bestiary.html?q=%E9%A3%8E%E5%96%89%E5%85%BD","cg":true},
+ {"id":"rift-fin-cg","kind":"魔物","name":"裂鳍兽","p":3,"n":43,"file":"monster-rift-fin-beast.webp","summary":"灰鲸号遭遇的鳍兽威胁；CG表现为深海鳍刃巨兽，体型与光效不代表固定正史形态。","source":"chapters/volume-25/chapter-003.html","detail":"archive/bestiary.html?q=%E8%A3%82%E9%B3%8D%E5%85%BD","cg":true},
+ {"id":"rock-armor-cg","kind":"魔物","name":"岩甲兽","p":3,"n":55,"file":"monster-rock-armor-beast.webp","summary":"外环裂线被矿盐粉末刺激的厚甲兽；CG夸张的体态是演绎，不是新物种设定。","source":"chapters/volume-26/chapter-005.html","detail":"archive/bestiary.html?q=%E5%B2%A9%E7%94%B2%E5%85%BD","cg":true},
+ {"id":"molten-back-drake-cg","kind":"魔物","name":"熔背龙蜥","p":3,"n":67,"file":"monster-molten-back-drake.webp","summary":"中央炉精英守卫，正文确认熔背甲片与热浪；CG火光、体形为艺术化重现。","source":"chapters/volume-27/chapter-007.html","detail":"archive/bestiary.html?q=%E7%86%94%E8%83%8C%E9%BE%99%E8%9C%A5","cg":true}
 ]);

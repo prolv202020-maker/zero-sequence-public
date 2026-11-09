@@ -26,7 +26,7 @@ function render(){
   if(unlocked){
    card.append(makeImage(record));
    const copy=el("div","zs-visual-copy");
-   copy.append(el("small","","第"+record.p+"篇 · 已解锁 · "+record.kind),el("h2","",record.name),el("p","",record.summary));
+   copy.append(el("small","","第"+record.p+"篇 · 已解锁 · "+record.kind+(record.cg?" · 高清CG":"")),el("h2","",record.name),el("p","",record.summary));
    const links=el("div","zs-visual-links"),origin=el("a","","查看原文章节 →"),detail=el("a","","查看文字图鉴 →");
    origin.href=ROOT+record.source;detail.href=ROOT+record.detail;links.append(origin,detail);copy.append(links);card.append(copy);
   }else{
