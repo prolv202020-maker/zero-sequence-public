@@ -36,6 +36,22 @@ function render(){
    card.id='cg-'+record.id;
    if(record.id===targetId)card.className+=' zs-visual-highlight';
    card.append(makeImage(record));
+   // Extra images are alternate views of the same published item, never separate new items.
+   // They are not requested or named unless this item's own part and chapter unlock have passed.
+   if(Array.isArray(record.views)&&record.views.length){
+    const variants=el('div','zs-visual-variants');
+    variants.append(el('strong','zs-visual-variants-title','同一物品的补充CG视角'));
+    for(const v of record.views){
+     const tile=el('div','zs-visual-variant'),a=el('a','zs-visual-variant-art');
+     a.href=ROOT+'assets/images/codex/'+v.file;a.target='_blank';a.rel='noopener';a.setAttribute('aria-label','查看'+v.title);
+     const image=el('img');image.loading='lazy';image.decoding='async';image.width=960;image.height=1200;image.alt=v.title;
+     image.addEventListener('error',()=>{a.replaceWith(el('p','zs-visual-fallback','补充CG暂时无法载入。'));});
+     image.src=a.href;a.append(image);
+     const body=el('div','zs-visual-variant-copy');body.append(el('b','',v.title),el('p','',v.note));
+     tile.append(a,body);variants.append(tile);
+    }
+    card.append(variants);
+   }
    const body=el('div','zs-visual-copy');
    body.append(el('small','','第'+record.p+'篇 · 已解锁 · '+record.kind+(record.cg?' · 高清CG':'')),el('h2','',record.name),el('p','',record.summary));
    const links=el('div','zs-visual-links');

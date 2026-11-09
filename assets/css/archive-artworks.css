@@ -34,3 +34,14 @@
 .pa-equipment-unlocked-filter{display:flex;align-items:center;gap:9px;color:#f0dbb3;font-size:13px;min-height:44px;cursor:pointer;margin:-3px 0 15px}
 .pa-equipment-unlocked-filter input{width:18px;height:18px;accent-color:#e5c280}
 .pa-equipment-unlocked-filter:focus-within{outline:2px solid #e5c280;outline-offset:2px}
+
+/* V5: confirmed item supplemental photo gallery, gated by its original unlock. */
+.pa-artwork-views{display:grid;gap:10px;padding:12px 15px;background:#16213a;border-top:1px solid #d2b88466}
+.pa-artwork-views-title{color:#e9d4ae;font-size:12px}
+.pa-artwork-view{display:flex;align-items:flex-start;gap:12px}
+.pa-artwork-view-image{flex:0 0 40%;max-width:140px;display:block}
+.pa-artwork-view-image img{display:block;width:100%;height:auto;max-height:180px;object-fit:contain;border-radius:7px}
+.pa-artwork-view-body{flex:1;color:#d9d5c9;font-size:12px;line-height:1.65}
+.pa-artwork-view-body p{margin:6px 0 0}
+.pa-artwork-view-image:focus-visible{outline:2px solid #ffde9d;outline-offset:2px}
+@media(max-width:560px){.pa-artwork-view-image{max-width:112px}}

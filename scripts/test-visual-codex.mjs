@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* 视觉图鉴共24张：前六张保留，新增十八幅CG须有准确章节、二进制哈希与各篇进度门禁。 */
+/* 视觉图鉴共25张：前六张保留，新增十九幅CG，另有三幅同物品补充视角须有准确章节、二进制哈希与各篇进度门禁。 */
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -37,9 +37,10 @@ const added=[
  ["顾长渊·普通长剑（CG演绎）","武器",3,11,"weapon-gu-changyuan-ordinary-longsword.webp","92d0a681d0577231887c8f4f1e956eb3f2c793c2"],
  ["寒纹修复长剑（CG演绎）","武器",3,81,"weapon-cold-pattern-repaired-longsword.webp","c790fcf6af6b882c0fd09f6d0c40ef3cae2748da"],
  ["戴玄岳·盾面护板（CG演绎）","装备",3,6,"equipment-dai-xuanyue-shield-plate.webp","d17f7a116ef5a19118a02936a8985dd180a9db61"],
- ["普通护腕（CG演绎）","装备",3,80,"equipment-ordinary-forearm-bracer.webp","d69280bcffd5c0c42125b505df94dd6f510693ec"]
+ ["普通护腕（CG演绎）","装备",3,80,"equipment-ordinary-forearm-bracer.webp","d69280bcffd5c0c42125b505df94dd6f510693ec"],
+ ["寒镜护腕（CG演绎）","装备",3,80,"equipment-frost-mirror-bracer.webp","98d16c255b77ae9706ff140217aa176bf0a99b62"]
 ];
-assert.equal(a.length,expected.length+added.length,'Exactly six original and eighteen source-verified CG cards');
+assert.equal(a.length,expected.length+added.length,'Exactly six original and nineteen source-verified CG cards');
 const all=[...expected,...added.map(([name,,p,n,file])=>[name,p,n,file])];
 const blobSha=bytes=>createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex');
 for(const [name,kind,p,n,file,sha] of added){
@@ -92,8 +93,8 @@ assert.ok(read('archive/visual-codex.html').includes('data-public-archive="visua
 assert.ok(existsSync(join(ROOT,'assets/images/codex/.gitkeep')),'Author image upload directory must exist');
 assert.ok(read('index.html').includes('archive/visual-codex.html'),'Home page needs a visual gallery entry');
 assert.ok(read('archive/visual-codex.html').includes('<option value="道具">道具</option>')&&read('archive/visual-codex.html').includes('<option value="材料">材料</option>'),'Missing new item/material category filters');
-assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=5'),'Item text archive must load visual card data');
-assert.ok(read('archive/materials.html').includes('visual-codex-data.js?v=5'),'Material text archive must load visual card data');
-assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=5'),'New artwork manifest version must be used');
+assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=6'),'Item text archive must load visual card data');
+assert.ok(read('archive/materials.html').includes('visual-codex-data.js?v=6'),'Material text archive must load visual card data');
+assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=6'),'New artwork manifest version must be used');
 const installed=a.filter(x=>existsSync(join(ROOT,'assets/images/codex',x.file))).length;
-console.log('[VISUAL CODEX] PASS: 6 original cards + 18 source-verified cinematic CGs, correct chapter gates, hashes, protected reader progress, monster/equipment/item integration. Image binaries: '+installed+'/24.');
+console.log('[VISUAL CODEX] PASS: 6 original cards + 18 source-verified cinematic CGs, correct chapter gates, hashes, protected reader progress, monster/equipment/item integration. Image binaries: '+installed+'/25.');

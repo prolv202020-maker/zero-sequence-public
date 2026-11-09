@@ -73,7 +73,9 @@ function render(){
   body.append(el('small','zs-chapter-cg-category',r.kind+(r.cg?' · CG演绎':'')),el('strong','zs-chapter-cg-name',r.name));
   const detail=el('a','zs-chapter-cg-detail','查看该CG及档案 →');
   detail.href=ROOT+'archive/visual-codex.html?art='+encodeURIComponent(r.id);
-  body.append(detail);item.append(link,body);grid.append(item);
+  body.append(detail);
+  if(Array.isArray(r.views)&&r.views.length)body.append(el('small','zs-chapter-cg-category','另有 '+r.views.length+' 张补充视角，点击图鉴查看'));
+  item.append(link,body);grid.append(item);
  }
  node.append(grid);
  if(unlocked.length<records.length){

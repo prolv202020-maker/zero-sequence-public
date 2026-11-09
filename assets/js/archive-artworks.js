@@ -28,6 +28,20 @@ function show(r){
   const img=el('img');img.alt=r.name+'高清CG';img.loading='lazy';img.decoding='async';img.width=960;img.height=1200;
   img.addEventListener('error',()=>{full.replaceWith(el('div','pa-artwork-unavailable','图片暂时无法加载，请打开视觉图鉴查看。'));});
   img.src=full.href;full.append(img);card.append(full);
+  if(Array.isArray(r.views)&&r.views.length){
+   const variants=el('div','pa-artwork-views');
+   variants.append(el('strong','pa-artwork-views-title','补充CG视角（同一物品）'));
+   for(const v of r.views){
+    const view=el('div','pa-artwork-view'),viewLink=el('a','pa-artwork-view-image');
+    viewLink.href=ROOT+'assets/images/codex/'+v.file;viewLink.target='_blank';viewLink.rel='noopener';
+    viewLink.setAttribute('aria-label','查看'+v.title);
+    const picture=el('img');picture.alt=v.title;picture.loading='lazy';picture.decoding='async';picture.width=960;picture.height=1200;
+    picture.addEventListener('error',()=>view.remove());picture.src=viewLink.href;viewLink.append(picture);
+    const legend=el('div','pa-artwork-view-body');legend.append(el('b','',v.title),el('p','',v.note));
+    view.append(viewLink,legend);variants.append(view);
+   }
+   card.append(variants);
+  }
   card.id='archive-cg-'+r.id;
   const body=el('div','pa-artwork-body');
   body.append(meta,el('h3','',r.name),el('p','',r.summary));

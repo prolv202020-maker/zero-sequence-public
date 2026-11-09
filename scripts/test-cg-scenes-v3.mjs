@@ -16,7 +16,7 @@ const anchors=JSON.parse(match[1]);
 assert.equal(Object.keys(anchors).length,19,'V3 must cover exactly 19 chapter locations');
 const ctx={window:{}};runInNewContext(read('assets/js/visual-codex-data.js'),ctx);
 const arts=ctx.window.ZSVisualCodex;
-assert.equal(arts.length,24,'All previously published 24 CG cards remain intact');
+assert.equal(arts.length,25,'All previously published 24 CG cards remain intact');
 const perSource=new Map();
 for(const art of arts){
  const old=perSource.get(art.source)||[];old.push(art);perSource.set(art.source,old);
@@ -50,8 +50,8 @@ for(const [key,needle] of Object.entries(anchors)){
  assert.equal(initial.inserted.length,1,'Insert exactly one CG section after the verified prose anchor '+path);
  assert.equal(getAll(initial.inserted[0],'img').length,0,'Unread chapter must not load CG '+path);
  assert.ok(!arts.some(x=>getAll(initial.inserted[0],'strong').some(n=>n.textContent===x.name)),'Unread chapter must never reveal an item name '+path);
- assert.ok(initial.html.includes('chapter-cg-scenes.js?v=2'),'CG renderer missing in '+path);
- assert.ok(initial.html.includes('visual-codex-data.js?v=5'),'CG data missing in '+path);
+ assert.ok(initial.html.includes('chapter-cg-scenes.js?v=3'),'CG renderer missing in '+path);
+ assert.ok(initial.html.includes('visual-codex-data.js?v=6'),'CG data missing in '+path);
  assert.ok(initial.html.includes('chapter-cg-scenes.css?v=2'),'CG adaptive styles missing in '+path);
  assert.ok(initial.html.includes('cg-lightbox.js?v=1'),'Chapter fullscreen viewer missing in '+path);
  assert.ok(initial.html.includes('zs-cg-chapter-bridge'),'Preserve the existing V2 backlink '+path);
@@ -61,7 +61,7 @@ for(const [key,needle] of Object.entries(anchors)){
  const allNames=getAll(fullyRead.inserted[0],'strong').map(x=>x.textContent);
  for(const item of perSource.get(path)||[])assert.ok(allNames.includes(item.name),'Missing approved art '+item.id);
 }
-assert.equal(artCount,24,'All published image cards must have a chapter-level representation');
+assert.equal(artCount,25,'All published image cards must have a chapter-level representation');
 assert.equal(getAll(simulate('chapters/volume-25/chapter-003.html',{3:42}).inserted[0],'img').length,0,'Third-arc beast must remain locked before its real chapter');
 assert.equal(getAll(simulate('chapters/volume-25/chapter-003.html',{3:43}).inserted[0],'img').length,2,'Third-arc beast variants should unlock together at 43');
 assert.equal(getAll(simulate('chapters/volume-01/chapter-001.html',{1:1}).inserted[0],'img').length,0,'Early protagonist portrait remains locked until chapter 11');
@@ -70,7 +70,7 @@ assert.equal(getAll(simulate('chapters/volume-29/chapter-001.html',{3:80}).inser
 assert.equal(getAll(simulate('chapters/volume-29/chapter-001.html',{3:81}).inserted[0],'img').length,1,'Frost-repaired sword unlocks correctly at chapter 81');
 const equipment=read('archive/equipment.html');
 for(const id of ['pa-equipment-kind','pa-equipment-part','pa-equipment-sort','pa-equipment-search'])assert.ok(equipment.includes('id="'+id+'"'),'Equipment must have real filtering control '+id);
-assert.ok(equipment.includes('archive-artworks.js?v=4')&&equipment.includes('archive-artworks.css?v=3'),'Equipment browser must bust old CSS/JS cache');
+assert.ok(equipment.includes('archive-artworks.js?v=5')&&equipment.includes('archive-artworks.css?v=4'),'Equipment browser must bust old CSS/JS cache');
 const gearCode=read('assets/js/archive-artworks.js');
 assert.doesNotThrow(()=>new Script(gearCode),'Equipment browser V3 JS should parse');
 assert.ok(!gearCode.includes('localStorage.setItem'),'Equipment browsers must never write progress');
@@ -88,9 +88,9 @@ function gearSim(type,part,search,progress){
  runInNewContext(gearCode,{document:doc,window:win,localStorage:{getItem:()=>null},encodeURIComponent});
  return host;
 }
-assert.equal(getAll(gearSim('武器','0','',{1:100,2:100,3:100}),'img').length,4,'Weapon filter should show four approved weapons');
-assert.equal(getAll(gearSim('装备','0','',{1:100,2:100,3:100}),'img').length,4,'Armor filter should show four approved armors');
-assert.equal(getAll(gearSim('all','3','',{3:81}),'img').length,4,'Third-arc equipment is four unique artworks');
+assert.equal(getAll(gearSim('武器','0','',{1:100,2:100,3:100}),'img').length,5,'Weapon filter should show four approved weapons');
+assert.equal(getAll(gearSim('装备','0','',{1:100,2:100,3:100}),'img').length,5,'Armor filter should show four approved armors');
+assert.equal(getAll(gearSim('all','3','',{3:81}),'img').length,5,'Third-arc equipment is four unique artworks');
 assert.equal(getAll(gearSim('all','3','寒纹',{3:80}),'img').length,0,'Do not reveal not-yet-read equipment from search');
 assert.equal(getAll(gearSim('all','3','寒纹',{3:81}),'img').length,1,'Search should show one confirmed unlocked frost repair sword');
-console.log('[CG V3] PASS: 19 exact prose anchors, 24 separately gated CGs, unchanged 23 immersive illustrations, 8 gear works with mobile category and spoiler-safe search.');
+console.log('[CG V3+] PASS: 19 exact prose anchors, 25 separately gated CGs, unchanged 23 immersive illustrations, 8 gear works with mobile category and spoiler-safe search.');
