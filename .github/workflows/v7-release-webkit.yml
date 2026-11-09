@@ -1,0 +1,31 @@
+name: V7 WebKit Release MP3 compatibility
+on:
+  push:
+    branches: [audit/v7-audio-integrity-and-hosting-prep-20261109]
+    paths:
+      - 'scripts/test-v7-release-webkit.mjs'
+      - '.github/workflows/v7-release-webkit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  webkit-compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.65.0
+      - run: npx playwright install --with-deps webkit
+      - name: Verify release MP3 in WebKit desktop and iPhone emulation
+        run: node scripts/test-v7-release-webkit.mjs
+      - name: Archive browser results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v7-webkit-results-${{ github.run_id }}
+          path: v7-webkit-results/
+          if-no-files-found: warn
+          retention-days: 14
