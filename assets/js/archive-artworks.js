@@ -25,9 +25,11 @@ function show(r){
   const img=el('img');img.alt=r.name+'高清CG';img.loading='lazy';img.decoding='async';img.width=960;img.height=1200;
   img.addEventListener('error',()=>{full.replaceWith(el('div','pa-artwork-unavailable','图片暂时无法加载，请打开视觉图鉴查看。'));});
   img.src=full.href;full.append(img);card.append(full);
+  card.id='archive-cg-'+r.id;
   const body=el('div','pa-artwork-body');
   body.append(meta,el('h3','',r.name),el('p','',r.summary));
   const links=el('div','pa-artwork-links');links.append(makeLink(chapter(r),'阅读对应章节'));
+  links.append(makeLink(ROOT+'archive/visual-codex.html?art='+encodeURIComponent(r.id),'在总图鉴中定位'));
   const detail=makeLink(ROOT+r.detail,'查看文字图鉴');links.append(detail);
   body.append(links);card.append(body);
  }else{
@@ -49,5 +51,6 @@ function render(){
 }
 document.addEventListener('zs:part-progress-changed',render);
 window.addEventListener('pageshow',render);
+window.addEventListener('storage',e=>{if(e.key==='zs:part-progress:v1')render();});
 render();
 })();

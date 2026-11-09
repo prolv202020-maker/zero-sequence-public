@@ -20,3 +20,13 @@
 .zs-visual-locked-art{min-height:220px;display:grid;place-items:center;font-size:60px;color:#a79ab6;background:radial-gradient(ellipse,#6b6d9a33,transparent)}
 .zs-visual-card.is-locked{border-style:dashed}
 @media(max-width:700px){.zs-visual-grid{grid-template-columns:1fr}.zs-visual-copy{padding:16px}.zs-visual-tools{align-items:stretch}.zs-visual-tools select{width:100%}}
+
+/* V2：分类/篇章/已读搜索、锁定卡片与定位提示 */
+.zs-visual-tools{justify-content:flex-start}
+.zs-visual-tools label{display:flex;align-items:center;gap:8px;color:#ead8b9;font-size:13px}
+.zs-visual-tools input{min-height:44px;padding:10px 13px;background:#17213d;border:1px solid #dfc38a78;border-radius:10px;color:#fff1d8;max-width:100%;width:245px;font:inherit}
+.zs-visual-tools #zs-visual-codex-status{flex-basis:100%;margin:0}
+.zs-visual-highlight{outline:3px solid #e9c67e;outline-offset:3px}
+.zs-visual-empty{padding:24px;border:1px dashed #dfc38a77;border-radius:12px;color:#e5dac4}
+@media(max-width:700px){.zs-visual-tools{display:grid;grid-template-columns:1fr;gap:12px}.zs-visual-tools label{display:flex;flex-direction:column;align-items:stretch}.zs-visual-tools input{width:100%}}
+@media(prefers-reduced-motion:reduce){.zs-visual-highlight{scroll-behavior:auto}}

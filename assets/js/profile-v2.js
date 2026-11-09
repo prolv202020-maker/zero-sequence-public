@@ -71,8 +71,9 @@ function init(){
   const url=ROOT+'assets/images/codex/'+visual.file;
   const fullImage=a(url,'');fullImage.className='zs-profile-visual-link';fullImage.target='_blank';fullImage.rel='noopener';
   picture.addEventListener('error',()=>{visualPanel.remove();});picture.src=url;fullImage.append(picture);
+  const related=a(ROOT+'archive/visual-codex.html?art='+encodeURIComponent(visual.id),'在总图鉴中定位此形象 →');
   const all=a(ROOT+'archive/visual-codex.html','查看全部已解锁视觉图鉴 →');
-  visualPanel.append(title,hint,fullImage,all);bar.insertAdjacentElement('beforebegin',visualPanel);
+  visualPanel.append(title,hint,fullImage,related,all);bar.insertAdjacentElement('beforebegin',visualPanel);
  }
  const stage2=x>=Math.max(21,info.first),stage3=x>=61,stage4=y>=51;
  const base=read?info.role:'职业待揭晓';

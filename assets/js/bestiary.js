@@ -33,11 +33,22 @@ function one(entry,up){
  identity.append(span('beast-taxonomy',entry.type+' · '+entry.region),elem('h3','',entry.name),elem('p','beast-description',entry.summary));
  const icon=elem('div','beast-glyph',({魔物:'✦',未知生命:'◌',野生生物:'☘',契约伙伴:'✧',构装体:'⚙'})[entry.type]||'✦');icon.setAttribute('aria-hidden','true');
  header.append(identity,icon);card.append(header);
- const visual=(Array.isArray(window.ZSVisualCodex)?window.ZSVisualCodex:[]).find(x=>x.kind==='魔物'&&x.name===entry.name);
- if(visual && progress(visual.p)>=visual.n){
-   const art=elem('a','beast-visual-preview');art.href='/zero-sequence-public/assets/images/codex/'+visual.file;art.target='_blank';art.rel='noopener';art.setAttribute('aria-label','放大查看'+entry.name+'魔物插画');
-   const picture=elem('img');picture.src=art.href;picture.loading='lazy';picture.decoding='async';picture.alt=entry.name+'魔物视觉图鉴';picture.width=960;picture.height=1200;
-   picture.addEventListener('error',()=>art.remove());art.append(picture);card.append(art);
+ // One canonical species may have multiple distinct CG scenes. Metadata links are explicit and chapter-gated.
+ const visuals=(Array.isArray(window.ZSVisualCodex)?window.ZSVisualCodex:[]).filter(x=>
+  x.kind==='魔物'&&(x.name===entry.name||x.subject===entry.name)&&progress(x.p)>=x.n);
+ if(visuals.length){
+  const strip=elem('div','beast-cg-strip');
+  for(const visual of visuals){
+   const group=elem('div','beast-cg-item'),art=elem('a','beast-visual-preview');
+   art.href='/zero-sequence-public/assets/images/codex/'+visual.file;
+   art.target='_blank';art.rel='noopener';art.setAttribute('aria-label','放大查看'+visual.name+'魔物CG');
+   const picture=elem('img');picture.loading='lazy';picture.decoding='async';picture.alt=visual.name+'魔物视觉图鉴';picture.width=960;picture.height=1200;
+   picture.addEventListener('error',()=>group.remove());picture.src=art.href;art.append(picture);
+   const gallery=elem('a','beast-cg-reference','在总图鉴查看 →');
+   gallery.href='visual-codex.html?art='+encodeURIComponent(visual.id);
+   group.append(art,elem('small','beast-cg-label',visual.name),gallery);strip.append(group);
+  }
+  card.append(strip);
  }
  const stats=elem('div','beast-facts-inline');
  stats.append(span('beast-chip','首次记录 · '+chapterLabel(entry)));

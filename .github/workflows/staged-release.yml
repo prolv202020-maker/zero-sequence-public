@@ -23,6 +23,8 @@ jobs:
           node scripts/test-phase1-integration.mjs
       - name: Verify equipment, items and materials render chapter-gated CG images
         run: node scripts/test-inline-archive-artworks.mjs
+      - name: Test full-site CG V2 gallery, species links, reading gates and source backlinks
+        run: node scripts/test-cg-integration-v2.mjs
       - name: Verify visual codex sources, spoiler gates and graceful image fallback
         run: node scripts/test-visual-codex.mjs
 
