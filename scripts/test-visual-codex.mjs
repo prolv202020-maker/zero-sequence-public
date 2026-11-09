@@ -1,7 +1,8 @@
 #!/usr/bin/env node
-/* 可持续发布：只有读过对应章节才会请求新插画，6 张视觉档案皆有正文来源。 */
+/* 视觉图鉴共16张：前六张保留，新十幅CG须有准确章节、二进制哈希与各篇进度门禁。 */
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {join,resolve} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {runInNewContext,Script} from 'node:vm';
@@ -18,16 +19,44 @@ const expected=[
 ['嵌晶展示重剑',2,24,'weapon-inlaid-display-greatsword.webp'],
 ['普通守卫盾牌',2,75,'equipment-guard-shield.webp']
 ];
-assert.equal(a.length,expected.length);
+const added=[
+ ['林烈·重剑（CG演绎）','武器',1,88,'weapon-lin-lie-greatsword.webp','818de5ba5f04684cc36a94b2f9f1486ba280b79f'],
+ ['北境防寒斗篷（CG演绎）','装备',2,51,'equipment-northern-cloak.webp','2a27be60d616216b5b7d8549c0c66dca58f27fa5'],
+ ['赤纹矿','材料',1,44,'material-red-vein-ore.webp','758e0783a28b3a6fd9bb15a7fad7b5c9c175f2ff'],
+ ['双记录探查器','道具',3,28,'item-dual-recording-detector.webp','28cad1c4883cab158918778ee908f39fc70e121f'],
+ ['旧炉控制片','道具',3,65,'item-forge-control-plate.webp','9b32102ba88a4a6cd5f3bdf1693ca315eee263fa'],
+ ['旧炉设施钥匙 · 视觉演绎','道具',3,65,'item-forge-access-key-impression.webp','4fc3a49d48ac0d5475c53ac127cff355e505e82a'],
+ ['风喉兽','魔物',1,88,'monster-wind-throat-beast.webp','cafd4d8903713f8fa1d29d08477795976e17c08c'],
+ ['裂鳍兽','魔物',3,43,'monster-rift-fin-beast.webp','b47630c087993ccce2883d9c910d277ff1235c68'],
+ ['岩甲兽','魔物',3,55,'monster-rock-armor-beast.webp','8c7b75f1f4117e08ab2296570ec1d28d3099a3ab'],
+ ['熔背龙蜥','魔物',3,67,'monster-molten-back-drake.webp','837b11442ebaba8f39cb5d8a9d1366b3eb8a30fb']
+];
+assert.equal(a.length,expected.length+added.length,'Exactly six original and ten new CG cards');
+const all=[...expected,...added.map(([name,,p,n,file])=>[name,p,n,file])];
+const blobSha=bytes=>createHash('sha1').update('blob '+bytes.length+'\\0').update(bytes).digest('hex');
+for(const [name,kind,p,n,file,sha] of added){
+ const item=a.find(x=>x.name===name);
+ assert.ok(item&&item.kind===kind&&item.cg===true,'New card metadata missing for '+name);
+ assert.equal(item.p,p,'Wrong separate part '+name);
+ assert.equal(item.n,n,'Wrong chapter unlock '+name);
+ assert.ok(item.summary.includes('CG')||item.summary.includes('演绎')||item.summary.includes('美术'),'Do not present invented CGI shapes as canon: '+name);
+ const bytes=readFileSync(join(ROOT,'assets/images/codex',file));
+ assert.equal(bytes.subarray(0,4).toString(),'RIFF','Invalid WebP header '+file);
+ assert.equal(bytes.subarray(8,12).toString(),'WEBP','Invalid WebP format '+file);
+ assert.ok(bytes.length>50000&&bytes.length<400000,'Unexpected compressed CG file size '+file);
+ assert.equal(blobSha(bytes),sha,'Exact artwork digest mismatch '+file);
+}
+assert.ok(a.find(x=>x.name==='旧炉设施钥匙 · 视觉演绎').summary.includes('并非新增一件实体钥匙'),'Must not invent a separate key item');
+assert.ok(!a.some(x=>/裂鳍兽首领|矿盐/.test(x.name)),'Never register CGs that have not actually been generated');
 const names=new Set(),files=new Set();
-for(const [name,p,n,file] of expected){
+for(const [name,p,n,file] of all){
  const x=a.find(v=>v.name===name);
  assert.ok(x,'Visual missing: '+name);
  assert.equal(x.p,p);assert.equal(x.n,n);assert.equal(x.file,file);
  assert.ok(!names.has(name)&&!files.has(file));names.add(name);files.add(file);
  assert.ok(existsSync(join(ROOT,x.source)), 'Every image needs a verified published chapter: '+name);
  assert.ok(x.file.endsWith('.webp')&&!x.file.includes('..'));
- assert.ok(x.kind==='人物'||x.kind==='魔物'||x.kind==='装备'||x.kind==='武器');
+ assert.ok(['人物','魔物','装备','武器','道具','材料'].includes(x.kind));
 }
 for(const file of ['assets/js/visual-codex.js','assets/js/public-archive.js','assets/js/bestiary.js','assets/js/profile-v2.js','assets/js/visual-codex-data.js']){
  assert.doesNotThrow(()=>new Script(read(file),{filename:file}),file+' JavaScript parse error');
@@ -43,6 +72,7 @@ for(const [page,script] of [
  ['archive/visual-codex.html','visual-codex.js'],
  ['archive/equipment.html','public-archive.js'],
  ['archive/codex.html','public-archive.js'],
+ ['archive/items.html','public-archive.js'],
  ['archive/bestiary.html','bestiary.js'],
  ...['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'].map(x=>['archive/characters/'+x+'.html','profile-v2.js'])
 ]){
@@ -52,5 +82,8 @@ for(const [page,script] of [
 assert.ok(read('archive/visual-codex.html').includes('data-public-archive="visual"'),'New gallery must bypass old all-parts global wall and use its own gates');
 assert.ok(existsSync(join(ROOT,'assets/images/codex/.gitkeep')),'Author image upload directory must exist');
 assert.ok(read('index.html').includes('archive/visual-codex.html'),'Home page needs a visual gallery entry');
+assert.ok(read('archive/visual-codex.html').includes('<option value="道具">道具</option>')&&read('archive/visual-codex.html').includes('<option value="材料">材料</option>'),'Missing new item/material category filters');
+assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=2'),'Material and item text archive must load visual card data');
+assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=2'),'New artwork manifest version must be used');
 const installed=a.filter(x=>existsSync(join(ROOT,'assets/images/codex',x.file))).length;
-console.log('[VISUAL CODEX] PASS: 6 staged entries, 3 independently gated parts, 7 character pages, monster & equipment integration. Image binaries uploaded: '+installed+'/6.');
+console.log('[VISUAL CODEX] PASS: 6 original cards + 10 source-verified cinematic CGs, correct chapter gates, hashes, protected reader progress, monster/equipment/item integration. Image binaries: '+installed+'/16.');
