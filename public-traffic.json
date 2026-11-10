@@ -1,12 +1,20 @@
 {
   "schema": "zs-public-traffic-v1",
   "site": "zero-sequence-public",
-  "status": "pending",
-  "updatedAt": null,
-  "metrics": null,
+  "status": "verified",
+  "updatedAt": "2026-11-10T03:38:22.352Z",
+  "metrics": {
+    "unit": "page_views",
+    "todayPageViews": 0,
+    "sevenDayPageViews": 500,
+    "thirtyDayPageViews": 500
+  },
   "metadata": {
     "timeZone": "Asia/Kuala_Lumpur",
-    "source": "Cloudflare RUM",
-    "estimated": true
+    "source": "Cloudflare RUM adaptive page-load events",
+    "estimated": true,
+    "scope": "requestHost + requestPath_like /zero-sequence-public/%",
+    "periods": "today / 7 inclusive calendar days / 30 inclusive calendar days",
+    "description": "Page views; not unique people. Adaptive sampling may affect totals."
   }
 }
