@@ -3,9 +3,9 @@
   'use strict';
   const grid=document.querySelector('.zs-cover-grid');
   const part=Number(document.body.dataset.zsPart||0);
-  if(!grid||![1,2,3].includes(part))return;
+  if(!grid||![1,2,3,4].includes(part))return;
   const pkey='p'+String(part).padStart(2,'0');
-  const root=part===1?1:part===2?11:21;
+  const root=(part-1)*10+1;
   const items=[...grid.querySelectorAll(':scope > a.zs-cover-card')];
   function progress(){
     if(window.ZSUnlock?.get)return window.ZSUnlock.get(part).max;
