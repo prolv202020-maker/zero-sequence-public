@@ -1,0 +1,44 @@
+name: Fourth part V31 publication & chapter length integrity
+on:
+  push:
+    branches: [release/part04-volume31-20261110]
+    paths:
+      - 'chapters/volume-31/**'
+      - 'volumes/volume-31.html'
+      - 'parts/part-04.html'
+      - 'assets/js/progressive-archive.js'
+      - 'assets/js/home-relaunch.js'
+      - 'assets/data/search-index.json'
+      - 'scripts/test-part04-full-volume.mjs'
+      - '.github/workflows/part04-volume31-integrity.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            index.html
+            search.html
+            sitemap.xml
+            parts/part-04.html
+            volumes/volume-31.html
+            chapters/volume-30/chapter-010.html
+            chapters/volume-31
+            assets/js/progressive-archive.js
+            assets/js/home-relaunch.js
+            assets/js/volume-page.js
+            assets/js/volume-catalog.js
+            assets/data/search-index.json
+            scripts/test-part04-full-volume.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify all chapters and navigation before main merge
+        run: node scripts/test-part04-full-volume.mjs

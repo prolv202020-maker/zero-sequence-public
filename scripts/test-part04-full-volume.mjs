@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {Script} from 'node:vm';
+const read=x=>readFileSync(x,'utf8');
+const titles=['封路者','第二条路','血色返程','不署名的盟约','开战前的钟','重剑回锋','冻河失守','雪线会战','谁的旗帜','路仍向前'];
+const volume=read('volumes/volume-31.html'),part=read('parts/part-04.html'),home=read('index.html');
+const archive=read('assets/js/progressive-archive.js'),quick=read('assets/js/home-relaunch.js'),search=JSON.parse(read('assets/data/search-index.json'));
+const searchPage=read('search.html'),links=[];
+let totalHan=0;
+for(let c=1;c<=10;c++){
+ const chapter=300+c,p='chapters/volume-31/chapter-'+String(c).padStart(3,'0')+'.html';
+ assert.ok(existsSync(p),'Missing published chapter '+p);
+ const html=read(p);
+ const a=html.indexOf('<div class="article">'),b=html.indexOf('<div class="pager">',a);
+ assert.ok(a>=0&&b>a,'Missing article/pager '+chapter);
+ const body=html.slice(a,b).replace(/<[^>]*>/g,'').replace(/&(?:quot|amp|lt|gt|nbsp);/g,' ');
+ const han=(body.match(/[\u3400-\u9fff]/g)||[]).length;
+ assert.ok(han>=3000&&han<=3500,'Chapter '+chapter+' must be 3000–3500 Han, got '+han);
+ assert.ok(html.includes('<title>第'+chapter+'章 '+titles[c-1]+' · 第零序列</title>'),'Chapter metadata mismatch '+chapter);
+ assert.ok(html.includes('<h1 style="text-align:center">第'+c+'章　'+titles[c-1]+'</h1>'),'Heading mismatch '+chapter);
+ assert.ok(html.includes('全书第'+chapter+'章 · 正式正文'),'Number mismatch '+chapter);
+ assert.ok(html.includes('parts/part-04.html'),'Missing part4 links '+chapter);
+ assert.ok(!html.includes('黑鸢公会')&&!html.includes('80级触发'),'Stale canon or spoiler '+chapter);
+ if(c===1)assert.ok(html.includes('../volume-30/chapter-010.html'),'First chapter must link back to 300');
+ if(c>1)assert.ok(html.includes('chapter-'+String(c-1).padStart(3,'0')+'.html'),'Missing previous nav '+chapter);
+ if(c<10)assert.ok(html.includes('chapter-'+String(c+1).padStart(3,'0')+'.html'),'Missing next nav '+chapter);
+ else assert.ok(!html.includes('chapter-011.html'),'Do not link unpublished chapter 311');
+ assert.ok(volume.includes('第'+c+'章　'+titles[c-1]+' · 全书第'+chapter+'章'),'Directory chapter mismatch '+chapter);
+ const si=search.find(e=>e.url===p);
+ assert.ok(si&&si.title.includes(titles[c-1]),'Search index mismatch '+chapter);
+ totalHan+=han;links.push({chapter,han,title:titles[c-1]});
+}
+assert.ok(read('chapters/volume-30/chapter-010.html').includes('../volume-31/chapter-001.html'),'No 300 → 301 reading transition');
+assert.ok(home.includes('parts/part-04.html')&&home.includes('volumes/volume-31.html')&&home.includes('310章'),'Homepage fourth-part entry missing');
+assert.ok(part.includes('data-zs-part="4"')&&part.includes('volume-31.html'),'Fourth-part directory missing');
+assert.ok(read('sitemap.xml').includes('parts/part-04.html')&&read('sitemap.xml').includes('volume-31/chapter-010.html'),'Sitemap missing latest');
+assert.ok(archive.includes("partNames={1:'轮回启幕',2:'百城星火',3:'临界回声',4:'烽火临界'}"),'Do not corrupt old parts');
+assert.ok(archive.includes("Math.min(p===4?10:100,Number(item.max)||0)"),'Fourth part max must be capped at 10');
+assert.ok(archive.includes("const cap=p===4?10:100"),'Fourth-part published count must be 10');
+assert.ok(archive.includes("const KEY='zs:part-progress:v1'"),'Reader progress storage key must not change');
+assert.ok(archive.includes('{p:4,n:10')&&!archive.includes('黑鸢与北岚'),'Fourth part per-chapter spoiler rules stale');
+assert.ok(quick.includes('num>310')&&quick.includes("current===4?10:100"),'Quick navigation must support 310 and fourth-part 10 chapter limit');
+assert.ok(searchPage.includes('x.p04?.max'),'Search must honor 4th-part independent spoilers');
+for(const s of ['assets/js/progressive-archive.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(s),{filename:s});
+assert.ok(!/CF_ANALYTICS_TOKEN|CF_ACCOUNT_ID/.test(archive),'No analytics secrets in reader client');
+console.log('PART04_VOLUME31_PASS '+JSON.stringify({chapters:10,totalHan,minimumHan:Math.min(...links.map(x=>x.han)),maximumHan:Math.max(...links.map(x=>x.han)),chapterCounts:links}));

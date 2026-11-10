@@ -1,0 +1,9 @@
+/* 第零序列 第四篇首页文字艺术。轻量无外部图像依赖，不更改前三篇官方插画。 */
+.zs-part4-banner{position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;align-items:center;justify-content:space-around;text-align:center;min-height:220px;padding:22px 12px;border-radius:12px;color:#f2dcad;background:radial-gradient(circle at 78% 18%,#c4a67c72,transparent 24%),radial-gradient(circle at 10% 80%,#626fb773,transparent 42%),linear-gradient(137deg,#121a38,#39385d 56%,#171930)}
+.zs-part4-banner:before{position:absolute;z-index:-1;content:"";inset:18% -5% 0;opacity:.54;background:linear-gradient(110deg,#ffffff6b,#ffffff08);clip-path:polygon(0 92%,12% 64%,29% 82%,49% 22%,67% 75%,82% 39%,100% 86%,100% 100%,0 100%)}
+.zs-part4-banner:after{position:absolute;content:"";inset:10px;border:1px solid #e7cb977e;border-radius:8px;pointer-events:none}
+.zs-part4-banner strong{font-size:clamp(34px,4vw,54px);font-weight:600;letter-spacing:.2em;line-height:1.24;text-shadow:0 7px 22px #0e132c}
+.zs-part4-banner-small{font:10px Georgia,serif;letter-spacing:.09em;color:#f1d9ae;line-height:1.5}
+@media(min-width:1000px){.zs-part-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.zs-part-grid>.zs-part-card{min-width:0}.zs-part-grid .zs-part-art{height:220px;min-height:220px;object-fit:cover}.zs-part4-banner{height:220px}}
+@media(min-width:600px) and (max-width:999px){.zs-part-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}}
+@media(max-width:599px){.zs-part-grid{grid-template-columns:minmax(0,1fr)}.zs-part4-banner{min-height:185px;height:210px}.zs-part4-banner strong{font-size:42px}}

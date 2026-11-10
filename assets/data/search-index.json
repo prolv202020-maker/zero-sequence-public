@@ -1690,5 +1690,71 @@
     "title": "第23卷《失去编号的城》 · 第10章 留给活人的名字",
     "desc": "全书第230章 · 第三篇正式正文。",
     "url": "chapters/volume-23/chapter-010.html"
+  },
+  {
+    "type": "volume",
+    "title": "第三十一卷《雪线夺路》",
+    "desc": "第四篇《烽火临界》· 第301—310章全部正式发布。",
+    "url": "volumes/volume-31.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第1章 封路者",
+    "desc": "全书第301章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-001.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第2章 第二条路",
+    "desc": "全书第302章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-002.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第3章 血色返程",
+    "desc": "全书第303章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-003.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第4章 不署名的盟约",
+    "desc": "全书第304章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-004.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第5章 开战前的钟",
+    "desc": "全书第305章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-005.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第6章 重剑回锋",
+    "desc": "全书第306章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-006.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第7章 冻河失守",
+    "desc": "全书第307章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-007.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第8章 雪线会战",
+    "desc": "全书第308章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-008.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第9章 谁的旗帜",
+    "desc": "全书第309章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-009.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第31卷《雪线夺路》 · 第10章 路仍向前",
+    "desc": "全书第310章 · 第四篇正式正文。",
+    "url": "chapters/volume-31/chapter-010.html"
   }
 ]

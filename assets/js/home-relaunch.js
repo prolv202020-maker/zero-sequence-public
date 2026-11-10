@@ -1,4 +1,4 @@
-/* 《第零序列》首页：30卷快速导航。不写入、覆盖或重置阅读进度。 */
+/* 《第零序列》首页：31卷快速导航。不写入、覆盖或重置阅读进度。 */
 (() => {
   'use strict';
   const root=document.getElementById('zs-quick-jump')||document.getElementById('quick-jump');
@@ -6,7 +6,7 @@
   const grid=document.getElementById('zs-quick-volumes'),title=document.getElementById('zs-quick-arc-title');
   const label=document.getElementById('zs-quick-arc-progress');
   const tabs=[...root.querySelectorAll('[data-zs-arc]')];
-  const meta=[null,['轮回启幕',1],['百城星火',11],['临界回声',21]];
+  const meta=[null,['轮回启幕',1],['百城星火',11],['临界回声',21],['烽火临界',31]];
   const pad=(n,w)=>String(n).padStart(w,'0');
   const last=(()=>{
     try{const v=JSON.parse(localStorage.getItem('zs:reader:last:v1')||'null');
@@ -14,7 +14,7 @@
       return m?Number(m[1]):0;
     }catch{return 0;}
   })();
-  let current=last>=1&&last<=30?Math.ceil(last/10):1;
+  let current=last>=1&&last<=31?Math.ceil(last/10):1;
   const getProgress=p=>{
     if(window.ZSUnlock?.get)return Math.max(0,Math.min(100,Number(window.ZSUnlock.get(p)?.max)||0));
     try{const v=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');
@@ -27,10 +27,10 @@
   function draw(){
     const data=meta[current],progress=getProgress(current);
     title.textContent='第'+current+'篇 · '+data[0];
-    label.textContent='本篇已读 '+progress+' / 100章 · 所有章节免费开放';
+    label.textContent='本篇已读 '+progress+' / '+(current===4?10:100)+'章 · 已发布章节免费开放';
     tabs.forEach(btn=>btn.setAttribute('aria-pressed',String(Number(btn.dataset.zsArc)===current)));
     const fragment=document.createDocumentFragment();
-    for(let i=0;i<10;i++){
+    for(let i=0;i<(current===4?1:10);i++){
       const vol=data[1]+i,readStart=i*10,readEnd=readStart+10;
       const state=progress>=readEnd?'complete':progress>readStart?'current':'unread';
       const a=make('a');a.href='volumes/volume-'+pad(vol,2)+'.html';a.dataset.state=state;
@@ -49,8 +49,8 @@
   if(form&&input&&message)form.addEventListener('submit',event=>{
     event.preventDefault();
     const raw=input.value.trim(),num=Number(raw);
-    if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(num)||num<1||num>300){
-      message.textContent='请输入1—300之间的完整章节编号。';input.focus();return;
+    if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(num)||num<1||num>310){
+      message.textContent='请输入1—310之间的完整章节编号。';input.focus();return;
     }
     message.textContent='';
     const volume=Math.ceil(num/10),chapter=((num-1)%10)+1;
