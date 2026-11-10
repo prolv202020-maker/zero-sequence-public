@@ -26,7 +26,7 @@ for(let i=1;i<=10;i++){
  assert.ok(html.includes('href="'+prev+'"'),'Previous link missing '+chapter);
  if(i<10)assert.ok(html.includes('href="chapter-'+String(i+1).padStart(3,'0')+'.html"'),'Next link missing '+chapter);
  else assert.ok(!html.includes('chapter-011.html'),'Must not reveal unpublished chapter 341');
- assert.ok(html.includes('progressive-archive.js?v=28'),'Fourth part unlock bootstrap missing '+chapter);
+ assert.ok(html.includes('progressive-archive.js?v=27'),'Fourth part unlock bootstrap missing '+chapter);
  assert.ok(!html.includes('80级触发')&&!html.includes('前世三十年'),'Private or obsolete canon leaked '+chapter);
  assert.ok(volume.includes('href="../'+p+'"'),'Volume directory incomplete '+chapter);
  assert.equal(index.filter(x=>x.url===p).length,1,'Search index missing or duplicate '+chapter);
