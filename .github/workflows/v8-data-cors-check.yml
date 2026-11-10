@@ -1,0 +1,27 @@
+name: V8 public data feed browser CORS and reachability smoke
+on:
+  push:
+    branches: [feature/v8-public-traffic-counter-prep-20261110]
+    paths: ['.github/workflows/v8-data-cors-check.yml']
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Public GitHub raw URL must be readable from Pages origin
+        run: |
+          set -euo pipefail
+          url="https://raw.githubusercontent.com/prolv202020-maker/zero-sequence-public/v8-traffic-data/public-traffic.json"
+          curl --fail --location --silent --show-error --retry 2 --max-time 20 -H 'Origin: https://prolv202020-maker.github.io' -D headers.txt -o public.json "$url"
+          python3 - <<'PY'
+          import json
+          j=json.load(open('public.json'))
+          assert j['schema']=='zs-public-traffic-v1'
+          assert j['status'] in ('pending','verified')
+          h=open('headers.txt').read().lower()
+          # HTTP redirects may add multiple header sets; require a CORS header on response.
+          assert 'access-control-allow-origin: *' in h or 'access-control-allow-origin: https://prolv202020-maker.github.io' in h, 'No CORS for browser fetch'
+          print('V8 FEED: public URL and CORS PASS, current data status='+j['status'])
+          PY
