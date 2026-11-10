@@ -22,7 +22,7 @@
       const data = await resp.json();
       if (data.schema !== 'zs-public-traffic-v1' || data.site !== 'zero-sequence-public' ||
           data.status !== 'verified' || !safeDate(data.updatedAt) ||
-          data.metrics?.unit !== 'page_views' ||
+          data.metrics?.unit !== 'page_views' || data.metadata?.timeZone !== 'Asia/Kuala_Lumpur' ||
           !Object.keys(labels).every(k => validNumber(data.metrics[k]))) {
         throw Error('unverified data');
       }
