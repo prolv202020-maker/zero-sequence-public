@@ -1,10 +1,10 @@
-/* 第零序列 · 全30卷统一章节目录。阅读状态只读，保留全部原始链接和阅读进度。 */
+/* 第零序列 · 已公开卷目统一章节目录。阅读状态只读，保留全部原始链接和阅读进度。 */
 (() => {
   'use strict';
   const m=location.pathname.match(/\/volumes\/volume-(\d{2})\.html$/);
   if(!m)return;
   const vol=Number(m[1]),part=Math.floor((vol-1)/10)+1;
-  if(vol<1||vol>31)return;
+  if(vol<1||vol>32)return;
   const partName=part===1?'轮回启幕':part===2?'百城星火':part===3?'临界回声':'烽火临界';
   const ROOT='/zero-sequence-public/';
   const main=document.querySelector('main.page'), chapters=main?.querySelector('.list');
@@ -14,6 +14,7 @@
   const title=main.querySelector('h1'),intro=main.querySelector('p.lead'),eyebrow=main.querySelector('p.eyebrow');
   const existingFigure=main.querySelector('figure');
   const existingComplete=main.querySelector('.complete');
+  const publishedCount=chapters.querySelectorAll('a[href*="chapter-"]').length;
   // All chapters are public; only the additional archive data is progress gated.
   const heading=main.querySelector('.crumb');
   if(!title||!intro||!eyebrow)return;
@@ -38,7 +39,7 @@
   const info=el('div','zs-volume-info');
   info.append(eyebrow,title);
   const tags=el('div','zs-volume-tags');
-  tags.append(el('span','', '第'+part+'篇 · '+partName),el('span','', '第'+vol+'卷'),el('span','', '本卷10章 · 已发布'));
+  tags.append(el('span','', '第'+part+'篇 · '+partName),el('span','', '第'+vol+'卷'),el('span','', '本卷'+publishedCount+'章 · '+(publishedCount===10?'已发布':'连载中')));
   tags.append(el('span','zs-volume-audio-status',vol<=13?'🎧 已配音 · 完整10章':'仅正文 · 尚未配音'));
   info.append(tags,intro);
   if(existingComplete)existingComplete.remove();
@@ -59,9 +60,9 @@
   else {const note=el('span','zs-volume-not-voiced','本卷暂未配音 · 可免费阅读');actions.append(note);}
   info.append(actions);
   const progress=el('div','zs-volume-progress');
-  const progressLabel=el('label','','本卷阅读进度 0 / 10 章');
+  const progressLabel=el('label','','本卷阅读进度 0 / '+publishedCount+' 章');
   const meter=el('div','zs-volume-meter');
-  meter.setAttribute('role','progressbar');meter.setAttribute('aria-label','本卷已读章节');meter.setAttribute('aria-valuemin','0');meter.setAttribute('aria-valuemax','10');
+  meter.setAttribute('role','progressbar');meter.setAttribute('aria-label','本卷已读章节');meter.setAttribute('aria-valuemin','0');meter.setAttribute('aria-valuemax',String(publishedCount));
   const meterFill=el('i');
   meter.append(meterFill);progress.append(progressLabel,meter);info.append(progress);
   hero.append(figure,info);
@@ -113,7 +114,7 @@
     }
     const directory=el('a','','返回第'+part+'篇目录');
     directory.href=ROOT+'parts/part-0'+part+'.html';nav.push(directory);
-    if(vol<31){
+    if(vol<32){
       const next=el('a','',vol===10?'进入第二篇 →':vol===20?'进入第三篇 →':vol===30?'进入第四篇 →':'下一卷 →');
       next.href=ROOT+'volumes/volume-'+String(vol+1).padStart(2,'0')+'.html';
       nav.push(next);
@@ -137,7 +138,7 @@
   function update(){
     const data=loadProgress();
     const max=Math.max(0,Math.min(100,Number(data.max)||0));
-    const read=Math.min(10,Math.max(0,max-localStart));
+    const read=Math.min(publishedCount,Math.max(0,max-localStart));
     const prologueDone=!!data.prologue;
     const last=loadLast();
     const currentHref=last?.url;
@@ -158,10 +159,10 @@
     }
     let target=currentLink||nextUnread||links.at(-1)||begin;
     if(target){resume.href=target.getAttribute('href');resume.textContent=currentLink?'继续上次阅读':'阅读下一章 →';}
-    progressLabel.textContent='本卷已读 '+read+' / 10 章'+(vol===1&&prologueDone?' · 序章已读':'');
-    meterFill.style.width=(read*10)+'%';
+    progressLabel.textContent='本卷已读 '+read+' / '+publishedCount+' 章'+(vol===1&&prologueDone?' · 序章已读':'');
+    meterFill.style.width=(publishedCount?read/publishedCount*100:0)+'%';
     meter.setAttribute('aria-valuenow',String(read));
-    if(read===10){resume.href=startHref;resume.textContent='从本卷开头重温 →';}
+    if(read===publishedCount){resume.href=startHref;resume.textContent='从本卷开头重温 →';}
     if(currentLink&&last&&Number(last.percent)>0&&Number(last.percent)<100){
       resume.title='上次读到约 '+Math.round(Number(last.percent))+'%，进入章节后可继续阅读';
     }else resume.removeAttribute('title');
