@@ -173,7 +173,7 @@
     const length=paras.reduce((sum,p)=>sum+(p.textContent||'').length,0);
     const estimate=Math.max(1,Math.ceil(length/460));
     const stats=document.createElement('p');stats.className='zs-chapter-stats';
-    stats.textContent=(num===0?'序章':'全书第'+globalChapter+'章')+' · 约'+estimate+'分钟阅读 · 已发布310章';
+    stats.textContent=(num===0?'序章':'全书第'+globalChapter+'章')+' · 约'+estimate+'分钟阅读 · 已发布311章';
     const chapterHeading=$('main.page h1');if(chapterHeading)chapterHeading.insertAdjacentElement('afterend',stats);
 
     const navLink=(href,label,cls)=>{const a=document.createElement('a');a.href=href;a.textContent=label;if(cls)a.className=cls;return a;};
@@ -189,11 +189,11 @@
     const jump=document.createElement('details');jump.className='zs-chapter-jump';
     const jumpSummary=document.createElement('summary');jumpSummary.textContent='按章号跳转';jump.append(jumpSummary);
     const jumpForm=document.createElement('form');jumpForm.className='zs-chapter-jump-form';
-    const jumpLabel=document.createElement('label');jumpLabel.textContent='全书章节编号（1—310）';
-    const jumpInput=document.createElement('input');jumpInput.type='number';jumpInput.min='1';jumpInput.max='310';jumpInput.step='1';
+    const jumpLabel=document.createElement('label');jumpLabel.textContent='全书章节编号（1—311）';
+    const jumpInput=document.createElement('input');jumpInput.type='number';jumpInput.min='1';jumpInput.max='311';jumpInput.step='1';
     jumpInput.inputMode='numeric';jumpInput.placeholder='例如：128';
     if(num>0)jumpInput.value=String(globalChapter);
-    jumpInput.setAttribute('aria-label','输入全书章节编号，1到310');
+    jumpInput.setAttribute('aria-label','输入全书章节编号，1到311');
     const jumpButton=document.createElement('button');jumpButton.type='submit';jumpButton.textContent='前往这一章';
     const jumpStatus=document.createElement('span');jumpStatus.className='zs-chapter-jump-status';
     jumpStatus.setAttribute('role','status');jumpStatus.setAttribute('aria-live','polite');
@@ -201,8 +201,8 @@
     jumpForm.addEventListener('submit',event=>{
       event.preventDefault();
       const raw=jumpInput.value.trim(),n=Number(raw);
-      if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(n)||n<1||n>310){
-        jumpStatus.textContent='请输入1—310之间的章节编号。';jumpInput.focus();return;
+      if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(n)||n<1||n>311){
+        jumpStatus.textContent='请输入1—311之间的章节编号。';jumpInput.focus();return;
       }
       jumpStatus.textContent='';
       location.assign(chapLink(Math.ceil(n/10),((n-1)%10)+1));
