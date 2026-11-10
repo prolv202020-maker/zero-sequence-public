@@ -183,8 +183,8 @@
     const part=Math.floor((vol-1)/10)+1;
     tools.append(navLink(volLink(vol),'本卷目录'),navLink(ROOT+'parts/part-0'+part+'.html','第'+part+'篇目录'));
     if(num===0)tools.append(navLink(chapLink(vol,1),'下一章 →'));
-    else if(num<10)tools.append(navLink(chapLink(vol,num+1),'下一章 →'));
-    else if(vol<31)tools.append(navLink(chapLink(vol+1,1),'下一章 →'));
+    else if(num<10&&globalChapter<311)tools.append(navLink(chapLink(vol,num+1),'下一章 →'));
+    else if(vol<32)tools.append(navLink(chapLink(vol+1,1),'下一章 →'));
     // 非固定位置的快速跳章，避免和手机BGM/阅读设置悬浮控件重叠。
     const jump=document.createElement('details');jump.className='zs-chapter-jump';
     const jumpSummary=document.createElement('summary');jumpSummary.textContent='按章号跳转';jump.append(jumpSummary);
@@ -218,8 +218,8 @@
       else if(num===1&&vol>1)bottom.push(navLink(chapLink(vol-1,10),'← 上一章'));
       bottom.push(navLink(volLink(vol),'返回本卷目录'));
       if(num===0)bottom.push(navLink(chapLink(vol,1),'下一章 →'));
-      else if(num<10)bottom.push(navLink(chapLink(vol,num+1),'下一章 →'));
-      else if(vol<31)bottom.push(navLink(chapLink(vol+1,1),vol===10?'下一篇 · 第101章 →':vol===20?'第三篇 · 第201章 →':'下一卷 · 下一章 →'));
+      else if(num<10&&globalChapter<311)bottom.push(navLink(chapLink(vol,num+1),'下一章 →'));
+      else if(vol<32)bottom.push(navLink(chapLink(vol+1,1),vol===10?'下一篇 · 第101章 →':vol===20?'第三篇 · 第201章 →':'下一卷 · 下一章 →'));
       footerPager.replaceChildren(...bottom);
       footerPager.setAttribute('aria-label','章节底部导航');
     }
