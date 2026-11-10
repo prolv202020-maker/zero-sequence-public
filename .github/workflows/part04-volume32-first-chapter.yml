@@ -1,0 +1,41 @@
+name: V32 first-chapter integrity and spoiler gate
+on:
+  push:
+    branches: [feature/part04-volume32-chapter311-20261110]
+    paths: ['scripts/test-volume32-ch311.mjs','.github/workflows/part04-volume32-first-chapter.yml','chapters/volume-32/**']
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            index.html
+            search.html
+            sitemap.xml
+            parts/part-04.html
+            volumes/volume-31.html
+            volumes/volume-32.html
+            chapters/volume-30/chapter-010.html
+            chapters/volume-31
+            chapters/volume-32
+            assets/js/progressive-archive.js
+            assets/js/home-relaunch.js
+            assets/js/reader-experience.js
+            assets/js/volume-page.js
+            assets/js/volume-catalog.js
+            assets/data/search-index.json
+            scripts/test-part04-full-volume.mjs
+            scripts/test-volume32-ch311.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Check full volume 31 remains intact
+        run: node scripts/test-part04-full-volume.mjs
+      - name: Check published chapter 311 and all safety gates
+        run: node scripts/test-volume32-ch311.mjs
