@@ -1,0 +1,36 @@
+name: Pages 404 Recovery and Audio Archive
+on:
+  pull_request:
+    paths:
+      - 'assets/audio/audiobook/**'
+      - 'assets/data/audio-archive-manifest.json'
+      - 'assets/js/chapter-audiobook.js'
+      - 'assets/js/audiobook-center.js'
+      - 'scripts/test-audiobook-center.mjs'
+      - 'scripts/test-audiobook-publication.mjs'
+      - 'docs/pages-404-recovery-20261111.md'
+      - '.github/workflows/pages-audio-archive-integrity.yml'
+  push:
+    branches: [fix/pages-404-slim-audio-20261111]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Validate all archived narration references
+        run: |
+          node scripts/test-audiobook-publication.mjs
+          node scripts/test-audiobook-center.mjs
+      - name: Check archived media is publicly retrievable
+        run: |
+          curl --fail --location --silent --show-error --head --retry 2 --max-time 45 'https://raw.githubusercontent.com/prolv202020-maker/zero-sequence-public/audio-archive-v1/assets/audio/audiobook/part-01/volume-01/chapter-001.mp3' | grep -Ei '^HTTP/|^content-type:|^content-length:'
+      - name: Verify Pages publication tree size
+        run: |
+          du -sm . --exclude=.git | tee /tmp/pages-site-size.txt
+          test ! -f assets/audio/audiobook/part-01/volume-01/chapter-001.mp3
