@@ -16,6 +16,15 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            assets/js/public-traffic-widget.js
+            docs/v8/visitor-widget-preview.html
+            scripts/test-v8-public-traffic-preview.mjs
+            scripts/build-v8-traffic-preview.mjs
+          sparse-checkout-cone-mode: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
