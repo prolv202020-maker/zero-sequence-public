@@ -70,8 +70,8 @@ jobs:
           const p=JSON.parse(readFileSync('v8-traffic-results/public-traffic.json'));
           if(p.status!=='verified'||p.schema!=='zs-public-traffic-v1'||p.site!=='zero-sequence-public'||p.metadata?.timeZone!=='Asia/Kuala_Lumpur')process.exit(1);
           NODE
-          sha="$(gh api "repos/$GITHUB_REPOSITORY/contents/public-traffic.json?ref=data/v8-traffic" --jq .sha)"
+          sha="$(gh api "repos/$GITHUB_REPOSITORY/contents/public-traffic.json?ref=v8-traffic-data" --jq .sha)"
           test -n "$sha"
           b64="$(base64 -w0 "$FILE")"
-          gh api --silent --method PUT "repos/$GITHUB_REPOSITORY/contents/public-traffic.json"             -f branch="data/v8-traffic" -f sha="$sha" -f content="$b64"             -f message="data(v8): refresh Cloudflare pageview estimates"
-          echo "V8: updated only independent data/v8-traffic branch; main content unchanged"
+          gh api --silent --method PUT "repos/$GITHUB_REPOSITORY/contents/public-traffic.json"             -f branch="v8-traffic-data" -f sha="$sha" -f content="$b64"             -f message="data(v8): refresh Cloudflare pageview estimates"
+          echo "V8: updated only independent v8-traffic-data branch; main content unchanged"
