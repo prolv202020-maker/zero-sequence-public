@@ -27,7 +27,7 @@
   function draw(){
     const data=meta[current],progress=getProgress(current);
     title.textContent='第'+current+'篇 · '+data[0];
-    label.textContent='本篇已读 '+progress+' / 100章 · 所有章节免费开放';
+    label.textContent='本篇已读 '+progress+' / '+(current===4?10:100)+'章 · 已发布章节免费开放';
     tabs.forEach(btn=>btn.setAttribute('aria-pressed',String(Number(btn.dataset.zsArc)===current)));
     const fragment=document.createDocumentFragment();
     for(let i=0;i<(current===4?1:10);i++){
