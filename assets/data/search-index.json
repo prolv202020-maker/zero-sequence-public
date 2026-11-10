@@ -1954,5 +1954,71 @@
     "title": "第34卷《双城旗火》 · 第10章 旗火未尽",
     "desc": "全书第340章 · 第四篇正式正文。",
     "url": "chapters/volume-34/chapter-010.html"
+  },
+  {
+    "type": "volume",
+    "title": "第35卷《百旗城战》",
+    "desc": "第341—350章 · 第四篇完整卷目。",
+    "url": "volumes/volume-35.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第1章 百旗开城",
+    "desc": "全书第341章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-001.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第2章 东门夺旗",
+    "desc": "全书第342章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-002.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第3章 血价竞标",
+    "desc": "全书第343章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-003.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第4章 夜袭粮仓",
+    "desc": "全书第344章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-004.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第5章 重剑守街",
+    "desc": "全书第345章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-005.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第6章 黑榜猎杀",
+    "desc": "全书第346章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-006.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第7章 城门崩线",
+    "desc": "全书第347章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-007.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第8章 逆火盟旗",
+    "desc": "全书第348章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-008.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第9章 百旗决战",
+    "desc": "全书第349章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-009.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第35卷《百旗城战》 · 第10章 城火长明",
+    "desc": "全书第350章 · 第四篇正式正文。",
+    "url": "chapters/volume-35/chapter-010.html"
   }
 ]
