@@ -1,0 +1,36 @@
+name: V8 public counter production safety acceptance
+on:
+  push:
+    branches: [release/v8-reader-traffic-20261110]
+    paths:
+      - '.github/workflows/v8-launch-acceptance.yml'
+      - 'scripts/test-v8-launch-safety.mjs'
+      - 'assets/js/public-traffic-widget.js'
+      - 'assets/css/public-traffic-widget.css'
+      - 'index.html'
+      - 'scripts/export-v8-public-pageviews.mjs'
+      - '.github/workflows/v8-public-traffic.yml'
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            index.html
+            assets/js/public-traffic-widget.js
+            assets/css/public-traffic-widget.css
+            scripts/test-v8-launch-safety.mjs
+            scripts/export-v8-public-pageviews.mjs
+            .github/workflows/v8-public-traffic.yml
+            assets/js/visitor-analytics.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Check secure homepage embed and data refresh contract
+        run: node scripts/test-v8-launch-safety.mjs
