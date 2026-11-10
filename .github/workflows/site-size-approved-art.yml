@@ -1,0 +1,23 @@
+name: Site Size and Approved Art Safety
+on:
+  pull_request:
+    paths:
+      - 'assets/**'
+      - 'chapters/**'
+      - 'scripts/test-site-size-and-approved-art.mjs'
+      - '.github/workflows/site-size-approved-art.yml'
+  push:
+    branches: [perf/slim-approved-art-20261111]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify size, approved art identity and reader files
+        run: node scripts/test-site-size-and-approved-art.mjs
