@@ -18,7 +18,7 @@
 const input=document.getElementById('s-input'),type=document.getElementById('s-type'),out=document.getElementById('s-results'),status=document.getElementById('s-count'),showUnread=document.getElementById('s-include-unread');
 let data=[];
 try{
- const urls=['assets/data/search-index.json?v=7',...Array.from({length:7},(_,i)=>'assets/data/search-index-volume'+(24+i)+'.json?v=1')];
+ const urls=['assets/data/search-index.json?v=8',...Array.from({length:7},(_,i)=>'assets/data/search-index-volume'+(24+i)+'.json?v=1')];
  const chunks=await Promise.all(urls.map(async (url,i)=>{
    try{
      const response=await fetch(url,{cache:'no-cache'});
@@ -57,4 +57,4 @@ found.forEach(item=>{const a=document.createElement('a');a.className='s-hit';a.h
 }
 input.addEventListener('input',render);type.addEventListener('change',render);showUnread?.addEventListener('change',render);render();
 })();
-</script><script src="assets/js/progressive-archive.js?v=22" defer></script></body></html>
+</script><script src="assets/js/progressive-archive.js?v=24" defer></script></body></html>
