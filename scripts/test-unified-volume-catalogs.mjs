@@ -39,7 +39,7 @@ for(const n of volumes){
  assert.match(html,/<div class="list">/,'Volume chapter list missing: '+path);
  for(const [asset,expected] of [
   ['assets/css/style.css','v=6'],['assets/css/volume-page.css','v=3'],
-  ['assets/js/volume-page.js',n>=30?'v=12':'v=11'],['assets/js/progressive-archive.js',n>=30?'v=23':'v=22']
+  ['assets/js/volume-page.js',n>=31?'v=13':n>=30?'v=12':'v=11'],['assets/js/progressive-archive.js',n>=31?'v=24':n>=30?'v=23':'v=22']
  ]){
    const basename=asset.replace(/^assets\//,'');
    assert.ok(html.includes('../assets/'+basename+'?'+expected),path+' missing current '+asset+'?'+expected);
@@ -47,8 +47,9 @@ for(const n of volumes){
  assert.equal((html.match(/volume-page\.js\?v=(?:11|12)/g)||[]).length,1,'No duplicate volume renderer '+path);
  const listHtml=html.match(/<div class="list">([\s\S]*?)<\/div>/)?.[1]||'';
  const chapterLinks=[...listHtml.matchAll(/href="\.\.\/chapters\/volume-(\d{2})\/chapter-(\d{3})\.html"/g)];
- assert.equal(chapterLinks.length,10,path+' must have ten direct chapter links');
- for(let i=1;i<=10;i++){
+ const expectedChapters=n===32?1:10;
+ assert.equal(chapterLinks.length,expectedChapters,path+' must link only currently published chapters');
+ for(let i=1;i<=expectedChapters;i++){
   const suffix=String(i).padStart(3,'0'),rel='chapters/volume-'+id+'/chapter-'+suffix+'.html';
   assert.ok(chapterLinks.some(m=>m[1]===id&&m[2]===suffix),'Chapter index mismatch: '+rel);
   assert.ok(existsSync(join(root,rel)),'Missing published text '+rel);
@@ -63,4 +64,4 @@ for(const n of volumes){
  if(n===22)assert.ok(!html.includes('<h2 style="color:#f0d89f">远域双钟</h2>'),'Volume 22 must not duplicate its hero');
  verified++;
 }
-console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(verified*10)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
+console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(31*10+1)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
