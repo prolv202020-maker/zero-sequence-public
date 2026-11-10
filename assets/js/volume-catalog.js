@@ -62,7 +62,7 @@
       if(readDone)complete++;
     });
     const counter=document.getElementById('zs-directory-counter');
-    if(counter)counter.textContent='已读完 '+complete+' / '+items.length+' 卷 · 本篇 '+Math.min(max,part===4?11:100)+' / '+(part===4?11:100)+' 章';
+    if(counter)counter.textContent='已读完 '+complete+' / '+items.length+' 卷 · 本篇 '+Math.min(max,part===4?20:100)+' / '+(part===4?11:100)+' 章';
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
   else mount();
