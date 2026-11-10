@@ -68,14 +68,10 @@ async function suite(context,label){
   await go(chapter(1,1));await page.locator('#zs-chapter-narration').waitFor();
   const src=await page.locator('#zs-chapter-narration source').getAttribute('src');
   assert.ok(src.includes('part-01/volume-01/chapter-001.mp3'));
-  const response=await page.request.get(url('assets/audio/audiobook/part-01/volume-01/chapter-001.mp3'),{headers:{Range:'bytes=0-2047'}});
-  assert.equal(response.status(),206,'Audio range streaming');assert.equal((await response.body()).length,2048);
-  const m=await page.locator('#zs-chapter-narration').evaluate(el=>new Promise(resolve=>{
-   let resolved=false;const done=()=>{if(resolved)return;resolved=true;resolve({duration:el.duration,ready:el.readyState,error:el.error?.code||0});};
-   el.addEventListener('loadedmetadata',done,{once:true});el.addEventListener('error',done,{once:true});el.load();setTimeout(done,12000);
-  }));
-  assert.ok(m.ready>=1&&Number.isFinite(m.duration)&&m.duration>0,'Audio decoding failed '+JSON.stringify(m));
-  results.metrics.firstNarrationSeconds=Math.round(m.duration);
+  assert.ok(src.startsWith('https://raw.githubusercontent.com/prolv202020-maker/zero-sequence-public/audio-archive-v1/'),'Narration must reference archived MP3');
+  const download=await page.locator('#zs-audiobook-player a[href*="raw.githubusercontent.com"]').first().getAttribute('href');
+  assert.ok(download&&download.includes('/audio-archive-v1/'),'Narration download must use archive URL');
+  results.metrics.audioArchive='audio-archive-v1'; // offline acceptance cannot validate external streaming
   await page.locator('#zs-chapter-narration').evaluate(el=>el.dispatchEvent(new Event('play')));
   await page.waitForFunction(()=>document.querySelector('#zs-chapter-narration-status')?.textContent.includes('正在播放'));
   assert.equal(await page.locator('#zs-audio.is-playing').count(),0);
