@@ -173,7 +173,7 @@
     const length=paras.reduce((sum,p)=>sum+(p.textContent||'').length,0);
     const estimate=Math.max(1,Math.ceil(length/460));
     const stats=document.createElement('p');stats.className='zs-chapter-stats';
-    stats.textContent=(num===0?'序章':'全书第'+globalChapter+'章')+' · 约'+estimate+'分钟阅读 · 已发布330章';
+    stats.textContent=(num===0?'序章':'全书第'+globalChapter+'章')+' · 约'+estimate+'分钟阅读 · 已发布340章';
     const chapterHeading=$('main.page h1');if(chapterHeading)chapterHeading.insertAdjacentElement('afterend',stats);
 
     const navLink=(href,label,cls)=>{const a=document.createElement('a');a.href=href;a.textContent=label;if(cls)a.className=cls;return a;};
@@ -183,17 +183,17 @@
     const part=Math.floor((vol-1)/10)+1;
     tools.append(navLink(volLink(vol),'本卷目录'),navLink(ROOT+'parts/part-0'+part+'.html','第'+part+'篇目录'));
     if(num===0)tools.append(navLink(chapLink(vol,1),'下一章 →'));
-    else if(num<10&&globalChapter<330)tools.append(navLink(chapLink(vol,num+1),'下一章 →'));
-    else if(vol<33)tools.append(navLink(chapLink(vol+1,1),'下一章 →'));
+    else if(num<10&&globalChapter<340)tools.append(navLink(chapLink(vol,num+1),'下一章 →'));
+    else if(vol<34)tools.append(navLink(chapLink(vol+1,1),'下一章 →'));
     // 非固定位置的快速跳章，避免和手机BGM/阅读设置悬浮控件重叠。
     const jump=document.createElement('details');jump.className='zs-chapter-jump';
     const jumpSummary=document.createElement('summary');jumpSummary.textContent='按章号跳转';jump.append(jumpSummary);
     const jumpForm=document.createElement('form');jumpForm.className='zs-chapter-jump-form';
-    const jumpLabel=document.createElement('label');jumpLabel.textContent='全书章节编号（1—330）';
-    const jumpInput=document.createElement('input');jumpInput.type='number';jumpInput.min='1';jumpInput.max='330';jumpInput.step='1';
+    const jumpLabel=document.createElement('label');jumpLabel.textContent='全书章节编号（1—340）';
+    const jumpInput=document.createElement('input');jumpInput.type='number';jumpInput.min='1';jumpInput.max='340';jumpInput.step='1';
     jumpInput.inputMode='numeric';jumpInput.placeholder='例如：128';
     if(num>0)jumpInput.value=String(globalChapter);
-    jumpInput.setAttribute('aria-label','输入全书章节编号，1到330');
+    jumpInput.setAttribute('aria-label','输入全书章节编号，1到340');
     const jumpButton=document.createElement('button');jumpButton.type='submit';jumpButton.textContent='前往这一章';
     const jumpStatus=document.createElement('span');jumpStatus.className='zs-chapter-jump-status';
     jumpStatus.setAttribute('role','status');jumpStatus.setAttribute('aria-live','polite');
@@ -201,8 +201,8 @@
     jumpForm.addEventListener('submit',event=>{
       event.preventDefault();
       const raw=jumpInput.value.trim(),n=Number(raw);
-      if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(n)||n<1||n>330){
-        jumpStatus.textContent='请输入1—330之间的章节编号。';jumpInput.focus();return;
+      if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(n)||n<1||n>340){
+        jumpStatus.textContent='请输入1—340之间的章节编号。';jumpInput.focus();return;
       }
       jumpStatus.textContent='';
       location.assign(chapLink(Math.ceil(n/10),((n-1)%10)+1));
@@ -218,8 +218,8 @@
       else if(num===1&&vol>1)bottom.push(navLink(chapLink(vol-1,10),'← 上一章'));
       bottom.push(navLink(volLink(vol),'返回本卷目录'));
       if(num===0)bottom.push(navLink(chapLink(vol,1),'下一章 →'));
-      else if(num<10&&globalChapter<330)bottom.push(navLink(chapLink(vol,num+1),'下一章 →'));
-      else if(vol<33)bottom.push(navLink(chapLink(vol+1,1),vol===10?'下一篇 · 第101章 →':vol===20?'第三篇 · 第201章 →':'下一卷 · 下一章 →'));
+      else if(num<10&&globalChapter<340)bottom.push(navLink(chapLink(vol,num+1),'下一章 →'));
+      else if(vol<34)bottom.push(navLink(chapLink(vol+1,1),vol===10?'下一篇 · 第101章 →':vol===20?'第三篇 · 第201章 →':'下一卷 · 下一章 →'));
       footerPager.replaceChildren(...bottom);
       footerPager.setAttribute('aria-label','章节底部导航');
     }

@@ -140,13 +140,23 @@ const entries=[
  {p:4,n:28,k:'势力',t:'小型联合护运',d:'长渊、灰獠与独立车队建立可执行的责任与分成合作。'},
  {p:4,n:29,k:'事件',t:'烽线决战',d:'逐昼、铁隼与长渊在公开联运会战中分别取得有效赛果。'},
  {p:4,n:30,k:'事件',t:'有限联运配额',d:'长渊取得一定期限的合法外圈联运份额，公共道路未被任何一方独占。'},
+ {p:4,n:31,k:'事件',t:'跨区战盟试炼',d:'东湾、赤沙与苍岭开放跨区公会资格战，报名需真实公开成绩。'},
+ {p:4,n:32,k:'事件',t:'白石旗门争位',d:'长渊在资格赛中通过旗台轮换和队伍协作赢得候选名额。'},
+ {p:4,n:33,k:'地图',t:'黄盐驿',d:'赤沙陌生砂地与沙暴降低原有战术效率，护运队只能取得基础分。'},
+ {p:4,n:34,k:'势力',t:'荒烬公会',d:'闻秋棠统筹的大型护运公会与长渊采用有限互援合同。'},
+ {p:4,n:35,k:'事件',t:'双城奔袭',d:'赤沙与苍岭两路同时交付，合作队伍必须独立判断路线。'},
+ {p:4,n:36,k:'地图',t:'旧修理站',d:'长渊在夜间据点战赢得限时工坊使用顺位，付出真实消耗。'},
+ {p:4,n:37,k:'事件',t:'苍岭东墙失守',d:'狼庭与苍牙协调攻城，长渊失去据点并保住伤员撤退。'},
+ {p:4,n:38,k:'事件',t:'东关重剑反击',d:'林烈调整重剑与盾阵换位，带队重新取得公开晋级成绩。'},
+ {p:4,n:39,k:'事件',t:'千旗跨区决战',d:'逐昼、铁隼、狼庭和长渊在不同项目取得真实成绩。'},
+ {p:4,n:40,k:'势力',t:'跨区支线承运',d:'长渊取得期限与责任明确的跨区支线申请资格，后续赛事仍待公开。'},
 ];
 function storeRead(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return x&&typeof x==='object'?x:{};}catch(e){return {};}}
 function storeWrite(obj){try{localStorage.setItem(KEY,JSON.stringify(obj));}catch(e){}}
 function partOf(v){return Math.floor((v-1)/10)+1;}
 function nameOf(p){return partNames[p]||'待公开';}
-function get(p){const item=storeRead()['p'+String(p).padStart(2,'0')]||{};return {max:Math.max(0,Math.min(p===4?30:100,Number(item.max)||0)),prologue:!!item.prologue,updated:item.updated||0};}
-function set(p,n,prologue){if(p<1||p>99)return;const all=storeRead(),key='p'+String(p).padStart(2,'0');const prev=get(p);all[key]={max:Math.max(prev.max,Math.max(0,Math.min(p===4?30:100,n))),prologue:prev.prologue||!!prologue,updated:Date.now()};storeWrite(all);document.dispatchEvent(new Event('zs:part-progress-changed')); }
+function get(p){const item=storeRead()['p'+String(p).padStart(2,'0')]||{};return {max:Math.max(0,Math.min(p===4?40:100,Number(item.max)||0)),prologue:!!item.prologue,updated:item.updated||0};}
+function set(p,n,prologue){if(p<1||p>99)return;const all=storeRead(),key='p'+String(p).padStart(2,'0');const prev=get(p);all[key]={max:Math.max(prev.max,Math.max(0,Math.min(p===4?40:100,n))),prologue:prev.prologue||!!prologue,updated:Date.now()};storeWrite(all);document.dispatchEvent(new Event('zs:part-progress-changed')); }
 function available(entry){return get(entry.p).max>=entry.n;}
 function el(tag,cls,content){const node=document.createElement(tag);if(cls)node.className=cls;if(content!==undefined)node.textContent=content;return node;}
 function aLink(href,text,cls){const a=el('a',cls,text);a.href=href;return a;}
@@ -154,8 +164,8 @@ function css(){if(document.getElementById('zs-unlock-style'))return;
 const s=document.createElement('style');s.id='zs-unlock-style';s.textContent=
 '.zs-unlock-panel{margin:25px 0;padding:24px;border:1px solid #dac38e75;border-radius:20px;background:linear-gradient(135deg,#32375cbf,#1b213eec);box-shadow:0 14px 42px #0a0d202c}.zs-unlock-panel h2,.zs-unlock-panel h3{margin:4px 0 14px;font-size:22px;letter-spacing:.04em}.zs-unlock-panel p,.zs-unlock-panel small{color:#d5d6e1;line-height:1.8}.zs-progress-meter{height:11px;background:#14182b;border-radius:20px;overflow:hidden;margin:12px 0}.zs-progress-meter>i{display:block;height:100%;background:linear-gradient(90deg,#9776e3,#f0d496);border-radius:20px}.zs-unlock-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.zs-unlock-actions a,.zs-unlock-actions button,.zs-unlock-button{display:inline-block;border:1px solid #e4c78799;padding:9px 14px;border-radius:10px;background:#2d3156;color:#fae7b6;font:inherit;font-size:13px;cursor:pointer}.zs-unlock-actions a:hover,.zs-unlock-actions button:hover,.zs-unlock-button:hover{background:#42476e}.zs-unlock-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0 35px}.zs-unlock-card{padding:18px;border-radius:15px;border:1px solid #e2d2a047;background:#313658aa;min-height:160px}.zs-unlock-card h3{font-size:18px;margin:10px 0}.zs-unlock-card small{font-size:11px;color:#f2d69b}.zs-unlock-card p{font-size:13px;line-height:1.8;color:#d6d5e1}.zs-unlock-card.locked{opacity:.7;border-style:dashed}.zs-chapter-complete{margin:26px 0 8px;padding:18px;border:1px solid #dac38e55;border-radius:14px;background:#30365b}.zs-chapter-complete p{font-size:13px;margin:7px 0;color:#d6d8e6}.zs-part-card{margin:16px 0}.zs-part-card .zs-progress-meter{max-width:500px}.zs-gated-main>:not(.crumb):not(.zs-spoiler-wall):not(.eyebrow):not(h1){display:none!important}.zs-spoiler-wall{display:block;margin:25px 0;padding:25px;border:1px solid #d4c18e88;border-radius:18px;background:#252a4b}.zs-spoiler-wall h2{font-size:25px;margin:2px 0 13px}.zs-spoiler-wall p{line-height:1.9}.zs-spoiler-wall a{color:#f2d7a0;text-decoration:underline}.zs-preview-note{color:#f0cb89;font-size:12px;margin:8px 0}.zs-next-lock{font-size:12px;color:#c9c3d6}.zs-part-locked{color:#c6c5d7}.zs-locked-summary{opacity:.7}.zs-locked-summary summary{cursor:not-allowed}.zs-footer-notice{font-size:12px;color:#ceccdc;margin-top:20px}@media(max-width:650px){.zs-unlock-panel{padding:18px}.zs-unlock-grid{grid-template-columns:1fr}}';
 document.head.append(s);}
-function summary(p){const state=get(p);const cap=p===4?30:100;return (state.prologue?'序章已读 · ':'')+'已解锁 '+Math.min(state.max,cap)+'/'+cap+' 章';}
-function meter(p){const outer=el('div','zs-progress-meter');outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuenow',String(get(p).max));outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',p===4?'30':'100');outer.setAttribute('aria-label','第'+p+'篇已解锁章节');const fill=el('i');fill.style.width=(p===4?Math.min(100,Math.round(get(p).max/30*100)):get(p).max)+'%';outer.append(fill);return outer;}
+function summary(p){const state=get(p);const cap=p===4?40:100;return (state.prologue?'序章已读 · ':'')+'已解锁 '+Math.min(state.max,cap)+'/'+cap+' 章';}
+function meter(p){const outer=el('div','zs-progress-meter');outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuenow',String(get(p).max));outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',p===4?'40':'100');outer.setAttribute('aria-label','第'+p+'篇已解锁章节');const fill=el('i');fill.style.width=(p===4?Math.min(100,Math.round(get(p).max/40*100)):get(p).max)+'%';outer.append(fill);return outer;}
 function articleUnlock(){const m=location.pathname.match(/\/chapters\/volume-(\d{2})\/(chapter-(\d{3})|prologue)\.html$/);if(!m)return;
 const vol=Number(m[1]),local=Number(m[3]||0),p=partOf(vol),n=((vol-1)%10)*10+local,pro=!!(m[2]==='prologue');
 const article=document.querySelector('.article');if(!article)return;
@@ -179,7 +189,7 @@ const container=document.getElementById('volumes');if(!container)return;
 const sec=el('section','');sec.id='zs-progress-home';sec.append(el('p','eyebrow','UNLOCK PROGRESS · 独立进度'),el('h2','','篇章解锁进度'));
 sec.append(el('p','lead','第一篇与后续每一篇独立记录进度；总档案只汇总已经读到的剧情。'));
 const grid=el('div','zs-unlock-grid');
-[1,2,3,4].forEach(p=>{const card=el('div','zs-unlock-card');card.append(el('small','',p===1?'PART 01 · 已发布':p===2?'PART 02 · 全100章正式完成':p===3?'PART 03 · 全100章正式完成':'PART 04 · 第31—33卷完整发布'),el('h3','','第'+p+'篇 · '+nameOf(p)),el('p','',summary(p)));card.append(meter(p));card.append(aLink(BASE+'parts/part-0'+p+'.html','阅读本篇 →'),aLink(BASE+'archive/unlocks.html?part='+p,'查看解锁状态 →'));grid.append(card);});
+[1,2,3,4].forEach(p=>{const card=el('div','zs-unlock-card');card.append(el('small','',p===1?'PART 01 · 已发布':p===2?'PART 02 · 全100章正式完成':p===3?'PART 03 · 全100章正式完成':'PART 04 · 第31—34卷完整发布'),el('h3','','第'+p+'篇 · '+nameOf(p)),el('p','',summary(p)));card.append(meter(p));card.append(aLink(BASE+'parts/part-0'+p+'.html','阅读本篇 →'),aLink(BASE+'archive/unlocks.html?part='+p,'查看解锁状态 →'));grid.append(card);});
 const total=el('div','zs-unlock-card');total.append(el('small','','ALL PARTS'),el('h3','','最终篇 · 全部总结'),el('p','','只整合目前已经解锁的信息；未公开的真相仍然封存。'),aLink(BASE+'parts/final-archive.html','打开总档案 →'));grid.append(total);sec.append(grid);container.insertAdjacentElement('afterend',sec);
 }
 function partPage(){if(!/\/parts\/part-0\d\.html$/.test(location.pathname))return;const p=Number((location.pathname.match(/part-(\d+)\.html/)||[])[1]||1);const hero=document.querySelector('.part-hero, .part2-hero');if(hero)hero.insertAdjacentElement('afterend',partCard(p));
