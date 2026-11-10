@@ -1,0 +1,77 @@
+name: V8 Cloudflare public reader-footprint updates
+on:
+  schedule:
+    - cron: '17 1,7,13,19 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main, release/v8-reader-traffic-20261110]
+    paths:
+      - '.github/workflows/v8-public-traffic.yml'
+      - 'scripts/export-v8-public-pageviews.mjs'
+permissions:
+  contents: write
+concurrency:
+  group: v8-public-traffic-data
+  cancel-in-progress: false
+jobs:
+  check:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            scripts/export-v8-public-pageviews.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Test live Cloudflare API read without publishing
+        env:
+          CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CF_ACCOUNT_ID }}
+        run: node scripts/export-v8-public-pageviews.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v8-public-data-dryrun-${{ github.run_id }}
+          path: v8-traffic-results/public-traffic.json
+          retention-days: 7
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            scripts/export-v8-public-pageviews.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Fetch project pageviews with read-only Cloudflare credentials
+        env:
+          CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CF_ACCOUNT_ID }}
+        run: node scripts/export-v8-public-pageviews.mjs
+      - name: Publish only small JSON to independent data branch (not main Pages build)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE="v8-traffic-results/public-traffic.json"
+          test -s "$FILE"
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          const p=JSON.parse(readFileSync('v8-traffic-results/public-traffic.json'));
+          if(p.status!=='verified'||p.schema!=='zs-public-traffic-v1'||p.site!=='zero-sequence-public'||p.metadata?.timeZone!=='Asia/Kuala_Lumpur')process.exit(1);
+          NODE
+          sha="$(gh api "repos/$GITHUB_REPOSITORY/contents/public-traffic.json?ref=v8-traffic-data" --jq .sha)"
+          test -n "$sha"
+          b64="$(base64 -w0 "$FILE")"
+          gh api --silent --method PUT "repos/$GITHUB_REPOSITORY/contents/public-traffic.json"             -f branch="v8-traffic-data" -f sha="$sha" -f content="$b64"             -f message="data(v8): refresh Cloudflare pageview estimates"
+          echo "V8: updated only independent v8-traffic-data branch; main content unchanged"
