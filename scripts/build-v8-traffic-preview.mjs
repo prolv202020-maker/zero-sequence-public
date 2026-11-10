@@ -46,18 +46,18 @@ const today=daily[29],week=sum(daily.slice(-7)),month=sum(daily);
 assert.ok(today<=week&&week<=month,'Derived windows must be monotonic');
 const tagged=tags.map(x=>({tag:x.dimensions?.siteTag,count:Number(x.count)}));
 if(tagged.some(x=>!Number.isSafeInteger(x.count)||x.count<0)){console.error('V8 PREVIEW: INVALID_SITE_TAG_GROUP');process.exit(1)}
-const beaconMatches=tagged.length===1&&tagged[0].tag===beacon;
+const singleProjectProperty=tagged.length===1&&/^[a-f0-9]{32}$/i.test(tagged[0].tag);
 const out={
  schema:'zs-public-traffic-v1',site:'zero-sequence-public',
- status:beaconMatches?'pending_human_review':'needs_site_tag_review',
+ status:singleProjectProperty?'pending_dashboard_review':'multiple_property_tags_review',
  updatedAt:now.toISOString(),
  metrics:{unit:'page_views',todayPageViews:today,sevenDayPageViews:week,thirtyDayPageViews:month},
  metadata:{timeZone:'UTC',source:'Cloudflare RUM AdaptiveGroups; sampling possible',
-  siteScope:'requestHost and requestPath_like',beaconMatchesObservedProperty:beaconMatches,
+  siteScope:'requestHost and requestPath_like',observedPropertyCount:tagged.length,siteTagIsDistinctFromBeaconSiteToken:true,
   note:'PREVIEW ONLY — NOT APPROVED FOR PUBLICATION'}
 };
 mkdirSync('v8-traffic-preview',{recursive:true});
 writeFileSync('v8-traffic-preview/public-traffic-preview.json',JSON.stringify(out,null,2)+'\n');
 console.log('V8 PREVIEW: UTC_daily_aggregates today='+today+' last7days='+week+' last30days='+month);
-console.log('V8 PREVIEW: beacon_matches='+beaconMatches+' approval_status='+out.status);
+console.log('V8 PREVIEW: project_property_groups='+tagged.length+' approval_status='+out.status+' (GraphQL siteTag and Beacon siteToken are distinct identifiers)');
 console.log('V8 PREVIEW: preview artifact only; no production publication, no credentials included.');
