@@ -12,5 +12,5 @@ for(const key of ['todayPageViews','sevenDayPageViews','thirtyDayPageViews']) {
 assert.ok(src.includes("data.status !== 'verified'"),'Unverified numbers must be hidden');
 assert.ok(src.includes('url.origin !== location.origin'),'Cross-origin data must be refused');
 assert.ok(!/Bearer|CF_ANALYTICS_TOKEN|CF_ACCOUNT_ID|api.cloudflare.com|localStorage|zs:audiobook/.test(src+preview),'Credential or storage integration prohibited');
-assert.ok(!/独立访客人数/.test(preview),'No unsupported unique visitor claims');
+assert.ok(preview.includes('不是独立访客人数'),'Preview must warn users that page views are not unique visitors');
 console.log('V8 preview contract PASS: 3 page-view labels, unverified data hidden, no tokens, no live site integration.');
