@@ -30,7 +30,7 @@ for(const [slug,sha] of expected){
  const bin=readFileSync(path);
  assert.equal(bin.toString('ascii',0,4),'RIFF');
  assert.equal(bin.toString('ascii',8,12),'WEBP');
- const blob=Buffer.from('blob '+bin.length+'\\0');
+ const blob=Buffer.concat([Buffer.from('blob '+bin.length+' '),Buffer.from([0])]);
  assert.equal(createHash('sha1').update(Buffer.concat([blob,bin])).digest('hex'),sha,'Approved visual changed unexpectedly: '+slug);
 }
 for(let v=1;v<=35;v++)for(let n=1;n<=10;n++)assert.ok(existsSync('chapters/volume-'+String(v).padStart(2,'0')+'/chapter-'+String(n).padStart(3,'0')+'.html'),'Missing published chapter '+v+'-'+n);
