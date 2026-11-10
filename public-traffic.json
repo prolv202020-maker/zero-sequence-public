@@ -1,0 +1,12 @@
+{
+  "schema": "zs-public-traffic-v1",
+  "site": "zero-sequence-public",
+  "status": "pending",
+  "updatedAt": null,
+  "metrics": null,
+  "metadata": {
+    "timeZone": "Asia/Kuala_Lumpur",
+    "source": "Cloudflare RUM",
+    "estimated": true
+  }
+}
