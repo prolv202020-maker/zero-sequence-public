@@ -64,4 +64,4 @@ for(const n of volumes){
  if(n===22)assert.ok(!html.includes('<h2 style="color:#f0d89f">远域双钟</h2>'),'Volume 22 must not duplicate its hero');
  verified++;
 }
-console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(32*10)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
+console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(latest*10)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
