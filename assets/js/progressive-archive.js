@@ -111,21 +111,23 @@ const entries=[
  {p:3,n:99,k:'怪物',t:'零刻引路者',d:'错误校验触发回廊高危防护体，众人依靠剑术和团队配合完成止动。'},
  {p:3,n:100,k:'事件',t:'临界之前',d:'零刻回廊外围校验结束，第三篇阶段完成，未来偏移仍在继续。'},
  {p:2,n:99,k:'势力',t:'深渊方舟第一阶段',d:'初步现实应急据点运转'},
- {p:4,n:1,k:'地图',t:'灰雪关公共驿道',d:'玩家与公共护运线路的利益争夺开始，外围道路仍受安全规则约束。'},
- {p:4,n:2,k:'事件',t:'受保护驿工遇袭',d:'游戏里玩家可复活，但原住民受到的伤害有不可逆后果。'},
- {p:4,n:3,k:'势力',t:'黑鸢与北岚',d:'两支玩家势力围绕护运合同展开不同方式的竞争。'},
- {p:4,n:5,k:'事件',t:'雪关护路挑战',d:'正式竞技与野外对抗决定部分护运资格，不代表私有公共道路。'},
- {p:4,n:6,k:'职业',t:'重剑前锋',d:'林烈在合法争点战中重新以重剑开路，同时运用已学会的队伍防守判断。'},
- {p:4,n:8,k:'事件',t:'雪关夜战',d:'多支独立队伍联手解开非法路障，帮助失散的搬运工重新返回驿站。'},
- {p:4,n:9,k:'事件',t:'三道刻痕再核查',d:'现实与万界的测量异常仍需分别核验，不能只因相似就认定已经融合。'},
- {p:4,n:10,k:'事件',t:'守路者',d:'公共驿道恢复通行，资源争夺与未来偏移仍未终结。'}
+ {p:4,n:1,k:'地图',t:'北坡合法护运路线',d:'公开补给路线引发玩家收费与通行争执；深层核心仍未开放。'},
+ {p:4,n:2,k:'人物',t:'驿工陆荻',d:'北坡救援中获救的驿工，伤势与后续工作恢复仍需照顾。'},
+ {p:4,n:3,k:'事件',t:'药材车伏击',d:'野外玩家冲突与断章取义的视频让护运队面临双重风险。'},
+ {p:4,n:4,k:'势力',t:'自愿护运协作',d:'独立队伍可以暂时结盟守路，无须加入长渊工作室。'},
+ {p:4,n:5,k:'事件',t:'黑槲主力报名',d:'敌方具有完整资金与战阵部署，主角团必须控制真实后勤成本。'},
+ {p:4,n:6,k:'职业',t:'重剑回锋',d:'林烈在正规争夺中恢复重剑主战，同时吸收此前盾防训练的战场判断。'},
+ {p:4,n:7,k:'事件',t:'冻河交付失利',d:'北坡护运遇到真实损失，反击不能以战斗胜利掩盖货物损毁。'},
+ {p:4,n:8,k:'事件',t:'雪线会战',d:'多支独立队伍用明确职责与任务目标应对完整公会战阵。'},
+ {p:4,n:9,k:'事件',t:'最后交付成功',d:'合法补给经正式核验过线，收益与胜负仍依公开规则结算。'},
+ {p:4,n:10,k:'事件',t:'路仍向前',d:'第31卷公开护运争夺阶段收束，相关伤亡责任与后续道路仍需继续面对。'}
 ];
 function storeRead(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return x&&typeof x==='object'?x:{};}catch(e){return {};}}
 function storeWrite(obj){try{localStorage.setItem(KEY,JSON.stringify(obj));}catch(e){}}
 function partOf(v){return Math.floor((v-1)/10)+1;}
 function nameOf(p){return partNames[p]||'待公开';}
-function get(p){const item=storeRead()['p'+String(p).padStart(2,'0')]||{};return {max:Math.max(0,Math.min(100,Number(item.max)||0)),prologue:!!item.prologue,updated:item.updated||0};}
-function set(p,n,prologue){if(p<1||p>99)return;const all=storeRead(),key='p'+String(p).padStart(2,'0');const prev=get(p);all[key]={max:Math.max(prev.max,Math.max(0,Math.min(100,n))),prologue:prev.prologue||!!prologue,updated:Date.now()};storeWrite(all);document.dispatchEvent(new Event('zs:part-progress-changed')); }
+function get(p){const item=storeRead()['p'+String(p).padStart(2,'0')]||{};return {max:Math.max(0,Math.min(p===4?10:100,Number(item.max)||0)),prologue:!!item.prologue,updated:item.updated||0};}
+function set(p,n,prologue){if(p<1||p>99)return;const all=storeRead(),key='p'+String(p).padStart(2,'0');const prev=get(p);all[key]={max:Math.max(prev.max,Math.max(0,Math.min(p===4?10:100,n))),prologue:prev.prologue||!!prologue,updated:Date.now()};storeWrite(all);document.dispatchEvent(new Event('zs:part-progress-changed')); }
 function available(entry){return get(entry.p).max>=entry.n;}
 function el(tag,cls,content){const node=document.createElement(tag);if(cls)node.className=cls;if(content!==undefined)node.textContent=content;return node;}
 function aLink(href,text,cls){const a=el('a',cls,text);a.href=href;return a;}
@@ -133,8 +135,8 @@ function css(){if(document.getElementById('zs-unlock-style'))return;
 const s=document.createElement('style');s.id='zs-unlock-style';s.textContent=
 '.zs-unlock-panel{margin:25px 0;padding:24px;border:1px solid #dac38e75;border-radius:20px;background:linear-gradient(135deg,#32375cbf,#1b213eec);box-shadow:0 14px 42px #0a0d202c}.zs-unlock-panel h2,.zs-unlock-panel h3{margin:4px 0 14px;font-size:22px;letter-spacing:.04em}.zs-unlock-panel p,.zs-unlock-panel small{color:#d5d6e1;line-height:1.8}.zs-progress-meter{height:11px;background:#14182b;border-radius:20px;overflow:hidden;margin:12px 0}.zs-progress-meter>i{display:block;height:100%;background:linear-gradient(90deg,#9776e3,#f0d496);border-radius:20px}.zs-unlock-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.zs-unlock-actions a,.zs-unlock-actions button,.zs-unlock-button{display:inline-block;border:1px solid #e4c78799;padding:9px 14px;border-radius:10px;background:#2d3156;color:#fae7b6;font:inherit;font-size:13px;cursor:pointer}.zs-unlock-actions a:hover,.zs-unlock-actions button:hover,.zs-unlock-button:hover{background:#42476e}.zs-unlock-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0 35px}.zs-unlock-card{padding:18px;border-radius:15px;border:1px solid #e2d2a047;background:#313658aa;min-height:160px}.zs-unlock-card h3{font-size:18px;margin:10px 0}.zs-unlock-card small{font-size:11px;color:#f2d69b}.zs-unlock-card p{font-size:13px;line-height:1.8;color:#d6d5e1}.zs-unlock-card.locked{opacity:.7;border-style:dashed}.zs-chapter-complete{margin:26px 0 8px;padding:18px;border:1px solid #dac38e55;border-radius:14px;background:#30365b}.zs-chapter-complete p{font-size:13px;margin:7px 0;color:#d6d8e6}.zs-part-card{margin:16px 0}.zs-part-card .zs-progress-meter{max-width:500px}.zs-gated-main>:not(.crumb):not(.zs-spoiler-wall):not(.eyebrow):not(h1){display:none!important}.zs-spoiler-wall{display:block;margin:25px 0;padding:25px;border:1px solid #d4c18e88;border-radius:18px;background:#252a4b}.zs-spoiler-wall h2{font-size:25px;margin:2px 0 13px}.zs-spoiler-wall p{line-height:1.9}.zs-spoiler-wall a{color:#f2d7a0;text-decoration:underline}.zs-preview-note{color:#f0cb89;font-size:12px;margin:8px 0}.zs-next-lock{font-size:12px;color:#c9c3d6}.zs-part-locked{color:#c6c5d7}.zs-locked-summary{opacity:.7}.zs-locked-summary summary{cursor:not-allowed}.zs-footer-notice{font-size:12px;color:#ceccdc;margin-top:20px}@media(max-width:650px){.zs-unlock-panel{padding:18px}.zs-unlock-grid{grid-template-columns:1fr}}';
 document.head.append(s);}
-function summary(p){const state=get(p);const cap=p===3?100:100;return (state.prologue?'序章已读 · ':'')+'已解锁 '+Math.min(state.max,cap)+'/'+cap+' 章';}
-function meter(p){const outer=el('div','zs-progress-meter');outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuenow',String(get(p).max));outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',p===3?'100':'100');outer.setAttribute('aria-label','第'+p+'篇已解锁章节');const fill=el('i');fill.style.width=(p===3?Math.min(100,get(p).max*100/100):get(p).max)+'%';outer.append(fill);return outer;}
+function summary(p){const state=get(p);const cap=p===4?10:100;return (state.prologue?'序章已读 · ':'')+'已解锁 '+Math.min(state.max,cap)+'/'+cap+' 章';}
+function meter(p){const outer=el('div','zs-progress-meter');outer.setAttribute('role','progressbar');outer.setAttribute('aria-valuenow',String(get(p).max));outer.setAttribute('aria-valuemin','0');outer.setAttribute('aria-valuemax',p===4?'10':'100');outer.setAttribute('aria-label','第'+p+'篇已解锁章节');const fill=el('i');fill.style.width=(p===4?Math.min(100,get(p).max*10):get(p).max)+'%';outer.append(fill);return outer;}
 function articleUnlock(){const m=location.pathname.match(/\/chapters\/volume-(\d{2})\/(chapter-(\d{3})|prologue)\.html$/);if(!m)return;
 const vol=Number(m[1]),local=Number(m[3]||0),p=partOf(vol),n=((vol-1)%10)*10+local,pro=!!(m[2]==='prologue');
 const article=document.querySelector('.article');if(!article)return;
