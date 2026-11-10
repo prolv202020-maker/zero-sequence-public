@@ -30,13 +30,14 @@
     label.textContent='本篇已读 '+progress+' / '+(current===4?11:100)+'章 · 已发布章节免费开放';
     tabs.forEach(btn=>btn.setAttribute('aria-pressed',String(Number(btn.dataset.zsArc)===current)));
     const fragment=document.createDocumentFragment();
-    for(let i=0;i<(current===4?1:10);i++){
+    for(let i=0;i<(current===4?2:10);i++){
       const vol=data[1]+i,readStart=i*10,readEnd=readStart+10;
-      const state=progress>=readEnd?'complete':progress>readStart?'current':'unread';
+      const publishedEnd=current===4&&vol===32?11:readEnd;
+      const state=progress>=publishedEnd?'complete':progress>readStart?'current':'unread';
       const a=make('a');a.href='volumes/volume-'+pad(vol,2)+'.html';a.dataset.state=state;
-      a.setAttribute('aria-label','第'+vol+'卷，包含全书第'+((vol-1)*10+1)+'至'+(vol*10)+'章，进入本卷目录');
+      a.setAttribute('aria-label','第'+vol+'卷，包含全书第'+((vol-1)*10+1)+'至'+(current===4&&vol===32?311:vol*10)+'章，进入本卷目录');
       a.append(make('span','zs-quick-volume-number','VOL '+pad(vol,2)+' · 第'+vol+'卷'));
-      a.append(make('span','zs-quick-volume-info','全书 '+((vol-1)*10+1)+'—'+(vol*10)+'章'));
+      a.append(make('span','zs-quick-volume-info','全书 '+((vol-1)*10+1)+(current===4&&vol===32?'章 · 连载中':'—'+(vol*10)+'章')));
       a.append(make('span','zs-quick-volume-state',state==='complete'?'✓ 本卷已读':state==='current'?'继续阅读':'打开目录 →'));
       fragment.append(a);
     }
