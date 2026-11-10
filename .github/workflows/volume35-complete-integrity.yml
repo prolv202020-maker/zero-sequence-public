@@ -1,0 +1,28 @@
+name: Volume 35 Complete Integrity
+on:
+  pull_request:
+    paths:
+      - 'chapters/volume-35/**'
+      - 'volumes/volume-35.html'
+      - 'scripts/test-volume35-complete.mjs'
+      - '.github/workflows/volume35-complete-integrity.yml'
+      - 'assets/js/**'
+      - 'assets/data/search-index.json'
+      - 'parts/part-04.html'
+      - 'index.html'
+  push:
+    branches: [release/volume-35-complete-20261110]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify entire 35th volume, navigation and spoiler boundaries
+        run: node scripts/test-volume35-complete.mjs
