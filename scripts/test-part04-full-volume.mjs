@@ -40,7 +40,7 @@ assert.ok(archive.includes("Math.min(p===4?11:100,Number(item.max)||0)"),'Fourth
 assert.ok(archive.includes("const cap=p===4?11:100"),'Fourth-part published count must be 11');
 assert.ok(archive.includes("const KEY='zs:part-progress:v1'"),'Reader progress storage key must not change');
 assert.ok(archive.includes('{p:4,n:10')&&!archive.includes('黑鸢与北岚'),'Fourth part per-chapter spoiler rules stale');
-assert.ok(quick.includes('num>311')&&quick.includes("current===4?10:100"),'Quick navigation must support 311 and fourth-part 11 chapter limit');
+assert.ok(quick.includes('num>311')&&quick.includes("current===4?11:100"),'Quick navigation must support 311 and fourth-part 11 chapter limit');
 assert.ok(searchPage.includes('x.p04?.max'),'Search must honor 4th-part independent spoilers');
 for(const s of ['assets/js/progressive-archive.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(s),{filename:s});
 assert.ok(!/CF_ANALYTICS_TOKEN|CF_ACCOUNT_ID/.test(archive),'No analytics secrets in reader client');
