@@ -15,7 +15,7 @@ const query=`query V8SiteScope($account: string!, $tag: string!, $host: string!,
     site:rumPageloadEventsAdaptiveGroups(limit:1,filter:{siteTag:$tag,datetime_geq:$start,datetime_lt:$end}) {count}
     host:rumPageloadEventsAdaptiveGroups(limit:1,filter:{requestHost:$host,datetime_geq:$start,datetime_lt:$end}) {count}
     siteHost:rumPageloadEventsAdaptiveGroups(limit:1,filter:{siteTag:$tag,requestHost:$host,datetime_geq:$start,datetime_lt:$end}) {count}
-    siteHostPath:rumPageloadEventsAdaptiveGroups(limit:1,filter:{siteTag:$tag,requestHost:$host,requestPath_like:"/zero-sequence-public/%",datetime_geq:$start,datetime_lt:$end}) {count}
+    hostPath:rumPageloadEventsAdaptiveGroups(limit:1,filter:{requestHost:$host,requestPath_like:"/zero-sequence-public/%",datetime_geq:$start,datetime_lt:$end}) {count}\n    siteHostPath:rumPageloadEventsAdaptiveGroups(limit:1,filter:{siteTag:$tag,requestHost:$host,requestPath_like:"/zero-sequence-public/%",datetime_geq:$start,datetime_lt:$end}) {count}
   }
  }
 }`;
@@ -29,7 +29,7 @@ let x;try{x=await response.json()}catch{console.error('V8 DIAGNOSTIC: BAD_RESPON
 if(x.errors?.length){console.error('V8 DIAGNOSTIC: GRAPHQL_QUERY_REJECTED');process.exit(1)}
 const a=x?.data?.viewer?.accounts;
 if(!Array.isArray(a)||a.length!==1){console.error('V8 DIAGNOSTIC: ACCOUNT_SCOPE_MISMATCH');process.exit(1)}
-const keys=['all','site','host','siteHost','siteHostPath'];
+const keys=['all','site','host','hostPath','siteHost','siteHostPath'];
 const counts={};
 for(const k of keys){
  const g=a[0][k];if(!Array.isArray(g)||g.length>1){console.error('V8 DIAGNOSTIC: UNEXPECTED_GROUP_SHAPE');process.exit(1)}
@@ -40,7 +40,7 @@ for(const k of keys){
 console.log('V8 DIAGNOSTIC 30-day aggregates (no identifiers logged):',JSON.stringify(counts));
 let outcome;
 if(counts.all===0)outcome='NO_ACCOUNT_WEB_ANALYTICS_EVENTS_IN_WINDOW';
-else if(counts.site===0)outcome='PUBLIC_SITE_TAG_NO_EVENTS_BUT_ACCOUNT_HAS_DATA';
+else if(counts.site===0)outcome=counts.hostPath>0?'SITE_TOKEN_MISMATCH_WITH_VERIFIED_PROJECT_PATH_EVENTS':'PUBLIC_SITE_TAG_NO_EVENTS_AND_PROJECT_PATH_EMPTY';
 else if(counts.siteHost===0)outcome='SITE_TAG_HAS_EVENTS_BUT_HOST_FILTER_EMPTY';
 else if(counts.siteHostPath===0)outcome='SITE_TAG_AND_HOST_HAVE_EVENTS_BUT_PROJECT_PATH_EMPTY';
 else outcome='PROJECT_EVENTS_PRESENT';
