@@ -1,0 +1,12 @@
+<!-- V8 独立分支预览组件：放置在首页书库介绍之后；未接入 main。 -->
+<section class="zs-visitor-counter" data-zs-visitor-stats data-source="assets/data/public-traffic.json" aria-labelledby="zs-visitor-heading">
+  <h2 id="zs-visitor-heading">读者足迹</h2>
+  <p>基于 Cloudflare Web Analytics 的页面浏览统计（不是独立访客人数）</p>
+  <div class="zs-visitor-grid">
+    <div><strong data-metric="todayPageViews">—</strong><span>今日浏览量</span></div>
+    <div><strong data-metric="sevenDayPageViews">—</strong><span>近7日浏览量</span></div>
+    <div><strong data-metric="thirtyDayPageViews">—</strong><span>近30日浏览量</span></div>
+  </div>
+  <p class="zs-visitor-status" data-status role="status" aria-live="polite">访问数据暂未取得</p>
+</section>
+<script defer src="assets/js/public-traffic-widget.js?v=1"></script>
