@@ -3,7 +3,7 @@
   'use strict';
   const root=document.querySelector('[data-zs-visitor-stats]');
   if(!root)return;
-  const source='https://raw.githubusercontent.com/prolv202020-maker/zero-sequence-public/data/v8-traffic/public-traffic.json';
+  const source='https://raw.githubusercontent.com/prolv202020-maker/zero-sequence-public/v8-traffic-data/public-traffic.json';
   const keys=['todayPageViews','sevenDayPageViews','thirtyDayPageViews'];
   const elements=Object.fromEntries(keys.map(key=>[key,root.querySelector('[data-metric="'+key+'"]')]));
   const status=root.querySelector('[data-status]');
