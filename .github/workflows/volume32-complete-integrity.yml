@@ -1,0 +1,42 @@
+name: V32 10-chapter release integrity
+on:
+  push:
+    branches: [release/part04-volume32-complete-20261110]
+    paths:
+      - '.github/workflows/volume32-complete-integrity.yml'
+      - 'scripts/test-volume32-complete.mjs'
+      - 'chapters/volume-32/**'
+      - 'assets/js/progressive-archive.js'
+      - 'volumes/volume-32.html'
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            index.html
+            search.html
+            sitemap.xml
+            sw.js
+            parts/part-04.html
+            volumes/volume-32.html
+            chapters/volume-31/chapter-010.html
+            chapters/volume-32
+            assets/data/search-index.json
+            assets/js/progressive-archive.js
+            assets/js/reader-experience.js
+            assets/js/home-relaunch.js
+            assets/js/volume-page.js
+            assets/js/volume-catalog.js
+            scripts/test-volume32-complete.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify all 10 chapters, 3000+ Han, continuity and spoiler isolation
+        run: node scripts/test-volume32-complete.mjs
