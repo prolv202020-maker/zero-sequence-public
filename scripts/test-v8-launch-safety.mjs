@@ -42,7 +42,7 @@ async function browserMock(payload){
   fetch:async url=>{calls++;assert.ok(url.startsWith('https://raw.githubusercontent.com/'));return {ok:true,json:async()=>payload}}
  });
  new Script(widget).runInContext(context);
- for(let i=0;i<5;i++)await Promise.resolve();
+ await new Promise(resolve=>setTimeout(resolve,30));
  return {status:status.textContent,metrics,calls};
 }
 const good={schema:'zs-public-traffic-v1',site:'zero-sequence-public',status:'verified',
