@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+/* Volume 33 publication gate. Existing chapters and browser progress remain unchanged. */
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {Script} from 'node:vm';
+const read=path=>readFileSync(path,'utf8');
+const titles=['破旗截车','雇兵价码','箭落风桥','剑过驿门','重剑夺塔','公会围城','断粮之局','逆风旗','烽线决战','路归众人'];
+const index=JSON.parse(read('assets/data/search-index.json'));
+const sitemap=read('sitemap.xml'),home=read('index.html'),part=read('parts/part-04.html'),vol=read('volumes/volume-33.html');
+const unlock=read('assets/js/progressive-archive.js'),reader=read('assets/js/reader-experience.js');
+const quick=read('assets/js/home-relaunch.js'),search=read('search.html'),sw=read('sw.js');
+const counts=[];
+assert.ok(read('chapters/volume-32/chapter-010.html').includes('../volume-33/chapter-001.html'),'Chapter 320 -> 321 navigation');
+assert.ok(read('volumes/volume-32.html').includes('volume-33.html'),'Volume 32 -> 33 navigation');
+for(let i=1;i<=10;i++){
+ const chapter=320+i,pathname='chapters/volume-33/chapter-'+String(i).padStart(3,'0')+'.html';
+ assert.ok(existsSync(pathname),'Chapter '+chapter+' missing');
+ const html=read(pathname);
+ const match=html.match(/<div class="article">([\s\S]*?)<div class="pager">/);
+ assert.ok(match,'Missing article/pager '+chapter);
+ const han=(match[1].match(/[\u3400-\u9fff]/g)||[]).length;
+ assert.ok(han>=3000&&han<=3500,'Chapter '+chapter+' has '+han+' Han; expected 3000-3500');
+ assert.ok(html.includes('<title>第'+chapter+'章 '+titles[i-1]+' · 第零序列</title>'),'Chapter title mismatch');
+ assert.ok(html.includes('全书第'+chapter+'章 · 正式正文'),'Global chapter number mismatch');
+ assert.ok(html.includes('href="../../volumes/volume-33.html"'),'Missing chapter->volume navigation');
+ const prev=i===1?'../volume-32/chapter-010.html':'chapter-'+String(i-1).padStart(3,'0')+'.html';
+ assert.ok(html.includes('href="'+prev+'"'),'Broken previous navigation '+chapter);
+ if(i<10)assert.ok(html.includes('href="chapter-'+String(i+1).padStart(3,'0')+'.html"'),'Broken next navigation '+chapter);
+ else assert.ok(!html.includes('chapter-011.html'),'Unpublished next chapter leaked');
+ assert.ok(html.includes('progressive-archive.js?v=26'),'Progress unlock bootstrap mismatch');
+ assert.ok(!html.includes('80级触发')&&!html.includes('三十年末日'),'Author-only/obsolete canon leaked');
+ assert.ok(vol.includes('href="../'+pathname+'"'),'Missing chapter in volume directory');
+ assert.equal(index.filter(x=>x.url===pathname).length,1,'Missing/duplicate search index '+chapter);
+ assert.ok(sitemap.includes('/'+pathname+'</loc>'),'Sitemap missing '+chapter);
+ counts.push({chapter,title:titles[i-1],han});
+}
+assert.ok(vol.includes('第三十三卷《烽线争城》'),'Volume heading wrong');
+assert.ok(part.includes('volume-33.html')&&part.includes('共30章 · 第301—330章'),'Part four index mismatch');
+assert.ok(home.includes('330章＋序章')&&home.includes('最新正式章节：第330章《路归众人》'),'Home latest mismatch');
+assert.ok(quick.includes('num>330')&&quick.includes('current===4?3:10'),'Quick jump cap/volume count mismatch');
+assert.ok(reader.includes('globalChapter<330')&&reader.includes('vol<33'),'Reader navigation cap mismatch');
+assert.ok(unlock.includes("const KEY='zs:part-progress:v1'"),'Must preserve reader progress key');
+assert.ok(unlock.includes('p===4?30:100'),'Fourth arc progress cap mismatch');
+for(let n=1;n<=30;n++)assert.ok(unlock.includes('{p:4,n:'+n+','),'Missing gated entry '+n);
+assert.ok(!unlock.includes('80级触发'),'Private author canon must not leak');
+assert.ok(search.includes('x.p04?.max')&&search.includes('v<=33'),'Public chapter search must use independent part 4 spoiler gate');
+assert.ok(sw.includes('progressive-archive.js?v=26')&&sw.includes('reader-experience.js?v=28'),'Service worker versions stale');
+assert.ok(!existsSync('chapters/volume-34'),'Do not publish nonexistent Volume 34');
+for(const pathname of ['assets/js/progressive-archive.js','assets/js/reader-experience.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(pathname),{filename:pathname});
+console.log('VOLUME33_COMPLETE_PASS '+JSON.stringify({chapters:counts,hanTotal:counts.reduce((s,x)=>s+x.han,0)}));
