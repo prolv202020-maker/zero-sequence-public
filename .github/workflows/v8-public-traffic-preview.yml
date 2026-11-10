@@ -1,0 +1,23 @@
+name: V8 public traffic preview safety check
+on:
+  push:
+    branches: [feature/v8-public-traffic-counter-prep-20261110]
+    paths:
+      - '.github/workflows/v8-public-traffic-preview.yml'
+      - 'assets/js/public-traffic-widget.js'
+      - 'docs/v8/**'
+      - 'scripts/test-v8-public-traffic-preview.mjs'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate static UI and no secrets in browser source
+        run: node scripts/test-v8-public-traffic-preview.mjs
