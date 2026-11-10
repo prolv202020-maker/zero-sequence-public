@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Validate the latest published complete volume, independent of a hard-coded total.
+// Validate completed older volumes and the latest partially published volume without inventing unwritten chapters.
 import assert from 'node:assert/strict';
 import {readFileSync,readdirSync,existsSync} from 'node:fs';
 import {join,resolve} from 'node:path';
@@ -15,17 +15,26 @@ assert.deepEqual(vols,Array.from({length:latest},(_,i)=>i+1),'Published volume d
 const id=String(latest).padStart(2,'0');
 const dir='chapters/volume-'+id;
 const chapterFiles=readdirSync(join(root,dir)).filter(x=>/^chapter-\d{3}\.html$/.test(x)).sort();
-const expected=Array.from({length:10},(_,i)=>'chapter-'+String(i+1).padStart(3,'0')+'.html');
-assert.deepEqual(chapterFiles,expected,'Latest volume must publish exactly 10 chapters');
+const count=chapterFiles.length;
+assert.ok(count>=1&&count<=10,'Latest volume must have 1–10 published chapters');
+const expected=Array.from({length:count},(_,i)=>'chapter-'+String(i+1).padStart(3,'0')+'.html');
+assert.deepEqual(chapterFiles,expected,'Latest volume must be gapless without future chapters');
+for(const old of vols.slice(0,-1)){
+ const dirOld='chapters/volume-'+String(old).padStart(2,'0');
+ const existing=readdirSync(join(root,dirOld)).filter(x=>/^chapter-\d{3}\.html$/.test(x)).sort();
+ const full=Array.from({length:10},(_,i)=>'chapter-'+String(i+1).padStart(3,'0')+'.html');
+ assert.deepEqual(existing,full,'Previously completed volume was unexpectedly shortened: '+old);
+}
 const toc=read('volumes/volume-'+id+'.html');
 const map=read('sitemap.xml');
 const home=read('index.html');
-const part=Math.ceil(latest/10),publishedInPart=(latest-(part-1)*10)*10;
+const part=Math.ceil(latest/10),publishedInPart=((latest-1)%10)*10+count;
+const totalPublished=(latest-1)*10+count;
 const partPage=read('parts/part-'+String(part).padStart(2,'0')+'.html');
 const unlock=read('assets/js/progressive-archive.js');
 const reader=read('assets/js/reader-experience.js');
 const volumeUI=read('assets/js/volume-page.js');
-for(let i=1;i<=10;i++){
+for(let i=1;i<=count;i++){
   const name='chapter-'+String(i).padStart(3,'0')+'.html';
   const file=dir+'/'+name,html=read(file);
   const match=html.match(/<div class="article">([\s\S]*?)<div class="pager">/);
@@ -40,7 +49,7 @@ for(let i=1;i<=10;i++){
 }
 assert.ok(partPage.includes('volume-'+id+'.html'),'Current part must link to latest volume');
 assert.ok(home.includes(latest+'卷'),'Homepage volume count does not match');
-assert.ok(home.includes((latest*10)+'章'),'Homepage chapter count does not match');
+assert.ok(home.includes(totalPublished+'章'),'Homepage chapter count does not match');
 if(part===3){
   assert.ok(unlock.includes('p===3?'+publishedInPart+':100'),'Part III progress max mismatch');
 }
@@ -51,6 +60,6 @@ if(latest>1){
   assert.ok(read(prev).includes('../volume-'+id+'/chapter-001.html'),'Previous volume last chapter must link to new volume');
 }
 assert.ok(existsSync(join(root,'assets/data/search-index-volume'+latest+'.json')) ||
-  read('assets/data/search-index.json').includes('chapters/volume-'+id+'/chapter-010.html'),
+  read('assets/data/search-index.json').includes('chapters/volume-'+id+'/chapter-'+String(count).padStart(3,'0')+'.html'),
   'Latest volume must be included in public search index');
-console.log('[STAGED RELEASE] PASS: Volume '+latest+', '+(latest*10)+' published chapters, complete text, progress, links, sitemap and search.');
+console.log('[STAGED RELEASE] PASS: Volume '+latest+', '+totalPublished+' published chapters, complete text, progress, links, sitemap and search.');
