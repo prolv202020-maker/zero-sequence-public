@@ -212,7 +212,7 @@ const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
 assert.match(volPage,/if\(read===10\)\{resume\.href=startHref/,'Completed volume should restart from its opening chapter');
 const readingScript=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readingScript,/else if\(num===1&&vol>1\)/,'First chapter should link back across volume boundary');
-assert.match(readingScript,/else if\(vol<31\)/,'Last chapter should link forward across volume boundary');
+assert.match(readingScript,/else if\(vol<32\)/,'Last chapter should link forward across volume boundary');
 assert.match(readingScript,/if\(num===0\)/,'Prologue should link into chapter one');
 assert.match(readingScript,/oldProgress\.index>0/,'Resume reader must offer saved paragraph position');
 
@@ -265,11 +265,11 @@ assert.match(reader,/zs:reader:options:v1/,'Preferences key must remain stable')
 const navCode=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(navCode,/footerPager\.replaceChildren\(\.\.\.bottom\)/,'All chapters should normalize the footer navigation');
 assert.match(navCode,/if\(num===0\)bottom\.push/,'Prologue bottom navigation must go to chapter one');
-assert.match(navCode,/else if\(vol<31\)bottom\.push/,'Volume and part boundaries must link forward');
+assert.match(navCode,/else if\(vol<32\)bottom\.push/,'Volume and part boundaries must link forward');
 assert.match(navCode,/vol===10\?'下一篇/,'First part should lead directly to second part');
 const sitemap=readFileSync(p('sitemap.xml'),'utf8');
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-assert.equal(urls.length,348,'Sitemap should cover 311 reading pages, 31 volumes, 4 parts and retained public resources');
+assert.equal(urls.length,350,'Sitemap should cover 312 reading pages, 32 volumes, 4 parts and retained public resources');
 assert.ok(urls.includes('https://prolv202020-maker.github.io/zero-sequence-public/archive/codex.html'),'Published reader encyclopedia must appear in sitemap');
 assert.equal(new Set(urls).size,urls.length,'Sitemap should have no duplicate URLs');
 for(const url of urls){
