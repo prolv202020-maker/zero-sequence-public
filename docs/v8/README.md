@@ -3,7 +3,7 @@
 ## 执行状态
 - 公开站保持不变。此分支不修改 main/index.html、不发布任何统计数字、不启用定时调度。
 - 仅已添加独立的浏览量组件 JS 和 HTML 预览代码。
-- 尚未连接 Cloudflare Analytics API，尚未查询真实数据；前端必须显示“访问数据暂未取得”。
+- 已验证只读 Cloudflare Analytics GraphQL 连接与项目 URL 范围查询；当前仅生成不公开的 GitHub Actions 预览 artifact，**前端仍必须显示“访问数据暂未取得”**。
 - **不能把页面浏览量、访问次数误称独立访客人数。** Cloudflare Web Analytics 数据可能有抽样，API 展示应注明平台统计口径。
 
 ## 可靠的数据路径
@@ -30,7 +30,8 @@ Cloudflare Web Analytics（现有站点 Beacon）→ 需要账户权限的 Graph
 ### 正确的网站筛选
 - 正式站 URL 前缀：`https://prolv202020-maker.github.io/zero-sequence-public/`。
 - GitHub Pages 主机名可能同时承载其他项目，仅按 hostname 聚合会污染统计。必须确认 Cloudflare API 能按项目的 `requestPath` 前缀精确筛选，或在 Web Analytics 上确认当前 siteTag 数据仅属于本项目。
-- API 字段、采样区间、账户读权限需要对真实账号做一次最小化查询后才确定。未知条件下拒绝输出看似准确的数字。
+- 实测 GraphQL `dimensions.siteTag` 和网站 Beacon 的 `siteToken` 为不同字段，**不得直接比对两者是否相等**。已按域名和 `/zero-sequence-public/%` 路径限制查询，并验证当前仅有一个项目路径属性组。
+- 已读取单次 UTC 日期分组结果；发布前还须与 Cloudflare 仪表板比对采样口径，并明确“今日”时区。未知条件下拒绝输出看似准确的数字。
 - 一次浏览量不等于一个独立真人。暂不实现“累计总访客”，因为 Cloudflare Web Analytics 并不保证从项目上线第一天完整保留历史。
 
 ### 安全条件
@@ -41,9 +42,9 @@ Cloudflare Web Analytics（现有站点 Beacon）→ 需要账户权限的 Graph
 5. 不触及现有正文、阅读进度、小说图鉴、有声 MP3、音频迁移 V7 与防剧透逻辑。
 
 ## 未完成的门槛
-- Cloudflare API 账户权限与 siteTag/子目录隔离能力实际验证
+- Cloudflare API 账户权限与 host+项目子目录过滤已验证；仍须与仪表板人工比对实际值
 - 今日/7日/30日时区和 Cloudflare 时间窗口边界确认
-- 统计获取脚本、只读与更新 workflow 的隔离验收
+- 只读统计脚本和预览 artifact 已通过测试；公开 JSON 发布工作流尚未启用
 - UI 适配原官网风格，手机布局、0/不可用等状态检查
 - 正式站是否增设统计卡片须单独批准和验证 Pages 构建体积
 
