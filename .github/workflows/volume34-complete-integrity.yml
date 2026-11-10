@@ -1,0 +1,28 @@
+name: Volume 34 Complete Integrity
+on:
+  pull_request:
+    paths:
+      - 'chapters/volume-34/**'
+      - 'volumes/volume-34.html'
+      - 'scripts/test-volume34-complete.mjs'
+      - '.github/workflows/volume34-complete-integrity.yml'
+      - 'assets/js/**'
+      - 'assets/data/search-index.json'
+      - 'parts/part-04.html'
+      - 'index.html'
+  push:
+    branches: [release/volume-34-complete-20261110]
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify ten complete chapters, cross-volume links and spoiler boundaries
+        run: node scripts/test-volume34-complete.mjs
