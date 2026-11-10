@@ -1760,7 +1760,7 @@
   {
     "type": "volume",
     "title": "第三十二卷《逐榜烽烟》",
-    "desc": "第四篇《烽火临界》· 已更新第311章，其他章节正在创作。",
+    "desc": "第四篇《烽火临界》· 第311—320章全部正式发布。",
     "url": "volumes/volume-32.html"
   },
   {
@@ -1768,5 +1768,59 @@
     "title": "第32卷《逐榜烽烟》 · 第1章 猎榜令",
     "desc": "全书第311章 · 第四篇正式正文。",
     "url": "chapters/volume-32/chapter-001.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第2章 断旗试阵",
+    "desc": "全书第311章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-002.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第3章 夜榜追兵",
+    "desc": "全书第312章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-003.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第4章 无主猎区",
+    "desc": "全书第313章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-004.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第5章 分旗之夜",
+    "desc": "全书第314章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-005.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第6章 枪锋对剑",
+    "desc": "全书第315章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-006.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第7章 赤线伏杀",
+    "desc": "全书第316章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-007.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第8章 裂阵盟约",
+    "desc": "全书第317章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-008.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第9章 榜首烽火",
+    "desc": "全书第318章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-009.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第10章 烽烟未熄",
+    "desc": "全书第319章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-010.html"
   }
 ]

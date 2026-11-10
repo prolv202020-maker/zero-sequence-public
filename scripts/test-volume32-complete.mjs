@@ -1,0 +1,50 @@
+#!/usr/bin/env node
+/* Full publication gate: all V32 chapters, canonical continuity, links, spoiler caps and preservation. */
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {Script} from 'node:vm';
+const read=p=>readFileSync(p,'utf8');
+const titles=['猎榜令','断旗试阵','夜榜追兵','无主猎区','分旗之夜','枪锋对剑','赤线伏杀','裂阵盟约','榜首烽火','烽烟未熄'];
+const counts=[];
+const index=JSON.parse(read('assets/data/search-index.json'));
+const map=read('sitemap.xml');
+const dir=read('volumes/volume-32.html'),part=read('parts/part-04.html'),home=read('index.html');
+const unlock=read('assets/js/progressive-archive.js'),quick=read('assets/js/home-relaunch.js'),reader=read('assets/js/reader-experience.js');
+const volumeUI=read('assets/js/volume-page.js'),search=read('search.html'),sw=read('sw.js');
+for(let i=1;i<=10;i++){
+ const n=310+i,path='chapters/volume-32/chapter-'+String(i).padStart(3,'0')+'.html';
+ assert.ok(existsSync(path),'Chapter '+n+' missing');
+ const html=read(path);
+ const article=html.match(/<div class="article">([\s\S]*?)<div class="pager">/)?.[1];
+ assert.ok(article,'Chapter body/pager missing '+n);
+ const han=(article.match(/[\u3400-\u9fff]/g)||[]).length;
+ assert.ok(han>=3000&&han<=3500,'Chapter '+n+' must contain 3000–3500 Han, found '+han);
+ assert.ok(html.includes('<title>第'+n+'章 '+titles[i-1]+' · 第零序列</title>'),'Title mismatch '+n);
+ assert.ok(html.includes('全书第'+n+'章 · 正式正文'),'Chapter number mismatch '+n);
+ const prev=i===1?'../volume-31/chapter-010.html':'chapter-'+String(i-1).padStart(3,'0')+'.html';
+ assert.ok(html.includes('href="'+prev+'"'),'Previous chapter link missing '+n);
+ if(i<10)assert.ok(html.includes('href="chapter-'+String(i+1).padStart(3,'0')+'.html"'),'Next chapter link missing '+n);
+ else assert.ok(!html.includes('chapter-011.html'),'Unpublished chapter 321 linked');
+ assert.ok(html.includes('progressive-archive.js?v=25')&&html.includes('audio-player.js'),'Reader bootstrap missing '+n);
+ assert.ok(!html.includes('80级触发')&&!html.includes('三十年末日'),'Private/obsolete canon leakage '+n);
+ assert.ok(dir.includes('href="../'+path+'"'),'Volume directory missing '+n);
+ assert.equal(index.filter(x=>x.url===path).length,1,'Search index missing or duplicated '+n);
+ assert.ok(map.includes('/'+path+'</loc>'),'Sitemap missing '+n);
+ counts.push({chapter:n,title:titles[i-1],han});
+}
+assert.ok(read('chapters/volume-31/chapter-010.html').includes('../volume-32/chapter-001.html'),'310 to 311 navigation broken');
+assert.ok(dir.includes('全10章已发布')&&!dir.includes('第32卷正在连载'),'Volume 32 completion status wrong');
+assert.ok(part.includes('各10章')||part.includes('各10章正式完结'),'Part 4 directory should show both full volumes');
+assert.ok(part.includes('volume-31.html')&&part.includes('volume-32.html'),'Part 4 volume links broken');
+assert.ok(home.includes('320章＋序章')&&home.includes('最新正式章节：第320章《烽烟未熄》'),'Homepage latest chapter wrong');
+assert.ok(quick.includes('num>320')&&quick.includes('current===4?20:100'),'Quick jump and fourth-arc cap wrong');
+assert.ok(unlock.includes("const KEY='zs:part-progress:v1'"),'Reader progress key must remain the same');
+assert.ok(unlock.includes('p===4?20:100'),'Fourth arc progress must unlock up to 20');
+for(let n=11;n<=20;n++)assert.ok(unlock.includes('{p:4,n:'+n+','),'Independent unlock entry missing '+n);
+assert.ok(search.includes('x.p04?.max')&&!search.includes('v<=31'),'Search must obey fourth arc spoiler gate');
+assert.ok(reader.includes('globalChapter<320')&&reader.includes('vol<32'),'Reader must not navigate past chapter 320');
+assert.ok(volumeUI.includes('vol>32'),'Unified volume catalog range wrong');
+assert.ok(sw.includes('progressive-archive.js?v=25')&&sw.includes('reader-experience.js?v=27'),'Service worker should not serve obsolete chapter progress code');
+for(const name of ['assets/js/progressive-archive.js','assets/js/reader-experience.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(name),{filename:name});
+assert.ok(!existsSync('chapters/volume-33'),'Do not fabricate unpublished V33');
+console.log('VOLUME32_COMPLETE_PASS '+JSON.stringify({chapters:counts,hanTotal:counts.reduce((sum,x)=>sum+x.han,0),publicChapterCount:320,spoilerPreserved:true}));

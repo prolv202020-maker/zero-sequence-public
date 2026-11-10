@@ -110,10 +110,10 @@
   function init(){
     build();
     if(!document.querySelector('script[src*="progressive-archive.js"]')){
-      const unlock=document.createElement('script');unlock.src=ROOT+'assets/js/progressive-archive.js?v=13';document.body.appendChild(unlock);
+      const unlock=document.createElement('script');unlock.src=ROOT+'assets/js/progressive-archive.js?v=25';document.body.appendChild(unlock);
     }
     if(!document.querySelector('script[src*="reader-experience.js"]')){
-      const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=26';document.body.appendChild(reader);
+      const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=27';document.body.appendChild(reader);
     }
     if(!document.querySelector('script[src*="site-ui.js"]')){
       const site=document.createElement('script');site.src=ROOT+'assets/js/site-ui.js?v=7';site.defer=true;document.body.appendChild(site);
