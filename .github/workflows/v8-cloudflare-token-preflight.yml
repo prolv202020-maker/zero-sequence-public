@@ -12,6 +12,12 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            scripts/probe-v8-cloudflare-token.mjs
+          sparse-checkout-cone-mode: false
       - uses: actions/setup-node@v4
         with: {node-version: '22'}
       - name: Check Cloudflare API token without disclosing it
