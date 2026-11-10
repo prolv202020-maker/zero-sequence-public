@@ -19,15 +19,15 @@ for(const dir of readdirSync(chapters,{withFileTypes:true})){
  }
 }
 const publishedVolumes=readdirSync(chapters,{withFileTypes:true}).filter(x=>x.isDirectory()&&/^volume-\d{2}$/.test(x.name)).length;
-// Existing first 32 volumes are complete; volume 33 contains ten published chapters.
-const baseCompleted=32*10;
-const latestDir=join(chapters,'volume-33');
+// Existing first 33 volumes are complete; volume 34 contains ten published chapters.
+const baseCompleted=33*10;
+const latestDir=join(chapters,'volume-34');
 const newest=fsExists(latestDir)?readdirSync(latestDir).filter(x=>/^chapter-\d{3}\.html$/.test(x)).length:0;
 const expected=1+baseCompleted+newest;
-if(scanned!==expected)throw new Error('Expected '+expected+' published reading pages (including '+newest+' in volume 33), found '+scanned);
+if(scanned!==expected)throw new Error('Expected '+expected+' published reading pages (including '+newest+' in volume 34), found '+scanned);
 for(let i=1;i<=newest;i++){
  const file='chapter-'+String(i).padStart(3,'0')+'.html';
- if(!readdirSync(latestDir).includes(file))throw new Error('Gap in volume 33 chapter sequence: '+file);
+ if(!readdirSync(latestDir).includes(file))throw new Error('Gap in volume 34 chapter sequence: '+file);
 }
 console.log('[CHAPTER BOOTSTRAP] audited '+scanned+' chapters; '+(checkOnly?'missing '+patched:'patched '+patched)+' script tags.');
 if(checkOnly&&patched)process.exitCode=1;

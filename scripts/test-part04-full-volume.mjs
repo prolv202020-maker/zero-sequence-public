@@ -32,15 +32,15 @@ for(let c=1;c<=10;c++){
  totalHan+=han;links.push({chapter,han,title:titles[c-1]});
 }
 assert.ok(read('chapters/volume-30/chapter-010.html').includes('../volume-31/chapter-001.html'),'No 300 → 301 reading transition');
-assert.ok(home.includes('parts/part-04.html')&&home.includes('volumes/volume-31.html')&&home.includes('330章'),'Homepage fourth-part entry missing');
+assert.ok(home.includes('parts/part-04.html')&&home.includes('volumes/volume-31.html')&&home.includes('340章'),'Homepage fourth-part entry missing');
 assert.ok(part.includes('data-zs-part="4"')&&part.includes('volume-31.html'),'Fourth-part directory missing');
 assert.ok(read('sitemap.xml').includes('parts/part-04.html')&&read('sitemap.xml').includes('volume-31/chapter-010.html'),'Sitemap missing latest');
 assert.ok(archive.includes("partNames={1:'轮回启幕',2:'百城星火',3:'临界回声',4:'烽火临界'}"),'Do not corrupt old parts');
-assert.ok(archive.includes("Math.min(p===4?30:100,Number(item.max)||0)"),'Fourth part max must be capped at 30');
-assert.ok(archive.includes("const cap=p===4?30:100"),'Fourth-part published count must be 30');
+assert.ok(archive.includes("Math.min(p===4?40:100,Number(item.max)||0)"),'Fourth part max must be capped at 30');
+assert.ok(archive.includes("const cap=p===4?40:100"),'Fourth-part published count must be 30');
 assert.ok(archive.includes("const KEY='zs:part-progress:v1'"),'Reader progress storage key must not change');
 assert.ok(archive.includes('{p:4,n:10')&&!archive.includes('黑鸢与北岚'),'Fourth part per-chapter spoiler rules stale');
-assert.ok(quick.includes('num>330')&&quick.includes("current===4?30:100"),'Quick navigation must support 330 and fourth-part 30 chapter limit');
+assert.ok(quick.includes('num>340')&&quick.includes("current===4?40:100"),'Quick navigation must support 330 and fourth-part 30 chapter limit');
 assert.ok(searchPage.includes('x.p04?.max'),'Search must honor 4th-part independent spoilers');
 for(const s of ['assets/js/progressive-archive.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(s),{filename:s});
 assert.ok(!/CF_ANALYTICS_TOKEN|CF_ACCOUNT_ID/.test(archive),'No analytics secrets in reader client');
