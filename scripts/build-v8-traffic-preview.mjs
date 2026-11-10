@@ -33,7 +33,8 @@ const r=entries[0],get=(key)=>{
  return n;
 };
 const today=get('today'),week=get('week'),month=get('month');
-console.log('V8 PREVIEW PROBE: scope counts (no publication): today='+today+' week='+week+' month='+month);\nif(!(today<=week&&week<=month)){console.error('V8 PREVIEW: PERIOD_TOTALS_INCONSISTENT; abort preview generation.');process.exit(1)}
+console.log('V8 PREVIEW PROBE: scope counts (no publication): today='+today+' week='+week+' month='+month);
+if(!(today<=week&&week<=month)){console.error('V8 PREVIEW: PERIOD_TOTALS_INCONSISTENT; abort preview generation.');process.exit(1)}
 const tags=r.tags;
 assert.ok(Array.isArray(tags)&&tags.length<=10,'Tag dimension missing');
 const sum=tags.reduce((s,g)=>s+Number(g.count),0);
