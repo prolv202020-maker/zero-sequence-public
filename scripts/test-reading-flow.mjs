@@ -205,7 +205,7 @@ assert.ok(p3Index.includes('volume-21.html')&&p3Index.includes('volume-22.html')
 assert.ok(readFileSync(p('index.html'),'utf8').includes('href="parts/part-03.html"'),'Homepage should link Part III');
 assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['第三篇 · 临界回声','parts/part-03.html']"),'Global navigation should include Part III');
 assert.ok(readFileSync(p('assets/js/reader-experience.js'),'utf8').includes("vol===20?'第三篇"),'Chapter 200 should continue to Part III');
-assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes('const cap=p===4?10:100'),'Fourth part must have 10 newly published chapters while parts 1–3 retain 100');
+assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes('const cap=p===4?11:100'),'Fourth part must have 11 published chapters while parts 1–3 retain 100');
 console.log('[PART III] PASS: 100 complete full-length chapters, third-arc reading and unlock progress, official links.');
 assert.ok(existsSync(p('chapters/volume-01/prologue.html')));
 const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
