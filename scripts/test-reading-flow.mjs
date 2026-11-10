@@ -209,7 +209,7 @@ assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes('c
 console.log('[PART III] PASS: 100 complete full-length chapters, third-arc reading and unlock progress, official links.');
 assert.ok(existsSync(p('chapters/volume-01/prologue.html')));
 const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
-assert.match(volPage,/if\(read===10\)\{resume\.href=startHref/,'Completed volume should restart from its opening chapter');
+assert.ok(volPage.includes('if(read===publishedCount){resume.href=startHref'),'Completed volume should restart from its opening chapter');
 const readingScript=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readingScript,/else if\(num===1&&vol>1\)/,'First chapter should link back across volume boundary');
 assert.match(readingScript,/else if\(vol<32\)/,'Last chapter should link forward across volume boundary');
