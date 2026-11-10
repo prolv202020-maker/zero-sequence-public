@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-/* Diagnostic: determine if live RUM events on the project path carry a different public siteTag. */
+/* Diagnostic: count GraphQL siteTag property IDs on project path; siteTag is NOT beacon siteToken. */
 import {readFileSync} from 'node:fs';
 const secret=process.env.CF_ANALYTICS_TOKEN,account=process.env.CF_ACCOUNT_ID;
 if(!secret||!/^[a-f0-9]{32}$/i.test(account||'')){console.error('V8 TAG: MISSING_CONFIGURATION');process.exit(1)}
 const source=readFileSync('assets/js/visitor-analytics.js','utf8').match(/const CLOUDFLARE_SITE_TOKEN='([a-f0-9]{32})'/i)?.[1];
-if(!source){console.error('V8 TAG: SOURCE_TAG_NOT_FOUND');process.exit(1)}
+if(!source){console.error('V8 TAG: BEACON_SITE_TOKEN_NOT_FOUND');process.exit(1)}
 const post=async (query,variables={})=>{
  const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),12000);
  let r;try{r=await fetch('https://api.cloudflare.com/client/v4/graphql',{method:'POST',headers:{Authorization:'Bearer '+secret,'Content-Type':'application/json'},body:JSON.stringify({query,variables}),signal:ctrl.signal})}catch{console.error('V8 TAG: NETWORK_ERROR');process.exit(1)}finally{clearTimeout(t)}
@@ -33,7 +33,7 @@ for(const [i,g] of groups.entries()){
  const tag=g.dimensions?.siteTag||'';
  const count=Number(g.count);
  if(!Number.isSafeInteger(count)||count<0){console.error('V8 TAG: INVALID_COUNT');process.exit(1)}
- console.log('V8 TAG: group_'+(i+1)+' views='+count+' matches_deployed_beacon='+(tag===source)+' site_tag_present='+/^[a-f0-9]{32}$/i.test(tag));
+ console.log('V8 TAG: group_'+(i+1)+' views='+count+' property_identifier_format_ok='+/^[a-f0-9]{32}$/i.test(tag));
 }
-console.log('V8 TAG: grouped_site_tag_count='+groups.length+'; no full tags, token, or account identifier shown.');
+console.log('V8 TAG: grouped_site_tag_count='+groups.length+'; GraphQL siteTag is a different field from JS beacon siteToken; no secret or full ID shown.');
 console.log('V8 TAG: no data files or live site changed.');
