@@ -2,7 +2,7 @@ name: V32 first-chapter integrity and spoiler gate
 on:
   push:
     branches: [feature/part04-volume32-chapter311-20261110]
-    paths: ['scripts/test-volume32-ch311.mjs','.github/workflows/part04-volume32-first-chapter.yml','chapters/volume-32/**']
+    paths: ['scripts/test-part04-full-volume.mjs','scripts/test-volume32-ch311.mjs','.github/workflows/part04-volume32-first-chapter.yml','chapters/volume-32/**']
   workflow_dispatch:
 permissions: {contents: read}
 jobs:
