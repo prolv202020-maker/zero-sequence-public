@@ -1,0 +1,32 @@
+name: V8 Malaysia-timezone public pageview data dry-run
+on:
+  push:
+    branches: [feature/v8-public-traffic-counter-prep-20261110]
+    paths: ['scripts/export-v8-public-pageviews.mjs','.github/workflows/v8-public-hourly-check.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            scripts/export-v8-public-pageviews.mjs
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Query Cloudflare with Malaysian calendar-day boundaries
+        env:
+          CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CF_ACCOUNT_ID }}
+        run: node scripts/export-v8-public-pageviews.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v8-hourly-data-preview-${{ github.run_id }}
+          path: v8-traffic-results/public-traffic.json
+          retention-days: 7
