@@ -1822,5 +1822,71 @@
     "title": "第32卷《逐榜烽烟》 · 第10章 烽烟未熄",
     "desc": "全书第319章 · 第四篇正式正文。",
     "url": "chapters/volume-32/chapter-010.html"
+  },
+  {
+    "type": "volume",
+    "title": "第33卷《烽线争城》",
+    "desc": "第321—330章 · 第四篇正式完结卷目。",
+    "url": "volumes/volume-33.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第1章 破旗截车",
+    "desc": "全书第321章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-001.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第2章 雇兵价码",
+    "desc": "全书第322章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-002.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第3章 箭落风桥",
+    "desc": "全书第323章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-003.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第4章 剑过驿门",
+    "desc": "全书第324章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-004.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第5章 重剑夺塔",
+    "desc": "全书第325章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-005.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第6章 公会围城",
+    "desc": "全书第326章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-006.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第7章 断粮之局",
+    "desc": "全书第327章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-007.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第8章 逆风旗",
+    "desc": "全书第328章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-008.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第9章 烽线决战",
+    "desc": "全书第329章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-009.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第33卷《烽线争城》 · 第10章 路归众人",
+    "desc": "全书第330章 · 第四篇正式正文。",
+    "url": "chapters/volume-33/chapter-010.html"
   }
 ]

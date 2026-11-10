@@ -32,7 +32,7 @@ assert.equal(readdirSync(join(ROOT,'assets/images/codex')).filter(x=>x.endsWith(
 const folders=readdirSync(join(ROOT,'chapters'),{withFileTypes:true}).filter(x=>x.isDirectory()&&/^volume-\d{2}$/.test(x.name));
 const publishedVolumeCount=readdirSync(join(ROOT,'volumes')).filter(x=>/^volume-\d{2}\.html$/.test(x)).length;
 assert.equal(folders.length,publishedVolumeCount);const readingPages=folders.reduce((n,x)=>n+readdirSync(join(ROOT,'chapters',x.name)).filter(p=>p.endsWith('.html')).length,0);
-assert.equal(readingPages,1+32*10,'All 32 complete volumes and prologue required');
+assert.equal(readingPages,1+33*10,'All 33 complete volumes and prologue required');
 const host='http://127.0.0.1:48765'+PREFIX,url=p=>host+p.replace(/^\//,'');
 const chapter=(v,n)=>'chapters/volume-'+String(v).padStart(2,'0')+'/chapter-'+String(n).padStart(3,'0')+'.html';
 const report={version:'V6',date:new Date().toISOString(),type:'Chromium headless desktop/mobile emulation; local static Pages server (not physical phone)',inventory:{readingPages,volumeCount:publishedVolumeCount,visualCards:25,cgImages:28,immersive:23,audiobooks:130,prologueAudio:1},platforms:[],failures:[]};
@@ -134,7 +134,7 @@ async function suite(context,label){
   await page.getByRole('button',{name:'展开本章CG'}).click();assert.equal(await page.locator('.zs-chapter-cg-item img').count(),2);
   await go(chapter(10,10));await page.locator('.pager a').last().click();assert.ok(page.url().endsWith('/chapters/volume-11/chapter-001.html'));
   await go(chapter(20,10));await page.locator('.pager a').last().click();assert.ok(page.url().endsWith('/chapters/volume-21/chapter-001.html'));
-  await go(chapter(30,10));assert.equal(await page.locator('.pager a[href*="volume-31"]').count(),1);await go(chapter(31,10));assert.equal(await page.locator('.pager a[href*="volume-32"]').count(),1);await go(chapter(32,1));assert.equal(await page.locator('.pager a[href*="chapter-002.html"]').count(),1);await go(chapter(32,10));assert.equal(await page.locator('.pager a[href*="chapter-011.html"]').count(),0);
+  await go(chapter(30,10));assert.equal(await page.locator('.pager a[href*="volume-31"]').count(),1);await go(chapter(31,10));assert.equal(await page.locator('.pager a[href*="volume-32"]').count(),1);await go(chapter(32,1));assert.equal(await page.locator('.pager a[href*="chapter-002.html"]').count(),1);await go(chapter(32,10));assert.equal(await page.locator('.pager a[href*="volume-33"]').count(),1);await go(chapter(33,10));assert.equal(await page.locator('.pager a[href*="chapter-011.html"]').count(),0);
  });
  await check('audiobook-center-navigation',async()=>{
   await go('audiobooks.html');await page.locator('#zs-listening-audio').waitFor();

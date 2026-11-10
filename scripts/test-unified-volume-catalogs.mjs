@@ -39,12 +39,12 @@ for(const n of volumes){
  assert.match(html,/<div class="list">/,'Volume chapter list missing: '+path);
  for(const [asset,expected] of [
   ['assets/css/style.css','v=6'],['assets/css/volume-page.css','v=3'],
-  ['assets/js/volume-page.js',n>=31?'v=13':n>=30?'v=12':'v=11'],['assets/js/progressive-archive.js',n>=31?'v=25':n>=30?'v=23':'v=22']
+  ['assets/js/volume-page.js',n>=33?'v=14':n>=31?'v=13':n>=30?'v=12':'v=11'],['assets/js/progressive-archive.js',n>=33?'v=26':n>=31?'v=25':n>=30?'v=23':'v=22']
  ]){
    const basename=asset.replace(/^assets\//,'');
    assert.ok(html.includes('../assets/'+basename+'?'+expected),path+' missing current '+asset+'?'+expected);
  }
- assert.equal((html.match(/volume-page\.js\?v=(?:11|12|13)/g)||[]).length,1,'No duplicate volume renderer '+path);
+ assert.equal((html.match(/volume-page\.js\?v=(?:11|12|13|14)/g)||[]).length,1,'No duplicate volume renderer '+path);
  const listHtml=html.match(/<div class="list">([\s\S]*?)<\/div>/)?.[1]||'';
  const chapterLinks=[...listHtml.matchAll(/href="\.\.\/chapters\/volume-(\d{2})\/chapter-(\d{3})\.html"/g)];
  const expectedChapters=10;
@@ -64,4 +64,4 @@ for(const n of volumes){
  if(n===22)assert.ok(!html.includes('<h2 style="color:#f0d89f">远域双钟</h2>'),'Volume 22 must not duplicate its hero');
  verified++;
 }
-console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(32*10)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
+console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(latest*10)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');

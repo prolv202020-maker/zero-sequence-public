@@ -38,7 +38,7 @@ const illustrated=reader.match(/const illustratedChapters=(\{[^\n]+\});/);
 assert.ok(illustrated,'Reader missing restricted chapter allowlist');
 const illustratedMap=JSON.parse(illustrated[1]);
 assert.equal(Object.values(illustratedMap).reduce((sum,a)=>sum+a.length,0),23,'Only 23 illustrated chapters should load the art bundle');
-assert.ok(player.includes('reader-experience.js?v=27')&&sw.includes('reader-experience.js?v=27'),'New reader must bust old cache in both normal and offline-assisted loading paths');
+assert.ok(player.includes('reader-experience.js?v=28')&&sw.includes('reader-experience.js?v=28'),'New reader must bust old cache in both normal and offline-assisted loading paths');
 assert.ok(gallery.includes('id:a.id,reader:a.reader')&&gallery.includes("card.id='zs-gallery-art-'+id"),'Gallery cannot find individual book-to-art anchors');
 assert.ok(gallery.includes("if(reader){const a=document.createElement('a')"),'Gallery does not offer a jump back to story paragraphs');
 assert.ok(gallery.includes('function jumpToIllustration()'),'Gallery hash navigation must work with dynamically rendered cards');

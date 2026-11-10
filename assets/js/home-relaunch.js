@@ -1,4 +1,4 @@
-/* 《第零序列》首页：32卷快速导航。不写入、覆盖或重置阅读进度。 */
+/* 《第零序列》首页：33卷快速导航。不写入、覆盖或重置阅读进度。 */
 (() => {
   'use strict';
   const root=document.getElementById('zs-quick-jump')||document.getElementById('quick-jump');
@@ -14,7 +14,7 @@
       return m?Number(m[1]):0;
     }catch{return 0;}
   })();
-  let current=last>=1&&last<=32?Math.ceil(last/10):1;
+  let current=last>=1&&last<=33?Math.ceil(last/10):1;
   const getProgress=p=>{
     if(window.ZSUnlock?.get)return Math.max(0,Math.min(100,Number(window.ZSUnlock.get(p)?.max)||0));
     try{const v=JSON.parse(localStorage.getItem('zs:part-progress:v1')||'{}');
@@ -27,17 +27,17 @@
   function draw(){
     const data=meta[current],progress=getProgress(current);
     title.textContent='第'+current+'篇 · '+data[0];
-    label.textContent='本篇已读 '+progress+' / '+(current===4?20:100)+'章 · 已发布章节免费开放';
+    label.textContent='本篇已读 '+progress+' / '+(current===4?30:100)+'章 · 已发布章节免费开放';
     tabs.forEach(btn=>btn.setAttribute('aria-pressed',String(Number(btn.dataset.zsArc)===current)));
     const fragment=document.createDocumentFragment();
-    for(let i=0;i<(current===4?2:10);i++){
+    for(let i=0;i<(current===4?3:10);i++){
       const vol=data[1]+i,readStart=i*10,readEnd=readStart+10;
-      const publishedEnd=current===4&&vol===32?20:readEnd;
+      const publishedEnd=readEnd;
       const state=progress>=publishedEnd?'complete':progress>readStart?'current':'unread';
       const a=make('a');a.href='volumes/volume-'+pad(vol,2)+'.html';a.dataset.state=state;
-      a.setAttribute('aria-label','第'+vol+'卷，包含全书第'+((vol-1)*10+1)+'至'+(current===4&&vol===32?320:vol*10)+'章，进入本卷目录');
+      a.setAttribute('aria-label','第'+vol+'卷，包含全书第'+((vol-1)*10+1)+'至'+(vol*10)+'章，进入本卷目录');
       a.append(make('span','zs-quick-volume-number','VOL '+pad(vol,2)+' · 第'+vol+'卷'));
-      a.append(make('span','zs-quick-volume-info','全书 '+((vol-1)*10+1)+(current===4&&vol===32?'章 · 完结':'—'+(vol*10)+'章')));
+      a.append(make('span','zs-quick-volume-info','全书 '+((vol-1)*10+1)+('—'+(vol*10)+'章')));
       a.append(make('span','zs-quick-volume-state',state==='complete'?'✓ 本卷已读':state==='current'?'继续阅读':'打开目录 →'));
       fragment.append(a);
     }
@@ -50,8 +50,8 @@
   if(form&&input&&message)form.addEventListener('submit',event=>{
     event.preventDefault();
     const raw=input.value.trim(),num=Number(raw);
-    if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(num)||num<1||num>320){
-      message.textContent='请输入1—320之间的完整章节编号。';input.focus();return;
+    if(!/^\d{1,3}$/.test(raw)||!Number.isInteger(num)||num<1||num>330){
+      message.textContent='请输入1—330之间的完整章节编号。';input.focus();return;
     }
     message.textContent='';
     const volume=Math.ceil(num/10),chapter=((num-1)%10)+1;
