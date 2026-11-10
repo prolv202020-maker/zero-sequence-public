@@ -2,6 +2,14 @@
 (()=>{'use strict';
 const audio=document.getElementById('zs-chapter-narration');
 if(!audio)return;
+// Narration binaries remain immutable on the public audio-archive-v1 branch.
+// They are not packed into GitHub Pages; rewrite native chapter player AND download links.
+const ARCHIVE='https://raw.githubusercontent.com/prolv202020-maker/zero-sequence-public/audio-archive-v1/';
+const toArchive=url=>{try{const full=new URL(url,location.href);const pos=full.pathname.indexOf('/assets/audio/audiobook/');return pos<0?null:ARCHIVE+full.pathname.slice(pos+1)+full.search;}catch(_){return null;}};
+let migrated=false;
+for(const source of audio.querySelectorAll('source[src]')){const url=toArchive(source.getAttribute('src'));if(url){source.src=url;migrated=true;}}
+for(const anchor of document.querySelectorAll('#zs-audiobook-player a[href*="assets/audio/audiobook/"]')){const url=toArchive(anchor.getAttribute('href'));if(url){anchor.href=url;anchor.rel='noopener noreferrer';}}
+if(migrated)audio.load();
 const message=document.getElementById('zs-chapter-narration-status');
 const heading=document.getElementById('zs-audiobook-title');
 const chapterLabel=(heading&&heading.textContent.match(/(?:序章|第[一二三四五六七八九十百]+章)/)||[])[0]||'本章';

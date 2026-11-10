@@ -15,7 +15,7 @@ const valid=(v,n)=>Number.isInteger(v)&&v>=1&&v<=maxVolume&&Number.isInteger(n)&
 const safeGet=(key,fallback)=>{try{const x=JSON.parse(localStorage.getItem(key));return x===null?fallback:x;}catch(_){return fallback;}};
 const safeSet=(key,val)=>{try{localStorage.setItem(key,JSON.stringify(val));}catch(_){}};
 const trackKey=(v,n)=>pad(v)+':'+three(n);
-const pathFor=(v,n)=>ROOT+'assets/audio/audiobook/'+(v<=10?'part-01':'part-02')+'/volume-'+pad(v)+'/'+(n===0?'prologue':'chapter-'+three(n))+'.mp3?v=zi-yue-v4';
+const pathFor=(v,n)=>'https://raw.githubusercontent.com/prolv202020-maker/zero-sequence-public/audio-archive-v1/assets/audio/audiobook/'+(v<=10?'part-01':'part-02')+'/volume-'+pad(v)+'/'+(n===0?'prologue':'chapter-'+three(n))+'.mp3?v=zi-yue-v4';
 const pageFor=(v,n)=>ROOT+'chapters/volume-'+pad(v)+'/'+(n===0?'prologue':'chapter-'+three(n))+'.html';
 const labelFor=(v,n)=>'第'+v+'卷《'+TITLES[v-1]+'》 · '+(n===0?'序章':'第'+n+'章');
 const format=s=>{if(!Number.isFinite(s)||s<0)return'00:00';const t=Math.floor(s);return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};

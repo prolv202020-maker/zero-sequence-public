@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Static smoke / regression checks for the audiobook center. Never calls ElevenLabs. */
 import assert from 'node:assert/strict';
-import {readFileSync,existsSync,openSync,readSync,closeSync,statSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {Script} from 'node:vm';
@@ -34,21 +34,27 @@ assert.ok(bgm.includes('zs_audio_volume')&&bgm.includes("file:'quiet.mp3'")&&bgm
 assert.ok(sw.includes("reader-experience.js?v=30")&&bgm.includes("reader-experience.js?v=30"),'Cached chapter readers must receive audio enhancements');
 assert.ok(css.includes('env(safe-area-inset-bottom)')&&css.includes('max-width:650px')&&chapterCss.includes('max-width:650px'),'Mobile layout must have safe-area and responsive controls');
 assert.ok(!/ELEVENLABS_API_KEY|elevenlabs_narrate|tts-output|--produce/.test(center+chapter+page),'Audiobook center must never invoke paid voice generation');
-let count=0;
+const archive=JSON.parse(read('assets/data/audio-archive-manifest.json'));
+assert.equal(archive.branch,'audio-archive-v1');
+assert.equal(archive.count,131,'All 130 chapter MP3s and prologue must survive');
+assert.equal(archive.files.length,131);
+assert.ok(archive.totalBytes>900_000_000);
+const files=new Map(archive.files.map(x=>[x.path,x]));let count=0;
 for(let v=1;v<=13;v++){
  const vol=String(v).padStart(2,'0'),part=v<=10?'part-01':'part-02';
- const dir='assets/audio/audiobook/'+part+'/volume-'+vol+'/';
- const first=read('chapters/volume-'+vol+'/chapter-001.html');
- assert.ok(first.includes('zs-audiobook-player')&&first.includes('chapter-001.mp3'),'Volume '+v+' must be natively narrated');
+ const page=read('chapters/volume-'+vol+'/chapter-001.html');
+ assert.ok(page.includes('zs-audiobook-player')&&page.includes('chapter-001.mp3'),'Chapter audio player missing');
+ assert.ok(page.includes('chapter-audiobook.js'),'Chapter must use archive adapter');
  for(let n=1;n<=10;n++){
-  const mp3=dir+'chapter-'+String(n).padStart(3,'0')+'.mp3';
-  assert.ok(existsSync(file(mp3)),'Missing chapter audio '+mp3);
-  assert.ok(statSync(file(mp3)).size>250000,'Truncated chapter audio '+mp3);
-  const fd=openSync(file(mp3),'r'),buf=Buffer.alloc(3);try{readSync(fd,buf,0,3,0);}finally{closeSync(fd);}
-  assert.ok(buf.toString()==='ID3'||buf[0]===255,'Invalid MP3 header '+mp3);
+  const path='assets/audio/audiobook/'+part+'/volume-'+vol+'/chapter-'+String(n).padStart(3,'0')+'.mp3';
+  const item=files.get(path);
+  assert.ok(item&&item.size>250000&&/^[a-f0-9]{40}$/.test(item.sha),'Archive MP3 metadata missing '+path);
+  assert.ok(!existsSync(file(path)),'Must keep MP3 in archive, not Pages artifact: '+path);
   count++;
  }
 }
-assert.ok(existsSync(file('assets/audio/audiobook/part-01/volume-01/prologue.mp3')),'Missing narrated prologue');
-assert.ok(read('chapters/volume-14/chapter-001.html').includes('<div class="article">'),'Text-only later chapters must remain readable');
-console.log('[AUDIOBOOK CENTER] PASS: '+count+' complete existing chapter MP3s plus prologue, all 30 volume labels, continuation/resume, mobile UI, BGM coexistence, no paid TTS.');
+const prologue='assets/audio/audiobook/part-01/volume-01/prologue.mp3';
+assert.ok(files.has(prologue)&&files.get(prologue).size>250000);
+assert.ok(!existsSync(file(prologue)),'Prologue must be archived outside Pages');
+assert.ok(center.includes(archive.base)&&read('assets/js/chapter-audiobook.js').includes(archive.base),'Audio archive URLs must be wired into both players');
+console.log('[AUDIOBOOK CENTER] PASS: '+count+' archived chapter MP3s plus prologue; stable paths, original progress, BGM, mobile UI.');

@@ -6,6 +6,7 @@ if(!match)return;
 const v=Number(match[1]),n=match[3]?Number(match[3]):0;
 if(v<1||v>13||n>10||(n===0&&v!==1))return;
 const audio=document.getElementById('zs-chapter-narration'),panel=document.getElementById('zs-audiobook-player');
+// The native player migrates media URLs before this progress enhancer attaches listeners.
 if(!audio||!panel||panel.dataset.zsEnhanced==='true')return;
 panel.dataset.zsEnhanced='true';
 const key=String(v).padStart(2,'0')+':'+String(n).padStart(3,'0');

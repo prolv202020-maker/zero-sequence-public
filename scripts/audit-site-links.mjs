@@ -11,6 +11,8 @@ const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const prefix='/zero-sequence-public/';
 const supported=new Set(['.html','.css','.js']);
 const warnings=[],missing=[],files=[];
+const archiveManifest=JSON.parse(readFileSync(resolve(root,'assets/data/audio-archive-manifest.json'),'utf8'));
+const archivedMediaPaths=new Set(archiveManifest.files.map(x=>x.path));
 function walk(dir){
  for(const item of readdirSync(dir,{withFileTypes:true})){
   if(['.git','node_modules','.github'].includes(item.name))continue;
@@ -31,7 +33,13 @@ function validate(file,url,kind){
   path=resolve(root,path);
  }else path=resolve(dirname(file),path);
  if(!path.startsWith(root+'/') && path!==root){missing.push(relative(root,file)+': path escapes site root '+url);return;}
- if(!existsSync(path))missing.push(relative(root,file)+': missing '+kind+' '+url+' -> '+relative(root,path));
+ if(!existsSync(path)){
+  const rel=relative(root,path).replaceAll('\\\\','/');
+  // Published chapter MP3s are intentionally preserved on an accessible public archive branch.
+  // The chapter audio adapter rewrites their original URLs at runtime before playback.
+  if(archivedMediaPaths.has(rel) && readFileSync(file,'utf8').includes('chapter-audiobook.js'))return;
+  missing.push(relative(root,file)+': missing '+kind+' '+url+' -> '+relative(root,path));
+ }
 }
 for(const file of files){
  const ext=extname(file);
