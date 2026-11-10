@@ -11,6 +11,7 @@ for(const key of ['todayPageViews','sevenDayPageViews','thirtyDayPageViews']) {
 }
 assert.ok(src.includes("data.status !== 'verified'"),'Unverified numbers must be hidden');
 assert.ok(src.includes('url.origin !== location.origin'),'Cross-origin data must be refused');
+assert.ok(src.includes("data.metadata?.timeZone !== 'Asia/Kuala_Lumpur'"),'Public today counter requires verified Malaysia time boundary');
 assert.ok(!/Bearer|CF_ANALYTICS_TOKEN|CF_ACCOUNT_ID|api.cloudflare.com|localStorage|zs:audiobook/.test(src+preview),'Credential or storage integration prohibited');
 assert.ok(preview.includes('不是独立访客人数'),'Preview must warn users that page views are not unique visitors');
 const graphqlPreview=readFileSync('scripts/build-v8-traffic-preview.mjs','utf8');
