@@ -25,22 +25,22 @@ for(let c=1;c<=10;c++){
  if(c===1)assert.ok(html.includes('../volume-30/chapter-010.html'),'First chapter must link back to 300');
  if(c>1)assert.ok(html.includes('chapter-'+String(c-1).padStart(3,'0')+'.html'),'Missing previous nav '+chapter);
  if(c<10)assert.ok(html.includes('chapter-'+String(c+1).padStart(3,'0')+'.html'),'Missing next nav '+chapter);
- else assert.ok(!html.includes('chapter-011.html'),'Do not link unpublished chapter 311');
+ else assert.ok(html.includes('../volume-32/chapter-001.html'),'Completed V31 must link to published chapter 311');
  assert.ok(volume.includes('第'+c+'章　'+titles[c-1]+' · 全书第'+chapter+'章'),'Directory chapter mismatch '+chapter);
  const si=search.find(e=>e.url===p);
  assert.ok(si&&si.title.includes(titles[c-1]),'Search index mismatch '+chapter);
  totalHan+=han;links.push({chapter,han,title:titles[c-1]});
 }
 assert.ok(read('chapters/volume-30/chapter-010.html').includes('../volume-31/chapter-001.html'),'No 300 → 301 reading transition');
-assert.ok(home.includes('parts/part-04.html')&&home.includes('volumes/volume-31.html')&&home.includes('310章'),'Homepage fourth-part entry missing');
+assert.ok(home.includes('parts/part-04.html')&&home.includes('volumes/volume-31.html')&&home.includes('311章'),'Homepage fourth-part entry missing');
 assert.ok(part.includes('data-zs-part="4"')&&part.includes('volume-31.html'),'Fourth-part directory missing');
 assert.ok(read('sitemap.xml').includes('parts/part-04.html')&&read('sitemap.xml').includes('volume-31/chapter-010.html'),'Sitemap missing latest');
 assert.ok(archive.includes("partNames={1:'轮回启幕',2:'百城星火',3:'临界回声',4:'烽火临界'}"),'Do not corrupt old parts');
-assert.ok(archive.includes("Math.min(p===4?10:100,Number(item.max)||0)"),'Fourth part max must be capped at 10');
-assert.ok(archive.includes("const cap=p===4?10:100"),'Fourth-part published count must be 10');
+assert.ok(archive.includes("Math.min(p===4?11:100,Number(item.max)||0)"),'Fourth part max must be capped at 11');
+assert.ok(archive.includes("const cap=p===4?11:100"),'Fourth-part published count must be 11');
 assert.ok(archive.includes("const KEY='zs:part-progress:v1'"),'Reader progress storage key must not change');
 assert.ok(archive.includes('{p:4,n:10')&&!archive.includes('黑鸢与北岚'),'Fourth part per-chapter spoiler rules stale');
-assert.ok(quick.includes('num>310')&&quick.includes("current===4?10:100"),'Quick navigation must support 310 and fourth-part 10 chapter limit');
+assert.ok(quick.includes('num>311')&&quick.includes("current===4?11:100"),'Quick navigation must support 311 and fourth-part 11 chapter limit');
 assert.ok(searchPage.includes('x.p04?.max'),'Search must honor 4th-part independent spoilers');
 for(const s of ['assets/js/progressive-archive.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(s),{filename:s});
 assert.ok(!/CF_ANALYTICS_TOKEN|CF_ACCOUNT_ID/.test(archive),'No analytics secrets in reader client');
