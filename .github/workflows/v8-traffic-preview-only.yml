@@ -1,0 +1,37 @@
+name: V8 Cloudflare project path pageview preview (not published)
+on:
+  push:
+    branches: [feature/v8-public-traffic-counter-prep-20261110]
+    paths: ['scripts/build-v8-traffic-preview.mjs','.github/workflows/v8-traffic-preview-only.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            scripts/build-v8-traffic-preview.mjs
+            assets/js/visitor-analytics.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Query pageview aggregates but do not publish while siteTag mismatches
+        env:
+          CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CF_ACCOUNT_ID }}
+        run: node scripts/build-v8-traffic-preview.mjs
+      - name: Archive review-only preview
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v8-private-preview-not-published-${{ github.run_id }}
+          path: v8-traffic-preview/public-traffic-preview.json
+          if-no-files-found: error
+          retention-days: 14
