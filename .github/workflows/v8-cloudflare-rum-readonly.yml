@@ -1,0 +1,31 @@
+name: V8 Cloudflare RUM project-scoped metrics read-only test
+on:
+  push:
+    branches: [feature/v8-public-traffic-counter-prep-20261110]
+    paths:
+      - 'scripts/probe-v8-cloudflare-rum.mjs'
+      - '.github/workflows/v8-cloudflare-rum-readonly.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  read-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          filter: blob:none
+          sparse-checkout: |
+            scripts/probe-v8-cloudflare-rum.mjs
+            assets/js/visitor-analytics.js
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate RUM scope and query 1/7/30-day real pageview aggregates
+        env:
+          CF_ANALYTICS_TOKEN: ${{ secrets.CF_ANALYTICS_TOKEN }}
+          CF_ACCOUNT_ID: ${{ vars.CF_ACCOUNT_ID }}
+        run: node scripts/probe-v8-cloudflare-rum.mjs
