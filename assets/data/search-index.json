@@ -1756,5 +1756,17 @@
     "title": "第31卷《雪线夺路》 · 第10章 路仍向前",
     "desc": "全书第310章 · 第四篇正式正文。",
     "url": "chapters/volume-31/chapter-010.html"
+  },
+  {
+    "type": "volume",
+    "title": "第三十二卷《逐榜烽烟》",
+    "desc": "第四篇《烽火临界》· 已更新第311章，其他章节正在创作。",
+    "url": "volumes/volume-32.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第32卷《逐榜烽烟》 · 第1章 猎榜令",
+    "desc": "全书第311章 · 第四篇正式正文。",
+    "url": "chapters/volume-32/chapter-001.html"
   }
 ]
