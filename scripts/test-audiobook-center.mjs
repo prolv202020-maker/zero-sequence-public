@@ -31,7 +31,7 @@ assert.ok(!center.includes('autoplay=true')&&!page.includes(' autoplay'),'No uns
 assert.ok(reader.includes("audiobook-chapter.js?v=1")&&reader.includes("audiobook-chapter.css?v=1"),'Chapter player enhancer must be loaded without touching original HTML');
 assert.ok(!chapter.includes('zs:reader:last:v1')&&!chapter.includes('zs:part-progress:v1'),'Audio enhancements must not overwrite novel reading progress or spoiler gates');
 assert.ok(bgm.includes('zs_audio_volume')&&bgm.includes("file:'quiet.mp3'")&&bgm.includes('requestAnimationFrame(tick)'),'BGM configuration must remain intact');
-assert.ok(sw.includes("reader-experience.js?v=27")&&bgm.includes("reader-experience.js?v=27"),'Cached chapter readers must receive audio enhancements');
+assert.ok(sw.includes("reader-experience.js?v=28")&&bgm.includes("reader-experience.js?v=28"),'Cached chapter readers must receive audio enhancements');
 assert.ok(css.includes('env(safe-area-inset-bottom)')&&css.includes('max-width:650px')&&chapterCss.includes('max-width:650px'),'Mobile layout must have safe-area and responsive controls');
 assert.ok(!/ELEVENLABS_API_KEY|elevenlabs_narrate|tts-output|--produce/.test(center+chapter+page),'Audiobook center must never invoke paid voice generation');
 let count=0;
