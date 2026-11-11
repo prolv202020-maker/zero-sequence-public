@@ -113,7 +113,7 @@
       const unlock=document.createElement('script');unlock.src=ROOT+'assets/js/progressive-archive.js?v=28';document.body.appendChild(unlock);
     }
     if(!document.querySelector('script[src*="reader-experience.js"]')){
-      const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=30';document.body.appendChild(reader);
+      const reader=document.createElement('script');reader.src=ROOT+'assets/js/reader-experience.js?v=31';document.body.appendChild(reader);
     }
     if(!document.querySelector('script[src*="site-ui.js"]')){
       const site=document.createElement('script');site.src=ROOT+'assets/js/site-ui.js?v=7';site.defer=true;document.body.appendChild(site);
