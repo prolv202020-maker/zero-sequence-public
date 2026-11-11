@@ -10,7 +10,7 @@
 <p class="lead">搜索已公开的卷目、章节标题与职业、武器、道具、生产、生态档案；未公开的终局秘密仍不纳入。目前不提供正文全文搜索。</p>
 <div class="s-row"><input type="search" id="s-input" placeholder="例如：晨星镇、顾长渊、第五卷" aria-label="输入搜索关键词" autocomplete="off"><select id="s-type" aria-label="搜索类别"><option value="all">全部</option><option value="chapter">章节</option><option value="volume">卷目</option><option value="archive">公开档案</option></select></div>
 <label class="s-privacy" for="s-include-unread"><input id="s-include-unread" type="checkbox"><span>显示尚未阅读的卷目与章节标题（可能剧透，默认关闭；只影响本页显示，不改变保存的阅读进度）</span></label>
-<div class="s-links"><a href="index.html#quick-jump">按1—390章号直接跳转</a><a href="chapters/volume-01/prologue.html">从序章开始</a></div>
+<div class="s-links"><a href="index.html#quick-jump">按1—400章号直接跳转</a><a href="chapters/volume-01/prologue.html">从序章开始</a></div>
 </section><p id="s-count" role="status" aria-live="polite"></p><div id="s-results" class="s-results"></div>
 </main><footer>© 第零序列 · 公开章节搜索</footer><script src="assets/js/audio-player.js?v=10" defer></script>
 <script>
@@ -18,7 +18,7 @@
 const input=document.getElementById('s-input'),type=document.getElementById('s-type'),out=document.getElementById('s-results'),status=document.getElementById('s-count'),showUnread=document.getElementById('s-include-unread');
 let data=[];
 try{
- const urls=['assets/data/search-index.json?v=16',...Array.from({length:7},(_,i)=>'assets/data/search-index-volume'+(24+i)+'.json?v=1')];
+ const urls=['assets/data/search-index.json?v=17',...Array.from({length:7},(_,i)=>'assets/data/search-index-volume'+(24+i)+'.json?v=1')];
  const chunks=await Promise.all(urls.map(async (url,i)=>{
    try{
      const response=await fetch(url,{cache:'no-cache'});
@@ -38,12 +38,12 @@ const publicItem=(item)=>{
  if(item.type==='chapter'){
   if((item.url||'').includes('prologue.html'))return true;
   const m=(item.url||'').match(/volume-(\d+)\/chapter-(\d+)/);
-  if(m){const v=Number(m[1]),n=(v-1)%10*10+Number(m[2]);return v>=1&&v<=39&&n<=progress[Math.floor((v-1)/10)];}
+  if(m){const v=Number(m[1]),n=(v-1)%10*10+Number(m[2]);return v>=1&&v<=40&&n<=progress[Math.floor((v-1)/10)];}
   return false;
  }
  if(item.type==='volume'){
   const m=(item.url||'').match(/volume-(\d+)/);
-  if(m){const v=Number(m[1]);return v>=1&&v<=39&&((v-1)%10)*10<=progress[Math.floor((v-1)/10)];}
+  if(m){const v=Number(m[1]);return v>=1&&v<=40&&((v-1)%10)*10<=progress[Math.floor((v-1)/10)];}
   return false;
  }
  // Archive landing pages are reader-safe; each page separately applies its own read progress.
