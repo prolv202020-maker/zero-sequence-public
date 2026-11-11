@@ -5,7 +5,7 @@
 ## 入口
 
 - `index.html`：首页
-- `parts/`、`volumes/`、`chapters/`：正式公开篇章、30卷目录与300章正文及序章
+- `parts/`、`volumes/`、`chapters/`：正式公开四篇、40卷目录与400章正文及序章
 - `archive/characters.html`：按阅读进度显示的公开人物图鉴
 - `archive/classes.html`：公开基础职业图鉴
 - `archive/unlocks.html`：分篇独立解锁记录
