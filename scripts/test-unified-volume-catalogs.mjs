@@ -64,4 +64,27 @@ for(const n of volumes){
  if(n===22)assert.ok(!html.includes('<h2 style="color:#f0d89f">远域双钟</h2>'),'Volume 22 must not duplicate its hero');
  verified++;
 }
+// All four parts use Part I's shared portrait grid, progress key and card renderer.
+const catalog=read('assets/js/volume-catalog.js');
+assert.doesNotThrow(()=>new Script(catalog,{filename:'volume-catalog.js'}),'Shared part catalog script must parse');
+assert.ok(catalog.includes(':scope > div[role="img"]'),'Fourth-part text-art covers must occupy the common portrait slot');
+assert.ok(catalog.includes('Math.min(max,100)'),'All parts must use the full 100-chapter counter');
+assert.ok(!catalog.includes('part===4?30:100'),'Fourth-part 30-chapter limit must be eliminated');
+assert.ok(!catalog.includes('localStorage.setItem'),'Directory must not overwrite saved reading progress');
+const coverCSS=read('assets/css/volume-directory.css');
+assert.ok(coverCSS.includes('grid-template-columns:repeat(5,minmax(0,1fr))'),'Desktop grid must match Part I');
+assert.ok(coverCSS.includes('@media(max-width:600px)'),'Mobile grid must remain responsive');
+assert.ok(coverCSS.includes('zs-cover-media>.zs-volume-cover'),'Fourth-part art must fill the same portrait frame');
+for(let part=1;part<=4;part++){
+ const html=read('parts/part-0'+part+'.html');
+ assert.ok(html.includes('class="grid zs-cover-grid"'),'Part '+part+' must use the shared grid');
+ assert.ok(html.includes('volume-catalog.js?v=6'),'Part '+part+' must use the shared catalog script');
+ assert.ok(html.includes('volume-directory.css?v=4'),'Part '+part+' must use the shared directory CSS');
+ const cards=html.split('class="card zs-cover-card').length-1;
+ assert.equal(cards,10,'Part '+part+' must have exactly 10 cards');
+}
+const fourth=read('parts/part-04.html');
+assert.equal((fourth.match(/role="img"/g)||[]).length,10,'Fourth-part art needs 10 functioning media elements');
+assert.ok(fourth.includes('第四篇完整完结'),'Fourth-part published status must remain complete');
+
 console.log('[UNIFIED VOLUME CATALOGS] PASS: '+verified+' uniform directories, '+(latest*10)+' linked chapters + prologue, unchanged reading keys and spoiler boundaries.');
