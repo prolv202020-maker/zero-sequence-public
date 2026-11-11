@@ -35,16 +35,16 @@ for(let i=1;i<=10;i++){
  counts.push({chapter,title:titles[i-1],han});
 }
 assert.ok(vol.includes('第三十三卷《烽线争城》'),'Volume heading wrong');
-assert.ok(part.includes('volume-33.html')&&part.includes('共90章 · 第301—390章'),'Part four index mismatch');
-assert.ok(home.includes('390章＋序章')&&home.includes('最新正式章节：第390章《未定的矿脉》'),'Home latest mismatch');
-assert.ok(quick.includes('num>390')&&quick.includes('current===4?9:10'),'Quick jump cap/volume count mismatch');
-assert.ok(reader.includes('globalChapter<390')&&reader.includes('vol<39'),'Reader navigation cap mismatch');
+assert.ok(part.includes('volume-33.html')&&part.includes('共100章 · 第301—400章'),'Part four index mismatch');
+assert.ok(home.includes('400章＋序章')&&home.includes('最新正式章节：第400章《烽火未熄》'),'Home latest mismatch');
+assert.ok(quick.includes('num>400')&&quick.includes('current===4?10:10'),'Quick jump cap/volume count mismatch');
+assert.ok(reader.includes('globalChapter<400')&&reader.includes('vol<40'),'Reader navigation cap mismatch');
 assert.ok(unlock.includes("const KEY='zs:part-progress:v1'"),'Must preserve reader progress key');
-assert.ok(unlock.includes('p===4?90:100'),'Fourth arc progress cap mismatch');
+assert.ok(unlock.includes('p===4?100:100'),'Fourth arc progress cap mismatch');
 for(let n=1;n<=30;n++)assert.ok(unlock.includes('{p:4,n:'+n+','),'Missing gated entry '+n);
 assert.ok(!unlock.includes('80级触发'),'Private author canon must not leak');
-assert.ok(search.includes('x.p04?.max')&&search.includes('v<=39'),'Public chapter search must use independent part 4 spoiler gate');
-assert.ok(sw.includes('progressive-archive.js?v=32')&&sw.includes('reader-experience.js?v=34'),'Service worker versions stale');
+assert.ok(search.includes('x.p04?.max')&&search.includes('v<=40'),'Public chapter search must use independent part 4 spoiler gate');
+assert.ok(sw.includes('progressive-archive.js?v=33')&&sw.includes('reader-experience.js?v=35'),'Service worker versions stale');
 assert.ok(existsSync('chapters/volume-34'),'Published Volume 34 must exist');
 for(const pathname of ['assets/js/progressive-archive.js','assets/js/reader-experience.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(pathname),{filename:pathname});
 console.log('VOLUME33_COMPLETE_PASS '+JSON.stringify({chapters:counts,hanTotal:counts.reduce((s,x)=>s+x.han,0)}));
