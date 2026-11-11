@@ -44,7 +44,7 @@ for(const n of volumes){
    const basename=asset.replace(/^assets\//,'');
    assert.ok(html.includes('../assets/'+basename+'?'+expected),path+' missing current '+asset+'?'+expected);
  }
- assert.equal((html.match(/volume-page\.js\?v=(?:11|12|13|14|15|16|17|18)/g)||[]).length,1,'No duplicate volume renderer '+path);
+ assert.equal((html.match(/volume-page\.js\?v=(?:11|12|13|14|15|16|17|18|19)/g)||[]).length,1,'No duplicate volume renderer '+path);
  const listHtml=html.match(/<div class="list">([\s\S]*?)<\/div>/)?.[1]||'';
  const chapterLinks=[...listHtml.matchAll(/href="\.\.\/chapters\/volume-(\d{2})\/chapter-(\d{3})\.html"/g)];
  const expectedChapters=10;
