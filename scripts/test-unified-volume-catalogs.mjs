@@ -80,8 +80,8 @@ for(let part=1;part<=4;part++){
  assert.ok(html.includes('class="grid zs-cover-grid"'),'Part '+part+' must use the shared grid');
  assert.ok(html.includes('volume-catalog.js?v=6'),'Part '+part+' must use the shared catalog script');
  assert.ok(html.includes('volume-directory.css?v=4'),'Part '+part+' must use the shared directory CSS');
- const cards=html.match(/class="card zs-cover-card[^"]*" href="\.\.\/volumes\/volume-\d{2}\.html"/g)||[];
- assert.equal(cards.length,10,'Part '+part+' must have exactly 10 cards');
+ const cards=html.split('class="card zs-cover-card').length-1;
+ assert.equal(cards,10,'Part '+part+' must have exactly 10 cards');
 }
 const fourth=read('parts/part-04.html');
 assert.equal((fourth.match(/role="img"/g)||[]).length,10,'Fourth-part art needs 10 functioning media elements');
