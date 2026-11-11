@@ -22,7 +22,7 @@ const publishedVolumes=readdirSync(chapters,{withFileTypes:true}).filter(x=>x.is
 // Publication count is derived from published volume folders, not a frozen historical volume.
 const latestVolume=publishedVolumes;
 const latestDir=join(chapters,'volume-'+String(latestVolume).padStart(2,'0'));
-const newest=fsExists(latestDir)?readdirSync(latestDir).filter(x=>/^chapter-\d{3}\\.html$/.test(x)).length:0;
+const newest=fsExists(latestDir)?readdirSync(latestDir).filter(x=>/^chapter-\d{3}\.html$/.test(x)).length:0;
 const expected=1+(latestVolume-1)*10+newest;
 if(scanned!==expected)throw new Error('Expected '+expected+' published reading pages (including '+newest+' in volume '+latestVolume+'), found '+scanned);
 for(let i=1;i<=newest;i++){
