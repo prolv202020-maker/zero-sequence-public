@@ -31,6 +31,6 @@ assert.ok(progressive.includes('get(2).max>=100&&get(3).max>=100'),'Legacy sensi
 for(const p of ['assets/js/audio-player.js','assets/js/public-archive.js','assets/js/bestiary.js','assets/js/progressive-archive.js'])assert.doesNotThrow(()=>new Script(read(p),{filename:p}));
 const audio=read('assets/js/audio-player.js'),sw=read('sw.js');
 assert.ok(audio.includes('.zs-audio.zs-audio-expanded')&&audio.includes('body.zs-has-audio footer'),'Audio must dock compactly and preserve bottom reading space');
-assert.ok(sw.includes('audio-player.js?v=11')&&sw.includes('progressive-archive.js?v=29'),'SW must bust caches for updated scripts');
+assert.ok(sw.includes('audio-player.js?v=11')&&sw.includes('progressive-archive.js?v=30'),'SW must bust caches for updated scripts');
 assert.ok(!read('assets/js/public-archive.js').includes('localStorage.setItem'),'Public archive must be progress read-only');
 console.log('[PHASE 1] PASS: '+checked+' public archives, three-part sensitive gate, bestiary titles, compact audio and versioned resources.');
