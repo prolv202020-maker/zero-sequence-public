@@ -14,7 +14,9 @@
     picture.decoding='async';
     picture.alt=alt;
     picture.className=kind==='card'?'zs-cover-thumb zs-part04-cg':'zs-part04-volume-cg';
-    picture.loading=kind==='card'?'lazy':'eager';
+    // A detached lazy-loading image never becomes visible and may never fetch.
+    // Only fetch already-unlocked card art; the volume page remains accessible.
+    picture.loading='eager';
     picture.onload=()=>{
       if(!placeholder.isConnected)return;
       if(kind==='card'){
@@ -37,6 +39,7 @@
         const match=a.getAttribute('href')?.match(/volume-(3[1-9]|40)\.html/);
         if(!match)return;
         const vol=Number(match[1]);
+        if(!a.classList.contains('zs-cover-unlocked'))return;
         const placeholder=a.querySelector('.zs-cover-media > .zs-volume-cover');
         attach(placeholder,base+name(vol),'第'+vol+'卷CG正式封面','card');
       });
@@ -50,4 +53,5 @@
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);
   else run();
+  document.addEventListener('zs:part-progress-changed',run);
 })();
