@@ -22,7 +22,7 @@ for(const id of ['world-entry','quick-jump','zs-quick-volumes','zs-number-jump',
  assert.ok(home.includes('id="'+id+'"'),'Home missing '+id);
 }
 assert.ok(home.includes('assets/css/home-relaunch.css?v=1'),'Home needs current redesign CSS');
-assert.ok(home.includes('assets/js/home-relaunch.js?v=7'),'Home needs quick-navigation script');
+assert.ok(home.includes('assets/js/home-relaunch.js?v=8'),'Home needs quick-navigation script');
 assert.ok(home.includes('VOL 21—30 · COMPLETE'),'Part III cover must reflect completed volumes');
 assert.ok(!home.includes('VOL 21—26 · NOW READING'),'Outdated home status must not recur');
 assert.ok(home.includes('gu-changyuan-approved.webp'),'Keep user-approved protagonist artwork');
@@ -32,8 +32,8 @@ assert.ok(homeCSS.includes('focus-visible'),'Keyboard focus must remain visible'
 assert.match(homeJS,/zs:part-progress:v1/,'Volume navigator must read original per-part progress');
 assert.match(homeJS,/zs:reader:last:v1/,'Volume navigator must use existing continue-reading data');
 assert.ok(!homeJS.includes('localStorage.setItem'),'Home browsing must not rewrite reading data');
-assert.ok(homeJS.includes('num>380'),'Chapter-number jump must enforce published upper bound');
-for(let n=1;n<=380;n++){
+assert.ok(homeJS.includes('num>390'),'Chapter-number jump must enforce published upper bound');
+for(let n=1;n<=390;n++){
  const vol=Math.ceil(n/10),chapter=(n-1)%10+1;
  const path='chapters/volume-'+String(vol).padStart(2,'0')+'/chapter-'+String(chapter).padStart(3,'0')+'.html';
  assert.ok(existsSync(join(root,path)),'Jump target missing: '+path);
@@ -50,9 +50,9 @@ assert.match(reader,/zs:reader:options:v1/,'Preserve reader settings key');
 assert.ok(readerCSS.includes('zs-chapter-jump'),'Reader dropdown needs styling');
 assert.ok(readerCSS.includes('env(safe-area-inset-bottom)'),'Mobile safe areas must remain supported');
 assert.ok(reader.includes('reader-experience.css?v=5'),'New reader CSS version must be loaded');
-assert.ok(audio.includes('reader-experience.js?v=33'),'Direct loads should get upgraded reader script');
-assert.ok(sw.includes('reader-experience.js?v=33'),'Service Worker navigation must get upgraded reader script');
+assert.ok(audio.includes('reader-experience.js?v=34'),'Direct loads should get upgraded reader script');
+assert.ok(sw.includes('reader-experience.js?v=34'),'Service Worker navigation must get upgraded reader script');
 assert.ok(nav.includes("['输入章号快速跳转','index.html#quick-jump']"),'Mobile and desktop navigation must include quick chapter jump');
 assert.ok(reader.includes('volume-(0[23456789]|1[0123])'),'Cached volume 13 pages must recover their Zi Yue audiobook');
 assert.ok(reader.includes("13:'十三'"),'Recovered volume 13 downloads need correct Chinese volume numbering');
-console.log('[SITE RELAUNCH] PASS: accessible homepage, 38-volume navigator, 380 real chapter targets, spoiler opt-in, parallel search, upgraded reader UX, existing progress/BGM keys.');
+console.log('[SITE RELAUNCH] PASS: accessible homepage, 39-volume navigator, 390 real chapter targets, spoiler opt-in, parallel search, upgraded reader UX, existing progress/BGM keys.');
