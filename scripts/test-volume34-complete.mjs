@@ -34,16 +34,16 @@ for(let i=1;i<=10;i++){
  counts.push({chapter,title:titles[i-1],han});
 }
 assert.ok(volume.includes('第三十四卷《双城旗火》'),'Volume header missing');
-assert.ok(part.includes('volume-34.html')&&part.includes('共70章 · 第301—370章'),'Part four directory counter stale');
-assert.ok(home.includes('370章＋序章')&&home.includes('最新正式章节：第370章《席位之外》'),'Homepage latest content stale');
-assert.ok(quick.includes('num>370')&&quick.includes('current===4?7:10'),'Quick jump cap and fourth-part volume count stale');
-assert.ok(reader.includes('globalChapter<370')&&reader.includes('vol<37'),'Reader chapter navigation stale');
+assert.ok(part.includes('volume-34.html')&&part.includes('共80章 · 第301—380章'),'Part four directory counter stale');
+assert.ok(home.includes('380章＋序章')&&home.includes('最新正式章节：第380章《边境未定》'),'Homepage latest content stale');
+assert.ok(quick.includes('num>380')&&quick.includes('current===4?8:10'),'Quick jump cap and fourth-part volume count stale');
+assert.ok(reader.includes('globalChapter<380')&&reader.includes('vol<38'),'Reader chapter navigation stale');
 assert.ok(unlock.includes("const KEY='zs:part-progress:v1'"),'Must preserve existing reader progress key');
-assert.ok(unlock.includes('p===4?70:100'),'Fourth part current published cap not deployed');
+assert.ok(unlock.includes('p===4?80:100'),'Fourth part current published cap not deployed');
 for(let n=1;n<=40;n++)assert.ok(unlock.includes('{p:4,n:'+n+','),'Fourth part gated archive entry missing '+n);
 assert.ok(!unlock.includes('80级触发'),'Author-only secrets must not be in public archive');
-assert.ok(search.includes('x.p04?.max')&&search.includes('v<=37'),'Search should gate unread titles by independent part 4 progress');
-assert.ok(sw.includes('progressive-archive.js?v=30')&&sw.includes('reader-experience.js?v=32'),'Service worker versions stale');
+assert.ok(search.includes('x.p04?.max')&&search.includes('v<=38'),'Search should gate unread titles by independent part 4 progress');
+assert.ok(sw.includes('progressive-archive.js?v=31')&&sw.includes('reader-experience.js?v=33'),'Service worker versions stale');
 for(const p of ['assets/js/progressive-archive.js','assets/js/reader-experience.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(p),{filename:p});
 assert.ok(existsSync('chapters/volume-35'),'Published volume 35 must exist');
 console.log('VOLUME34_COMPLETE_PASS '+JSON.stringify({chapters:counts,hanTotal:counts.reduce((s,x)=>s+x.han,0)}));
