@@ -2218,5 +2218,71 @@
     "title": "第38卷《边境夺旗》 · 第10章 边境未定",
     "desc": "全书第380章 · 第四篇正式正文。",
     "url": "chapters/volume-38/chapter-010.html"
+  },
+  {
+    "type": "volume",
+    "title": "第39卷《烽谷夺脉》",
+    "desc": "第381—390章完整公开。北烽谷公会资源战。",
+    "url": "volumes/volume-39.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第1章 北烽开战",
+    "desc": "全书第381章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-001.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第2章 标价如刀",
+    "desc": "全书第382章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-002.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第3章 炉门首败",
+    "desc": "全书第383章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-003.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第4章 断桥百刃",
+    "desc": "全书第384章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-004.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第5章 石像破阵",
+    "desc": "全书第385章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-005.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第6章 营地警钟",
+    "desc": "全书第386章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-006.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第7章 熔轨反攻",
+    "desc": "全书第387章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-007.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第8章 枪剑争炉",
+    "desc": "全书第388章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-008.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第9章 烽谷裂旗",
+    "desc": "全书第389章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-009.html"
+  },
+  {
+    "type": "chapter",
+    "title": "第39卷《烽谷夺脉》 · 第10章 未定的矿脉",
+    "desc": "全书第390章 · 第四篇正式正文。",
+    "url": "chapters/volume-39/chapter-010.html"
   }
 ]
