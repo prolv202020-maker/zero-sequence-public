@@ -33,7 +33,9 @@ for(const [slug,sha] of expected){
  const blob=Buffer.concat([Buffer.from('blob '+bin.length),Buffer.from([0])]);
  assert.equal(createHash('sha1').update(Buffer.concat([blob,bin])).digest('hex'),sha,'Approved visual changed unexpectedly: '+slug);
 }
-for(let v=1;v<=35;v++)for(let n=1;n<=10;n++)assert.ok(existsSync('chapters/volume-'+String(v).padStart(2,'0')+'/chapter-'+String(n).padStart(3,'0')+'.html'),'Missing published chapter '+v+'-'+n);
+const released=readdirSync('volumes').filter(f=>/^volume-\d{2}\.html$/.test(f)).map(f=>Number(f.match(/\d{2}/)[0])).sort((a,b)=>a-b);
+assert.deepEqual(released,Array.from({length:released.at(-1)},(_,i)=>i+1),'Released volumes must be contiguous');
+for(const v of released)for(let n=1;n<=10;n++)assert.ok(existsSync('chapters/volume-'+String(v).padStart(2,'0')+'/chapter-'+String(n).padStart(3,'0')+'.html'),'Missing published chapter '+v+'-'+n);
 const audio=JSON.parse(readFileSync('assets/data/audio-archive-manifest.json','utf8'));
 assert.equal(audio.count,131);
 for(const id of ['heroic','mystery','quiet','sorrow'])assert.ok(existsSync('assets/audio/'+id+'.mp3'),'Missing original BGM: '+id);
@@ -44,4 +46,4 @@ for(const folder of ['assets/js','assets/css']){
   assert.ok(!source.includes('assets/css/`images/characters/')&&!source.includes('assets/css/%60images/characters/'),'Orphan PNG URL used by '+name);
  }
 }
-console.log('SITE SIZE PASS: '+(bytes/1048576).toFixed(2)+' MiB across '+files+' files, all 350 story chapters / 7 approved WebP / 131 archived MP3 / 4 BGM verified.');
+console.log('SITE SIZE PASS: '+(bytes/1048576).toFixed(2)+' MiB across '+files+' files, all '+(released.length*10)+' story chapters / 7 approved WebP / 131 archived MP3 / 4 BGM verified.');
