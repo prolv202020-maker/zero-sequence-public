@@ -205,7 +205,7 @@ assert.ok(p3Index.includes('volume-21.html')&&p3Index.includes('volume-22.html')
 assert.ok(readFileSync(p('index.html'),'utf8').includes('href="parts/part-03.html"'),'Homepage should link Part III');
 assert.ok(readFileSync(p('assets/js/site-ui.js'),'utf8').includes("['第三篇 · 临界回声','parts/part-03.html']"),'Global navigation should include Part III');
 assert.ok(readFileSync(p('assets/js/reader-experience.js'),'utf8').includes("vol===20?'第三篇"),'Chapter 200 should continue to Part III');
-assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes('const cap=p===4?50:100'),'Fourth part must have 50 published chapters while parts 1–3 retain 100');
+assert.ok(readFileSync(p('assets/js/progressive-archive.js'),'utf8').includes('const cap=p===4?60:100'),'Fourth part must have 60 published chapters while parts 1–3 retain 100');
 console.log('[PART III] PASS: 100 complete full-length chapters, third-arc reading and unlock progress, official links.');
 assert.ok(existsSync(p('chapters/volume-01/prologue.html')));
 const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
@@ -253,7 +253,7 @@ assert.match(currentReader,/zs-chapter-reading/,'Chapters must expose mobile-spe
 assert.match(currentAudio,/site-ui\.js/,'Direct chapter loads should initialize accessible mobile navigation');
 assert.match(currentAudio,/env\(safe-area-inset-bottom\)/,'Music controls should respect phone safe area');
 assert.ok(currentReader.includes('assets/css/reader-experience.css?v=5'),'Reader stylesheet must invalidate old CSS');
-assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=30'),'Chapter navigation must use newest reader code');
+assert.ok(readFileSync(p('sw.js'),'utf8').includes('reader-experience.js?v=31'),'Chapter navigation must use newest reader code');
 assert.ok(readFileSync(p('index.html'),'utf8').includes('gu-changyuan-approved.webp'),'Homepage should use the optimized approved portrait');
 console.log('[MOBILE READING] PASS: menu scrolling, safe areas, chapter buttons, compact music, CSS cache and official portrait.');
 console.log('[EMOTIONAL BGM] PASS: 4 original MP3 themes, controls, smooth transitions, opt-in playback and no old synth loop.');
@@ -269,7 +269,7 @@ assert.match(navCode,/else if\(vol<35\)bottom\.push/,'Volume and part boundaries
 assert.match(navCode,/vol===10\?'下一篇/,'First part should lead directly to second part');
 const sitemap=readFileSync(p('sitemap.xml'),'utf8');
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-assert.equal(urls.length,392,'Sitemap should cover 351 reading pages, 35 volumes, 4 parts and retained public resources');
+assert.equal(urls.length,403,'Sitemap should cover 361 reading pages, 36 volumes, 4 parts and retained public resources');
 assert.ok(urls.includes('https://prolv202020-maker.github.io/zero-sequence-public/archive/codex.html'),'Published reader encyclopedia must appear in sitemap');
 assert.equal(new Set(urls).size,urls.length,'Sitemap should have no duplicate URLs');
 for(const url of urls){
@@ -366,4 +366,4 @@ assert.match(atlasArt,/if\(art\)\{const pic=/,'Character atlas should only load 
 assert.match(atlasArt,/approvedSlug/,'Character atlas should resolve approved portrait slug');
 assert.doesNotMatch(profileArt,/const art=node\('img','zs-profile-profile-art'\);art\.src=/,'Do not eagerly load hidden character portraits');
 console.log('[CHARACTER ART] PASS: 7 user-approved portraits, independent visual themes, no advance image loading, progress gates and site links.');
-console.log('[READING FLOW] PASS: 350 text files, 35 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
+console.log('[READING FLOW] PASS: 360 text files, 36 volumes, direct-load bootstrap, progress monotonicity, independent parts, prologue, resume keys.');
