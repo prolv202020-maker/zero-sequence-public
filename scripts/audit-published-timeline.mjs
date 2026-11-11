@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Published-fiction consistency check. It tests wording, not unreleased plot mechanics. */
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
@@ -14,8 +14,10 @@ const risky=[
 ];
 const inspect=/三十年|30年|十几年|十余年|二十年|末日第[^，。！？\s]{1,8}年/g;
 const critical=[],review=[];
+const maxVolume=Math.max(...readdirSync(join(root,'volumes'))
+ .filter(f=>/^volume-\d{2}\.html$/.test(f)).map(f=>Number(f.match(/\d{2}/)[0])));
 let checked=0;
-for(let v=1;v<=30;v++)for(let c=1;c<=10;c++){
+for(let v=1;v<=maxVolume;v++)for(let c=1;c<=10;c++){
  const path='chapters/volume-'+String(v).padStart(2,'0')+'/chapter-'+String(c).padStart(3,'0')+'.html';
  assert.ok(existsSync(join(root,path)),'Missing official chapter '+path);
  let s=read(path).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ');
@@ -27,7 +29,7 @@ for(let v=1;v<=30;v++)for(let c=1;c<=10;c++){
   if(!critical.some(x=>x.includes(path+': '+excerpt)))review.push(path+': '+excerpt);
  }
 }
-assert.equal(checked,300);
+assert.equal(checked,maxVolume*10);
 console.log('[TIMELINE] '+checked+' published chapters scanned; explicit past-life contradictions: '+critical.length+'; context review matches: '+review.length);
 for(const x of critical.slice(0,80))console.error('[TIMELINE_ERROR] '+x);
 for(const x of review.slice(0,80))console.log('[TIMELINE_REVIEW] '+x);

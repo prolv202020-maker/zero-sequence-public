@@ -1,0 +1,30 @@
+name: All 400 Published Chapters - Report Only
+on:
+  pull_request:
+    paths:
+      - 'scripts/audit-all-published-chapters.mjs'
+      - '.github/workflows/all-published-chapters-audit.yml'
+      - 'chapters/**'
+      - 'volumes/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-story:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit 40 volumes, every published chapter, Han counts and cross-volume navigation
+        run: node scripts/audit-all-published-chapters.mjs
+      - name: Upload per-chapter non-spoiler audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-chapters-audit
+          path: audit-output/story-integrity.json
+          retention-days: 30
