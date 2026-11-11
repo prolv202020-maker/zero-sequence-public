@@ -19,9 +19,9 @@
       const vol=Number(found[1]),ord=vol-root;
       if(!a.querySelector('.zs-cover-media')){
         const media=document.createElement('span');media.className='zs-cover-media';
-        const volumeCover=a.querySelector(':scope > .zs-volume-cover');
+        const volumeCover=a.querySelector(':scope > .zs-volume-cover, :scope > div[role="img"]');
         const img=a.querySelector(':scope > .zs-cover-thumb');
-        if(volumeCover)media.appendChild(volumeCover);
+        if(volumeCover){volumeCover.classList.add('zs-volume-cover');media.appendChild(volumeCover);}
         else if(img)media.appendChild(img);
         const number=document.createElement('span');number.className='zs-cover-number';
         number.textContent='VOL '+String(vol).padStart(2,'0');media.appendChild(number);
@@ -54,7 +54,7 @@
       a.classList.toggle('zs-volume-complete',readDone);
       a.classList.toggle('zs-volume-current',reading);
       const badge=a.querySelector('.zs-volume-state');
-      if(badge)badge.textContent=readDone?'✓ 本卷已读':unlocked?(max===start?'可开始阅读':'继续本卷'):'🔒 尚未解锁';
+      if(badge)badge.textContent=readDone?'✓ 本卷已读':unlocked?(max===start?'可开始阅读':'继续本卷'):'🔒 资料未解锁';
       const thumb=a.querySelector('.zs-cover-thumb');
       if(thumb&&unlocked)thumb.alt='第'+vol+'卷正式封面';
       const label=a.querySelector('.zs-cover-copy h3')?.textContent||'第'+vol+'卷';
@@ -62,7 +62,7 @@
       if(readDone)complete++;
     });
     const counter=document.getElementById('zs-directory-counter');
-    if(counter)counter.textContent='已读完 '+complete+' / '+items.length+' 卷 · 本篇 '+Math.min(max,part===4?30:100)+' / '+(part===4?30:100)+' 章';
+    if(counter)counter.textContent='已读完 '+complete+' / '+items.length+' 卷 · 本篇 '+Math.min(max,100)+' / 100'+' 章';
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);
   else mount();
