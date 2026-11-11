@@ -39,7 +39,7 @@ for(const n of volumes){
  assert.match(html,/<div class="list">/,'Volume chapter list missing: '+path);
  for(const [asset,expected] of [
   ['assets/css/style.css','v=6'],['assets/css/volume-page.css','v=3'],
-  ['assets/js/volume-page.js',n>=37?'v=18':n>=36?'v=17':n>=35?'v=16':n>=34?'v=15':n>=33?'v=14':n>=31?'v=13':n>=30?'v=12':'v=11'],['assets/js/progressive-archive.js',n>=37?'v=30':n>=36?'v=29':n>=35?'v=28':n>=34?'v=27':n>=33?'v=26':n>=31?'v=25':n>=30?'v=23':'v=22']
+  ['assets/js/volume-page.js',n>=38?'v=19':n>=37?'v=18':n>=36?'v=17':n>=35?'v=16':n>=34?'v=15':n>=33?'v=14':n>=31?'v=13':n>=30?'v=12':'v=11'],['assets/js/progressive-archive.js',n>=38?'v=31':n>=37?'v=30':n>=36?'v=29':n>=35?'v=28':n>=34?'v=27':n>=33?'v=26':n>=31?'v=25':n>=30?'v=23':'v=22']
  ]){
    const basename=asset.replace(/^assets\//,'');
    assert.ok(html.includes('../assets/'+basename+'?'+expected),path+' missing current '+asset+'?'+expected);
