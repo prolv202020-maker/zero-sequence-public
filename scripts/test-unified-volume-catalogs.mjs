@@ -93,6 +93,22 @@ for(let vol=31;vol<=40;vol++){
  assert.ok(html.includes('part04-cg-covers.js?v=1'),'Volume '+vol+' must load safe cover enhancer');
  assert.ok(html.includes('volume-directory.css?v=5'),'Volume '+vol+' must load cover styling');
 }
+// All ten matching CG files must exist and have verified 750x1080 WebP signatures.
+// This prevents shipping a PR with only a loader or mislabeled/duplicate image files.
+const coverHashes=new Set();
+for(let n=31;n<=40;n++){
+ const file='assets/images/covers/part-04/volume-'+n+'.webp';
+ assert.ok(existsSync(join(root,file)),'Fourth-part CG cover missing: '+file);
+ const bin=readFileSync(join(root,file));
+ assert.equal(bin.toString('ascii',0,4),'RIFF','Invalid WebP header: '+file);
+ assert.equal(bin.toString('ascii',8,12),'WEBP','Invalid WebP format: '+file);
+ assert.equal(bin.toString('ascii',12,16),'VP8 ','Unexpected WebP container: '+file);
+ assert.equal(bin.readUInt16LE(26)&0x3fff,750,'CG width must be 750: '+file);
+ assert.equal(bin.readUInt16LE(28)&0x3fff,1080,'CG height must be 1080: '+file);
+ const signature=bin.subarray(0,40).toString('hex');
+ assert.ok(!coverHashes.has(signature),'Potentially duplicated cover image: '+file);
+ coverHashes.add(signature);
+}
 const fourth=read('parts/part-04.html');
 assert.equal((fourth.match(/role="img"/g)||[]).length,10,'Fourth-part art needs 10 functioning media elements');
 assert.ok(fourth.includes('第四篇完整完结'),'Fourth-part published status must remain complete');
