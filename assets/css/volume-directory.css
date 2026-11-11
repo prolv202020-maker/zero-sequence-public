@@ -57,3 +57,38 @@
  .zs-cover-grid>.zs-cover-card:hover .zs-cover-thumb{transform:none!important}
  .part-hero{box-shadow:none!important}
 }
+
+/* V4: Same 750:1080 portrait media slot for real covers and fourth-part text-art covers.
+   Covers for volumes 31–40 remain artwork placeholders until official image assets are approved. */
+.zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-volume-cover{
+  position:relative;display:flex;width:100%!important;height:100%!important;
+  min-height:0!important;max-width:none!important;margin:0!important;
+  border-radius:0!important;aspect-ratio:auto!important;overflow:hidden;
+}
+.zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-volume-cover[role="img"]{
+  flex-direction:column;align-items:center;justify-content:space-between;
+  padding:clamp(12px,1.8vw,24px)!important;border:0!important;
+  box-shadow:none!important;
+  transition:filter .3s,transform .35s;
+}
+.zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-volume-cover[role="img"] strong{
+  font-size:clamp(28px,3.6vw,48px);line-height:1.24;letter-spacing:.1em;
+}
+.zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-volume-cover[role="img"] small{
+  font-size:clamp(8px,.75vw,11px);line-height:1.5;
+}
+.zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-vol31-thumb .zs-vol31-title{
+  font-size:clamp(28px,3.6vw,48px);line-height:1.2;
+}
+.zs-cover-grid>.zs-cover-card:not(.zs-cover-unlocked) .zs-cover-media>.zs-volume-cover[role="img"]{
+  filter:blur(12px) brightness(.46);transform:scale(1.05);
+}
+.zs-cover-grid>.zs-cover-card.zs-cover-unlocked .zs-cover-media>.zs-volume-cover[role="img"]{
+  filter:none;transform:none;
+}
+@media(max-width:600px){
+ .zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-volume-cover[role="img"]{padding:10px!important}
+ .zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-volume-cover[role="img"] strong,
+ .zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-vol31-thumb .zs-vol31-title{font-size:clamp(23px,6vw,34px)}
+ .zs-cover-grid>.zs-cover-card .zs-cover-media>.zs-volume-cover[role="img"] small{font-size:8px}
+}
