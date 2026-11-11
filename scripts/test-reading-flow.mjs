@@ -212,7 +212,7 @@ const volPage=readFileSync(p('assets/js/volume-page.js'),'utf8');
 assert.ok(volPage.includes('if(read===publishedCount){resume.href=startHref'),'Completed volume should restart from its opening chapter');
 const readingScript=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readingScript,/else if\(num===1&&vol>1\)/,'First chapter should link back across volume boundary');
-assert.match(readingScript,/else if\(vol<35\)/,'Last chapter should link forward across volume boundary');
+assert.match(readingScript,/else if\(vol<36\)/,'Last chapter should link forward across volume boundary');
 assert.match(readingScript,/if\(num===0\)/,'Prologue should link into chapter one');
 assert.match(readingScript,/oldProgress\.index>0/,'Resume reader must offer saved paragraph position');
 
@@ -265,7 +265,7 @@ assert.match(reader,/zs:reader:options:v1/,'Preferences key must remain stable')
 const navCode=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(navCode,/footerPager\.replaceChildren\(\.\.\.bottom\)/,'All chapters should normalize the footer navigation');
 assert.match(navCode,/if\(num===0\)bottom\.push/,'Prologue bottom navigation must go to chapter one');
-assert.match(navCode,/else if\(vol<35\)bottom\.push/,'Volume and part boundaries must link forward');
+assert.match(navCode,/else if\(vol<36\)bottom\.push/,'Volume and part boundaries must link forward');
 assert.match(navCode,/vol===10\?'下一篇/,'First part should lead directly to second part');
 const sitemap=readFileSync(p('sitemap.xml'),'utf8');
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
