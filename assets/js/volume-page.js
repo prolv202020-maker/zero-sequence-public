@@ -4,7 +4,7 @@
   const m=location.pathname.match(/\/volumes\/volume-(\d{2})\.html$/);
   if(!m)return;
   const vol=Number(m[1]),part=Math.floor((vol-1)/10)+1;
-  if(vol<1||vol>38)return;
+  if(vol<1||vol>39)return;
   const partName=part===1?'轮回启幕':part===2?'百城星火':part===3?'临界回声':'烽火临界';
   const ROOT='/zero-sequence-public/';
   const main=document.querySelector('main.page'), chapters=main?.querySelector('.list');
@@ -114,7 +114,7 @@
     }
     const directory=el('a','','返回第'+part+'篇目录');
     directory.href=ROOT+'parts/part-0'+part+'.html';nav.push(directory);
-    if(vol<38){
+    if(vol<39){
       const next=el('a','',vol===10?'进入第二篇 →':vol===20?'进入第三篇 →':vol===30?'进入第四篇 →':'下一卷 →');
       next.href=ROOT+'volumes/volume-'+String(vol+1).padStart(2,'0')+'.html';
       nav.push(next);

@@ -34,16 +34,16 @@ for(let i=1;i<=10;i++){
  counts.push({chapter:n,title:titles[i-1],han});
 }
 assert.ok(volume.includes('第三十五卷《百旗城战》'),'Volume heading missing');
-assert.ok(part.includes('volume-35.html')&&part.includes('共80章 · 第301—380章'),'Part four directory incorrect');
-assert.ok(home.includes('380章＋序章')&&home.includes('最新正式章节：第380章《边境未定》'),'Homepage latest incorrect');
-assert.ok(quick.includes('num>380')&&quick.includes('current===4?8:10'),'Direct jump cap/volume count incorrect');
-assert.ok(reader.includes('globalChapter<380')&&reader.includes('vol<38'),'Reader next/previous navigation incorrect');
+assert.ok(part.includes('volume-35.html')&&part.includes('共90章 · 第301—390章'),'Part four directory incorrect');
+assert.ok(home.includes('390章＋序章')&&home.includes('最新正式章节：第390章《未定的矿脉》'),'Homepage latest incorrect');
+assert.ok(quick.includes('num>390')&&quick.includes('current===4?9:10'),'Direct jump cap/volume count incorrect');
+assert.ok(reader.includes('globalChapter<390')&&reader.includes('vol<39'),'Reader next/previous navigation incorrect');
 assert.ok(unlock.includes("const KEY='zs:part-progress:v1'"),'Existing reader progress key must not change');
-assert.ok(unlock.includes('p===4?80:100'),'Part four progress must cap at 50 independent chapters');
+assert.ok(unlock.includes('p===4?90:100'),'Part four progress must cap at 50 independent chapters');
 for(let i=1;i<=50;i++)assert.ok(unlock.includes('{p:4,n:'+i+','),'Fourth-part independent spoiler gate missing '+i);
 assert.ok(!unlock.includes('80级触发'),'Private author-only spoiler must not leak');
-assert.ok(search.includes('x.p04?.max')&&search.includes('v<=38'),'Search spoiler lock for part four must be preserved');
-assert.ok(sw.includes('progressive-archive.js?v=31')&&sw.includes('reader-experience.js?v=33'),'Service worker cache versions stale');
+assert.ok(search.includes('x.p04?.max')&&search.includes('v<=39'),'Search spoiler lock for part four must be preserved');
+assert.ok(sw.includes('progressive-archive.js?v=32')&&sw.includes('reader-experience.js?v=34'),'Service worker cache versions stale');
 assert.ok(existsSync('chapters/volume-36/chapter-010.html'),'Volume 36 complete publication must be present');
 for(const path of ['assets/js/progressive-archive.js','assets/js/reader-experience.js','assets/js/home-relaunch.js','assets/js/volume-page.js','assets/js/volume-catalog.js'])new Script(read(path),{filename:path});
 console.log('VOLUME35_COMPLETE_PASS '+JSON.stringify({chapters:counts,hanTotal:counts.reduce((s,x)=>s+x.han,0)}));
