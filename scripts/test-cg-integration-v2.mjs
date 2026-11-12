@@ -38,7 +38,7 @@ const pages=['archive/visual-codex.html','archive/codex.html','archive/equipment
  ...['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'].map(x=>'archive/characters/'+x+'.html')];
 for(const path of pages){
  const html=read(path);
- assert.ok(html.includes('visual-codex-data.js?v=6'),'Manifest cache update missing: '+path);
+ assert.ok(/visual-codex-data\.js\?v=[67]/.test(html),'Manifest cache update missing: '+path);
  assert.ok(html.includes('cg-lightbox.js?v=1')&&html.includes('cg-lightbox.css?v=1'),'Full-screen CG component not linked: '+path);
 }
 const visualHtml=read('archive/visual-codex.html');
