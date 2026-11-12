@@ -39,3 +39,5 @@ jobs:
         run: node scripts/test-character-visual-identity.mjs
       - name: Validate 12 immersive chapter illustrations, original prose and spoiler-safe gallery navigation
         run: node scripts/test-immersive-illustrations.mjs
+      - name: Validate Fourth Part diversified art, image files, exact chapter anchors and unlocks
+        run: node scripts/test-part04-illustrations.mjs
