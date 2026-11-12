@@ -78,8 +78,8 @@ assert.equal(equipment({3:11},true,'武器').children.length,1,'Weapon-only filt
 assert.equal(equipment({3:11},false).children.length,9,'Default equipment page retains locked placeholders');
 assert.equal(nested(equipment({},true),'img').length,0,'New readers must not load locked equipment');
 const galleryHTML=read('archive/visual-codex.html'),gearHTML=read('archive/equipment.html');
-for(const marker of ['zs-visual-only-unlocked','visual-codex.js?v=5','visual-codex.css?v=5'])assert.ok(galleryHTML.includes(marker),'Visual gallery missing V4 '+marker);
-for(const marker of ['pa-equipment-only-unlocked','archive-artworks.js?v=5','archive-artworks.css?v=4','progressive-archive.js?v=23'])assert.ok(gearHTML.includes(marker),'Equipment page missing V4 '+marker);
+for(const marker of ['zs-visual-only-unlocked','visual-codex.js?v=6','visual-codex.css?v=5'])assert.ok(galleryHTML.includes(marker),'Visual gallery missing V4 '+marker);
+for(const marker of ['pa-equipment-only-unlocked','archive-artworks.js?v=5','archive-artworks.css?v=4','progressive-archive.js?v=34'])assert.ok(gearHTML.includes(marker),'Equipment page missing V4 '+marker);
 const anchors=JSON.parse(read('assets/js/chapter-cg-scenes.js').match(/const ANCHORS=Object.freeze\((\{[\s\S]*?\})\);/)[1]);
 assert.equal(Object.keys(anchors).length,19,'Do not change V3 prose anchors');
 for(const key of Object.keys(anchors)){
