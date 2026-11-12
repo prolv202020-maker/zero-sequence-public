@@ -93,8 +93,8 @@ assert.ok(read('archive/visual-codex.html').includes('data-public-archive="visua
 assert.ok(existsSync(join(ROOT,'assets/images/codex/.gitkeep')),'Author image upload directory must exist');
 assert.ok(read('index.html').includes('archive/visual-codex.html'),'Home page needs a visual gallery entry');
 assert.ok(read('archive/visual-codex.html').includes('<option value="道具">道具</option>')&&read('archive/visual-codex.html').includes('<option value="材料">材料</option>'),'Missing new item/material category filters');
-assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=6'),'Item text archive must load visual card data');
-assert.ok(read('archive/materials.html').includes('visual-codex-data.js?v=6'),'Material text archive must load visual card data');
-assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=6'),'New artwork manifest version must be used');
+assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=7'),'Item text archive must load visual card data');
+assert.ok(read('archive/materials.html').includes('visual-codex-data.js?v=7'),'Material text archive must load visual card data');
+assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=7'),'New artwork manifest version must be used');
 const installed=a.filter(x=>existsSync(join(ROOT,'assets/images/codex',x.file))).length;
 console.log('[VISUAL CODEX] PASS: 6 original cards + 18 source-verified cinematic CGs, correct chapter gates, hashes, protected reader progress, monster/equipment/item integration. Image binaries: '+installed+'/25.');
