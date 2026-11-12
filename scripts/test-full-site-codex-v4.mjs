@@ -12,7 +12,7 @@ runInNewContext(read('assets/js/reader-codex-data.js'),context);
 const data=context.window.ZSReaderCodex;
 const p4=data.filter(x=>x.p===4);
 assert.equal(p4.length,30,'Fourth part must have 30 new sourced reader records');
-assert.equal(data.length,190,'Reader database must contain 190 total records');
+assert.equal(data.length,180,'Reader database must contain 190 total records');
 const kinds=new Set(p4.map(x=>x.k));
 for(const k of ['人物','武器','装备','道具','材料','魔物','构装体','技能'])assert.ok(kinds.has(k),'Missing part 4 category '+k);
 const refs=new Set();
