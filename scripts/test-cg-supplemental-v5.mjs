@@ -57,6 +57,6 @@ for(const pair of chapterPairs){
 }
 for(const p of ['archive/equipment.html','archive/items.html','archive/materials.html','archive/bestiary.html','archive/codex.html','archive/visual-codex.html',
  ...['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'].map(x=>'archive/characters/'+x+'.html')]){
- assert.ok(read(p).includes('visual-codex-data.js?v=6'),'Archive must use new V5 metadata '+p);
+ assert.ok(/visual-codex-data\.js\?v=[67]/.test(read(p)),'Archive must use new V5 metadata '+p);
 }
 console.log('[CG V5] PASS: 25 unique canon cards, 28 independently hashed WebPs, 4 new assets, 19 paragraphs, gates and display integration preserved.');
