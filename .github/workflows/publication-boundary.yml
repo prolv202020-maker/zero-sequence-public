@@ -21,6 +21,8 @@ jobs:
         run: node scripts/test-reading-flow.mjs
       - name: Validate four-part published codex, equipment, characters, items, bestiary and safe readers
         run: node scripts/test-full-site-codex-v4.mjs
+      - name: Audit V5 source-backed people, monsters, weapons, items, guilds and legacy pages
+        run: node scripts/test-public-codex-v5.mjs
       - name: Verify equipment, items and materials render chapter-gated CG images
         run: node scripts/test-inline-archive-artworks.mjs
       - name: Test full-site CG V2 gallery, species links, reading gates and source backlinks
