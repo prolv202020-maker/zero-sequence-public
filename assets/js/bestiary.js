@@ -92,7 +92,7 @@ function render(){
 function error(text){root.replaceChildren(elem('p','beast-empty',text));count.textContent='图鉴数据暂不可用';}
 async function init(){
  try{
-  const res=await fetch('../assets/data/bestiary.json?v=2',{cache:'no-cache'});if(!res.ok)throw Error('network');
+  const res=await fetch('../assets/data/bestiary.json?v=3',{cache:'no-cache'});if(!res.ok)throw Error('network');
   const data=await res.json();if(!Array.isArray(data.entries))throw Error('schema');records=data.entries.sort((a,b)=>(a.p||1)-(b.p||1)||a.first-b.first||a.name.localeCompare(b.name,'zh-CN'));
   const p=new URLSearchParams(location.search),q=p.get('q');if(q)search.value=q.slice(0,80);
   for(const input of [search,kind,region,state])input.addEventListener(input===search?'input':'change',render);
