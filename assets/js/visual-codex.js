@@ -22,7 +22,7 @@ function makeImage(record){
  picture.src=wrapper.href;wrapper.append(picture);return wrapper;
 }
 function render(){
- const p={1:progress(1),2:progress(2),3:progress(3)},kind=kindSelect?.value||'all',part=Number(partSelect?.value||0);
+ const p={1:progress(1),2:progress(2),3:progress(3),4:progress(4)},kind=kindSelect?.value||'all',part=Number(partSelect?.value||0);
  const term=(search?.value||'').trim().toLocaleLowerCase('zh-Hans');
  const unlocked=records.filter(r=>p[r.p]>=r.n);
  const scoped=records.filter(r=>(!part||r.p===part)&&(kind==='all'||r.kind===kind)&&(!source||r.source===source)&&(!onlyUnlocked?.checked||available(r)));
@@ -67,7 +67,7 @@ function render(){
   host.append(card);count++;
  }
  if(!count)host.append(el('p','zs-visual-empty','当前条件下没有可展示的视觉档案。关键词仅搜索已经解锁的作品。'));
- status.textContent='第一篇 '+p[1]+'/100 · 第二篇 '+p[2]+'/100 · 第三篇 '+p[3]+'/100 · 已解锁 '+unlocked.length+'/'+records.length+' · 当前显示 '+count+' 张';
+ status.textContent='第一篇 '+p[1]+'/100 · 第二篇 '+p[2]+'/100 · 第三篇 '+p[3]+'/100 · 第四篇 '+p[4]+'/100 · 已解锁 '+unlocked.length+'/'+records.length+' · 当前显示 '+count+' 张';
  if(targetId){
   const target=records.find(r=>r.id===targetId);
   if(target&&available(target)){
