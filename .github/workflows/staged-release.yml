@@ -15,8 +15,10 @@ jobs:
         run: node scripts/check-staged-release.mjs
       - name: Verify all 30 volume chapter catalogs have the same layout, scripts, and reading-state safeguards
         run: node scripts/test-unified-volume-catalogs.mjs
-      - name: Verify all released people, monsters, weapons, equipment, skills and three independent unlock tracks
+      - name: Verify all released people, monsters, weapons, equipment, skills and four independent unlock tracks
         run: node scripts/test-reader-codex.mjs
+      - name: Validate four-part published codex, equipment, characters, items, bestiary and safe readers
+        run: node scripts/test-full-site-codex-v4.mjs
       - name: Audit released chapter timeline and published site functionality
         run: |
           node scripts/audit-published-timeline.mjs
