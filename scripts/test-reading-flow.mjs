@@ -289,7 +289,7 @@ for(const id of ['id="start-here"','id="zs-hero-resume"','id="zs-path-resume-lin
  assert.ok(homepage.includes(id),'Missing landing page feature: '+id);
 assert.ok(homepage.includes('href="chapters/volume-01/prologue.html"'),'First-time readers should start at prologue');
 assert.ok(homepage.includes('第四篇《烽火临界》正式完结'),'Latest official fourth-part completion notice missing');
-const announcement=homepage.match(/<section id="updates"[\\s\\S]*?<\\/section>/)?.[0]||'';
+const announcement=homepage.match(/<section id="updates"[\s\S]*?<\/section>/)?.[0]||'';
 assert.equal((announcement.match(/<article class="zs-update-entry"/g)||[]).length,4,'Current homepage must keep four concise, source-backed announcements');
 for(const target of ['第40卷《烽关决战》','400章＋序章','232条','37条','131段','parts/illustrations-04.html'])
  assert.ok(announcement.includes(target),'Missing verified current announcement '+target);
