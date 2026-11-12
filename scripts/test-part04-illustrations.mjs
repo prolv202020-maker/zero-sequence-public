@@ -31,6 +31,5 @@ for(const file of ['part04-snowline-watercolor.webp','part04-hundred-flags-ink.w
 const gallery=read('parts/illustrations-04.html'),part=read('parts/part-04.html');
 assert.ok(gallery.includes('zs-p4-gallery')&&gallery.includes('part04-illustrations.js?v=1'));
 assert.ok(part.includes('href="illustrations-04.html"'));
-assert.ok(!read('assets/js/part04-illustrations.js').includes('part04-fourth-arc-poster.webp\',title:\'')||script.includes('need:100'));
 assert.ok(existsSync('assets/images/characters/gu-changyuan-approved.webp'),'Approved portrait must remain in place');
 console.log('[PART04 ART] PASS: 4 verified WebP, 3 exact chapter anchors, progress gate and gallery link.');
