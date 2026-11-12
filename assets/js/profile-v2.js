@@ -39,8 +39,8 @@ function init(){
  const heading=node('h1','',info.name);host.append(heading);
  const intro=node('p','zs-profile-opening','人物资料随正文推进开放，不以作者内部未来设定代替已经公开的剧情。');
  host.append(intro);
- const stats=node('div','zs-profile-progress'),p1=node('span'),p2=node('span'),p3=node('span'),phase=node('span'),meter=node('span','zs-profile-meter'),fill=node('i');
- meter.append(fill);stats.append(p1,p2,p3,phase,meter);host.append(stats);
+ const stats=node('div','zs-profile-progress'),p1=node('span'),p2=node('span'),p3=node('span'),p4=node('span'),phase=node('span'),meter=node('span','zs-profile-meter'),fill=node('i');
+ meter.append(fill);stats.append(p1,p2,p3,p4,phase,meter);host.append(stats);
  const visualPanel=node('section','zs-profile-visual-panel');visualPanel.setAttribute('aria-label','已公开人物独立视觉档案');
  const bar=node('div','zs-profile-tabs');bar.setAttribute('role','tablist');bar.setAttribute('aria-label','档案分类');
  tabs.forEach((label,i)=>{const b=node('button','',label);b.type='button';b.setAttribute('role','tab');b.setAttribute('aria-selected',i===0?'true':'false');b.addEventListener('click',()=>setTab(i));bar.append(b);tabEls.push(b);});
@@ -52,13 +52,13 @@ function init(){
  const ix=profiles.indexOf(info);
  if(ix>0)links.append(a(profiles[ix-1].id+'.html','← 上一位人物'));
  if(ix<profiles.length-1)links.append(a(profiles[ix+1].id+'.html','下一位人物 →'));
- host.append(links,node('p','zs-profile-footnote','该页面使用当前设备的第一、二、三篇独立阅读记录。未读阶段不显示秘密职业、隐藏能力、未来情节与结局；全部已发布章节仍可自由阅读。'));
+ host.append(links,node('p','zs-profile-footnote','该页面使用当前设备的第一至四篇独立阅读记录。未读阶段不显示秘密职业、隐藏能力、未来情节与结局；全部已发布章节仍可自由阅读。'));
  function refresh(){
- const x=progress(1),y=progress(2),z=progress(3),read=x>=info.first,complete=x>=100&&y>=100&&z>=100;
+ const x=progress(1),y=progress(2),z=progress(3),w=progress(4),read=x>=info.first,complete=x>=100&&y>=100&&z>=100&&w>=100;
  document.body.classList.toggle('zs-profile-full',complete);
- p1.textContent='第一篇 '+x+'/100 章';p2.textContent='第二篇 '+y+'/100 章';p3.textContent='第三篇 '+z+'/100 章';
- phase.textContent=complete?'三篇阅读进度已完成':read?'当前人物已公开资料可阅读':'人物资料尚未解锁';
- fill.style.width=((x+y+z)/3)+'%';
+ p1.textContent='第一篇 '+x+'/100 章';p2.textContent='第二篇 '+y+'/100 章';p3.textContent='第三篇 '+z+'/100 章';p4.textContent='第四篇 '+w+'/100 章';
+ phase.textContent=complete?'四篇阅读进度已完成':read?'当前人物已公开资料可阅读':'人物资料尚未解锁';
+ fill.style.width=((x+y+z+w)/4)+'%';
  art.remove();
  if(read){art.src=ROOT+'assets/images/characters/'+info.id+'-approved.webp'+(info.id==='gu-yanche'?'?v=20261106c':'');heading.insertAdjacentElement('beforebegin',art);}
  intro.textContent=read?info.bio:'继续阅读第一篇，人物身份和经历会在相应章节逐步公开。';
@@ -84,7 +84,9 @@ function init(){
   [card('首次阶段',read?'初期同行与探索':'🔒 待出场',read?'在读者已接触的章节里，人物展现了最初的性格和行动选择。':'本阶段尚未阅读。',!read),
    card('成长阶段',stage2?'逐步建立独立判断':'🔒 后续经历封存',stage2?info.later:'成长细节请以你已经阅读的正式正文为准。',!stage2),
    card('第二篇阶段',stage4?'独立行动与团队协作':'🔒 百城星火阶段',stage4?'在新的冒险和合作中继续承担自己的责任。':'继续阅读第二篇后开放。',!stage4),
-   card('第三篇阶段',z>=1?'新的观察与合作':'🔒 临界回声阶段',z>=1?'第三篇的记录由该篇已读章节独立解锁。具体经历请阅读原文。':'继续阅读第三篇后开放。',z<1)],
+   card('第三篇阶段',z>=1?'新的观察与合作':'🔒 临界回声阶段',z>=1?'第三篇的记录由该篇已读章节独立解锁。具体经历请阅读原文。':'继续阅读第三篇后开放。',z<1),
+   card('第四篇阶段',w>=1?'雪线与跨区竞赛':'🔒 烽火临界阶段',w>=1?'第四篇的公会对抗、战术与经营成长继续按本篇独立进度展开。':'继续阅读第四篇后开放。',w<1),
+   card('第四篇后期',w>=96?'七人逆阵 · 独立职责':'🔒 重要协同阶段',w>=96?'第396章展现队伍分线行动与共同承担；各人实际伤势、能力与任务以正文为准。':'阅读第四篇第96章后开放。',w<96)],
   [card('已知关系',read?'团队与伙伴':'🔒 关系待揭晓',read?info.bond:'尚未解锁的人物关系不提前公布。',!read),
    card('后续关系变化',stage4?'信任与独立选择':'🔒 关系发展封存',stage4?'人物之间的合作会随具体经历不断变化，而非固定在最初的标签里。':'阅读第二篇的相关章节后开放。',!stage4)]
  ];
@@ -95,6 +97,7 @@ function init(){
   const c=card('已公开故事起点','本篇首次阶段','这些链接指向已经发布的正文，可由读者自行选择阅读。');
   c.append(a(chapterUrl(info.first<=10?1:info.first<=20?2:3,info.first<=10?info.first:info.first<=20?info.first-10:info.first-20),'阅读对应章节 →'));sec.append(c);
   if(stage2){const v=card('已读阶段','第一篇 · 卷目目录','返回卷目目录查看人物在不同阶段的行动。');v.append(a(ROOT+'parts/part-01.html','打开第一篇目录 →'));sec.append(v);}
+  if(w>=1){const v=card('烽火临界','第四篇 · 公会争夺与伙伴选择','按已读章节浏览第四篇剧情。');v.append(a(ROOT+'parts/part-04.html','打开第四篇目录 →'));sec.append(v);}
   if(stage4){const v=card('百城星火','第二篇 · 伙伴各自的道路','已读阶段包含更多独立行动与团队关系。');v.append(a(ROOT+'parts/part-02.html','打开第二篇目录 →'));sec.append(v);}
  }
  }
