@@ -69,7 +69,7 @@ function render(){
   (!keyword||(progress(r.p)>=r.n&&[r.name,r.summary,r.kind].join(' ').toLocaleLowerCase('zh-Hans').includes(keyword))));
  const filtered=[...eligible];
  if(gearSort?.value==='story')filtered.sort((a,b)=>a.p-b.p||a.n-b.n||a.name.localeCompare(b.name,'zh-CN'));
- status.textContent='已解锁 '+shown+'/'+records.length+' 张 · 当前展示 '+filtered.length+' 张 · 三篇进度独立计算';
+ status.textContent='已解锁 '+shown+'/'+records.length+' 张 · 当前展示 '+filtered.length+' 张 · 四篇进度独立计算';
  host.replaceChildren();
  if(!filtered.length){host.append(el('p','pa-empty',keyword?'没有符合搜索的已解锁装备CG。':'当前分类暂时没有作品。'));return;}
  for(const r of filtered)host.append(show(r));
