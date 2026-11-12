@@ -25,7 +25,6 @@ if(m){const key=m[1]+'/'+m[2];const item=illustrations.find(x=>x.chapter===key&&
  const caption=document.createElement('figcaption');caption.className='zs-p4-caption';const text=document.createElement('span');text.textContent=item.caption;
  const back=document.createElement('a');back.href=ROOT+'parts/illustrations-04.html#art-'+item.id;back.textContent='前往第四篇插画画廊';
  caption.append(text,back);fig.append(caption);matches[0].insertAdjacentElement('afterend',fig)}}}
-}
 const host=document.getElementById('zs-p4-gallery');if(!host)return;
 function draw(){host.replaceChildren();const max=progress();for(const item of illustrations){const unlocked=max>=item.need;
  const card=document.createElement('article');card.className='zs-p4-gallery-card';card.id='art-'+item.id;
