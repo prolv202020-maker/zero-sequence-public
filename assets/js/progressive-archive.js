@@ -114,9 +114,9 @@ const entries=[
  {p:4,n:1,k:'地图',t:'北坡合法护运路线',d:'公开补给路线引发玩家收费与通行争执；深层核心仍未开放。'},
  {p:4,n:2,k:'人物',t:'驿工陆荻',d:'北坡救援中获救的驿工，伤势与后续工作恢复仍需照顾。'},
  {p:4,n:3,k:'事件',t:'药材车伏击',d:'野外玩家冲突与断章取义的视频让护运队面临双重风险。'},
- {p:4,n:4,k:'势力',t:'自愿护运协作',d:'独立队伍可以暂时结盟守路，无须加入长渊工作室。'},
+ {p:4,n:4,k:'事件',t:'自愿护运协作',d:'独立队伍可以暂时结盟守路，无须加入长渊工作室。'},
  {p:4,n:5,k:'事件',t:'黑槲主力报名',d:'敌方具有完整资金与战阵部署，主角团必须控制真实后勤成本。'},
- {p:4,n:6,k:'职业',t:'重剑回锋',d:'林烈在正规争夺中恢复重剑主战，同时吸收此前盾防训练的战场判断。'},
+ {p:4,n:6,k:'技能',t:'重剑回锋',d:'林烈在正规争夺中恢复重剑主战，同时吸收此前盾防训练的战场判断。'},
  {p:4,n:7,k:'事件',t:'冻河交付失利',d:'北坡护运遇到真实损失，反击不能以战斗胜利掩盖货物损毁。'},
  {p:4,n:8,k:'事件',t:'雪线会战',d:'多支独立队伍用明确职责与任务目标应对完整公会战阵。'},
  {p:4,n:9,k:'事件',t:'最后交付成功',d:'合法补给经正式核验过线，收益与胜负仍依公开规则结算。'},
@@ -127,7 +127,7 @@ const entries=[
  {p:4,n:15,k:'事件',t:'分旗之夜',d:'临时阵营与正式旗分不同，断章取义的视频无法替代现场战报。'},
  {p:4,n:16,k:'人物',t:'邵临川',d:'燎星战团枪阵指挥，正面竞技给长渊队伍带来清晰的战术压力。'},
  {p:4,n:17,k:'事件',t:'赤线伏杀',d:'车队遭袭导致实际财物损毁和人员受伤，责任仍须按证据调查。'},
- {p:4,n:18,k:'势力',t:'临时旗阵协作',d:'长渊与灰獠在运输安全目标上暂时合作，仍独立结算旗分。'},
+ {p:4,n:18,k:'事件',t:'临时旗阵协作',d:'长渊与灰獠在运输安全目标上暂时合作，仍独立结算旗分。'},
  {p:4,n:19,k:'势力',t:'逐昼挑战队',d:'榜首竞速队的高效率战术与公开交付成绩，在竞技场得到实际检验。'},
  {p:4,n:20,k:'事件',t:'回响环道终场',d:'长渊队伍赢得有期限的合法补给优先申请资格，第32卷争夺阶段收束。'},
  {p:4,n:21,k:'事件',t:'南驿货运争夺',d:'长渊在合法补给资格之外遭遇铁隼运力竞争，首批货单失利。'},
@@ -137,7 +137,7 @@ const entries=[
  {p:4,n:25,k:'事件',t:'重剑夺塔',d:'林烈独立指挥夺塔成功，但东侧材料补给线同时失守。'},
  {p:4,n:26,k:'事件',t:'联运围城',d:'铁隼依靠多公会合作掌握主干线，长渊局部失守并进行止损。'},
  {p:4,n:27,k:'事件',t:'断粮之局',d:'运输改签导致仓储压力，队伍明确医疗与经营最低保障。'},
- {p:4,n:28,k:'势力',t:'小型联合护运',d:'长渊、灰獠与独立车队建立可执行的责任与分成合作。'},
+ {p:4,n:28,k:'事件',t:'小型联合护运',d:'长渊、灰獠与独立车队建立可执行的责任与分成合作。'},
  {p:4,n:29,k:'事件',t:'烽线决战',d:'逐昼、铁隼与长渊在公开联运会战中分别取得有效赛果。'},
  {p:4,n:30,k:'事件',t:'有限联运配额',d:'长渊取得一定期限的合法外圈联运份额，公共道路未被任何一方独占。'},
  {p:4,n:31,k:'事件',t:'跨区战盟试炼',d:'东湾、赤沙与苍岭开放跨区公会资格战，报名需真实公开成绩。'},
@@ -149,7 +149,7 @@ const entries=[
  {p:4,n:37,k:'事件',t:'苍岭东墙失守',d:'狼庭与苍牙协调攻城，长渊失去据点并保住伤员撤退。'},
  {p:4,n:38,k:'事件',t:'东关重剑反击',d:'林烈调整重剑与盾阵换位，带队重新取得公开晋级成绩。'},
  {p:4,n:39,k:'事件',t:'千旗跨区决战',d:'逐昼、铁隼、狼庭和长渊在不同项目取得真实成绩。'},
- {p:4,n:40,k:'势力',t:'跨区支线承运',d:'长渊取得期限与责任明确的跨区支线申请资格，后续赛事仍待公开。'},
+ {p:4,n:40,k:'事件',t:'跨区支线承运',d:'长渊取得期限与责任明确的跨区支线申请资格，后续赛事仍待公开。'},
  {p:4,n:41,k:'事件',t:'百旗城战报名',d:'燧河城按正式规则开放百旗竞赛，队伍负责不同街区。'},
  {p:4,n:42,k:'事件',t:'东门夺旗',d:'长渊抵挡狼庭枪阵和乌鸦庭骚扰，取得有限东门旗台成绩。'},
  {p:4,n:43,k:'势力',t:'乌鸦庭雇佣团',d:'黑羽雇佣团承接合法PK和旗令阻击任务，以延误目标获得报酬。'},
@@ -164,16 +164,16 @@ const entries=[
  {p:4,n:52,k:'事件',t:'窄谷抢旗',d:'队伍在第二巡旗取得基础挑战积分，主要占旗权仍由其他队伍争夺。'},
  {p:4,n:53,k:'事件',t:'灰印委托',d:'多份运输合同引发桥梁安全与交付责任争议，事故证据进入正式程序。'},
  {p:4,n:54,k:'地图',t:'夜赛断桥',d:'赤谷旧矿桥在夜间赛段发生结构事故，工坊和参赛者分别承担后果。'},
- {p:4,n:55,k:'势力',t:'仇敌同路',d:'长渊与狼庭依赛制临时联队，合作不等于永久结盟。'},
+ {p:4,n:55,k:'事件',t:'仇敌同路',d:'长渊与狼庭依赛制临时联队，合作不等于永久结盟。'},
  {p:4,n:56,k:'事件',t:'算错的代价',d:'过时的地形判断造成排名失利，长渊接受伙伴复核战术。'},
  {p:4,n:57,k:'事件',t:'夜色围猎',d:'有人威胁原住民商队，证据提交后仍待正式调查。'},
  {p:4,n:58,k:'事件',t:'赤榜突围',d:'长渊以运输认证和团队配合重返资格竞争区间。'},
  {p:4,n:59,k:'事件',t:'双线反攻',d:'竞技与安全运输同时进行，队伍取得关键有效积分。'},
  {p:4,n:60,k:'事件',t:'旗未归城',d:'赤谷阶段成绩达到下一阶段申请门槛，仍需审核并承担后勤成本。'},
  {p:4,n:61,k:'事件',t:'断岚开闸',d:'长渊在断岚城外场争得有效旗门认证，正式席位尚待审核。'},
- {p:4,n:62,k:'势力',t:'铁墙抢位',d:'赤墙萧砺的塔盾阵稳守中央，长渊取得有限侧旗积分。'},
+ {p:4,n:62,k:'事件',t:'铁墙抢位',d:'赤墙萧砺的塔盾阵稳守中央，长渊取得有限侧旗积分。'},
  {p:4,n:63,k:'事件',t:'黑契围标',d:'有人冒用长渊名义推销训练合同，相关申诉与责任仍待裁定。'},
- {p:4,n:64,k:'地图',t:'百队入城',d:'多队分赛区竞技，岑禾主导第七区路线与撤退决策。'},
+ {p:4,n:64,k:'事件',t:'百队入城',d:'多队分赛区竞技，岑禾主导第七区路线与撤退决策。'},
  {p:4,n:65,k:'事件',t:'枪剑燃街',d:'林烈与狼庭赫连照正面交手，双方按公会任务分配积分。'},
  {p:4,n:66,k:'事件',t:'败线之夜',d:'长渊正面主阵地失利，伤势与物资消耗迫使队伍重整。'},
  {p:4,n:67,k:'事件',t:'封门决胜',d:'补赛通过机关循环和团队协作取得关键主门有效认证。'},
@@ -181,35 +181,35 @@ const entries=[
  {p:4,n:69,k:'事件',t:'城际锋芒',d:'长渊争得中央有效认证，进入最终席位审核程序。'},
  {p:4,n:70,k:'事件',t:'席位之外',d:'长渊获得有限小队正赛准入，仍需提交健康与装备记录。'},
  {p:4,n:71,k:'事件',t:'灰炬开界',d:'长渊通过边境入场核验，在合法竞技路线上抵御截车，取得基础通行分。'},
- {p:4,n:72,k:'道具',t:'竞价死线',d:'长渊竞得二十三号营地条件性经营许可，放弃超额借贷与高价矿区。'},
- {p:4,n:73,k:'势力',t:'黑旗截道',d:'斩契团在合法运输线上截走一箱货物，长渊以损失换得最低交付。'},
+ {p:4,n:72,k:'事件',t:'竞价死线',d:'长渊竞得二十三号营地条件性经营许可，放弃超额借贷与高价矿区。'},
+ {p:4,n:73,k:'事件',t:'黑旗截道',d:'斩契团在合法运输线上截走一箱货物，长渊以损失换得最低交付。'},
  {p:4,n:74,k:'事件',t:'重剑夺坡',d:'林烈与戴玄岳在黑石坡抢得有限旗点及短期通行窗口。'},
- {p:4,n:75,k:'势力',t:'火线同盟',d:'荒烬与长渊按有期限的合法协议护运，各自承担责任与战绩。'},
+ {p:4,n:75,k:'事件',t:'火线同盟',d:'荒烬与长渊按有期限的合法协议护运，各自承担责任与战绩。'},
  {p:4,n:76,k:'事件',t:'营地失守',d:'斩契团合法夺得二十三号营地旗点，长渊承担租费和装备损耗。'},
  {p:4,n:77,k:'事件',t:'断粮夜袭',d:'长渊在夜间货运护送中保住最低交付，没有越界伤害村民。'},
  {p:4,n:78,k:'事件',t:'百旗围谷',d:'多公会于灰炬峡谷独立争旗，长渊取得有限营地复核机会。'},
  {p:4,n:79,k:'事件',t:'血路立旗',d:'长渊同时达成营地旗座与货运最低认证条件，进入正式复核。'},
- {p:4,n:80,k:'地点',t:'边境未定',d:'二十三号营地取得限期运营管理权，须继续履行维护与合同责任。'},
+ {p:4,n:80,k:'事件',t:'边境未定',d:'二十三号营地取得限期运营管理权，须继续履行维护与合同责任。'},
  {p:4,n:81,k:'事件',t:'北烽开战',d:'北烽谷跨区抢怪开启，长渊参与岩兽争夺并取得基础贡献。'},
  {p:4,n:82,k:'事件',t:'标价如刀',d:'长渊取得低档鸣炉遗址资格，斩契团竞得北烽桥合法攻击时段。'},
  {p:4,n:83,k:'事件',t:'炉门首败',d:'首次鸣炉石像挑战失利，伤势与装备损耗导致队伍撤退。'},
  {p:4,n:84,k:'事件',t:'断桥百刃',d:'长渊依靠替补前锋完成北烽桥运输认证，重新申请副本挑战。'},
  {p:4,n:85,k:'事件',t:'石像破阵',d:'队伍取得鸣炉石像哨塔首段成绩，在熔轨试探中及时止损。'},
- {p:4,n:86,k:'地点',t:'营地警钟',d:'砺骨公会夺得二十三号营地旗战一段控制，运输优惠受到影响。'},
+ {p:4,n:86,k:'事件',t:'营地警钟',d:'砺骨公会夺得二十三号营地旗战一段控制，运输优惠受到影响。'},
  {p:4,n:87,k:'事件',t:'熔轨反攻',d:'替补守营与主队熔轨挑战同时推进，保住多数运营认证。'},
- {p:4,n:88,k:'势力',t:'枪剑争炉',d:'林烈与赫连照争炉芯竞技旗点，长渊和狼庭分别得到有效成绩。'},
+ {p:4,n:88,k:'事件',t:'枪剑争炉',d:'林烈与赫连照争炉芯竞技旗点，长渊和狼庭分别得到有效成绩。'},
  {p:4,n:89,k:'事件',t:'烽谷裂旗',d:'多公会混战，长渊达到普通矿砂短时取样申请条件。'},
- {p:4,n:90,k:'道具',t:'未定的矿脉',d:'长渊获短期样本取用许可和合法副本成绩，未取得永久矿权。'},
+ {p:4,n:90,k:'事件',t:'未定的矿脉',d:'长渊获短期样本取用许可和合法副本成绩，未取得永久矿权。'},
  {p:4,n:91,k:'事件',t:'烽关令下',d:'烽关联赛开启，长渊在首段旗战中取得有限分数，准备跨城竞争。'},
  {p:4,n:92,k:'事件',t:'群旗夺道',d:'烽关多公会抢道，长渊取得有限旗点控制，烬牙队伍出现在安全线附近。'},
- {p:4,n:93,k:'势力',t:'狼旗压城',d:'狼庭赫连照守住中台，林烈重剑对抗枪阵后重新思考团队攻守。'},
+ {p:4,n:93,k:'事件',t:'狼旗压城',d:'狼庭赫连照守住中台，林烈重剑对抗枪阵后重新思考团队攻守。'},
  {p:4,n:94,k:'事件',t:'血契陷阱',d:'可疑民用商道机关引发普通工坊车事故，长渊参与合法救援并保全证据。'},
  {p:4,n:95,k:'事件',t:'险桥弃旗',d:'长渊为救北烽旧桥工坊车主动放弃高分旗战，损失实际积分。'},
  {p:4,n:96,k:'事件',t:'七人逆阵',d:'七名核心成员分工，多线执行旗点与合法护路认证，达到初审门槛。'},
  {p:4,n:97,k:'事件',t:'烽门夜战',d:'烽门夜间公会战，长渊取得有限控制，赤墙萧砺加入角楼争夺。'},
- {p:4,n:98,k:'势力',t:'城头决斗',d:'赤墙萧砺长盾阵与长渊队伍正面交锋，双方各有有效旗点成绩。'},
+ {p:4,n:98,k:'事件',t:'城头决斗',d:'赤墙萧砺长盾阵与长渊队伍正面交锋，双方各有有效旗点成绩。'},
  {p:4,n:99,k:'事件',t:'万旗破晓',d:'终场旗、最低运输和护路记录达门槛，烬牙涉事队员接受临时赛务措施。'},
- {p:4,n:100,k:'地点',t:'烽火未熄',d:'第四篇收官，长渊取得跨城联赛有限候选资格与合法护路协作申请权。'},
+ {p:4,n:100,k:'事件',t:'烽火未熄',d:'第四篇收官，长渊取得跨城联赛有限候选资格与合法护路协作申请权。'},
 ];
 function storeRead(){try{const x=JSON.parse(localStorage.getItem(KEY)||'{}');return x&&typeof x==='object'?x:{};}catch(e){return {};}}
 function storeWrite(obj){try{localStorage.setItem(KEY,JSON.stringify(obj));}catch(e){}}
@@ -270,22 +270,24 @@ main.classList.add('zs-gated-main');const wall=el('div','zs-spoiler-wall');
 wall.append(el('h2','','🔒 完整设定档案暂未解锁'),el('p','','此页可能包含尚未阅读篇章的信息。为了避免剧透，先展示与你已读章节对应的渐进档案；完整专题需要第一、第二、第三篇分别读完100章后才开放。'));
 const actions=el('div','zs-unlock-actions');actions.append(aLink(BASE+'archive/unlocks.html','查看已解锁档案 →'),aLink(BASE+'parts/part-01.html','返回第一篇目录 →'),aLink(BASE+'archive/quests.html','查看已解锁剧情事件 →'));wall.append(actions);main.append(wall);
 }
-function catalogPage(){if(!/\/archive\/unlocks\.html$/.test(location.pathname))return;const host=document.getElementById('zs-dynamic-catalog');if(!host)return;const params=new URLSearchParams(location.search),sel=Number(params.get('part'))||1;
+function catalogPage(){if(!/\/archive\/unlocks\.html$/.test(location.pathname))return;
+const expanded=[...new Map([...entries,...(Array.isArray(window.ZSReaderCodex)?window.ZSReaderCodex:[])].map(x=>[[x.p,x.n,x.k,x.t].join('|'),x])).values()];const host=document.getElementById('zs-dynamic-catalog');if(!host)return;const params=new URLSearchParams(location.search),sel=Number(params.get('part'))||1;
 function render(){host.replaceChildren();const top=el('div','zs-unlock-panel');
 top.append(el('h2','','分篇独立解锁'),el('p','','当前查看：第'+sel+'篇 · '+nameOf(sel)+' · '+summary(sel)),meter(sel));
 const actions=el('div','zs-unlock-actions');[1,2,3,4].forEach(p=>actions.append(aLink('?part='+p,'第'+p+'篇')));actions.append(aLink(BASE+'parts/final-archive.html','全部总结'));top.append(actions);host.append(top);
 if(sel>4){host.append(el('p','zs-next-lock','该篇尚未发布正式章节。'));return;}
-const cats=['人物','职业','地图','势力','世界','事件'];cats.forEach(cat=>{const data=entries.filter(x=>x.p===sel&&x.k===cat);if(!data.length)return;host.append(el('h2','',cat+'档案'));const grid=el('div','zs-unlock-grid');data.forEach(item=>{const ok=available(item),cell=el('article','zs-unlock-card'+(ok?'':' locked'));cell.append(el('small','',ok?'✓ 已解锁 · 第'+item.n+'章':'🔒 第'+item.n+'章后解锁'),el('h3','',ok?item.t:'尚未揭晓'),el('p','',ok?item.d:'继续阅读本篇，达到对应章节后自动显示。'));grid.append(cell);});host.append(grid);});host.append(el('p','zs-footer-notice','本页只显示经过公开核对的阶段资料；未来剧情、人物终局和作者私密笔记不会预先上传。'));}
+const cats=['人物','职业','技能','地图','地点','势力','世界','事件','魔物','构装体','武器','装备','道具','材料'];cats.forEach(cat=>{const data=expanded.filter(x=>x.p===sel&&x.k===cat);if(!data.length)return;host.append(el('h2','',cat+'档案'));const grid=el('div','zs-unlock-grid');data.forEach(item=>{const ok=available(item),cell=el('article','zs-unlock-card'+(ok?'':' locked'));cell.append(el('small','',ok?'✓ 已解锁 · 第'+item.n+'章':'🔒 第'+item.n+'章后解锁'),el('h3','',ok?item.t:'尚未揭晓'),el('p','',ok?item.d:'继续阅读本篇，达到对应章节后自动显示。'));grid.append(cell);});host.append(grid);});host.append(el('p','zs-footer-notice','本页只显示经过公开核对的阶段资料；未来剧情、人物终局和作者私密笔记不会预先上传。'));}
 render();document.addEventListener('zs:part-progress-changed',render);
 }
-function finalPage(){if(!/\/parts\/final-archive\.html$/.test(location.pathname))return;const host=document.getElementById('zs-final-container');if(!host)return;
+function finalPage(){if(!/\/parts\/final-archive\.html$/.test(location.pathname))return;
+const expanded=[...new Map([...entries,...(Array.isArray(window.ZSReaderCodex)?window.ZSReaderCodex:[])].map(x=>[[x.p,x.n,x.k,x.t].join('|'),x])).values()];const host=document.getElementById('zs-final-container');if(!host)return;
 function render(){host.replaceChildren();const intro=el('div','zs-unlock-panel');intro.append(el('h2','','全篇进度总览'),el('p','','每篇分别计算，以下只汇总你目前已经解锁的内容。'));
 [1,2,3,4].forEach(p=>{const line=el('div','zs-part-card');line.append(el('h3','','第'+p+'篇 · '+nameOf(p)),el('p','',summary(p)),meter(p));intro.append(line);});host.append(intro);
-const shown=entries.filter(available);
+const shown=expanded.filter(available);
 host.append(el('h2','','已解锁总档案 · '+shown.length+'条'));
 if(!shown.length)host.append(el('p','lead','尚未解锁正文档案。阅读第一篇序章与第一章后，故事资料会陆续汇集到这里。'));
-['人物','职业','地图','势力','世界','事件'].forEach(cat=>{const data=shown.filter(e=>e.k===cat);if(!data.length)return;host.append(el('h2','',cat));const grid=el('div','zs-unlock-grid');data.forEach(item=>{const card=el('article','zs-unlock-card');card.append(el('small','','第'+item.p+'篇 · 第'+item.n+'章'),el('h3','',item.t),el('p','',item.d));grid.append(card);});host.append(grid);});
-host.append(el('p','zs-footer-notice','这里是当前阅读进度的阶段总结，并非全书已完结。最终真相只会在相应正文公开后进入档案。'));const acts=el('div','zs-unlock-actions');acts.append(aLink(BASE+'archive/unlocks.html','进入分篇档案'),aLink(BASE+'parts/part-01.html','返回第一篇'));host.append(acts);}
+['人物','职业','技能','地图','地点','势力','世界','事件','魔物','构装体','武器','装备','道具','材料'].forEach(cat=>{const data=shown.filter(e=>e.k===cat);if(!data.length)return;host.append(el('h2','',cat));const grid=el('div','zs-unlock-grid');data.forEach(item=>{const card=el('article','zs-unlock-card');card.append(el('small','','第'+item.p+'篇 · 第'+item.n+'章'),el('h3','',item.t),el('p','',item.d));grid.append(card);});host.append(grid);});
+host.append(el('p','zs-footer-notice','这里汇总当前已读档案；第四篇已完结，后续仍以正式发表正文为准。最终真相只会在相应正文公开后进入档案。'));const acts=el('div','zs-unlock-actions');acts.append(aLink(BASE+'archive/unlocks.html','进入分篇档案'),aLink(BASE+'parts/part-01.html','返回第一篇'));host.append(acts);}
 render();document.addEventListener('zs:part-progress-changed',render);
 }
 function init(){css();articleUnlock();homepage();partPage();recapGate();archiveGate();catalogPage();finalPage();
