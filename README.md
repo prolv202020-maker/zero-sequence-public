@@ -5,10 +5,14 @@
 ## 入口
 
 - `index.html`：首页
-- `parts/`、`volumes/`、`chapters/`：正式公开篇章、30卷目录与300章正文及序章
+- `parts/`、`volumes/`、`chapters/`：正式公开篇章、40卷目录与400章正文及序章
 - `archive/characters.html`：按阅读进度显示的公开人物图鉴
 - `archive/classes.html`：公开基础职业图鉴
-- `archive/unlocks.html`：分篇独立解锁记录
+- `archive/unlocks.html`：四篇独立解锁记录
+- `archive/equipment.html`：正文出处可追溯的武器与装备
+- `archive/items.html`、`archive/materials.html`：已发表道具与材料
+- `archive/bestiary.html`：按篇章解锁的魔物与构装体
+- `parts/illustrations-04.html`：第四篇已发布剧情概念画廊
 - `archive/quests.html`：已发布剧情事件索引
 - `archive/` 其他专题：仅展示经过读者发布审核的里程碑摘要
 

@@ -49,7 +49,7 @@ assert.ok(chapter.includes('r.views.length'),'Chapter should hint supplementary 
 assert.ok(read('archive/equipment.html').includes('archive-artworks.js?v=5'));
 assert.ok(read('archive/items.html').includes('archive-artworks.js?v=5'));
 assert.ok(read('archive/materials.html').includes('archive-artworks.js?v=5'));
-assert.ok(read('archive/visual-codex.html').includes('visual-codex.js?v=5'));
+assert.ok(read('archive/visual-codex.html').includes('visual-codex.js?v=6'));
 const chapterPairs=['01/001','02/001','05/004','09/008','12/004','13/004','14/001','16/001','18/005','21/006','22/001','22/008','25/002','25/003','26/005','27/005','27/007','28/010','29/001'];
 for(const pair of chapterPairs){
  const [v,c]=pair.split('/'),p='chapters/volume-'+v+'/chapter-'+c+'.html',html=read(p);

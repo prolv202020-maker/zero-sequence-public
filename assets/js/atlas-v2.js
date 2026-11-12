@@ -29,7 +29,8 @@ const professionGroups=[
 const professions=professionGroups.flatMap(g=>g.entries.map(name=>({name,role:g.name,type:g.name,p:1,n:11,note:g.desc,group:g.id})));
 const verified=Array.isArray(window.ZSReaderCodex)?window.ZSReaderCodex:[];
 const names=new Set(characters.map(x=>x.name));
-const additionalPeople=verified.filter(x=>x.k==='人物'&&!names.has(x.t)).map(x=>({name:x.t,role:x.p===3?'第三篇已出现人物':x.p===2?'第二篇已出现人物':'已出现人物',type:x.p===3?'第三篇':x.p===2?'第二篇':'世界人物',p:x.p,n:x.n,note:x.d,source:true}));
+const seenPeople=new Set(names);
+const additionalPeople=verified.filter(x=>x.k==='人物'&&!seenPeople.has(x.t)&&(seenPeople.add(x.t),true)).map(x=>({name:x.t,role:x.p===4?'第四篇已出现人物':x.p===3?'第三篇已出现人物':x.p===2?'第二篇已出现人物':'已出现人物',type:x.p===4?'第四篇':x.p===3?'第三篇':x.p===2?'第二篇':'世界人物',p:x.p,n:x.n,note:x.d,source:true}));
 const additionalSkills=verified.filter(x=>x.k==='技能').map(x=>({name:x.t,role:'实战技能与战术',type:'技能与战术',p:x.p,n:x.n,note:x.d,source:true}));
 const data=kind==='characters'?[...characters,...additionalPeople]:[...professions,...additionalSkills];
 function progress(p){
@@ -43,7 +44,7 @@ const host=make('section','zs-atlas-public');
 host.setAttribute('aria-label',kind==='characters'?'渐进人物档案':'渐进职业档案');
 const kicker=make('div','zs-atlas-kicker',kind==='characters'?'CHARACTER FILES · VERIFIED STORY':'CLASS INDEX · PUBLIC BASICS');
 host.append(kicker,make('h2','',kind==='characters'?'已揭晓的人物档案':'五大体系 · 职业与实战技能'));
-host.append(make('p','zs-atlas-intro',kind==='characters'?'按照三篇已读章节逐步显示人物姓名、公开身份和对应正文；人物最终命运与未确认档案不提前公布。':'按三篇已读章节展示五大基础职业和已经公开的实战技能。不会把训练动作夸大成隐藏职业或提前公布未发表的个人能力。'));
+host.append(make('p','zs-atlas-intro',kind==='characters'?'按照四篇已读章节逐步显示人物姓名、公开身份和对应正文；人物最终命运与未确认档案不提前公布。':'按四篇已读章节展示五大基础职业和已经公开的实战技能。不会把训练动作夸大成隐藏职业或提前公布未发表的个人能力。'));
 const status=make('div','zs-atlas-status'),meter=make('div','zs-atlas-progress'),fill=make('i');
 meter.append(fill);host.append(status,meter);
 const actions=make('div','zs-atlas-actions');
@@ -67,15 +68,15 @@ h1.insertAdjacentElement('afterend',host);
 const oldNodes=[...main.children].filter(n=>n!==host&&!n.classList.contains('crumb')&&!n.classList.contains('eyebrow')&&n!==h1);
 oldNodes.forEach(n=>n.classList.add('zs-atlas-protected'));
 function render(){
- const p1=progress(1),p2=progress(2),p3=progress(3),full=p1>=100&&p2>=100&&p3>=100;
+ const p1=progress(1),p2=progress(2),p3=progress(3),p4=progress(4),full=p1>=100&&p2>=100&&p3>=100&&p4>=100;
  body.classList.toggle('zs-atlas-full',full);
- status.replaceChildren(make('span','','第一篇 '+p1+'/100 章'),make('span','','第二篇 '+p2+'/100 章'),make('span','','第三篇 '+p3+'/100 章'),make('span','',full?'三篇已读 · 公开档案持续更新':'按已读章节逐步公开'));
- fill.style.width=((p1+p2+p3)/3)+'%';
+ status.replaceChildren(make('span','','第一篇 '+p1+'/100 章'),make('span','','第二篇 '+p2+'/100 章'),make('span','','第三篇 '+p3+'/100 章'),make('span','','第四篇 '+p4+'/100 章'),make('span','',full?'四篇已读 · 公开档案持续更新':'按已读章节逐步公开'));
+ fill.style.width=((p1+p2+p3+p4)/4)+'%';
  legacy.textContent='这里仅展示已发布小说中适合读者阅读的阶段资料；完整成长方案、内部设计草案与未发表剧情保存在私人作者资料库。';
  const query=input.value.trim().toLowerCase(),filter=select.value;
  grid.replaceChildren();let total=0;
  data.forEach(entry=>{
-   const ok=(entry.p===1?p1:entry.p===2?p2:p3)>=entry.n;
+   const ok=(entry.p===1?p1:entry.p===2?p2:entry.p===3?p3:p4)>=entry.n;
    if(!ok)return;
    if(filter&&filter!==entry.type)return;
    if(query&&![entry.name,entry.role,entry.note].join(' ').toLowerCase().includes(query))return;
