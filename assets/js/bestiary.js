@@ -6,6 +6,7 @@ if(!root)return;
 const search=document.getElementById('beast-search'),kind=document.getElementById('beast-kind'),region=document.getElementById('beast-region'),state=document.getElementById('beast-state');
 const count=document.getElementById('beast-count'),bar=document.getElementById('beast-bar'),meter=document.getElementById('beast-meter');
 const volnames=['重返','初临','暗流','无声之城','灰石盟约','失落商道','白霜边境','百城之约','黑风试炼','无名之门'];const p2volnames=['契约之外','无影商路','锻火账本','白烛与月','镜路歧途','北境长墙','分道与雷鸣','万家灯火','被改写的信','星火未熄'];const p3volnames=['无声偏差','远域双钟','失去编号的城','外缘旧门','断潮回廊','外环裂线','熔谷争锋','双轨冷光','无钟之夜','零刻回廊'];
+const p4volnames=['雪线夺路','逐榜烽烟','烽线争城','双城旗火','百旗城战','赤榜争锋','裂旗之城','边境夺旗','烽谷夺脉','烽关决战'];
 const labels={habitats:'栖息地',skills:'已知能力 / 战斗表现',habits:'习性与生态',tactics:'实战观察与应对',observations:'待考证 / 附注'};
 let records=[];
 function progress(p=1){try{if(window.ZSUnlock?.get)return Math.max(0,Math.min(100,Number(window.ZSUnlock.get(p).max)||0));const x=JSON.parse(localStorage.getItem(KEY)||'{}');return Math.max(0,Math.min(100,Number(x['p'+String(p).padStart(2,'0')]?.max)||0));}catch{return 0;}}
@@ -13,7 +14,7 @@ function elem(tag,cls,text){const n=document.createElement(tag);if(cls)n.classNa
 function link(at,volume,chapter,text){const a=elem('a','beast-source',text);a.href='../chapters/volume-'+String(volume).padStart(2,'0')+'/chapter-'+String(chapter).padStart(3,'0')+'.html';a.setAttribute('aria-label',text+'，打开原文章节');return a;}
 function span(cls,text){return elem('span',cls,text);}
 function available(list,up){return (list||[]).filter(d=>d.at<=up);}
-function chapterLabel(item){const title=item.vol<=10?volnames[item.vol-1]:item.vol<=20?p2volnames[item.vol-11]:p3volnames[item.vol-21];return '第'+item.vol+'卷'+(title?'《'+title+'》':'')+' · 第'+item.ch+'章';}
+function chapterLabel(item){const title=item.vol<=10?volnames[item.vol-1]:item.vol<=20?p2volnames[item.vol-11]:item.vol<=30?p3volnames[item.vol-21]:p4volnames[item.vol-31];return '第'+item.vol+'卷'+(title?'《'+title+'》':'')+' · 第'+item.ch+'章';}
 function unlocked(entry,up){return entry.first<=up;}
 function normalize(t){return String(t||'').toLocaleLowerCase('zh-Hans').replace(/\s+/g,'');}
 function keywords(entry,up){return [entry.name,entry.type,entry.region,entry.summary,...['habitats','skills','habits','tactics','observations','level'].flatMap(k=>available(entry[k],up).map(x=>x.text))].join(' ');}
@@ -70,12 +71,12 @@ function setAreas(){
  region.replaceChildren(new Option('全部已解锁地区','all'));names.forEach(n=>region.add(new Option(n,n)));region.value=names.includes(current)?current:'all';
 }
 function render(){
- const up=progress(1),up2=progress(2),up3=progress(3);const unlockedList=records.filter(x=>unlocked(x,progress(x.p||1)));const lockedList=records.filter(x=>!unlocked(x,progress(x.p||1)));
+ const up=progress(1),up2=progress(2),up3=progress(3),up4=progress(4);const unlockedList=records.filter(x=>unlocked(x,progress(x.p||1)));const lockedList=records.filter(x=>!unlocked(x,progress(x.p||1)));
  setAreas();root.replaceChildren();
  const query=normalize(search.value),k=kind.value,z=region.value,st=state.value;
  const shown=unlockedList.filter(x=>(k==='all'||x.type===k)&&(z==='all'||x.region===z)&&(!query||normalize(keywords(x,progress(x.p||1))).includes(query)));
  const showLocked=(st==='all'||st==='locked')&&!query&&k==='all'&&z==='all';
- count.textContent=unlockedList.length+' / '+records.length+' 种已解锁 · 第一篇 '+up+'/100 · 第二篇 '+up2+'/100 · 第三篇 '+up3+'/100';
+ count.textContent=unlockedList.length+' / '+records.length+' 种已解锁 · 第一篇 '+up+'/100 · 第二篇 '+up2+'/100 · 第三篇 '+up3+'/100 · 第四篇 '+up4+'/100';
  bar.style.width=(unlockedList.length/Math.max(1,records.length)*100)+'%';
  meter.setAttribute('aria-valuenow',String(unlockedList.length));meter.setAttribute('aria-valuemax',String(records.length));
  if(st!=='locked'){
