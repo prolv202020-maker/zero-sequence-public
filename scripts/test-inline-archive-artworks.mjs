@@ -29,7 +29,7 @@ for(const [page,kinds] of Object.entries(groups)){
  assert.ok(html.includes('id="pa-artworks-grid"')&&html.includes('id="pa-artworks-status"'),page+' missing inline CG area');
  const cssV=4,scriptV=5;
  assert.ok(html.includes('archive-artworks.css?v='+cssV),page+' missing artwork CSS');
- const manifest=html.indexOf('visual-codex-data.js?v=6'),renderer=html.indexOf('archive-artworks.js?v='+scriptV);
+ const manifest=html.indexOf('visual-codex-data.js?v=7'),renderer=html.indexOf('archive-artworks.js?v='+scriptV);
  assert.ok(manifest>=0&&renderer>manifest,page+' must load manifest before inline artwork renderer');
 }
 // Run a minimal DOM simulation for the three independent reading tracks.
