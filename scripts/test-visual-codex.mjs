@@ -23,7 +23,7 @@ const added=[
  ['林烈·重剑（CG演绎）','武器',1,88,'weapon-lin-lie-greatsword.webp','818de5ba5f04684cc36a94b2f9f1486ba280b79f'],
  ['北境防寒斗篷（CG演绎）','装备',2,51,'equipment-northern-cloak.webp','2a27be60d616216b5b7d8549c0c66dca58f27fa5'],
  ['赤纹矿','材料',1,44,'material-red-vein-ore.webp','758e0783a28b3a6fd9bb15a7fad7b5c9c175f2ff'],
- ['双记录探查器','道具',3,28,'item-dual-recording-detector.webp','28cad1c4883cab158918778ee908f39fc70e121f'],
+ ['双记录探查器','道具',3,18,'item-dual-recording-detector.webp','28cad1c4883cab158918778ee908f39fc70e121f'],
  ['旧炉控制片','道具',3,65,'item-forge-control-plate.webp','9b32102ba88a4a6cd5f3bdf1693ca315eee263fa'],
  ['旧炉设施钥匙 · 视觉演绎','道具',3,65,'item-forge-access-key-impression.webp','4fc3a49d48ac0d5475c53ac127cff355e505e82a'],
  ['风喉兽','魔物',1,88,'monster-wind-throat-beast.webp','cafd4d8903713f8fa1d29d08477795976e17c08c'],
@@ -93,8 +93,8 @@ assert.ok(read('archive/visual-codex.html').includes('data-public-archive="visua
 assert.ok(existsSync(join(ROOT,'assets/images/codex/.gitkeep')),'Author image upload directory must exist');
 assert.ok(read('index.html').includes('archive/visual-codex.html'),'Home page needs a visual gallery entry');
 assert.ok(read('archive/visual-codex.html').includes('<option value="道具">道具</option>')&&read('archive/visual-codex.html').includes('<option value="材料">材料</option>'),'Missing new item/material category filters');
-assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=6'),'Item text archive must load visual card data');
-assert.ok(read('archive/materials.html').includes('visual-codex-data.js?v=6'),'Material text archive must load visual card data');
-assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=6'),'New artwork manifest version must be used');
+assert.ok(read('archive/items.html').includes('visual-codex-data.js?v=7'),'Item text archive must load visual card data');
+assert.ok(read('archive/materials.html').includes('visual-codex-data.js?v=7'),'Material text archive must load visual card data');
+assert.ok(read('archive/visual-codex.html').includes('visual-codex-data.js?v=7'),'New artwork manifest version must be used');
 const installed=a.filter(x=>existsSync(join(ROOT,'assets/images/codex',x.file))).length;
 console.log('[VISUAL CODEX] PASS: 6 original cards + 18 source-verified cinematic CGs, correct chapter gates, hashes, protected reader progress, monster/equipment/item integration. Image binaries: '+installed+'/25.');

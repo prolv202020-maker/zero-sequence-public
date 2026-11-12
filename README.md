@@ -28,6 +28,14 @@
 
 发布前运行 `node scripts/audit-public-boundary.mjs`、`node scripts/audit-site-links.mjs`、`node scripts/ensure-chapter-bootstrap.mjs --check`；GitHub Actions 会在提交后自动执行。防剧透关键词扫描不能替代人工逐章审稿。
 
+## 最新读者资料库维护
+
+- 四篇公开读者百科：232条逐章解锁来源记录，完整分类在 `archive/codex.html`。
+- 怪物、构装体与生物：37条经过正文核对的生态记录，另有统一四篇CG映射。
+- 10个原先使用旧版目录程序的读者专题已恢复第四篇检索与独立解锁。
+- 最新检查说明：[V5公开资料补全报告](docs/FULL_SITE_V5_AUDIT_2026-11-13.md)，前一轮基线：[V4整合审计](docs/FULL_SITE_V4_AUDIT_2026-11-12.md)。
+- 数量仅指**公开文字记录**，不是已生产图片数量；不可把尚无正式CG的物品强行套用其他图。
+
 ## 正式网站
 
 - 读者站：https://prolv202020-maker.github.io/zero-sequence-public/

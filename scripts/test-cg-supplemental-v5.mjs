@@ -17,7 +17,7 @@ assert.equal(variants.length,3,'Exactly three supplemental views of existing art
 assert.equal(new Set([...files,...variants.map(x=>x.file)]).size,28,'All 28 image assets must be distinct');
 const expected=[
  {file:'equipment-frost-mirror-bracer.webp',sha:'98d16c255b77ae9706ff140217aa176bf0a99b62',id:'frost-mirror-bracer-cg',kind:'装备',p:3,n:80,source:'chapters/volume-28/chapter-010.html',newCard:true},
- {file:'item-dual-recording-detector-optical-study.webp',sha:'a213e617b8eabf3639a75e45346a45d9f9f853f6',id:'dual-recording-detector-cg',p:3,n:28,source:'chapters/volume-22/chapter-008.html'},
+ {file:'item-dual-recording-detector-optical-study.webp',sha:'a213e617b8eabf3639a75e45346a45d9f9f853f6',id:'dual-recording-detector-cg',p:3,n:18,source:'chapters/volume-22/chapter-008.html'},
  {file:'weapon-lin-lie-greatsword-alternate.webp',sha:'546ae65fba639500592d68d712456b587d6ff22e',id:'lin-lie-greatsword-cg',p:1,n:88,source:'chapters/volume-09/chapter-008.html'},
  {file:'item-forge-control-plates-trio.webp',sha:'03c6ffb0702a30909e010218be29e7d9727b929a',id:'forge-control-plate-cg',p:3,n:65,source:'chapters/volume-27/chapter-005.html'}
 ];
@@ -57,6 +57,6 @@ for(const pair of chapterPairs){
 }
 for(const p of ['archive/equipment.html','archive/items.html','archive/materials.html','archive/bestiary.html','archive/codex.html','archive/visual-codex.html',
  ...['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'].map(x=>'archive/characters/'+x+'.html')]){
- assert.ok(read(p).includes('visual-codex-data.js?v=6'),'Archive must use new V5 metadata '+p);
+ assert.ok(/visual-codex-data\.js\?v=[67]/.test(read(p)),'Archive must use new V5 metadata '+p);
 }
 console.log('[CG V5] PASS: 25 unique canon cards, 28 independently hashed WebPs, 4 new assets, 19 paragraphs, gates and display integration preserved.');

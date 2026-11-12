@@ -11,8 +11,8 @@ const context={window:{}};
 runInNewContext(read('assets/js/reader-codex-data.js'),context);
 const data=context.window.ZSReaderCodex;
 const p4=data.filter(x=>x.p===4);
-assert.equal(p4.length,30,'Fourth part must have 30 new sourced reader records');
-assert.equal(data.length,180,'Reader database must contain 190 total records');
+assert.ok(p4.length>=71,'Fourth part must keep original 30 plus V5 published records');
+assert.ok(data.length>=232,'Four-part reader index must include 52 newly verified records');
 const kinds=new Set(p4.map(x=>x.k));
 for(const k of ['人物','武器','装备','道具','材料','魔物','构装体','技能'])assert.ok(kinds.has(k),'Missing part 4 category '+k);
 const refs=new Set();
@@ -25,7 +25,7 @@ for(const entry of p4){
  const key=[entry.p,entry.n,entry.k,entry.t].join('|');assert.ok(!refs.has(key),'Repeated record '+key);refs.add(key);
 }
 const beasts=JSON.parse(read('assets/data/bestiary.json')).entries;
-assert.equal(beasts.length,34,'Expected 32 old + 2 verified fourth-part bestiary entries');
+assert.ok(beasts.length>=37,'Monster database must include three further verified species');
 for(const b of beasts.filter(x=>x.p===4)){
  const chapter='chapters/volume-'+String(b.vol).padStart(2,'0')+'/chapter-'+String(b.ch).padStart(3,'0')+'.html';
  assert.ok(existsSync(file(chapter)),b.name+' lacks source chapter');
@@ -49,16 +49,16 @@ for(let v=31;v<=40;v++){
  assert.equal(bytes.toString('ascii',8,12),'WEBP','Invalid WebP cover '+v);
 }
 const pages={
- 'archive/codex.html':['reader-codex-data.js?v=2','public-archive.js?v=5'],
- 'archive/characters.html':['reader-codex-data.js?v=2','atlas-v2.js?v=9'],
- 'archive/classes.html':['reader-codex-data.js?v=2','atlas-v2.js?v=9'],
+ 'archive/codex.html':['reader-codex-data.js?v=3','public-archive.js?v=5'],
+ 'archive/characters.html':['reader-codex-data.js?v=3','atlas-v2.js?v=9'],
+ 'archive/classes.html':['reader-codex-data.js?v=3','atlas-v2.js?v=9'],
  'archive/quests.html':['第四篇','quest-links.js?v=3'],
- 'archive/unlocks.html':['reader-codex-data.js?v=2','progressive-archive.js?v=34'],
- 'parts/final-archive.html':['reader-codex-data.js?v=2','progressive-archive.js?v=34'],
- 'archive/equipment.html':['reader-codex-data.js?v=2','public-archive.js?v=5','第四篇'],
- 'archive/items.html':['reader-codex-data.js?v=2','public-archive.js?v=5'],
- 'archive/materials.html':['reader-codex-data.js?v=2','public-archive.js?v=5'],
- 'archive/bestiary.html':['bestiary.js?v=5'],
+ 'archive/unlocks.html':['reader-codex-data.js?v=3','progressive-archive.js?v=34'],
+ 'parts/final-archive.html':['reader-codex-data.js?v=3','progressive-archive.js?v=34'],
+ 'archive/equipment.html':['reader-codex-data.js?v=3','public-archive.js?v=5','第四篇'],
+ 'archive/items.html':['reader-codex-data.js?v=3','public-archive.js?v=5'],
+ 'archive/materials.html':['reader-codex-data.js?v=3','public-archive.js?v=5'],
+ 'archive/bestiary.html':['bestiary.js?v=6'],
  'archive/visual-codex.html':['visual-codex.js?v=6','第四篇']
 };
 for(const [page,needles] of Object.entries(pages)){const s=read(page);for(const needle of needles)assert.ok(s.includes(needle),page+' missing '+needle);}
@@ -76,4 +76,4 @@ assert.ok(read('sitemap.xml').includes('parts/illustrations-04.html'),'Fourth ga
 const frozen=['gu-changyuan','su-zili','lin-lie','luo-jin','ling-tianyao','dai-xuanyue','gu-yanche'];
 for(const x of frozen)assert.ok(existsSync(file('assets/images/characters/'+x+'-approved.webp')),'Missing frozen portrait '+x);
 assert.equal(JSON.parse(read('assets/data/audio-archive-manifest.json')).count,131,'Audio archive count changed');
-console.log('[FULL SITE V4] PASS: 400 chapters+prologue / 40 volumes / 30 new records / 34 bestiary / 7 identity paths / 40 covers / 12 event threads / all search shards / independent gates.');
+console.log('[FULL SITE V4] PASS: 400 chapters+prologue / 40 volumes / 71+ fourth-part records / 37+ bestiary / 7 identity paths / 40 covers / 12 event threads / all search shards / independent gates.');

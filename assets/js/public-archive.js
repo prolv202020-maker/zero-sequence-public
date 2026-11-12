@@ -25,7 +25,7 @@ const partSelect=el('select','pa-select');partSelect.setAttribute('aria-label','
 [['','全部篇章'],['1','第一篇'],['2','第二篇'],['3','第三篇'],['4','第四篇']].forEach(([v,t])=>{const option=el('option','',t);option.value=v;partSelect.append(option);});
 const catSelect=el('select','pa-select');catSelect.setAttribute('aria-label','图鉴类别筛选');
 if(toolbar){toolbar.insertBefore(partSelect,status);toolbar.insertBefore(catSelect,status);}
-const mapping={'人物':'characters.html','魔物':'bestiary.html','构装体':'bestiary.html','未知生命':'bestiary.html','契约伙伴':'bestiary.html','野生生物':'bestiary.html','武器':'equipment.html','装备':'equipment.html','道具':'items.html','职业':'classes.html','技能':'classes.html','材料':'materials.html','势力':'factions.html','地图':'world.html','世界':'world.html','地点':'world.html'};
+const mapping={'人物':'characters.html','魔物':'bestiary.html','构装体':'bestiary.html','未知生命':'bestiary.html','契约伙伴':'bestiary.html','野生生物':'bestiary.html','武器':'equipment.html','装备':'equipment.html','道具':'items.html','职业':'classes.html','技能':'classes.html','材料':'materials.html','事件':'quests.html','势力':'factions.html','地图':'world.html','世界':'world.html','地点':'world.html'};
 function render(){
  const p={1:progress(1),2:progress(2),3:progress(3),4:progress(4)};
  const unlocked=entries.filter(e=>p[e.p]>=e.n),q=(input?.value||'').trim().toLocaleLowerCase('zh-Hans');

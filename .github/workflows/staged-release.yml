@@ -19,6 +19,8 @@ jobs:
         run: node scripts/test-reader-codex.mjs
       - name: Validate four-part published codex, equipment, characters, items, bestiary and safe readers
         run: node scripts/test-full-site-codex-v4.mjs
+      - name: Audit V5 source-backed people, monsters, weapons, items, guilds and legacy pages
+        run: node scripts/test-public-codex-v5.mjs
       - name: Audit released chapter timeline and published site functionality
         run: |
           node scripts/audit-published-timeline.mjs
