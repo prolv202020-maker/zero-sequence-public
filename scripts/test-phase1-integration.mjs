@@ -9,7 +9,7 @@ const root=resolve(fileURLToPath(new URL('../',import.meta.url)));
 const read=p=>readFileSync(join(root,p),'utf8');
 const ctx={window:{}};runInNewContext(read('assets/js/reader-codex-data.js'),ctx);
 const values=Array.isArray(ctx.window.ZSReaderCodex)?ctx.window.ZSReaderCodex:[];
-const legacy=new Set(['人物','职业','地图','势力','世界','事件']);
+const legacy=new Set(['人物','职业','地图','地点','势力','世界','事件']);
 const categories=new Set([...values.map(x=>x.k),...legacy]);
 let checked=0;
 for(const file of readdirSync(join(root,'archive')).filter(x=>x.endsWith('.html'))){
