@@ -1,0 +1,23 @@
+/* 第四篇 · 风格化剧情插画 V1。仅影响新增组件。 */
+.zs-p4-scene{margin:26px auto 32px;max-width:1050px;border:1px solid #dcc58b80;border-radius:16px;overflow:hidden;background:#1e2540;box-shadow:0 12px 34px #070b1f55}
+.zs-p4-scene-link{display:block;line-height:0;cursor:zoom-in}
+.zs-p4-scene img{display:block;width:100%;height:auto;aspect-ratio:1360/765;object-fit:cover}
+.zs-p4-caption{display:flex;flex-wrap:wrap;align-items:center;gap:7px 15px;justify-content:space-between;padding:13px 17px;color:#e9e0ce;font:13px/1.6 sans-serif}
+.zs-p4-caption a{color:#f1d59b;text-decoration:underline}
+.zs-p4-gallery-lead{max-width:800px;color:#d3d5e5;line-height:1.85}
+.zs-p4-gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:24px 0 35px}
+.zs-p4-gallery-card{min-width:0;overflow:hidden;border:1px solid #ddc28a66;border-radius:16px;background:#252b49}
+.zs-p4-gallery-media{display:flex;align-items:center;justify-content:center;aspect-ratio:1360/765;background:linear-gradient(125deg,#272b47,#453550)}
+.zs-p4-gallery-media img{width:100%;height:100%;object-fit:cover;display:block}
+.zs-p4-gallery-media a{display:block;width:100%;height:100%;line-height:0}
+.zs-p4-gallery-locked{font-size:14px;color:#dbd7e3}
+.zs-p4-gallery-info{padding:15px 18px 20px}
+.zs-p4-gallery-info strong{font-size:18px;color:#f6e1b5}
+.zs-p4-gallery-info p{font-size:13px;line-height:1.8;color:#d9dbe8}
+.zs-p4-gallery-info a{color:#f0d596;text-decoration:underline;font-size:13px}
+.zs-p4-lightbox{max-width:min(94vw,1500px);max-height:94vh;padding:12px;border:1px solid #e1cca0;border-radius:12px;background:#15192c;color:#fff}
+.zs-p4-lightbox::backdrop{background:#030614e8}
+.zs-p4-lightbox img{display:block;max-width:100%;max-height:80vh;object-fit:contain;margin:auto}
+.zs-p4-lightbox button{display:block;margin:0 0 10px auto;padding:8px 14px;background:#2e3655;border:1px solid #d5bd86;border-radius:8px;color:#fff;cursor:pointer}
+@media(max-width:700px){.zs-p4-gallery-grid{grid-template-columns:1fr;gap:14px}.zs-p4-caption{font-size:12px;padding:11px 13px}.zs-p4-scene{margin:20px auto 25px}}
+@media(prefers-reduced-motion:reduce){.zs-p4-scene *, .zs-p4-gallery-grid *{scroll-behavior:auto!important}}
