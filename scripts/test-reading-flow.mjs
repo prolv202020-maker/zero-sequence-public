@@ -288,7 +288,17 @@ const homepage=readFileSync(p('index.html'),'utf8');
 for(const id of ['id="start-here"','id="zs-hero-resume"','id="zs-path-resume-link"','id="updates"','id="zs-home-resume"'])
  assert.ok(homepage.includes(id),'Missing landing page feature: '+id);
 assert.ok(homepage.includes('href="chapters/volume-01/prologue.html"'),'First-time readers should start at prologue');
-assert.ok(homepage.includes('《临界回声》第30卷正式开放'),'Spoiler-safe update notice missing');
+assert.ok(homepage.includes('第四篇《烽火临界》正式完结'),'Latest official fourth-part completion notice missing');
+const announcement=homepage.match(/<section id="updates"[\\s\\S]*?<\\/section>/)?.[0]||'';
+assert.equal((announcement.match(/<article class="zs-update-entry"/g)||[]).length,4,'Current homepage must keep four concise, source-backed announcements');
+for(const target of ['第40卷《烽关决战》','400章＋序章','232条','37条','131段','parts/illustrations-04.html'])
+ assert.ok(announcement.includes(target),'Missing verified current announcement '+target);
+assert.ok(!announcement.includes('第四篇 · 第31卷已发布'),'Outdated Part IV launch announcement must be removed');
+assert.ok(homepage.includes('href="volumes/volume-40.html"'),'Fourth-part completion announcement must open official volume');
+for(const tag of ['property="og:description"','name="twitter:description"']){
+ const meta=homepage.match(new RegExp('<meta '+tag+' content="([^"]+)"'))?.[1]||'';
+ assert.ok(meta.includes('四篇40卷')&&meta.includes('400章'),'Social share should reflect all four published parts');
+}
 const readerSource=readFileSync(p('assets/js/reader-experience.js'),'utf8');
 assert.match(readerSource,/heroResume\.href=last\.url/,'Homepage hero must use saved reading URL');
 assert.match(readerSource,/pathResume\.href=last\.url/,'Returning reader entry must use saved URL');
