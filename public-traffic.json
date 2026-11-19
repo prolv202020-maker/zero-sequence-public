@@ -2,11 +2,11 @@
   "schema": "zs-public-traffic-v1",
   "site": "zero-sequence-public",
   "status": "verified",
-  "updatedAt": "2026-11-19T14:26:27.060Z",
+  "updatedAt": "2026-11-19T20:17:45.901Z",
   "metrics": {
     "unit": "page_views",
     "todayPageViews": 0,
-    "sevenDayPageViews": 30,
+    "sevenDayPageViews": 0,
     "thirtyDayPageViews": 690
   },
   "metadata": {
