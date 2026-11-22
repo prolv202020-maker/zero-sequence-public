@@ -2,12 +2,12 @@
   "schema": "zs-public-traffic-v1",
   "site": "zero-sequence-public",
   "status": "verified",
-  "updatedAt": "2026-11-22T14:10:36.916Z",
+  "updatedAt": "2026-11-22T19:59:40.113Z",
   "metrics": {
     "unit": "page_views",
-    "todayPageViews": 10,
-    "sevenDayPageViews": 10,
-    "thirtyDayPageViews": 660
+    "todayPageViews": 0,
+    "sevenDayPageViews": 0,
+    "thirtyDayPageViews": 690
   },
   "metadata": {
     "timeZone": "Asia/Kuala_Lumpur",
